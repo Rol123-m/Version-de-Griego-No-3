@@ -2,11 +2,11 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
-// 👇 CAMBIA ESTO por el nombre EXACTO de tu repo en GitHub
-const REPO_NAME = 'nombre-de-tu-repo';  // ⚠️ AJUSTA ESTO
+// 👇 CAMBIA ESTO por el nombre EXACTO de tu repo
+const REPO_NAME = 'Version-de-Griego-No-3';  // ✅ Nombre real
 
 export default defineConfig({
-  base: `/${REPO_NAME}/`,  // 👈 CLAVE para GitHub Pages
+  base: `/${REPO_NAME}/`,
   plugins: [
     react(),
     tailwindcss()
