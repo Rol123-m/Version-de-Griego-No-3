@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Importancia Exegética: Hechos 19:2</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Importancia Exegética: Hechos 19:2</h1>
+      <div class="subtitle">Cuando la gramática afecta la teología</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-book-bible"></i> El Texto Bíblico</h2>
+      <div class="biblical-box" style="background: linear-gradient(135deg, rgba(233, 30, 99, 0.05) 0%, rgba(233, 30, 99, 0.02) 100%); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #e91e63; margin: 1.5rem 0;">
+        <p class="greek-text">Εἰ πνεῦμα ἅγιον ἐλάβετε <strong>πιστεύσαντες</strong>;</p>
+      </div>
+      <p>"¿Recibieron el Espíritu Santo <strong>cuando creyeron</strong>?"</p>
+
+      <p>El uso del participio aoristo adverbial ha generado <strong>intensos debates teológicos</strong>.</p>
+
+      <h3 style="color: var(--primary); margin: 1.2rem 0 0.8rem;">Análisis del participio</h3>
+      <p>Aquí, el participio <span class="greek-text">πιστεύσαντες</span> puede entenderse de dos maneras:</p>
+
+      <ol>
+        <li><strong>"Después de creer"</strong> → acción anterior (como traduce la KJV: "since ye believed"), lo que sugiere dos etapas distintas: creer y luego recibir.</li>
+        <li><strong>"Cuando creyeron"</strong> → acción coincidente (como traduce la RSV y la mayoría moderna), entendiendo creer y recibir como un solo evento.</li>
+      </ol>
+
+      <p>Ambas traducciones <strong>son posibles gramaticalmente</strong>, pero el contexto teológico y doctrinal decide cuál es la más adecuada.</p>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-lightbulb"></i> Lección Exegética</h2>
+      <div class="important-note">
+        <p>Cuando trabajes con un participio aoristo, <strong>no decidas primero con la teología</strong>, sino con la <strong>gramática y el contexto inmediato</strong>.</p>
+        <p>El aoristo es flexible; no te apresures a absolutizar su valor.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Ejemplo Exegético</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Por qué es importante Hechos 19:2 en el estudio del participio aoristo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Porque es el único versículo con participio aoristo</label>
+          <label><input type="radio" name="q1" value="b"> Porque muestra cómo la interpretación del participio afecta la doctrina</label>
+          <label><input type="radio" name="q1" value="c"> Porque usa un participio aoristo irregular</label>
+          <label><input type="radio" name="q1" value="d"> Porque es el versículo más largo del NT</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

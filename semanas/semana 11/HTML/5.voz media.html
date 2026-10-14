@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voz Media en Griego</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .rule-number { font-weight: bold; color: var(--primary); font-size: 1.2rem; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Voz Media</h1>
+      <div class="subtitle">La voz única del griego</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-user-check"></i> Voz Media</h2>
+
+      <div class="important-note" style="background: linear-gradient(135deg, rgba(74, 111, 165, 0.08) 0%, rgba(74, 111, 165, 0.03) 100%); border-left-color: var(--primary);">
+        <div class="rule-number">Solo en griego (no existe en español/inglés).</div>
+        <p>En presente, es idéntica a la pasiva en forma.</p>
+        <p>Uso principal:</p>
+        <ul>
+          <li>Acción reflexiva ("Me lavo").</li>
+          <li>Interés personal ("Me compro un libro").</li>
+        </ul>
+      </div>
+
+      <div class="important-note" style="background: linear-gradient(135deg, rgba(255, 152, 0, 0.08) 0%, rgba(255, 152, 0, 0.03) 100%); border-left-color: #ff9800;">
+        <h3><i class="fas fa-chalkboard"></i> Ejemplo de paradigma (ἔρχομαι):</h3>
+        
+        <div class="vocab-table-container">
+          <table class="vocab-table">
+            <thead>
+              <tr><th>Persona</th><th>Forma media</th><th>Traducción</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1.ª sg.</td><td>ἔρχομαι</td><td>"Yo vengo"</td></tr>
+              <tr><td>3.ª pl.</td><td>ἔρχονται</td><td>"Ellos vienen"</td></tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="tip-box" style="background: linear-gradient(135deg, rgba(233, 30, 99, 0.08) 0%, rgba(233, 30, 99, 0.03) 100%); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+          <p><strong><i class="fas fa-exclamation-triangle"></i> ¡Importante!</strong></p>
+          <p>En el NT, ≈75% de las formas medias son deponentes (significado activo).</p>
+        </div>
+      </div>
+
+      <div class="important-note" style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.08) 0%, rgba(255, 193, 7, 0.03) 100%); border-left-color: #ffc107;">
+        <div class="rule-number">Resumen Final</div>
+        <ol>
+          <li>Voz pasiva: El sujeto recibe la acción (terminaciones: -ομαι, -ῃ, -εται).</li>
+          <li>Deponentes: Forma pasiva/media, pero significado activo (ej. ἔρχομαι).</li>
+          <li>Voz media: Igual a la pasiva en presente, pero con matiz reflexivo o de interés (poco común en NT).</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Practica lo aprendido</h2>
+      
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> La Voz Media, en presente:</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> es idéntica a la pasiva en forma</label>
+          <label><input type="radio" name="q1" value="b"> es idéntica a la activa en forma</label>
+          <label><input type="radio" name="q1" value="c"> No se parece a nadie</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿En el NT, ≈75% de las formas medias son?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> deponentes</label>
+          <label><input type="radio" name="q2" value="b"> activas</label>
+          <label><input type="radio" name="q2" value="c"> incomprensibles</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 3:</strong> ¿Cómo se traduce el verbo ἔρχομαι?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> yo vengo</label>
+          <label><input type="radio" name="q3" value="b"> yo he venido</label>
+          <label><input type="radio" name="q3" value="c"> Nadie vino</label>
+        </div>
+        <div class="result" id="result3"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'a', q2: 'a', q3: 'a' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

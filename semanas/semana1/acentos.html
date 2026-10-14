@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprendiendo Griego Koiné: Puntuación y Acentos</title>
+  <!-- Enlace a la plantilla de estilo -->
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+</head>
+<body>
+  <!-- Header usando la plantilla -->
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Ministerio Vivos para Servir" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Aprendiendo Griego Koiné</h1>
+      <p class="subtitle">Puntuación y Acentos</p>
+    </div>
+  </header>
+
+  <!-- Contenedor principal -->
+  <div class="week-container">
+    
+    <!-- Sección 1: Puntuación -->
+    <section class="content-card pronunciation">
+      <h2><i class="fas fa-comma"></i> Puntuación en Griego</h2>
+      <p>La puntuación en griego koiné es similar a la del español, pero con algunas diferencias clave. Aquí están los principales signos de puntuación:</p>
+      
+      <div class="example-box">
+        <ul>
+          <li><strong class="greek-text">Coma (θεός,):</strong> Se usa igual que en español, para separar elementos en una lista o pausas breves.</li>
+          <li><strong class="greek-text">Punto (θεός.):</strong> Indica el final de una oración.</li>
+          <li><strong class="greek-text">Punto y coma (θεός·):</strong> Se usa para separar oraciones relacionadas.</li>
+          <li><strong class="greek-text">Signo de interrogación (θεός;):</strong> Se usa al final de una pregunta.</li>
+        </ul>
+      </div>
+      
+      <div class="important-note">
+        <p>Deben notar que los símbolos no siempre son correspondientes con los del español. Es decir, la coma y el punto son iguales, pero el punto y coma y el signo de interrogación son diferentes a como los conocemos en el español. Es cuestión de adaptarse. Cuando veas un punto y coma en griego, debes acostumbrarte a pensar que representa un signo de interrogación.</p>
+      </div>
+    </section>
+
+    <!-- Sección 2: Acentos -->
+    <section class="content-card pronunciation">
+      <h2><i class="fas fa-accent-grave"></i> Acentos en Griego</h2>
+      <p>Casi todas las palabras en griego tienen un acento. Este se coloca sobre una vocal e indica qué sílaba lleva el énfasis. Originalmente, el acento era de tono (subía, bajaba o subía y bajaba), pero eventualmente se convirtió en un acento de intensidad, como en español.</p>
+      
+      <div class="example-box">
+        <ul>
+          <li><strong class="greek-text">Acento agudo (αἰτέω):</strong> Indica que el tono subía ligeramente en la sílaba acentuada.</li>
+          <li><strong class="greek-text">Acento grave (καὶ θεὸς ἦν ὁ λόγος):</strong> Indica que el tono bajaba ligeramente en la sílaba acentuada.</li>
+          <li><strong class="greek-text">Acento circunflejo (ἁγνῶς):</strong> Indica que el tono subía y luego bajaba en la sílaba acentuada.</li>
+        </ul>
+      </div>
+      
+      <p>Los acentos son útiles para:</p>
+      <ol>
+        <li><strong>Pronunciación:</strong> Ayudan a mantener una pronunciación uniforme en clase.</li>
+        <li><strong>Memorización:</strong> Facilitan la memorización de vocabulario al proporcionar consistencia.</li>
+        <li><strong>Identificación:</strong> Algunas palabras solo se diferencian por su acento. Por ejemplo, <span class="greek-example">τίς</span> significa "¿quién?" y <span class="greek-example">τις</span> significa "alguien".</li>
+      </ol>
+      
+      <div class="important-note">
+        <p>Nota Importante: Hoy en día no se nota la diferencia de pronunciación entre los diferentes acentos. Simplemente debemos aprenderlos para marcar la fuerza de pronunciación, y para diferenciar palabras, lo cual es muy importante.</p>
+      </div>
+    </section>
+
+    <!-- Sección 3: Quiz -->
+    <section class="content-card quiz">
+      <h2><i class="fas fa-question-circle"></i> Comprueba tu Conocimiento</h2>
+      
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué indica el acento agudo en griego?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Que el tono baja ligeramente</label>
+          <label><input type="radio" name="q1" value="b"> Que el tono sube ligeramente</label>
+          <label><input type="radio" name="q1" value="c"> Que el tono sube y luego baja</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <!-- Más preguntas aquí... -->
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </section>
+  </div>
+  
+  <!-- Footer usando la plantilla -->
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Ministerio Vivos para Servir">
+      </div>
+      <div class="footer-info">
+        <p>Curso de Griego Koiné Elemental</p>
+        <p>Ministerio "Vivos para Servir"</p>
+        <p class="copyright">© 2026 Sección Educativa</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = {
+        q1: 'b',
+        q2: 'c',
+        q3: 'b',
+        q4: 'b',
+        q5: 'c',
+      };
+
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

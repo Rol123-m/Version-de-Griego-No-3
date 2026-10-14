@@ -1,0 +1,2354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego Griego Koiné - Vivos para Servir</title>
+    <link rel="stylesheet" href="../../circle.css">
+    <style>
+    :root {
+        --primary: #1a5f7a;
+        --secondary: #2d8b5c;
+        --accent: #e6b325;
+        --accent-light: #f7d78c;
+        --light: #f8f9fa;
+        --light-gray: #f0f2f5;
+        --medium-gray: #e9ecef;
+        --dark-gray: #6c757d;
+        --text: #2c3e50;
+        --text-light: #495057;
+        --player1: #e74c3c;
+        --player1-light: #fddfdc;
+        --player2: #3498db;
+        --player2-light: #d6eaf8;
+        --success: #27ae60;
+        --error: #e74c3c;
+        --warning: #f39c12;
+        --ministerial-gradient: linear-gradient(135deg, #1a5f7a 0%, #2d8b5c 100%);
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+        --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.15);
+        --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.18);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 20px;
+        --radius-round: 50%;
+        --transition-fast: 0.2s ease;
+        --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        color: var(--text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 20% 80%, rgba(26, 95, 122, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(45, 139, 92, 0.05) 0%, transparent 50%);
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    /* Header Ministerial */
+    .ministerial-header {
+        width: 100%;
+        background: var(--ministerial-gradient);
+        color: white;
+        padding: 1rem 1.5rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        transition: all var(--transition-normal);
+    }
+
+    .ministerial-header.scrolled {
+        padding: 0.75rem 1.5rem;
+        backdrop-filter: blur(10px);
+        background: linear-gradient(135deg, rgba(26, 95, 122, 0.95) 0%, rgba(45, 139, 92, 0.95) 100%);
+    }
+
+    .header-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .logo-img {
+        height: 48px;
+        width: auto;
+        filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        transition: transform var(--transition-normal);
+    }
+
+    .logo-img:hover {
+        transform: scale(1.05);
+    }
+
+    .ministry-title {
+        font-size: clamp(1.5rem, 4vw, 2.2rem);
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        margin: 0;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(to right, #ffffff, #f0f0f0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .ministry-subtitle {
+        font-size: clamp(0.875rem, 2vw, 1.1rem);
+        opacity: 0.9;
+        font-weight: 300;
+        margin: 0;
+        font-style: italic;
+        text-align: center;
+        max-width: 600px;
+        line-height: 1.4;
+    }
+
+    /* Enlace de regreso */
+    .back-link {
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        padding: 0.75rem 1.25rem;
+        background: white;
+        color: var(--primary);
+        text-decoration: none;
+        border-radius: var(--radius-lg);
+        font-weight: 600;
+        box-shadow: var(--shadow-md);
+        transition: all var(--transition-normal);
+        z-index: 1001;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 2px solid transparent;
+    }
+
+    .back-link::before {
+        content: '←';
+        font-size: 1.2rem;
+    }
+
+    .back-link:hover {
+        transform: translateX(-3px);
+        box-shadow: var(--shadow-lg);
+        background: var(--primary);
+        color: white;
+        border-color: var(--accent);
+    }
+
+    /* Contenedor principal */
+    .game-container {
+        width: 100%;
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 0 1.5rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    /* Barra de estado */
+    .status-bar {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1.5rem;
+        background: white;
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-lg);
+        border-left: 6px solid var(--secondary);
+        transition: all var(--transition-normal);
+    }
+
+    .player-status {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .player-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        border-radius: var(--radius-lg);
+        transition: all var(--transition-normal);
+        border: 2px solid transparent;
+        background: white;
+        box-shadow: var(--shadow-sm);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .player-info::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: var(--medium-gray);
+        transition: all var(--transition-normal);
+    }
+
+    .player-info.active {
+        border-color: var(--accent);
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+    }
+
+    .player-info.active::before {
+        background: var(--accent);
+        width: 6px;
+    }
+
+    .player1-info {
+        border-left-color: var(--player1);
+    }
+
+    .player2-info {
+        border-left-color: var(--player2);
+    }
+
+    .player-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: var(--radius-round);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        color: white;
+        font-size: 1.3rem;
+        box-shadow: var(--shadow-md);
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .player-icon::after {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: var(--radius-round);
+        background: linear-gradient(135deg, transparent 50%, rgba(255, 255, 255, 0.3) 100%);
+        z-index: -1;
+    }
+
+    .player1-icon {
+        background: linear-gradient(135deg, var(--player1) 0%, #c0392b 100%);
+    }
+
+    .player2-icon {
+        background: linear-gradient(135deg, var(--player2) 0%, #2980b9 100%);
+    }
+
+    .player-details {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .player-details h3 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .player-position {
+        font-size: 0.875rem;
+        color: var(--dark-gray);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .player-position::before {
+        content: '📍';
+        font-size: 0.75rem;
+    }
+
+    .turn-display {
+        text-align: center;
+        padding: 0 1.5rem;
+        position: relative;
+    }
+
+    .turn-display::before,
+    .turn-display::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 1px;
+        height: 60%;
+        background: linear-gradient(to bottom, transparent, var(--medium-gray), transparent);
+        transform: translateY(-50%);
+    }
+
+    .turn-display::before {
+        left: 0;
+    }
+
+    .turn-display::after {
+        right: 0;
+    }
+
+    .current-turn {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    .current-turn::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        border-radius: 2px;
+    }
+
+    .turn-counter {
+        font-size: 0.875rem;
+        background: var(--light-gray);
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        color: var(--text-light);
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .turn-counter::before {
+        content: '🔄';
+        font-size: 0.75rem;
+    }
+
+    /* Contenedor del tablero */
+    .board-container {
+        position: relative;
+        padding: 2rem;
+        background: white;
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-xl);
+        overflow: hidden;
+    }
+
+    .board-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    }
+
+    .board-title {
+        text-align: center;
+        color: var(--primary);
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        font-weight: 800;
+        position: relative;
+        padding-bottom: 0.75rem;
+        letter-spacing: -0.5px;
+    }
+
+    .board-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent), var(--secondary));
+        border-radius: 2px;
+    }
+
+    .board {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 0.75rem;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, var(--light-gray) 0%, #ffffff 100%);
+        border-radius: var(--radius-lg);
+        min-height: 320px;
+        position: relative;
+    }
+
+    /* Casillas del tablero */
+    .tile {
+        aspect-ratio: 1;
+        background: white;
+        border: 2px solid var(--medium-gray);
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        transition: all var(--transition-normal);
+        position: relative;
+        cursor: pointer;
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+    }
+
+    .tile::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.02) 100%);
+        z-index: 0;
+    }
+
+    .tile:hover {
+        transform: translateY(-4px) scale(1.05);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--accent-light);
+    }
+
+    .tile > div {
+        position: relative;
+        z-index: 1;
+    }
+
+    .tile.special {
+        background: linear-gradient(135deg, var(--accent-light) 0%, rgba(45, 139, 92, 0.15) 100%);
+        border-color: var(--accent);
+        color: var(--primary);
+        font-weight: 800;
+    }
+
+    .tile.special::after {
+        content: '★';
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        font-size: 0.6rem;
+        color: var(--accent);
+    }
+
+    .tile.current {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(230, 179, 37, 0.2), var(--shadow-md);
+        animation: pulse 2s infinite;
+        z-index: 2;
+    }
+
+    .tile:last-child {
+        background: linear-gradient(135deg, var(--accent) 0%, #f39c12 100%);
+        border-color: var(--accent);
+        color: white;
+        font-weight: 800;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Marcadores de jugadores */
+    .player-marker {
+        width: 26px;
+        height: 26px;
+        border-radius: var(--radius-round);
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        border: 3px solid white;
+        box-shadow: var(--shadow-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 800;
+        color: white;
+        z-index: 10;
+        transition: all var(--transition-normal);
+    }
+
+    .player-marker:hover {
+        transform: scale(1.2);
+        z-index: 20;
+    }
+
+    .player1-marker {
+        background: linear-gradient(135deg, var(--player1) 0%, #c0392b 100%);
+    }
+
+    .player2-marker {
+        background: linear-gradient(135deg, var(--player2) 0%, #2980b9 100%);
+    }
+
+    /* Controles del juego */
+    .controls-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin: 2rem 0;
+        padding: 2rem;
+        background: white;
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .dice-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        position: relative;
+    }
+
+    .dice-container {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        perspective: 1500px;
+    }
+
+    .dice {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform var(--transition-slow);
+        cursor: pointer;
+    }
+
+    .dice-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, var(--primary) 0%, #2c5282 100%);
+        color: white;
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.8rem;
+        font-weight: 800;
+        box-shadow: 
+            inset 0 0 20px rgba(0, 0, 0, 0.2),
+            var(--shadow-md);
+        backface-visibility: hidden;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Posiciones de las caras del dado CORREGIDAS */
+    .dice-face:nth-child(1) { 
+        transform: rotateY(0deg) translateZ(60px); 
+    }
+    .dice-face:nth-child(2) { 
+        transform: rotateY(90deg) translateZ(60px); 
+    }
+    .dice-face:nth-child(3) { 
+        transform: rotateX(90deg) translateZ(60px); 
+    }
+    .dice-face:nth-child(4) { 
+        transform: rotateX(-90deg) translateZ(60px); 
+    }
+    .dice-face:nth-child(5) { 
+        transform: rotateY(-90deg) translateZ(60px); 
+    }
+    .dice-face:nth-child(6) { 
+        transform: rotateY(180deg) translateZ(60px); 
+    }
+
+    .dice-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--primary);
+        padding: 1rem 2rem;
+        background: white;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        display: none;
+        min-width: 100px;
+        text-align: center;
+        border: 3px solid var(--accent-light);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dice-value::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent), var(--secondary));
+    }
+
+    .roll-btn {
+        padding: 1rem 3rem;
+        background: linear-gradient(135deg, var(--secondary) 0%, #239b56 100%);
+        color: white;
+        border: none;
+        border-radius: var(--radius-lg);
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all var(--transition-normal);
+        box-shadow: var(--shadow-md);
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .roll-btn::before {
+        content: '🎲';
+        font-size: 1.2rem;
+    }
+
+    .roll-btn::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .roll-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .roll-btn:hover::after {
+        left: 100%;
+    }
+
+    .roll-btn:active {
+        transform: translateY(0);
+    }
+
+    .roll-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .game-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .restart-btn, .instructions-btn {
+        padding: 0.875rem 2rem;
+        border-radius: var(--radius-lg);
+        font-weight: 700;
+        cursor: pointer;
+        transition: all var(--transition-normal);
+        border: 2px solid transparent;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .restart-btn {
+        background: linear-gradient(135deg, var(--primary) 0%, #2c5282 100%);
+        color: white;
+        box-shadow: var(--shadow-md);
+    }
+
+    .restart-btn::before {
+        content: '🔄';
+    }
+
+    .instructions-btn {
+        background: white;
+        color: var(--primary);
+        border-color: var(--primary);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .instructions-btn::before {
+        content: '📖';
+    }
+
+    .restart-btn:hover, .instructions-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .restart-btn:hover {
+        background: linear-gradient(135deg, #2c5282 0%, var(--primary) 100%);
+    }
+
+    .instructions-btn:hover {
+        background: var(--primary);
+        color: white;
+    }
+
+    /* Mensaje de ganador */
+    .winner-message {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--accent);
+        text-align: center;
+        margin: 2rem 0;
+        padding: 2.5rem;
+        background: linear-gradient(135deg, white 0%, var(--light-gray) 100%);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-xl);
+        display: none;
+        border: 4px solid var(--accent);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .winner-message::before {
+        content: '🏆';
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 2.5rem;
+        opacity: 0.1;
+    }
+
+    .winner-message h2 {
+        margin: 0 0 1rem 0;
+        font-size: 2rem;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .winner-message p {
+        font-size: 1.1rem;
+        color: var(--text-light);
+        margin: 0.5rem 0;
+        line-height: 1.5;
+    }
+
+    .ministry-quote {
+        font-style: italic;
+        color: var(--secondary);
+        margin-top: 1.5rem !important;
+        padding-top: 1rem;
+        border-top: 2px dashed var(--accent-light);
+    }
+
+    /* Modales */
+    .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.9);
+        background: white;
+        padding: 0;
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-xl);
+        max-width: 550px;
+        width: 90%;
+        display: none;
+        z-index: 2000;
+        opacity: 0;
+        transition: all var(--transition-normal);
+        overflow: hidden;
+    }
+
+    .modal.active {
+        display: block;
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: 1999;
+        display: none;
+    }
+
+    .modal-overlay.active {
+        display: block;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 2rem;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+    }
+
+    .modal-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: -0.5px;
+    }
+
+    .close-modal {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        font-size: 1.8rem;
+        color: white;
+        cursor: pointer;
+        line-height: 1;
+        padding: 0;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-round);
+        transition: all var(--transition-fast);
+    }
+
+    .close-modal:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: rotate(90deg);
+    }
+
+    .modal-content {
+        padding: 2rem;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .question {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        color: var(--text);
+        line-height: 1.5;
+        padding: 1.25rem;
+        background: var(--light-gray);
+        border-radius: var(--radius-lg);
+        border-left: 4px solid var(--secondary);
+        font-weight: 500;
+    }
+
+    .question-reference {
+        display: block;
+        margin-top: 0.75rem;
+        font-size: 0.9rem;
+        color: var(--secondary);
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        background: rgba(45, 139, 92, 0.1);
+        border-radius: var(--radius-sm);
+    }
+
+    .options {
+        display: grid;
+        gap: 0.75rem;
+    }
+
+    .option {
+        padding: 1rem 1.25rem;
+        background: white;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: all var(--transition-normal);
+        border: 2px solid var(--medium-gray);
+        font-size: 1rem;
+        text-align: left;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .option:hover {
+        transform: translateX(8px);
+        border-color: var(--secondary);
+        box-shadow: var(--shadow-md);
+    }
+
+    .option::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background: var(--medium-gray);
+        transition: all var(--transition-normal);
+    }
+
+    .option:hover::before {
+        background: var(--secondary);
+        width: 6px;
+    }
+
+    .option.correct {
+        background: linear-gradient(135deg, var(--success) 0%, #219a52 100%);
+        color: white;
+        border-color: var(--success);
+        transform: translateX(8px);
+    }
+
+    .option.correct::before {
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    .option.incorrect {
+        background: linear-gradient(135deg, var(--error) 0%, #c0392b 100%);
+        color: white;
+        border-color: var(--error);
+        transform: translateX(8px);
+    }
+
+    .option.incorrect::before {
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Animaciones */
+    @keyframes pulse {
+        0% { 
+            box-shadow: 0 0 0 0 rgba(230, 179, 37, 0.4),
+                       var(--shadow-md);
+        }
+        70% { 
+            box-shadow: 0 0 0 10px rgba(230, 179, 37, 0),
+                       var(--shadow-md);
+        }
+        100% { 
+            box-shadow: 0 0 0 0 rgba(230, 179, 37, 0),
+                       var(--shadow-md);
+        }
+    }
+
+    @keyframes movePlayer {
+        0% { 
+            transform: scale(1) rotate(0deg);
+        }
+        50% { 
+            transform: scale(1.2) rotate(10deg);
+        }
+        100% { 
+            transform: scale(1) rotate(0deg);
+        }
+    }
+
+    .moving {
+        animation: movePlayer 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 5;
+    }
+
+    @keyframes diceRoll {
+        0% { 
+            transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        }
+        25% { 
+            transform: rotateX(360deg) rotateY(180deg) rotateZ(90deg);
+        }
+        50% { 
+            transform: rotateX(720deg) rotateY(360deg) rotateZ(180deg);
+        }
+        75% { 
+            transform: rotateX(1080deg) rotateY(540deg) rotateZ(270deg);
+        }
+        100% { 
+            transform: rotateX(1440deg) rotateY(720deg) rotateZ(360deg);
+        }
+    }
+
+    .rolling {
+        animation: diceRoll 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    /* Diseño Responsivo - MÓVIL PRIMERO */
+    @media (max-width: 768px) {
+        body {
+            padding-bottom: 2rem;
+        }
+
+        .ministerial-header {
+            padding: 0.875rem 1rem;
+            position: relative;
+        }
+
+        .ministerial-header.scrolled {
+            padding: 0.75rem 1rem;
+        }
+
+        .logo-container {
+            gap: 0.75rem;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .logo-img {
+            height: 40px;
+        }
+
+        .ministry-title {
+            font-size: 1.6rem;
+        }
+
+        .ministry-subtitle {
+            font-size: 0.9rem;
+            padding: 0 1rem;
+        }
+
+        .back-link {
+            top: 0.75rem;
+            left: 0.75rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            border-radius: var(--radius-md);
+        }
+
+        .back-link::before {
+            font-size: 1rem;
+        }
+
+        .game-container {
+            padding: 0 1rem;
+            margin: 1rem auto;
+            gap: 1.5rem;
+        }
+
+        /* Barra de estado móvil */
+        .status-bar {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 1rem;
+            padding: 1.25rem;
+        }
+
+        .player-status {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .player-info {
+            flex: 1;
+            min-width: 140px;
+            max-width: 200px;
+            padding: 0.875rem;
+        }
+
+        .player-icon {
+            width: 36px;
+            height: 36px;
+            font-size: 1.1rem;
+        }
+
+        .player-details h3 {
+            font-size: 0.9rem;
+        }
+
+        .player-position {
+            font-size: 0.8rem;
+        }
+
+        .turn-display {
+            order: -1;
+            padding: 0.75rem 0;
+        }
+
+        .turn-display::before,
+        .turn-display::after {
+            display: none;
+        }
+
+        .current-turn {
+            font-size: 1.1rem;
+        }
+
+        .turn-counter {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.75rem;
+        }
+
+        /* Tablero móvil */
+        .board-container {
+            padding: 1.25rem;
+            margin: 0.5rem 0;
+        }
+
+        .board-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .board {
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+            padding: 1rem;
+            min-height: auto;
+        }
+
+        .tile {
+            font-size: 0.8rem;
+            min-height: 44px;
+        }
+
+        .tile:hover {
+            transform: translateY(-2px) scale(1.03);
+        }
+
+        .player-marker {
+            width: 20px;
+            height: 20px;
+            font-size: 0.65rem;
+            top: -4px;
+            right: -4px;
+            border-width: 2px;
+        }
+
+        /* Controles móvil */
+        .controls-container {
+            padding: 1.5rem;
+            gap: 1.5rem;
+        }
+
+        .dice-container {
+            width: 100px;
+            height: 100px;
+        }
+
+        .dice-face {
+            font-size: 2.2rem;
+            border-radius: var(--radius-md);
+        }
+
+        .dice-face:nth-child(1) { 
+            transform: rotateY(0deg) translateZ(50px); 
+        }
+        .dice-face:nth-child(2) { 
+            transform: rotateY(90deg) translateZ(50px); 
+        }
+        .dice-face:nth-child(3) { 
+            transform: rotateX(90deg) translateZ(50px); 
+        }
+        .dice-face:nth-child(4) { 
+            transform: rotateX(-90deg) translateZ(50px); 
+        }
+        .dice-face:nth-child(5) { 
+            transform: rotateY(-90deg) translateZ(50px); 
+        }
+        .dice-face:nth-child(6) { 
+            transform: rotateY(180deg) translateZ(50px); 
+        }
+
+        .dice-value {
+            font-size: 1.6rem;
+            padding: 0.75rem 1.5rem;
+            min-width: 80px;
+        }
+
+        .roll-btn {
+            padding: 0.875rem 2rem;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 280px;
+            justify-content: center;
+        }
+
+        .game-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .restart-btn, .instructions-btn {
+            width: 100%;
+            max-width: 280px;
+            justify-content: center;
+            padding: 0.875rem 1.5rem;
+        }
+
+        /* Mensaje ganador móvil */
+        .winner-message {
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .winner-message h2 {
+            font-size: 1.6rem;
+        }
+
+        .winner-message p {
+            font-size: 1rem;
+        }
+
+        /* Modales móvil */
+        .modal {
+            width: 95%;
+            max-width: 95%;
+        }
+
+        .modal-header {
+            padding: 1.25rem 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+        }
+
+        .close-modal {
+            width: 32px;
+            height: 32px;
+            font-size: 1.5rem;
+        }
+
+        .modal-content {
+            padding: 1.5rem;
+            max-height: 60vh;
+        }
+
+        .question {
+            font-size: 1.1rem;
+            padding: 1rem;
+        }
+
+        .question-reference {
+            font-size: 0.85rem;
+        }
+
+        .option {
+            padding: 0.875rem 1rem;
+            font-size: 0.95rem;
+        }
+
+        .option:hover {
+            transform: translateX(4px);
+        }
+    }
+
+    /* Tablet */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .game-container {
+            max-width: 95%;
+        }
+
+        .board {
+            grid-template-columns: repeat(8, 1fr);
+        }
+
+        .status-bar {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+        }
+
+        .turn-display {
+            grid-column: 1 / -1;
+            order: -1;
+            margin-bottom: 1rem;
+        }
+
+        .player-status {
+            flex-direction: row;
+        }
+
+        .player-info {
+            min-width: 160px;
+        }
+    }
+
+    /* Pantallas grandes */
+    @media (min-width: 1025px) {
+        .game-container {
+            grid-template-columns: 1fr;
+            max-width: 1200px;
+        }
+
+        .status-bar {
+            grid-template-columns: 1fr auto 1fr;
+        }
+    }
+
+    /* Animaciones de entrada */
+    .status-bar,
+    .board-container,
+    .controls-container {
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .status-bar {
+        animation-delay: 0.1s;
+    }
+
+    .board-container {
+        animation-delay: 0.2s;
+    }
+
+    .controls-container {
+        animation-delay: 0.3s;
+    }
+
+    /* Scroll personalizado */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--light-gray);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
+    }
+
+    /* Mejoras de accesibilidad */
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+
+    /* Modo oscuro automático */
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --light: #1a1a2e;
+            --light-gray: #16213e;
+            --medium-gray: #0f3460;
+            --dark-gray: #b8b8b8;
+            --text: #e6e6e6;
+            --text-light: #cccccc;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+            color: var(--text);
+        }
+
+        .status-bar,
+        .board-container,
+        .controls-container,
+        .modal-content,
+        .player-info,
+        .option {
+            background: var(--light);
+        }
+
+        .tile {
+            background: var(--light-gray);
+            border-color: var(--medium-gray);
+        }
+
+        .board {
+            background: linear-gradient(135deg, var(--light-gray) 0%, var(--light) 100%);
+        }
+    }
+</style>
+</head>
+<body>
+    <div class="ministerial-header">
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo Ministerio" class="logo-img">
+                <h1 class="ministry-title">Vivos para Servir</h1>
+            </div>
+            <p class="ministry-subtitle">Ministerio de Educación Cristiana - Aprendiendo Griego Koiné</p>
+        </div>
+    </div>
+
+    <a href="../../home.html" class="back-link">← Volver al Inicio</a>
+
+    <div class="game-container">
+        <div class="status-bar">
+            <div class="player-status">
+                <div class="player-info player1-info" id="player1Info">
+                    <div class="player-icon player1-icon">1</div>
+                    <div class="player-details">
+                        <h3>Jugador 1</h3>
+                        <div class="player-position" id="player1Position">Casilla 1</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="turn-display">
+                <div class="current-turn" id="turnDisplay">Turno del Jugador 1</div>
+                <div class="turn-counter" id="turnCounter">Turno #1</div>
+            </div>
+            
+            <div class="player-status">
+                <div class="player-info player2-info" id="player2Info">
+                    <div class="player-icon player2-icon">2</div>
+                    <div class="player-details">
+                        <h3>Jugador 2</h3>
+                        <div class="player-position" id="player2Position">Casilla 1</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="board-container">
+            <h2 class="board-title">Camino del Conocimiento Griego</h2>
+            <div class="board" id="board"></div>
+        </div>
+
+        <div id="winnerMessage" class="winner-message">
+            <h2>¡Victoria en Cristo!</h2>
+            <p id="winnerDetails"></p>
+            <p class="ministry-quote">"Todo lo puedo en Cristo que me fortalece" - Filipenses 4:13</p>
+        </div>
+
+        <div class="controls-container">
+            <div class="dice-section">
+                <div class="dice-container">
+                    <div class="dice" id="dice">
+                        <div class="dice-face">1</div>
+                        <div class="dice-face">2</div>
+                        <div class="dice-face">3</div>
+                        <div class="dice-face">4</div>
+                        <div class="dice-face">5</div>
+                        <div class="dice-face">6</div>
+                    </div>
+                </div>
+                <div class="dice-value" id="diceValue"></div>
+                <button class="roll-btn" id="rollBtn">Lanzar Dado</button>
+            </div>
+            
+            <div class="game-buttons">
+                <button id="restartBtn" class="restart-btn">Reiniciar Juego</button>
+                <button id="instructionsBtn" class="instructions-btn">Instrucciones</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de pregunta -->
+    <div class="modal" id="questionModal">
+        <div class="modal-header">
+            <h2 class="modal-title">Pregunta de Griego Koiné</h2>
+            <button class="close-modal" id="closeModal">×</button>
+        </div>
+        <div class="question" id="questionText"></div>
+        <div class="options" id="optionsContainer"></div>
+    </div>
+
+    <!-- Modal de instrucciones -->
+    <div class="modal" id="instructionsModal">
+        <div class="modal-header">
+            <h2 class="modal-title">Instrucciones del Juego</h2>
+            <button class="close-modal" id="closeInstructions">×</button>
+        </div>
+        <div class="question">
+            <h3>Objetivo:</h3>
+            <p>Ser el primero en llegar a la casilla 50 respondiendo correctamente preguntas de Griego Koiné.</p>
+            
+            <h3>Cómo jugar:</h3>
+            <ol>
+                <li>Cada jugador lanza el dado en su turno</li>
+                <li>Avanza el número de casillas indicado</li>
+                <li>Cada casilla tiene una pregunta única sobre:</li>
+                <ul>
+                    <li>Adjetivos griegos koiné</li>
+                    <li>Preposiciones y casos</li>
+                    <li>Primera y segunda declinación</li>
+                </ul>
+                <li>Si aciertas, mantienes tu posición</li>
+                <li>Si fallas, retrocedes 2 casillas</li>
+                <li>¡El primero en llegar a la meta gana!</li>
+            </ol>
+            
+            <h3>Acerca del Ministerio:</h3>
+            <p>Este juego forma parte del ministerio "Vivos para Servir", dedicado a la educación cristiana y el aprendizaje del Griego Koiné para comprender mejor las Escrituras.</p>
+        </div>
+    </div>
+
+    <script src="../../auth.js"></script>
+    <script src="../../user-tooltip.js"></script>
+
+    <script>
+        // BASE DE DATOS COMPLETA DE PREGUNTAS - 50 preguntas únicas (una por casilla)
+        const questionsDatabase = [
+            // ADJETIVOS - Primera y segunda declinación (Casillas 1-25)
+            {
+                id: 1,
+                question: "¿Cómo se declina 'ἀγαθός' (bueno) en nominativo femenino singular?",
+                options: ["ἀγαθή", "ἀγαθός", "ἀγαθόν", "ἀγαθοῦ"],
+                answer: 0,
+                category: "Adjetivos - 1ª declinación",
+                explanation: "Los adjetivos de la primera clase siguen la declinación de los sustantivos de la 1ª y 2ª declinación."
+            },
+            {
+                id: 2,
+                question: "¿Cuál es la forma correcta del adjetivo 'μέγας' (grande) en genitivo masculino singular?",
+                options: ["μεγάλου", "μέγα", "μεγάλη", "μέγας"],
+                answer: 0,
+                category: "Adjetivos - 2ª declinación",
+                explanation: "μέγας es un adjetivo irregular que sigue el patrón: μέγας, μεγάλου, μεγάλῳ, μέγαν"
+            },
+            {
+                id: 3,
+                question: "¿Qué forma es correcta para el nominativo plural neutro de 'πᾶς' (todo)?",
+                options: ["πάντες", "πάντα", "πάντων", "πᾶσαι"],
+                answer: 1,
+                category: "Adjetivos - 1ª declinación",
+                explanation: "πᾶς, πᾶσα, πᾶν sigue: πάντες (masc), πᾶσαι (fem), πάντα (neut)"
+            },
+            {
+                id: 4,
+                question: "¿Cuál es el acusativo masculino singular de 'ἅγιος' (santo)?",
+                options: ["ἅγιον", "ἁγίου", "ἅγιο", "ἁγίῳ"],
+                answer: 0,
+                category: "Adjetivos - 2ª declinación",
+                explanation: "Segunda declinación masculina: ὁ ἅγιος, τοῦ ἁγίου, τῷ ἁγίῳ, τὸν ἅγιον"
+            },
+            {
+                id: 5,
+                question: "¿Cómo se forma el dativo plural femenino de 'δίκαιος' (justo)?",
+                options: ["δικαίαις", "δικαίοις", "δικαίους", "δικαίων"],
+                answer: 0,
+                category: "Adjetivos - 1ª declinación",
+                explanation: "Femenino de la 1ª declinación: αἱ δίκαιαι, ταῖς δικαίαις"
+            },
+            {
+                id: 6,
+                question: "¿Cuál es el genitivo singular neutro de 'τοιοῦτος' (tal)?",
+                options: ["τοιούτου", "τοιαύτης", "τοιούτῳ", "τοιοῦτον"],
+                answer: 0,
+                category: "Adjetivos - 2ª declinación",
+                explanation: "Neutro de la 2ª declinación: τὸ τοιοῦτον, τοῦ τοιούτου"
+            },
+            {
+                id: 7,
+                question: "¿Cómo se declina 'καλός' (bello) en vocativo femenino singular?",
+                options: ["καλή", "καλέ", "καλοί", "καλαί"],
+                answer: 0,
+                category: "Adjetivos - 1ª declinación",
+                explanation: "Vocativo sigue el nominativo en adjetivos"
+            },
+            {
+                id: 8,
+                question: "¿Cuál es el acusativo plural de 'νεκρός' (muerto) en masculino?",
+                options: ["νεκρούς", "νεκροί", "νεκρῶν", "νεκροῖς"],
+                answer: 0,
+                category: "Adjetivos - 2ª declinación",
+                explanation: "οἱ νεκροί, τοὺς νεκρούς"
+            },
+            {
+                id: 9,
+                question: "¿Cómo sería el nominativo dual de 'ἀγαθός'?",
+                options: ["ἀγαθώ", "ἀγαθά", "ἀγαθοί", "ἀγαθαί"],
+                answer: 0,
+                category: "Adjetivos - Dual",
+                explanation: "Dual masculino: τὼ ἀγαθώ"
+            },
+            {
+                id: 10,
+                question: "¿Qué forma corresponde al genitivo plural de 'πολύς' (mucho) en femenino?",
+                options: ["πολλῶν", "πολλαῖς", "πολλάς", "πολλαί"],
+                answer: 0,
+                category: "Adjetivos - 1ª declinación",
+                explanation: "πολλῶν para todas las géneros en genitivo plural"
+            },
+            {
+                id: 11,
+                question: "¿Cuál es el dativo singular de 'ἔσχατος' (último) en neutro?",
+                options: ["ἐσχάτῳ", "ἐσχάτου", "ἔσχατον", "ἐσχάτων"],
+                answer: 0,
+                category: "Adjetivos - 2ª declinación",
+                explanation: "τῷ ἐσχάτῳ πνεύματι - al último espíritu"
+            },
+            {
+                id: 12,
+                question: "¿Cómo concordaría 'πιστός' (fiel) con 'ἀδελφός' (hermano) en dativo singular?",
+                options: ["πιστῷ ἀδελφῷ", "πιστὸν ἀδελφόν", "πιστοῦ ἀδελφοῦ", "πιστὴ ἀδελφή"],
+                answer: 0,
+                category: "Adjetivos - Concordancia",
+                explanation: "Ambos en dativo singular masculino"
+            },
+            {
+                id: 13,
+                question: "¿Cuál es la forma correcta para concordar 'ἅγιος' con 'πνεύματα' (espíritus - neutro plural)?",
+                options: ["ἅγια πνεύματα", "ἁγίους πνεύματα", "ἁγίων πνευμάτων", "ἁγίοις πνεύμασι"],
+                answer: 0,
+                category: "Adjetivos - Concordancia",
+                explanation: "Nominativo/acusativo neutro plural"
+            },
+            {
+                id: 14,
+                question: "¿Cuál es la forma femenina singular de 'πολύς' (mucho)?",
+                options: ["πολλή", "πολύ", "πολεῖ", "πολλοί"],
+                answer: 0,
+                category: "Adjetivos - Irregular",
+                explanation: "πολύς, πολλή, πολύ (mucho, mucha, mucho)"
+            },
+            {
+                id: 15,
+                question: "¿Cómo se declina 'μέγας' en acusativo femenino singular?",
+                options: ["μεγάλην", "μέγαν", "μεγάλη", "μεγάλης"],
+                answer: 0,
+                category: "Adjetivos - Irregular",
+                explanation: "μέγας, μεγάλη, μέγα - acusativo femenino: μεγάλην"
+            },
+            {
+                id: 16,
+                question: "¿Qué forma corresponde al nominativo masculino plural de 'οὗτος' (este)?",
+                options: ["οὗτοι", "ταῦτα", "αὕτη", "τούτων"],
+                answer: 0,
+                category: "Adjetivos - Demostrativos",
+                explanation: "οὗτος, αὕτη, τοῦτο - plural: οὗτοι, αὗται, ταῦτα"
+            },
+            {
+                id: 17,
+                question: "En la frase 'ὁ λόγος ὁ ἀγαθός', ¿qué función tiene 'ἀγαθός'?",
+                options: [
+                    "Atributivo (primera posición)",
+                    "Predicativo",
+                    "Atributivo (segunda posición)",
+                    "Sustantivado"
+                ],
+                answer: 2,
+                category: "Adjetivos - Función",
+                explanation: "Artículo + sustantivo + artículo + adjetivo = atributivo de segunda posición"
+            },
+            {
+                id: 18,
+                question: "En 'ἐν τῇ καλῇ οἰκίᾳ', ¿qué función tiene 'καλῇ'?",
+                options: [
+                    "Atributiva",
+                    "Predicativa",
+                    "Sustantivada",
+                    "Adverbial"
+                ],
+                answer: 0,
+                category: "Adjetivos - Función",
+                explanation: "Modifica directamente al sustantivo sin verbo copulativo"
+            },
+            {
+                id: 19,
+                question: "¿Cómo se traduce 'οἱ δίκαιοι' como expresión sustantivada?",
+                options: [
+                    "Los justos",
+                    "La justicia",
+                    "Justamente",
+                    "El justo"
+                ],
+                answer: 0,
+                category: "Adjetivos - Sustantivación",
+                explanation: "Artículo + adjetivo = sustantivación"
+            },
+            {
+                id: 20,
+                question: "En la frase 'ὁ ἄνθρωπος ἀγαθός ἐστιν', ¿qué función tiene 'ἀγαθός'?",
+                options: [
+                    "Atributiva",
+                    "Predicativa",
+                    "Sustantivada",
+                    "Adverbial"
+                ],
+                answer: 1,
+                category: "Adjetivos - Función",
+                explanation: "Con verbo copulativo ἐστιν = predicativo"
+            },
+            {
+                id: 21,
+                question: "¿Qué significa 'τὰ καλά' como expresión sustantivada?",
+                options: [
+                    "Las cosas buenas",
+                    "Los buenos",
+                    "Buenamente",
+                    "La bondad"
+                ],
+                answer: 0,
+                category: "Adjetivos - Sustantivación",
+                explanation: "Artículo neutro plural + adjetivo = 'las cosas...'"
+            },
+            {
+                id: 22,
+                question: "¿Cómo se dice 'los primeros' usando adjetivo sustantivado?",
+                options: ["οἱ πρῶτοι", "τὰ πρῶτα", "αἱ πρῶται", "τοῦ πρώτου"],
+                answer: 0,
+                category: "Adjetivos - Sustantivación",
+                explanation: "Artículo masculino plural + adjetivo"
+            },
+            {
+                id: 23,
+                question: "¿Cuál es el grado comparativo de 'ἀγαθός'?",
+                options: ["ἀμείνων", "κρείττων", "βελτίων", "Todos los anteriores"],
+                answer: 3,
+                category: "Adjetivos - Grados",
+                explanation: "ἀγαθός tiene múltiples formas de comparativo"
+            },
+            {
+                id: 24,
+                question: "¿Cómo se forma el superlativo de 'κακός' (malo)?",
+                options: ["κακίων", "κάκιστος", "κακότερος", "κακώτερος"],
+                answer: 1,
+                category: "Adjetivos - Grados",
+                explanation: "κακός, κακίων, κάκιστος"
+            },
+            {
+                id: 25,
+                question: "¿Cuál es el comparativo de 'μέγας' (grande)?",
+                options: ["μείζων", "μακρός", "μεγάλος", "μεγαλώτερος"],
+                answer: 0,
+                category: "Adjetivos - Grados",
+                explanation: "μέγας, μείζων, μέγιστος"
+            },
+
+            // PREPOSICIONES Y CASOS (Casillas 26-50)
+            {
+                id: 26,
+                question: "¿Qué caso usa normalmente la preposición 'ἀπό' (desde)?",
+                options: ["Genitivo", "Dativo", "Acusativo", "Nominativo"],
+                answer: 0,
+                category: "Preposiciones - Casos",
+                explanation: "ἀπό + genitivo = desde, por parte de"
+            },
+            {
+                id: 27,
+                question: "¿Qué significa 'διὰ' con genitivo?",
+                options: [
+                    "A través de",
+                    "A causa de",
+                    "Hacia",
+                    "Con"
+                ],
+                answer: 1,
+                category: "Preposiciones - Significado",
+                explanation: "διὰ + genitivo = a causa de; διὰ + acusativo = a través de"
+            },
+            {
+                id: 28,
+                question: "¿Qué preposición griega significa 'sobre' y rige dativo?",
+                options: ["ὑπέρ", "ἐπί", "περί", "μετά"],
+                answer: 1,
+                category: "Preposiciones - Significado",
+                explanation: "ἐπί + dativo = sobre, encima de"
+            },
+            {
+                id: 29,
+                question: "¿Qué significa 'πρός' con acusativo?",
+                options: ["Desde", "Con", "Hacia", "En"],
+                answer: 2,
+                category: "Preposiciones - Significado",
+                explanation: "πρός + acusativo = hacia, para"
+            },
+            {
+                id: 30,
+                question: "¿Qué preposición puede significar 'en' o 'entre' con dativo?",
+                options: ["ἐν", "σύν", "παρά", "ἀνά"],
+                answer: 0,
+                category: "Preposiciones - Significado",
+                explanation: "ἐν + dativo = en, dentro de"
+            },
+            {
+                id: 31,
+                question: "¿Qué caso usarías con 'χωρίς' (sin) para decir 'sin fe'?",
+                options: ["Genitivo", "Dativo", "Acusativo", "Nominativo"],
+                answer: 0,
+                category: "Preposiciones - Casos",
+                explanation: "χωρίς + genitivo = sin"
+            },
+            {
+                id: 32,
+                question: "¿Con qué caso se usa 'μετά' para decir 'con'?",
+                options: ["Genitivo", "Acusativo", "Dativo", "Nominativo"],
+                answer: 0,
+                category: "Preposiciones - Casos",
+                explanation: "μετά + genitivo = con; μετά + acusativo = después de"
+            },
+            {
+                id: 33,
+                question: "¿Qué preposición significa 'bajo' o 'por' y rige acusativo?",
+                options: ["ὑπό", "ὑπέρ", "παρά", "περί"],
+                answer: 0,
+                category: "Preposiciones - Significado",
+                explanation: "ὑπό + acusativo = bajo (movimiento); ὑπό + genitivo = por (agente)"
+            },
+            {
+                id: 34,
+                question: "¿Con qué caso se usa 'περί' para significar 'acerca de'?",
+                options: ["Genitivo", "Acusativo", "Ambos", "Dativo"],
+                answer: 2,
+                category: "Preposiciones - Casos",
+                explanation: "περί + genitivo/acusativo = acerca de, sobre"
+            },
+            {
+                id: 35,
+                question: "¿Qué preposición significa 'antes de' y rige genitivo?",
+                options: ["πρό", "ἀντί", "ἐκ", "διὰ"],
+                answer: 0,
+                category: "Preposiciones - Significado",
+                explanation: "πρό + genitivo = antes de, delante de"
+            },
+            {
+                id: 36,
+                question: "¿Con qué caso se usa 'ἐπί' para significar 'sobre la tierra'?",
+                options: ["Genitivo", "Dativo", "Acusativo", "Nominativo"],
+                answer: 0,
+                category: "Preposiciones - Casos",
+                explanation: "ἐπί + genitivo = sobre (posición); ἐπί + dativo = sobre (base)"
+            },
+            {
+                id: 37,
+                question: "¿Qué significa 'παρά' con dativo?",
+                options: ["Junto a", "Desde", "Contra", "Para"],
+                answer: 0,
+                category: "Preposiciones - Significado",
+                explanation: "παρά + dativo = junto a, al lado de"
+            },
+            {
+                id: 38,
+                question: "¿Qué preposición se usa para 'hasta' en tiempo o lugar?",
+                options: ["ἕως", "μέχρι", "Ambas", "Ninguna"],
+                answer: 2,
+                category: "Preposiciones - Significado",
+                explanation: "ἕως y μέχρι + genitivo = hasta"
+            },
+            {
+                id: 39,
+                question: "¿Con qué caso se usa 'ἀντί'?",
+                options: ["Genitivo", "Dativo", "Acusativo", "Nominativo"],
+                answer: 0,
+                category: "Preposiciones - Casos",
+                explanation: "ἀντί + genitivo = en lugar de, en vez de"
+            },
+            {
+                id: 40,
+                question: "¿Qué preposición significa 'fuera de'?",
+                options: ["ἔξω", "ἐκτός", "Ambas", "Ninguna"],
+                answer: 2,
+                category: "Preposiciones - Significado",
+                explanation: "ἔξω y ἐκτός + genitivo = fuera de"
+            },
+            {
+                id: 41,
+                question: "¿Qué caso rige 'σύν'?",
+                options: ["Dativo", "Genitivo", "Acusativo", "Nominativo"],
+                answer: 0,
+                category: "Preposiciones - Casos",
+                explanation: "σύν + dativo = con, junto con"
+            },
+            {
+                id: 42,
+                question: "En 'κατὰ σάρκα', ¿qué caso y significado tiene 'κατά'?",
+                options: ["Acusativo - 'según'", "Genitivo - 'contra'", "Dativo - 'bajo'", "Nominativo - 'por'"],
+                answer: 0,
+                category: "Preposiciones - Uso bíblico",
+                explanation: "κατά + acusativo = según, conforme a"
+            },
+            {
+                id: 43,
+                question: "En Juan 1:1, 'πρὸς τὸν Θεόν', ¿qué caso y significado?",
+                options: ["Acusativo - 'junto a'", "Genitivo - 'para'", "Dativo - 'con'", "Nominativo - 'en'"],
+                answer: 0,
+                category: "Preposiciones - Uso bíblico",
+                explanation: "πρὸς + acusativo = hacia, junto a"
+            },
+            {
+                id: 44,
+                question: "En Romanos 8:28, 'τοῖς ἀγαπῶσιν τὸν Θεόν πάντα συνεργεῖ εἰς ἀγαθόν', ¿qué significa 'εἰς'?",
+                options: ["Para, hacia", "En, dentro", "Desde", "Con"],
+                answer: 0,
+                category: "Preposiciones - Uso bíblico",
+                explanation: "εἰς + acusativo = para, hacia (indicando propósito)"
+            },
+            {
+                id: 45,
+                question: "¿Qué preposición se usa en 'ἐν Χριστῷ'?",
+                options: ["ἐν", "σύν", "μετά", "πρός"],
+                answer: 0,
+                category: "Preposiciones - Uso bíblico",
+                explanation: "ἐν + dativo = en (indicando unión)"
+            },
+            {
+                id: 46,
+                question: "En Mateo 28:19, 'πορευθέντες οὖν μαθητεύσατε πάντα τὰ ἔθνη... εἰς τὸ ὄνομα', ¿qué caso sigue 'εἰς'?",
+                options: ["Acusativo", "Genitivo", "Dativo", "Nominativo"],
+                answer: 0,
+                category: "Preposiciones - Casos",
+                explanation: "εἰς siempre rige acusativo"
+            },
+            {
+                id: 47,
+                question: "¿Qué preposición usarías para 'según las Escrituras'?",
+                options: ["κατὰ", "διὰ", "μετὰ", "ὑπέρ"],
+                answer: 0,
+                category: "Preposiciones - Uso bíblico",
+                explanation: "κατὰ τὰς γραφάς"
+            },
+            {
+                id: 48,
+                question: "En 'διὰ Ἰησοῦ Χριστοῦ', ¿qué significa 'διὰ'?",
+                options: ["Por medio de", "A causa de", "A través de", "Para"],
+                answer: 0,
+                category: "Preposiciones - Uso bíblico",
+                explanation: "διὰ + genitivo = por medio de (instrumento)"
+            },
+            {
+                id: 49,
+                question: "¿Qué preposición se usa para 'en el nombre del Señor'?",
+                options: ["ἐν", "εἰς", "ἐπί", "κατά"],
+                answer: 0,
+                category: "Preposiciones - Uso bíblico",
+                explanation: "ἐν τῷ ὀνόματι τοῦ Κυρίου"
+            },
+            {
+                id: 50,
+                question: "En 'ὑπὲρ ἡμῶν', ¿qué caso y significado?",
+                options: ["Genitivo - 'por nosotros'", "Acusativo - 'sobre nosotros'", "Dativo - 'para nosotros'", "Nominativo - 'con nosotros'"],
+                answer: 0,
+                category: "Preposiciones - Uso bíblico",
+                explanation: "ὑπέρ + genitivo = por, en lugar de"
+            }
+        ];
+
+        // Estado del juego mejorado
+        const gameState = {
+            currentPlayer: 1,
+            playerPositions: { 1: 0, 2: 0 },
+            playerScores: { 1: 0, 2: 0 },
+            currentQuestion: null,
+            totalTiles: 50,
+            gameActive: true,
+            diceRollValue: 1,
+            turnCount: 1,
+            usedQuestions: new Set(), // Para evitar repeticiones
+            tileQuestions: new Map()   // Para asignar preguntas únicas a casillas
+        };
+
+        // Inicializar tablero con preguntas únicas
+        function initializeBoard() {
+            const board = document.getElementById('board');
+            board.innerHTML = '';
+            
+            // Asignar preguntas únicas a cada casilla
+            assignUniqueQuestions();
+            
+            for(let i = 0; i < gameState.totalTiles; i++) {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                tile.dataset.position = i;
+                tile.dataset.questionId = gameState.tileQuestions.get(i);
+                
+                // Marcar casilla final
+                if (i === gameState.totalTiles - 1) {
+                    tile.innerHTML = `
+                        <div style="color: var(--accent); font-weight: bold;">META</div>
+                        ${i === gameState.playerPositions[1] ? '<div class="player-marker player1-marker">1</div>' : ''}
+                        ${i === gameState.playerPositions[2] ? '<div class="player-marker player2-marker">2</div>' : ''}
+                    `;
+                    tile.style.background = 'linear-gradient(135deg, var(--accent) 0%, #f39c12 100%)';
+                    tile.style.color = 'white';
+                    tile.style.borderColor = 'var(--accent)';
+                } else if (i % 10 === 0 && i !== 0) {
+                    // Casillas de décimo
+                    tile.innerHTML = `
+                        <div>${i + 1}<br><small style="font-size: 0.6rem; color: var(--secondary);">★</small></div>
+                        ${i === gameState.playerPositions[1] ? '<div class="player-marker player1-marker">1</div>' : ''}
+                        ${i === gameState.playerPositions[2] ? '<div class="player-marker player2-marker">2</div>' : ''}
+                    `;
+                    tile.classList.add('special');
+                } else {
+                    tile.innerHTML = `
+                        <div>${i + 1}</div>
+                        ${i === gameState.playerPositions[1] ? '<div class="player-marker player1-marker">1</div>' : ''}
+                        ${i === gameState.playerPositions[2] ? '<div class="player-marker player2-marker">2</div>' : ''}
+                    `;
+                }
+                
+                board.appendChild(tile);
+            }
+            
+            updatePlayerInfo();
+        }
+
+        // Asignar preguntas únicas a cada casilla
+        function assignUniqueQuestions() {
+            gameState.tileQuestions.clear();
+            gameState.usedQuestions.clear();
+            
+            // Crear copia aleatoria de las preguntas
+            const shuffledQuestions = [...questionsDatabase].sort(() => Math.random() - 0.5);
+            
+            // Asignar una pregunta única a cada casilla
+            for(let i = 0; i < gameState.totalTiles; i++) {
+                const questionIndex = i % shuffledQuestions.length;
+                gameState.tileQuestions.set(i, shuffledQuestions[questionIndex].id);
+            }
+        }
+
+        // Obtener pregunta de una casilla específica
+        function getQuestionForTile(tilePosition) {
+            const questionId = gameState.tileQuestions.get(tilePosition);
+            return questionsDatabase.find(q => q.id === questionId);
+        }
+
+        // Mover jugador con animaciones mejoradas
+        async function movePlayer(player, steps) {
+            const startPos = gameState.playerPositions[player];
+            const endPos = Math.min(startPos + steps, gameState.totalTiles - 1);
+            
+            for (let i = startPos; i <= endPos; i++) {
+                gameState.playerPositions[player] = i;
+                updateBoard();
+                
+                const currentTile = document.querySelector(`.tile[data-position="${i}"]`);
+                currentTile.classList.add('moving');
+                
+                await new Promise(resolve => setTimeout(resolve, 200));
+                currentTile.classList.remove('moving');
+                
+                // Verificar si llegó a casilla especial
+                if (i % 10 === 0 && i !== startPos && i !== 0) {
+                    await showSpecialMessage("¡Casilla especial! Punto extra de aprendizaje.");
+                }
+                
+                if (i === gameState.totalTiles - 1) {
+                    endGame(player);
+                    return;
+                }
+            }
+            
+            // Después de mover, mostrar pregunta de la casilla final
+            setTimeout(() => {
+                const currentTile = gameState.playerPositions[player];
+                const question = getQuestionForTile(currentTile);
+                showQuestion(question);
+            }, 500);
+        }
+
+        async function showSpecialMessage(message) {
+            const tempMsg = document.createElement('div');
+            tempMsg.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 0.5rem;
+                font-weight: bold;
+                z-index: 1000;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                animation: fadeIn 0.3s ease;
+            `;
+            tempMsg.textContent = message;
+            document.body.appendChild(tempMsg);
+            
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            tempMsg.remove();
+        }
+
+        // Lanzar dado CORREGIDO - sin punto que cubre el número
+        async function rollDice() {
+            if (!gameState.gameActive) return;
+            
+            const dice = document.getElementById('dice');
+            const diceValue = document.getElementById('diceValue');
+            const rollBtn = document.getElementById('rollBtn');
+            
+            rollBtn.disabled = true;
+            dice.style.pointerEvents = 'none';
+            dice.classList.add('rolling');
+            gameState.diceRollValue = Math.floor(Math.random() * 6) + 1;
+            diceValue.textContent = gameState.diceRollValue;
+            diceValue.style.display = 'block';
+            
+            // Animación del dado
+            await new Promise(resolve => setTimeout(resolve, 1200));
+            
+            dice.classList.remove('rolling');
+            dice.style.transform = getDiceFaceTransform(gameState.diceRollValue);
+            
+            // Mostrar valor
+            await new Promise(resolve => setTimeout(resolve, 800));
+            diceValue.style.display = 'none';
+            
+            // Mover jugador
+            movePlayer(gameState.currentPlayer, gameState.diceRollValue);
+            
+            // Reactivar controles
+            setTimeout(() => {
+                dice.style.pointerEvents = 'auto';
+                rollBtn.disabled = false;
+            }, 1000);
+        }
+
+        function getDiceFaceTransform(value) {
+            const transforms = {
+                1: 'rotateX(0deg) rotateY(0deg)',
+                2: 'rotateY(-90deg) rotateZ(10deg)',
+                3: 'rotateX(-90deg) rotateY(10deg)',
+                4: 'rotateX(90deg) rotateY(-10deg)',
+                5: 'rotateY(90deg) rotateZ(-10deg)',
+                6: 'rotateX(180deg) rotateY(0deg)'
+            };
+            return transforms[value];
+        }
+
+        function updateBoard() {
+            document.querySelectorAll('.tile').forEach((tile, index) => {
+                // Limpiar marcadores anteriores
+                const oldMarkers = tile.querySelectorAll('.player-marker');
+                oldMarkers.forEach(marker => marker.remove());
+                
+                // Añadir marcadores actuales
+                if (index === gameState.playerPositions[1]) {
+                    const marker = document.createElement('div');
+                    marker.className = 'player-marker player1-marker';
+                    marker.textContent = '1';
+                    tile.appendChild(marker);
+                }
+                if (index === gameState.playerPositions[2]) {
+                    const marker = document.createElement('div');
+                    marker.className = 'player-marker player2-marker';
+                    marker.textContent = '2';
+                    tile.appendChild(marker);
+                }
+                
+                // Resaltar casilla actual
+                if (index === gameState.playerPositions[gameState.currentPlayer]) {
+                    tile.classList.add('current');
+                } else {
+                    tile.classList.remove('current');
+                }
+            });
+            
+            updatePlayerInfo();
+        }
+
+        function updatePlayerInfo() {
+            document.getElementById('player1Position').textContent = 
+                `Casilla ${gameState.playerPositions[1] + 1}`;
+            document.getElementById('player2Position').textContent = 
+                `Casilla ${gameState.playerPositions[2] + 1}`;
+            
+            document.getElementById('player1Info').classList.toggle('active', gameState.currentPlayer === 1);
+            document.getElementById('player2Info').classList.toggle('active', gameState.currentPlayer === 2);
+            
+            document.getElementById('turnDisplay').textContent = 
+                `Turno del Jugador ${gameState.currentPlayer}`;
+            document.getElementById('turnCounter').textContent = 
+                `Turno #${gameState.turnCount}`;
+        }
+
+        function showQuestion(question) {
+            if (!gameState.gameActive || !question) return;
+            
+            gameState.currentQuestion = question;
+            const modal = document.getElementById('questionModal');
+            const optionsContainer = document.getElementById('optionsContainer');
+            
+            // Mostrar pregunta con categoría
+            document.getElementById('questionText').innerHTML = `
+                ${question.question}
+                <span class="question-reference">${question.category}</span>
+            `;
+            
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('button');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.onclick = () => checkAnswer(index === question.answer, question);
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            modal.classList.add('active');
+        }
+
+        function checkAnswer(isCorrect, question) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                option.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mostrar respuesta correcta
+            const correctOption = options[question.answer];
+            correctOption.classList.add('correct');
+            
+            if(isCorrect) {
+                // Respuesta correcta
+                gameState.playerScores[gameState.currentPlayer]++;
+                
+                setTimeout(() => {
+                    document.getElementById('questionModal').classList.remove('active');
+                    nextTurn();
+                }, 2000);
+            } else {
+                // Respuesta incorrecta
+                event.target.classList.add('incorrect');
+                gameState.playerPositions[gameState.currentPlayer] = 
+                    Math.max(0, gameState.playerPositions[gameState.currentPlayer] - 2);
+                
+                // Mostrar explicación
+                setTimeout(() => {
+                    alert(`Respuesta incorrecta. Explicación: ${question.explanation}`);
+                    document.getElementById('questionModal').classList.remove('active');
+                    updateBoard();
+                    nextTurn();
+                }, 2000);
+            }
+        }
+
+        function nextTurn() {
+            gameState.currentPlayer = gameState.currentPlayer === 1 ? 2 : 1;
+            if (gameState.currentPlayer === 1) gameState.turnCount++;
+            updatePlayerInfo();
+        }
+
+        function endGame(winningPlayer) {
+            gameState.gameActive = false;
+            const winnerMessage = document.getElementById('winnerMessage');
+            const winnerDetails = document.getElementById('winnerDetails');
+            
+            winnerDetails.innerHTML = `
+                ¡Jugador ${winningPlayer} ha ganado!<br>
+                Puntuación: ${gameState.playerScores[winningPlayer]} respuestas correctas.<br>
+                Total de turnos: ${gameState.turnCount}
+            `;
+            winnerMessage.style.display = 'block';
+            
+            document.getElementById('rollBtn').disabled = true;
+            document.getElementById('restartBtn').style.display = 'block';
+        }
+
+        function restartGame() {
+            gameState.currentPlayer = 1;
+            gameState.playerPositions = { 1: 0, 2: 0 };
+            gameState.playerScores = { 1: 0, 2: 0 };
+            gameState.gameActive = true;
+            gameState.turnCount = 1;
+            
+            document.getElementById('winnerMessage').style.display = 'none';
+            document.getElementById('restartBtn').style.display = 'block';
+            document.getElementById('rollBtn').disabled = false;
+            document.getElementById('dice').style.transform = 'rotateX(0deg) rotateY(0deg)';
+            
+            initializeBoard();
+        }
+
+        function showInstructions() {
+            document.getElementById('instructionsModal').classList.add('active');
+        }
+
+        // Event listeners
+        document.getElementById('rollBtn').addEventListener('click', rollDice);
+        document.getElementById('dice').addEventListener('click', rollDice);
+        document.getElementById('restartBtn').addEventListener('click', restartGame);
+        document.getElementById('instructionsBtn').addEventListener('click', showInstructions);
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('questionModal').classList.remove('active');
+        });
+        document.getElementById('closeInstructions').addEventListener('click', () => {
+            document.getElementById('instructionsModal').classList.remove('active');
+        });
+
+        // Cerrar modales al hacer clic fuera
+        window.addEventListener('click', (e) => {
+            if (e.target === document.getElementById('questionModal')) {
+                document.getElementById('questionModal').classList.remove('active');
+            }
+            if (e.target === document.getElementById('instructionsModal')) {
+                document.getElementById('instructionsModal').classList.remove('active');
+            }
+        });
+
+        // Inicializar juego
+        initializeBoard();
+    </script>
+</body>
+</html>

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Escritura Griega</title>
+  <style>
+    :root {
+      --color-primario: #2c3e50;
+      --color-secundario: #4CAF50;
+      --color-fondo: #f5f6fa;
+      --color-texto: #2c3e50;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      background: var(--color-primario);
+    }
+
+    .slide-container {
+      position: relative;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.5s ease-in-out;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      background: var(--color-fondo);
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: all;
+    }
+
+    .slide.exit {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+
+    .professor-panel {
+      background: var(--color-primario);
+      padding: 2rem;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    .logo-ministerio {
+      position: absolute;
+      bottom: 100px; /* Ajustado para subir el logo */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 180px;
+      opacity: 0.9;
+    }
+
+    .content-panel {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      position: relative;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .letter-display {
+      font-size: 6em;
+      color: var(--color-primario);
+      text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .speaker-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.5em;
+      color: var(--color-secundario);
+      transition: transform 0.3s ease;
+    }
+
+    .writing-canvas {
+      border: 3px solid var(--color-primario);
+      border-radius: 15px;
+      background: white;
+      width: 500px;
+      height: 400px;
+      touch-action: none;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      margin: 10px 0 30px 0;
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      width: 50%;
+      position: fixed;
+      bottom: 20px;
+      left: 60%;
+      transform: translateX(-50%);
+      z-index: 100;
+      padding: 15px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    button {
+      padding: 15px 30px;
+      border: none;
+      border-radius: 8px;
+      background: var(--color-secundario);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 150px;
+      font-size: 1.1em;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 5px;
+      background: var(--color-secundario);
+      transition: width 0.3s ease;
+      z-index: 1000;
+    }
+
+    @media (max-width: 768px) {
+      .slide {
+        grid-template-columns: 1fr;
+      }
+      
+      .professor-panel {
+        display: none;
+      }
+      
+      .writing-canvas {
+        width: 90vw;
+        height: 90vw;
+        max-width: 400px;
+      }
+      
+      .letter-display {
+        font-size: 4em;
+      }
+      
+      .controls {
+        bottom: 10px;
+        padding: 10px;
+        width: 95%;
+      }
+      
+      button {
+        min-width: 120px;
+        padding: 12px 20px;
+        font-size: 1em;
+      }
+      
+      .logo-ministerio {
+        width: 150px;
+        bottom: 80px;
+      }
+    }
+  </style>
+  <script>
+    // Verificar autenticación al cargar la página
+    if(!localStorage.getItem('authenticated')) {
+        window.location.href = "../login.html";
+    }
+</script>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="slide-container" id="slideContainer"></div>
+
+  <script>
+    const greekLetters = [
+    { upper: "Α", lower: "α", name: "Alfa", instruction: "El sonido de esta letra es como una a larga, ej. casa." },
+    { upper: "Β", lower: "β", name: "Beta", instruction: "El sonido corresponde a la B española. ej. Barco" },
+    { upper: "Γ", lower: "γ", name: "Gamma", instruction: "El sonido de esta letra es como un g fuerte, bien gutural, ej. Gato" },
+    { upper: "Δ", lower: "δ", name: "Delta", instruction: "El sonido corresponde a la D del español. ej. Domingo" },
+    { upper: "Ε", lower: "ε", name: "Éppsilon", instruction: "El sonido de esta letra es como una e corta. Ej. Este" },
+    { upper: "Ζ", lower: "ζ", name: "Zeta", instruction: "El sonido es como el de una dz, vibra como una abeta. " },
+    { upper: "Η", lower: "η", name: "Eta", instruction: "Sonido de una e larga Ej. Hey" },
+    { upper: "Θ", lower: "θ", name: "Theta", instruction: "El sonido corresponde a la th inglesa. Parecido a la z española. Debe colocar la lengua entre los dientes e intentar pronunciarla. Ej. Think" },
+    { upper: "Ι", lower: "ι", name: "Io ta", instruction: "El sonido corresponde a una i. Ej día." },
+    { upper: "Κ", lower: "κ", name: "Kappa", instruction: "El sonido corresponde a la k española. ej. Kilo" },
+    { upper: "Λ", lower: "λ", name: "Lambda", instruction: "El sonido corresponde a la L española. Ej. Ladra." },
+    { upper: "Μ", lower: "μ", name: "Miu", instruction: "El sonido corresponde al de la m española. ej. Mandar" },
+    { upper: "Ν", lower: "ν", name: "Niu", instruction: "El sonido corresponde a la n española. Ej nadar." },
+    { upper: "Ξ", lower: "ξ", name: "si", instruction: "El sonido corresponde a una ks. ej. Excelencia" },
+    { upper: "Ο", lower: "ο", name: "Ómicron", instruction: "El sonido corresponde a una o corta del español. Ej Ola." },
+    { upper: "Π", lower: "π", name: "Pi", instruction: "El sonido corresponde a la p española. Ej pastor" },
+    { upper: "Ρ", lower: "ρ", name: "Ro", instruction: "El sonido corresponde a la r española. Ej. Redimir." },
+    { upper: "Σ", lower: "σ/ς", name: "Sigma", instruction: "El sonido corresponde a la s española. Ej sanar." },
+    { upper: "Τ", lower: "τ", name: "Tau", instruction: "El sonido corresponde a la t española. Ej. Tanto" },
+    { upper: "Υ", lower: "υ", name: "Ípsilon", instruction: "El sonido corresponde a una u. Tecnicamente se pronuncia parecido a la ü umlaut alemana. POr ahora pronuncie como una u." },
+    { upper: "Φ", lower: "φ", name: "Fi", instruction: "El sonido correspondiente a la f española. Ej. Finguir." },
+    { upper: "Χ", lower: "χ", name: "Ji", instruction: " El sonido es gutural, es como una j que sale de la garganta. Como bach en alemán." },
+    { upper: "Ψ", lower: "ψ", name: "Psi", instruction: "Sonido correspondiente a la ps. Ej Psicología" },
+    { upper: "Ω", lower: "ω", name: "Omega", instruction: "Sonido correspondiente a la o larga del español." }
+];
+
+let currentSlideIndex = 0;
+let slides = [];
+let canvas, ctx;
+let isDrawing = false;
+let scaleFactor = 1;
+
+const synth = window.speechSynthesis;
+let spanishVoice;
+
+// Cargar voces cuando estén disponibles
+synth.onvoiceschanged = () => {
+    const voices = synth.getVoices();
+    spanishVoice = voices.find(voice => voice.lang === 'es-ES' || voice.lang === 'es-MX');
+};
+
+function speak(text) {
+    const pronunciationMap = {
+        "Miu": "miú",
+        "Niu": "niú",
+        "ksi": "xi",
+        "Fi": "fi",
+        "Psi": "psi"
+    };
+
+    const utteranceText = pronunciationMap[text] || text;
+    
+    if (synth.speaking) synth.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(utteranceText);
+    utterance.voice = spanishVoice;
+    utterance.rate = 0.9;
+    utterance.lang = 'es-ES';
+    synth.speak(utterance);
+}
+
+function createSlide(letter, index) {
+    const slide = document.createElement('div');
+    slide.className = 'slide';
+    slide.innerHTML = `
+        <div class="professor-panel">
+            <h2>Instrucciones</h2>
+            <p>${letter.instruction}</p>
+            <div class="progress">Letra ${index + 1} de ${greekLetters.length}</div>
+            <button onclick="speak('${letter.name}')" style="margin-top: 1rem;">
+                <i class="fas fa-volume-up"></i> Pronunciar
+            </button>
+            <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" class="logo-ministerio" alt="Ministerio Vivos para Servir">
+        </div>
+        <div class="content-panel">
+            <div class="letter-display">
+                <span>${letter.upper} ${letter.lower}</span>
+                <button class="speaker-btn" onclick="speak('${letter.name}')">🔊</button>
+            </div>
+            <canvas class="writing-canvas"></canvas>
+            <div class="controls">
+                <button class="nav-btn" onclick="previousSlide()">Anterior</button>
+                <button class="nav-btn" onclick="nextSlide()">Siguiente</button>
+                <button class="nav-btn" onclick="clearCanvas()">Borrar</button>
+            </div>
+        </div>
+    `;
+    return slide;
+}
+
+function initializeSlides() {
+    const container = document.getElementById('slideContainer');
+    container.innerHTML = '';
+    slides = [];
+    
+    greekLetters.forEach((letter, index) => {
+        const slide = createSlide(letter, index);
+        container.appendChild(slide);
+        slides.push(slide);
+    });
+    
+    showSlide(currentSlideIndex);
+}
+
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.classList.remove('active', 'exit');
+        if(i === index) {
+            slide.classList.add('active');
+            initializeCanvas(slide);
+            speak(greekLetters[index].name);
+        }
+        if(i < index) slide.classList.add('exit');
+    });
+    
+    const progress = (index + 1) / greekLetters.length * 100;
+    document.getElementById('progressBar').style.width = `${progress}%`;
+}
+
+function initializeCanvas(slide) {
+    canvas = slide.querySelector('canvas');
+    ctx = canvas.getContext('2d');
+    
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    scaleFactor = dpr;
+    
+    resetCanvas();
+    
+    // Eventos de dibujo
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+    canvas.addEventListener('touchend', stopDrawing);
+}
+
+function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    resetCanvas();
+}
+
+function resetCanvas() {
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.lineWidth = 4 * scaleFactor;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = getComputedStyle(document.documentElement)
+        .getPropertyValue('--color-primario').trim();
+}
+
+function getCanvasCoordinates(e) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+        x: (e.clientX - rect.left) * scaleFactor,
+        y: (e.clientY - rect.top) * scaleFactor
+    };
+}
+
+function startDrawing(e) {
+    isDrawing = true;
+    const coords = getCanvasCoordinates(e);
+    ctx.beginPath();
+    ctx.moveTo(coords.x, coords.y);
+    e.preventDefault();
+}
+
+function draw(e) {
+    if (!isDrawing) return;
+    const coords = getCanvasCoordinates(e);
+    ctx.lineTo(coords.x, coords.y);
+    ctx.stroke();
+    e.preventDefault();
+}
+
+function stopDrawing() {
+    isDrawing = false;
+    ctx.beginPath();
+}
+
+function handleTouchStart(e) {
+    startDrawing(e.touches[0]);
+}
+
+function handleTouchMove(e) {
+    draw(e.touches[0]);
+}
+
+function nextSlide() {
+    if(currentSlideIndex < slides.length - 1) {
+        currentSlideIndex++;
+        showSlide(currentSlideIndex);
+    }
+}
+
+function previousSlide() {
+    if(currentSlideIndex > 0) {
+        currentSlideIndex--;
+        showSlide(currentSlideIndex);
+    }
+}
+
+// Inicialización
+window.onload = () => {
+    const welcomeSlide = document.createElement('div');
+    welcomeSlide.className = 'slide active';
+    welcomeSlide.innerHTML = `
+        <div class="content-panel" style="justify-content: center; text-align: center;">
+            <h1>¡Bienvenido!</h1>
+            <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" style="width: 300px; margin: 20px auto;">
+            <p>Practica la escritura de las letras griegas</p>
+            <button onclick="initializeSlides()" style="margin-top: 2rem; padding: 15px 30px;">Comenzar</button>
+        </div>
+    `;
+    document.getElementById('slideContainer').appendChild(welcomeSlide);
+};
+  </script>
+</body>
+</html>

@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de Pronombres Demostrativos | Griego Koiné</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8B5FBF;
+            --primary-dark: #6A3FA0;
+            --primary-light: #A77DD9;
+            --secondary: #4A6FA5;
+            --secondary-dark: #2A4A7A;
+            --accent: #FFB74D;
+            --accent-dark: #F57C00;
+            --success: #2ECC71;
+            --success-light: #d4edda;
+            --danger: #E74C3C;
+            --danger-light: #f8d7da;
+            --warning: #F1C40F;
+            --warning-light: #fff3cd;
+            --info: #3498DB;
+            --info-light: #d1ecf1;
+            --light: #F8F9FA;
+            --dark: #2C3E50;
+            --gray: #7F8C8D;
+            --gray-light: #ECF0F1;
+            
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --gradient-success: linear-gradient(135deg, var(--success) 0%, #27AE60 100%);
+            --gradient-warning: linear-gradient(135deg, var(--warning) 0%, var(--accent) 100%);
+            --gradient-dark: linear-gradient(135deg, var(--dark) 0%, #34495E 100%);
+            
+            --shadow-sm: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-md: 0 8px 15px rgba(0,0,0,0.1);
+            --shadow-lg: 0 15px 30px rgba(0,0,0,0.15);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.2);
+            
+            --radius: 12px;
+            --radius-lg: 20px;
+            --radius-sm: 8px;
+            
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition-fast: all 0.15s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            line-height: 1.7;
+        }
+
+        .game-wrapper {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        /* Header */
+        .game-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .game-header h1 {
+            font-family: 'Roboto Slab', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-header .subtitle {
+            color: var(--gray);
+            font-weight: 400;
+            font-size: 1.1rem;
+        }
+
+        .game-header .subtitle i {
+            margin: 0 0.25rem;
+            color: var(--primary);
+        }
+
+        /* Main Card */
+        .game-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .score-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(139, 95, 191, 0.1) 0%, rgba(74, 111, 165, 0.1) 100%);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            border: 1px solid rgba(139, 95, 191, 0.2);
+        }
+
+        .score-badge i {
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        .progress-bar-wrapper {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .progress-bar-container {
+            height: 12px;
+            background-color: var(--gray-light);
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+            border-radius: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        /* Question Section */
+        .question-section {
+            margin-bottom: 2rem;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+
+        .tag {
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tag i {
+            font-size: 0.9rem;
+        }
+
+        .tag.distance {
+            background: linear-gradient(135deg, rgba(241, 196, 15, 0.15) 0%, rgba(255, 183, 77, 0.15) 100%);
+            color: var(--accent-dark);
+            border: 1px solid rgba(241, 196, 15, 0.3);
+        }
+
+        .tag.case {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(74, 111, 165, 0.1) 100%);
+            color: var(--secondary-dark);
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+
+        .tag.gender {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(39, 174, 96, 0.1) 100%);
+            color: var(--success);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .tag.gender.feminine {
+            background: linear-gradient(135deg, rgba(253, 121, 168, 0.1) 0%, rgba(231, 76, 96, 0.1) 100%);
+            color: #e84393;
+            border-color: rgba(253, 121, 168, 0.3);
+        }
+
+        .tag.gender.neuter {
+            background: linear-gradient(135deg, rgba(127, 140, 141, 0.1) 0%, rgba(44, 62, 80, 0.1) 100%);
+            color: var(--gray);
+            border-color: rgba(127, 140, 141, 0.3);
+        }
+
+        .prompt-box {
+            background: linear-gradient(135deg, rgba(139, 95, 191, 0.05) 0%, rgba(74, 111, 165, 0.05) 100%);
+            padding: 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .prompt-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .prompt-text {
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .prompt-text strong {
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+
+        .greek {
+            font-family: "New Athena Unicode", "Galatia SIL", "Gentium Plus", "Times New Roman", serif;
+            font-size: 1.6rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        /* Options Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-card {
+            padding: 1.5rem 1rem;
+            background: white;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .option-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-light);
+        }
+
+        .option-card:hover::before {
+            opacity: 1;
+        }
+
+        .option-card.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(139, 95, 191, 0.05) 0%, rgba(74, 111, 165, 0.05) 100%);
+            transform: translateY(-2px);
+        }
+
+        .option-card.selected::before {
+            opacity: 1;
+        }
+
+        .option-card.correct {
+            background: var(--success-light);
+            border-color: var(--success);
+        }
+
+        .option-card.correct::before {
+            background: var(--gradient-success);
+            opacity: 1;
+        }
+
+        .option-card.incorrect {
+            background: var(--danger-light);
+            border-color: var(--danger);
+        }
+
+        .option-card.incorrect::before {
+            background: var(--danger);
+            opacity: 1;
+        }
+
+        .option-card.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* Feedback */
+        .feedback-panel {
+            padding: 1.25rem;
+            border-radius: var(--radius);
+            margin-top: 1.5rem;
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .feedback-panel.show {
+            display: flex;
+        }
+
+        .feedback-panel.correct {
+            background: var(--success-light);
+            border-left: 4px solid var(--success);
+        }
+
+        .feedback-panel.incorrect {
+            background: var(--danger-light);
+            border-left: 4px solid var(--danger);
+        }
+
+        .feedback-icon {
+            font-size: 1.8rem;
+        }
+
+        .feedback-panel.correct .feedback-icon {
+            color: var(--success);
+        }
+
+        .feedback-panel.incorrect .feedback-icon {
+            color: var(--danger);
+        }
+
+        .feedback-content {
+            flex: 1;
+        }
+
+        .feedback-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .feedback-message {
+            color: var(--dark);
+        }
+
+        /* Next Button */
+        .next-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .next-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .next-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .next-btn:hover::before {
+            left: 100%;
+        }
+
+        .next-btn.show {
+            display: flex;
+        }
+
+        /* Results Screen */
+        .results-screen {
+            text-align: center;
+            display: none;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .results-screen.show {
+            display: block;
+        }
+
+        .celebration-emoji {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: bounce 1s ease infinite alternate;
+        }
+
+        .results-screen h2 {
+            font-family: 'Roboto Slab', serif;
+            font-size: 2.2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .final-score-container {
+            margin: 2rem 0;
+        }
+
+        .final-score {
+            font-size: 4rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .final-score-label {
+            color: var(--gray);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .result-message {
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            padding: 1.5rem;
+            background: var(--gray-light);
+            border-radius: var(--radius);
+        }
+
+        .restart-btn {
+            background: var(--gradient-success);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+
+            .game-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .game-card {
+                padding: 1.5rem;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .progress-section {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .score-badge {
+                justify-content: center;
+            }
+
+            .prompt-box {
+                padding: 1.5rem;
+            }
+
+            .prompt-text {
+                font-size: 1.2rem;
+            }
+
+            .greek {
+                font-size: 1.4rem;
+            }
+
+            .tags-container {
+                gap: 0.5rem;
+            }
+
+            .tag {
+                padding: 0.4rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .final-score {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-card {
+                padding: 1.25rem;
+            }
+
+            .game-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .prompt-box {
+                padding: 1.25rem;
+            }
+
+            .prompt-text {
+                font-size: 1rem;
+            }
+
+            .greek {
+                font-size: 1.2rem;
+            }
+
+            .option-card {
+                padding: 1.25rem 0.75rem;
+            }
+
+            .feedback-panel {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Question container toggle */
+        .question-container {
+            display: block;
+        }
+
+        .question-container.hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-wrapper">
+        <header class="game-header">
+            <h1><i class="fas fa-language" style="margin-right: 10px;"></i>Pronombres Demostrativos</h1>
+            <p class="subtitle">
+                <i class="fas fa-book"></i> Griego Koiné 
+                <i class="fas fa-circle" style="font-size: 0.4rem; vertical-align: middle;"></i> 
+                <span class="greek" style="font-size: 1rem;">οὗτος</span> (este) 
+                <i class="fas fa-circle" style="font-size: 0.4rem; vertical-align: middle;"></i> 
+                <span class="greek" style="font-size: 1rem;">ἐκεῖνος</span> (aquel)
+            </p>
+        </header>
+
+        <div class="game-card">
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <div class="score-badge">
+                    <i class="fas fa-trophy"></i>
+                    <span>Puntuación: <strong id="score">0</strong></span>
+                </div>
+                <div class="progress-bar-wrapper">
+                    <div class="progress-stats">
+                        <span>Progreso</span>
+                        <span><span id="current-q">1</span>/<span id="total-qs">24</span></span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="progress"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Container -->
+            <div class="question-container" id="question-container">
+                <div class="tags-container">
+                    <span class="tag distance" id="distance-tag">
+                        <i class="fas fa-location-dot"></i>
+                        <span id="distance-indicator">Cercano (οὗτος)</span>
+                    </span>
+                    <span class="tag case" id="case-tag">
+                        <i class="fas fa-gavel"></i>
+                        <span id="case-indicator">Nominativo</span>
+                    </span>
+                    <span class="tag gender" id="gender-tag">
+                        <i class="fas fa-venus-mars"></i>
+                        <span id="gender-indicator">Masculino</span>
+                    </span>
+                </div>
+
+                <div class="prompt-box">
+                    <div class="prompt-label">Traduce al griego</div>
+                    <div class="prompt-text" id="prompt"></div>
+                </div>
+
+                <div class="options-grid" id="options-grid"></div>
+
+                <div class="feedback-panel" id="feedback">
+                    <div class="feedback-icon" id="feedback-icon"></div>
+                    <div class="feedback-content">
+                        <div class="feedback-title" id="feedback-title"></div>
+                        <div class="feedback-message" id="feedback-message"></div>
+                    </div>
+                </div>
+
+                <button class="next-btn" id="next-btn">
+                    <span>Siguiente pregunta</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Results Container -->
+            <div class="results-screen" id="results-screen">
+                <div class="celebration-emoji" id="celebration-emoji">🎉</div>
+                <h2>¡Práctica Completada!</h2>
+                <p style="color: var(--gray); margin-bottom: 1rem;">Has finalizado el ejercicio de pronombres demostrativos</p>
+                <div class="final-score-container">
+                    <div class="final-score" id="final-score">18/24</div>
+                    <div class="final-score-label">Puntuación Final</div>
+                </div>
+                <div class="result-message" id="result-message"></div>
+                <button class="restart-btn" id="restart-btn">
+                    <i class="fas fa-rotate"></i>
+                    <span>Volver a Practicar</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+
+            // ============================================================
+            // DATOS DE PRONOMBRES DEMOSTRATIVOS
+            // ============================================================
+            const demonstratives = {
+                near: {
+                    masculine: {
+                        singular: { nominative: "οὗτος", genitive: "τούτου", dative: "τούτῳ", accusative: "τοῦτον" },
+                        plural: { nominative: "οὗτοι", genitive: "τούτων", dative: "τούτοις", accusative: "τούτους" }
+                    },
+                    feminine: {
+                        singular: { nominative: "αὕτη", genitive: "ταύτης", dative: "ταύτῃ", accusative: "ταύτην" },
+                        plural: { nominative: "αὗται", genitive: "τούτων", dative: "ταύταις", accusative: "ταύτας" }
+                    },
+                    neuter: {
+                        singular: { nominative: "τοῦτο", genitive: "τούτου", dative: "τούτῳ", accusative: "τοῦτο" },
+                        plural: { nominative: "ταῦτα", genitive: "τούτων", dative: "τούτοις", accusative: "ταῦτα" }
+                    }
+                },
+                far: {
+                    masculine: {
+                        singular: { nominative: "ἐκεῖνος", genitive: "ἐκείνου", dative: "ἐκείνῳ", accusative: "ἐκεῖνον" },
+                        plural: { nominative: "ἐκεῖνοι", genitive: "ἐκείνων", dative: "ἐκείνοις", accusative: "ἐκείνους" }
+                    },
+                    feminine: {
+                        singular: { nominative: "ἐκείνη", genitive: "ἐκείνης", dative: "ἐκείνῃ", accusative: "ἐκείνην" },
+                        plural: { nominative: "ἐκεῖναι", genitive: "ἐκείνων", dative: "ἐκείναις", accusative: "ἐκείνας" }
+                    },
+                    neuter: {
+                        singular: { nominative: "ἐκεῖνο", genitive: "ἐκείνου", dative: "ἐκείνῳ", accusative: "ἐκεῖνο" },
+                        plural: { nominative: "ἐκεῖνα", genitive: "ἐκείνων", dative: "ἐκείνοις", accusative: "ἐκεῖνα" }
+                    }
+                }
+            };
+
+            const translations = {
+                near: {
+                    masculine: {
+                        singular: { nominative: "este", genitive: "de este", dative: "a/para este", accusative: "a este" },
+                        plural: { nominative: "estos", genitive: "de estos", dative: "a/para estos", accusative: "a estos" }
+                    },
+                    feminine: {
+                        singular: { nominative: "esta", genitive: "de esta", dative: "a/para esta", accusative: "a esta" },
+                        plural: { nominative: "estas", genitive: "de estas", dative: "a/para estas", accusative: "a estas" }
+                    },
+                    neuter: {
+                        singular: { nominative: "esto", genitive: "de esto", dative: "a/para esto", accusative: "a esto" },
+                        plural: { nominative: "estos/estas", genitive: "de estos/estas", dative: "a/para estos/estas", accusative: "a estos/estas" }
+                    }
+                },
+                far: {
+                    masculine: {
+                        singular: { nominative: "aquel", genitive: "de aquel", dative: "a/para aquel", accusative: "a aquel" },
+                        plural: { nominative: "aquellos", genitive: "de aquellos", dative: "a/para aquellos", accusative: "a aquellos" }
+                    },
+                    feminine: {
+                        singular: { nominative: "aquella", genitive: "de aquella", dative: "a/para aquella", accusative: "a aquella" },
+                        plural: { nominative: "aquellas", genitive: "de aquellas", dative: "a/para aquellas", accusative: "a aquellas" }
+                    },
+                    neuter: {
+                        singular: { nominative: "aquello", genitive: "de aquello", dative: "a/para aquello", accusative: "a aquello" },
+                        plural: { nominative: "aquellos/aquellas", genitive: "de aquellos/aquellas", dative: "a/para aquellos/aquellas", accusative: "a aquellos/aquellas" }
+                    }
+                }
+            };
+
+            const caseNames = {
+                nominative: "Nominativo",
+                genitive: "Genitivo",
+                dative: "Dativo",
+                accusative: "Acusativo"
+            };
+
+            const genderNames = {
+                masculine: "Masculino",
+                feminine: "Femenino",
+                neuter: "Neutro"
+            };
+
+            const distanceNames = {
+                near: "Cercano (οὗτος)",
+                far: "Lejano (ἐκεῖνος)"
+            };
+
+            const genderClasses = {
+                masculine: '',
+                feminine: 'feminine',
+                neuter: 'neuter'
+            };
+
+            // ============================================================
+            // CONFIGURACIÓN DEL JUEGO
+            // ============================================================
+            const TOTAL_QUESTIONS = 24;
+            const DISTANCES = ['near', 'far'];
+            const GENDERS = ['masculine', 'feminine', 'neuter'];
+            const NUMBERS = ['singular', 'plural'];
+            const CASES = ['nominative', 'genitive', 'dative', 'accusative'];
+
+            // ============================================================
+            // ESTADO DEL JUEGO
+            // ============================================================
+            let currentQuestionIndex = 0;
+            let score = 0;
+            let questions = [];
+            let gameActive = false;
+            let optionSelected = false;
+
+            // ============================================================
+            // ELEMENTOS DEL DOM
+            // ============================================================
+            const DOM = {
+                questionContainer: document.getElementById('question-container'),
+                resultsScreen: document.getElementById('results-screen'),
+                prompt: document.getElementById('prompt'),
+                distanceIndicator: document.getElementById('distance-indicator'),
+                caseIndicator: document.getElementById('case-indicator'),
+                genderIndicator: document.getElementById('gender-indicator'),
+                genderTag: document.getElementById('gender-tag'),
+                optionsGrid: document.getElementById('options-grid'),
+                feedback: document.getElementById('feedback'),
+                feedbackIcon: document.getElementById('feedback-icon'),
+                feedbackTitle: document.getElementById('feedback-title'),
+                feedbackMessage: document.getElementById('feedback-message'),
+                nextBtn: document.getElementById('next-btn'),
+                scoreElement: document.getElementById('score'),
+                progressFill: document.getElementById('progress'),
+                currentQElement: document.getElementById('current-q'),
+                totalQsElement: document.getElementById('total-qs'),
+                finalScore: document.getElementById('final-score'),
+                resultMessage: document.getElementById('result-message'),
+                restartBtn: document.getElementById('restart-btn'),
+                celebrationEmoji: document.getElementById('celebration-emoji')
+            };
+
+            // ============================================================
+            // FUNCIONES DE UTILIDAD
+            // ============================================================
+            function shuffleArray(array) {
+                const newArray = [...array];
+                for (let i = newArray.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+                }
+                return newArray;
+            }
+
+            function generateQuestions(count) {
+                const generated = [];
+                const usedCombinations = new Set();
+
+                while (generated.length < count) {
+                    const distance = DISTANCES[Math.floor(Math.random() * DISTANCES.length)];
+                    const gender = GENDERS[Math.floor(Math.random() * GENDERS.length)];
+                    const number = NUMBERS[Math.floor(Math.random() * NUMBERS.length)];
+                    const caseType = CASES[Math.floor(Math.random() * CASES.length)];
+
+                    const key = `${distance}-${gender}-${number}-${caseType}`;
+                    
+                    // Evitar demasiadas repeticiones de la misma combinación
+                    if (usedCombinations.has(key) && usedCombinations.size < 24) {
+                        continue;
+                    }
+                    usedCombinations.add(key);
+
+                    generated.push({
+                        distance,
+                        gender,
+                        number,
+                        case: caseType,
+                        correctAnswer: demonstratives[distance][gender][number][caseType],
+                        translation: translations[distance][gender][number][caseType]
+                    });
+                }
+
+                return shuffleArray(generated);
+            }
+
+            function getIncorrectOptions(correctAnswer, count = 3) {
+                const allOptions = [];
+                
+                Object.keys(demonstratives).forEach(distance => {
+                    Object.keys(demonstratives[distance]).forEach(gender => {
+                        Object.keys(demonstratives[distance][gender]).forEach(number => {
+                            Object.keys(demonstratives[distance][gender][number]).forEach(caseType => {
+                                const option = demonstratives[distance][gender][number][caseType];
+                                if (option !== correctAnswer && !allOptions.includes(option)) {
+                                    allOptions.push(option);
+                                }
+                            });
+                        });
+                    });
+                });
+
+                return shuffleArray(allOptions).slice(0, count);
+            }
+
+            // ============================================================
+            // RENDERIZADO DE PREGUNTA
+            // ============================================================
+            function renderQuestion() {
+                const question = questions[currentQuestionIndex];
+                
+                // Actualizar tags
+                DOM.distanceIndicator.textContent = distanceNames[question.distance];
+                DOM.caseIndicator.textContent = `${caseNames[question.case]} ${question.number === 'singular' ? 'Singular' : 'Plural'}`;
+                DOM.genderIndicator.textContent = genderNames[question.gender];
+                
+                // Actualizar clase del tag de género
+                DOM.genderTag.className = `tag gender ${genderClasses[question.gender]}`;
+                
+                // Actualizar prompt
+                const caseText = caseNames[question.case];
+                const numberText = question.number === 'singular' ? 'singular' : 'plural';
+                DOM.prompt.innerHTML = `<strong>${question.translation}</strong> <span style="opacity: 0.7; font-size: 0.9rem;">(${caseText} ${numberText})</span>`;
+                
+                // Actualizar contador
+                DOM.currentQElement.textContent = currentQuestionIndex + 1;
+                
+                // Generar opciones
+                renderOptions(question);
+                
+                // Resetear estado
+                optionSelected = false;
+                DOM.feedback.classList.remove('show', 'correct', 'incorrect');
+                DOM.nextBtn.classList.remove('show');
+            }
+
+            function renderOptions(question) {
+                const correctAnswer = question.correctAnswer;
+                const incorrectOptions = getIncorrectOptions(correctAnswer, 3);
+                const allOptions = shuffleArray([...incorrectOptions, correctAnswer]);
+                
+                DOM.optionsGrid.innerHTML = '';
+                
+                allOptions.forEach(option => {
+                    const card = document.createElement('div');
+                    card.className = 'option-card';
+                    card.innerHTML = `<span class="greek">${option}</span>`;
+                    card.addEventListener('click', () => handleOptionSelect(option, correctAnswer, card));
+                    DOM.optionsGrid.appendChild(card);
+                });
+            }
+
+            // ============================================================
+            // MANEJO DE SELECCIÓN
+            // ============================================================
+            function handleOptionSelect(selected, correct, selectedCard) {
+                if (optionSelected || !gameActive) return;
+                
+                optionSelected = true;
+                gameActive = false;
+                
+                const allCards = document.querySelectorAll('.option-card');
+                const isCorrect = selected === correct;
+                
+                // Marcar todas las tarjetas
+                allCards.forEach(card => {
+                    card.classList.add('disabled');
+                    const cardText = card.textContent.trim();
+                    if (cardText === correct) {
+                        card.classList.add('correct');
+                    }
+                });
+                
+                // Marcar la seleccionada
+                selectedCard.classList.add('selected');
+                if (!isCorrect) {
+                    selectedCard.classList.add('incorrect');
+                }
+                
+                // Actualizar puntuación
+                if (isCorrect) {
+                    score++;
+                    DOM.scoreElement.textContent = score;
+                }
+                
+                // Mostrar feedback
+                showFeedback(isCorrect, correct);
+                
+                // Mostrar botón siguiente
+                DOM.nextBtn.classList.add('show');
+            }
+
+            function showFeedback(isCorrect, correctAnswer) {
+                DOM.feedback.classList.add('show');
+                
+                if (isCorrect) {
+                    DOM.feedback.classList.add('correct');
+                    DOM.feedback.classList.remove('incorrect');
+                    DOM.feedbackIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                    DOM.feedbackTitle.textContent = '¡Correcto!';
+                    DOM.feedbackMessage.textContent = 'Excelente, conoces bien este pronombre.';
+                } else {
+                    DOM.feedback.classList.add('incorrect');
+                    DOM.feedback.classList.remove('correct');
+                    DOM.feedbackIcon.innerHTML = '<i class="fas fa-times-circle"></i>';
+                    DOM.feedbackTitle.textContent = 'Incorrecto';
+                    DOM.feedbackMessage.innerHTML = `La respuesta correcta es: <span class="greek" style="font-size: 1.2rem;">${correctAnswer}</span>`;
+                }
+            }
+
+            // ============================================================
+            // NAVEGACIÓN
+            // ============================================================
+            function nextQuestion() {
+                currentQuestionIndex++;
+                
+                // Actualizar barra de progreso
+                const progressPercent = (currentQuestionIndex / TOTAL_QUESTIONS) * 100;
+                DOM.progressFill.style.width = `${progressPercent}%`;
+                
+                if (currentQuestionIndex >= TOTAL_QUESTIONS) {
+                    showResults();
+                } else {
+                    gameActive = true;
+                    renderQuestion();
+                }
+            }
+
+            function showResults() {
+                DOM.questionContainer.classList.add('hide');
+                DOM.resultsScreen.classList.add('show');
+                
+                const percentage = (score / TOTAL_QUESTIONS) * 100;
+                DOM.finalScore.textContent = `${score}/${TOTAL_QUESTIONS}`;
+                
+                let message = '';
+                let emoji = '';
+                
+                if (percentage >= 90) {
+                    emoji = '🏆';
+                    message = '¡Excelente! Dominas completamente los pronombres demostrativos οὗτος y ἐκεῖνος. Tu conocimiento de las declinaciones es sobresaliente.';
+                } else if (percentage >= 70) {
+                    emoji = '🎯';
+                    message = '¡Muy buen trabajo! Tienes un sólido conocimiento de los pronombres demostrativos. Un poco más de práctica y alcanzarás la perfección.';
+                } else if (percentage >= 50) {
+                    emoji = '📚';
+                    message = 'Buen esfuerzo. Estás en el camino correcto. Te recomendamos repasar las tablas de declinación y volver a intentarlo.';
+                } else {
+                    emoji = '💪';
+                    message = 'No te desanimes. Los pronombres demostrativos requieren práctica. Repasa las formas de οὗτος y ἐκεῖνος y vuelve a intentarlo.';
+                }
+                
+                DOM.celebrationEmoji.textContent = emoji;
+                DOM.resultMessage.textContent = message;
+            }
+
+            // ============================================================
+            // INICIALIZACIÓN
+            // ============================================================
+            function initGame() {
+                currentQuestionIndex = 0;
+                score = 0;
+                gameActive = true;
+                optionSelected = false;
+                
+                // Resetear UI
+                DOM.scoreElement.textContent = '0';
+                DOM.totalQsElement.textContent = TOTAL_QUESTIONS;
+                DOM.progressFill.style.width = '0%';
+                
+                // Generar nuevas preguntas
+                questions = generateQuestions(TOTAL_QUESTIONS);
+                
+                // Mostrar contenedor de pregunta
+                DOM.questionContainer.classList.remove('hide');
+                DOM.resultsScreen.classList.remove('show');
+                DOM.feedback.classList.remove('show', 'correct', 'incorrect');
+                DOM.nextBtn.classList.remove('show');
+                
+                // Renderizar primera pregunta
+                renderQuestion();
+            }
+
+            // ============================================================
+            // EVENT LISTENERS
+            // ============================================================
+            DOM.nextBtn.addEventListener('click', nextQuestion);
+            DOM.restartBtn.addEventListener('click', initGame);
+
+            // Iniciar juego
+            initGame();
+
+        })();
+    </script>
+</body>
+</html>

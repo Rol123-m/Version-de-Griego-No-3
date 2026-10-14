@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicios de Traducción</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Ejercicios de Traducción</h1>
+      <div class="subtitle">Práctica integradora</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-search"></i> Ejercicio 1: Identifica la construcción</h2>
+      <p>En cada ejemplo, identifica si es <strong>Participio Perfecto (PP)</strong>, <strong>Genitivo Absoluto (GA)</strong> o <strong>Construcción Perifrástica (CP)</strong>:</p>
+      <ol>
+        <li><strong>ἐστε σεσῳσμένοι</strong> (Efesios 2:8)<br>
+            <strong>Tipo:</strong> CP — εἰμί + participio perfecto</li>
+        <li><strong>αὐτοῦ λαλοῦντος</strong> πολλοὶ ἐπίστευσαν (Juan 8:30)<br>
+            <strong>Tipo:</strong> GA — sustantivo + participio en genitivo</li>
+        <li>ὁ <strong>γεγονὼς</strong> φῶς (Juan 1:9)<br>
+            <strong>Tipo:</strong> PP — participio perfecto atributivo</li>
+      </ol>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-language"></i> Ejercicio 2: Traduce al español</h2>
+      <p>Traduce las siguientes frases:</p>
+      <ol>
+        <li><strong>ἐστε σεσῳσμένοι</strong> διὰ πίστεως.<br>
+            <strong>Traducción:</strong> Ustedes han sido salvos por la fe (y lo están).</li>
+        <li><strong>αὐτοῦ λαλοῦντος</strong> ἦλθεν ὁ Ἰούδας.<br>
+            <strong>Traducción:</strong> Mientras él hablaba, vino Judas.</li>
+        <li>ὁ <strong>ἐληλυθὼς</strong> ἐκ τοῦ θεοῦ.<br>
+            <strong>Traducción:</strong> El que ha venido de Dios (y está aquí).</li>
+      </ol>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-table"></i> Ejercicio 3: Completa la tabla</h2>
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Verbo</th>
+              <th>Participio Perfecto Activo</th>
+              <th>Participio Perfecto Medio/Pasivo</th>
+              <th>Significado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="greek-text">λύω</td><td class="greek-text">λελυκώς</td><td class="greek-text">λελυμένος</td><td>habiendo desatado/habiendo sido desatado</td></tr>
+            <tr><td class="greek-text">γράφω</td><td class="greek-text">γεγραφώς</td><td class="greek-text">γεγραμμένος</td><td>habiendo escrito/habiendo sido escrito</td></tr>
+            <tr><td class="greek-text">ἀκούω</td><td class="greek-text">ἀκηκοώς</td><td class="greek-text">—</td><td>habiendo oído</td></tr>
+            <tr><td class="greek-text">γίνομαι</td><td class="greek-text">γεγονώς</td><td class="greek-text">—</td><td>habiendo llegado a ser</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-lightbulb"></i> Reflexión Final</h2>
+      <div class="important-note">
+        <p>El participio perfecto y el genitivo absoluto son herramientas avanzadas que enriquecen enormemente tu comprensión del griego del Nuevo Testamento.</p>
+        <p>Su dominio te permitirá captar <strong>matices temporales y contextuales</strong> que de otra manera pasarían desapercibidos.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario Final</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué significa principalmente el participio perfecto?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Acción futura</label>
+          <label><input type="radio" name="q1" value="b"> Acción completada con resultados presentes</label>
+          <label><input type="radio" name="q1" value="c"> Acción continua</label>
+          <label><input type="radio" name="q1" value="d"> Acción hipotética</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿En qué caso debe estar el participio en un genitivo absoluto?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Nominativo</label>
+          <label><input type="radio" name="q2" value="b"> Acusativo</label>
+          <label><input type="radio" name="q2" value="c"> Genitivo</label>
+          <label><input type="radio" name="q2" value="d"> Dativo</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b', q2: 'c' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

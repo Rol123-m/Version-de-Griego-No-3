@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de Pronombres Personales - Griego Koiné</title>
+    <link rel="stylesheet" href="semana.css">
+    <style>
+        :root {
+            --game-primary: #3498db;
+            --game-secondary: #2980b9;
+            --game-accent: #e74c3c;
+            --game-success: #2ecc71;
+            --game-warning: #f39c12;
+            --game-background: #f8f9fa;
+            --game-card-bg: #ffffff;
+            --game-text: #2c3e50;
+            --game-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --game-border-radius: 16px;
+            --game-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .game-body {
+            font-family: 'Poppins', 'Segoe UI', system-ui;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: var(--game-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .game-title {
+            color: var(--game-primary);
+            margin-bottom: 1rem;
+            font-size: 2.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, var(--game-primary) 0%, var(--game-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .game-subtitle {
+            color: #6c757d;
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        .game-container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--game-card-bg);
+            border-radius: var(--game-border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--game-shadow);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--game-primary), var(--game-success), var(--game-warning));
+            border-radius: var(--game-border-radius) var(--game-border-radius) 0 0;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            gap: 1.5rem;
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(41, 128, 185, 0.1) 100%);
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            color: var(--game-primary);
+            min-width: 140px;
+            text-align: center;
+            border: 2px solid rgba(52, 152, 219, 0.2);
+        }
+
+        .score-value {
+            font-size: 1.4rem;
+            color: var(--game-secondary);
+            margin-left: 5px;
+        }
+
+        .progress-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--game-primary), var(--game-success));
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                left: 100%;
+            }
+        }
+
+        .question-count {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1) 0%, rgba(192, 57, 43, 0.1) 100%);
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            color: var(--game-accent);
+            min-width: 140px;
+            text-align: center;
+            border: 2px solid rgba(231, 76, 60, 0.2);
+        }
+
+        .question-container {
+            margin-bottom: 2rem;
+            text-align: center;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .case-indicator {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, var(--game-warning), #e67e22);
+            color: white;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .prompt {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.05) 0%, rgba(41, 128, 185, 0.05) 100%);
+            border-radius: 12px;
+            border-left: 4px solid var(--game-primary);
+            line-height: 1.8;
+        }
+
+        .prompt strong {
+            color: var(--game-secondary);
+            font-weight: 700;
+        }
+
+        .greek {
+            font-family: "New Athena Unicode", "Galatia SIL", "Gentium Plus", "Cardo", serif;
+            font-size: 1.8rem;
+            color: var(--game-primary);
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .option {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--game-transition);
+            text-align: center;
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .option:hover::before {
+            left: 100%;
+        }
+
+        .option:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            border-color: var(--game-primary);
+        }
+
+        .option.selected {
+            border-color: var(--game-primary);
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(41, 128, 185, 0.1) 100%);
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(39, 174, 96, 0.15) 100%);
+            border-color: var(--game-success);
+            color: var(--game-success);
+            animation: pulseCorrect 0.5s ease;
+        }
+
+        @keyframes pulseCorrect {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .option.incorrect {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1) 0%, rgba(192, 57, 43, 0.1) 100%);
+            border-color: var(--game-accent);
+            color: var(--game-accent);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .feedback-container {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .feedback-container.correct {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(39, 174, 96, 0.15) 100%);
+            color: var(--game-success);
+            border-left: 4px solid var(--game-success);
+            display: block;
+        }
+
+        .feedback-container.incorrect {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1) 0%, rgba(192, 57, 43, 0.1) 100%);
+            color: var(--game-accent);
+            border-left: 4px solid var(--game-accent);
+            display: block;
+        }
+
+        .feedback-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, var(--game-primary) 0%, var(--game-secondary) 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            transition: var(--game-transition);
+            display: none;
+            width: 100%;
+            max-width: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .next-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .next-btn:hover::after {
+            left: 100%;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .next-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .next-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .results-screen {
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .results-screen h2 {
+            color: var(--game-primary);
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--game-primary) 0%, var(--game-success) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .final-score {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 1.5rem 0;
+            background: linear-gradient(135deg, var(--game-primary) 0%, var(--game-success) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .result-message {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, var(--game-success) 0%, #27ae60 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: var(--game-transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .restart-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .restart-btn:hover::after {
+            left: 100%;
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.3);
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.05) 0%, rgba(41, 128, 185, 0.05) 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            min-width: 150px;
+            border: 2px solid rgba(52, 152, 219, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--game-primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hint-btn {
+            background: transparent;
+            border: 2px solid var(--game-warning);
+            color: var(--game-warning);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+            transition: var(--game-transition);
+        }
+
+        .hint-btn:hover {
+            background: var(--game-warning);
+            color: white;
+        }
+
+        .timer {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, rgba(243, 156, 18, 0.1) 0%, rgba(230, 126, 34, 0.1) 100%);
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            color: var(--game-warning);
+            border: 2px solid rgba(243, 156, 18, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .game-body {
+                padding: 1rem;
+            }
+
+            .game-container {
+                padding: 1.5rem;
+            }
+
+            .game-title {
+                font-size: 2rem;
+            }
+
+            .progress-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .score-display, .question-count {
+                width: 100%;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .prompt {
+                font-size: 1.2rem;
+                padding: 1rem;
+            }
+
+            .greek {
+                font-size: 1.5rem;
+            }
+
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stat-box {
+                width: 100%;
+                max-width: 250px;
+            }
+
+            .timer {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 1rem auto;
+                width: fit-content;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-title {
+                font-size: 1.8rem;
+            }
+
+            .final-score {
+                font-size: 2.5rem;
+            }
+
+            .results-screen h2 {
+                font-size: 2rem;
+            }
+        }
+
+        .streak-display {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(39, 174, 96, 0.1) 100%);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            color: var(--game-success);
+            margin-left: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border: 2px solid rgba(46, 204, 113, 0.2);
+        }
+
+        .streak-icon {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body class="game-body">
+    <header class="game-header">
+        <h1 class="game-title">Práctica de Pronombres Personales</h1>
+        <p class="game-subtitle">Primera y segunda persona en griego koiné - Todos los casos</p>
+    </header>
+
+    <div class="game-container">
+        <div class="timer" id="timer">
+            ⏱️ Tiempo: <span id="timer-value">00:00</span>
+        </div>
+
+        <div class="progress-container">
+            <div class="score-display">
+                Puntuación: <span class="score-value" id="score">0</span>
+                <div class="streak-display" id="streak-display" style="display: none;">
+                    <span class="streak-icon">🔥</span> Racha: <span id="streak">0</span>
+                </div>
+            </div>
+            
+            <div class="progress-wrapper">
+                <div class="progress-label">
+                    <span>Progreso</span>
+                    <span id="progress-percentage">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress"></div>
+                </div>
+            </div>
+            
+            <div class="question-count">
+                Pregunta <span id="current-q">1</span>/<span id="total-qs">20</span>
+            </div>
+        </div>
+
+        <div class="question-container" id="question-container">
+            <div class="case-indicator" id="case-indicator">Nominativo Singular</div>
+            <div class="prompt" id="prompt">
+                Traduce: <strong>Yo</strong> (nominativo singular)
+                <button class="hint-btn" id="hint-btn">💡 Pista</button>
+            </div>
+            
+            <div class="options-grid" id="options-grid">
+                <!-- Las opciones se generarán dinámicamente -->
+            </div>
+            
+            <div class="feedback-container" id="feedback">
+                <!-- Retroalimentación se mostrará aquí -->
+            </div>
+            
+            <center>
+                <button class="next-btn" id="next-btn" disabled>Siguiente</button>
+            </center>
+        </div>
+
+        <div class="results-screen" id="results-screen">
+            <h2>¡Práctica completada! 🎉</h2>
+            <p>Has terminado el ejercicio de pronombres personales</p>
+            
+            <div class="stats-container">
+                <div class="stat-box">
+                    <span class="stat-value" id="final-score">18</span>
+                    <span class="stat-label">Puntuación final</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="accuracy">90%</span>
+                    <span class="stat-label">Precisión</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="time-spent">02:30</span>
+                    <span class="stat-label">Tiempo</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="best-streak">5</span>
+                    <span class="stat-label">Mejor racha</span>
+                </div>
+            </div>
+            
+            <p class="result-message" id="result-message">
+                ¡Excelente trabajo! Dominas los pronombres personales.
+            </p>
+            
+            <button class="restart-btn" id="restart-btn">
+                🔄 Volver a Practicar
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Datos mejorados de los pronombres personales
+        const pronounsData = {
+            firstPerson: {
+                singular: {
+                    nominative: { 
+                        greek: "ἐγώ", 
+                        translation: "yo",
+                        explanation: "Sujeto de la oración"
+                    },
+                    genitive: { 
+                        greek: "ἐμοῦ", 
+                        translation: "de mí/mío",
+                        explanation: "Indica posesión u origen"
+                    },
+                    dative: { 
+                        greek: "ἐμοί", 
+                        translation: "a mí/para mí",
+                        explanation: "Objeto indirecto"
+                    },
+                    accusative: { 
+                        greek: "ἐμέ", 
+                        translation: "me (a mí)",
+                        explanation: "Objeto directo"
+                    }
+                },
+                plural: {
+                    nominative: { 
+                        greek: "ἡμεῖς", 
+                        translation: "nosotros/nosotras",
+                        explanation: "Sujeto plural"
+                    },
+                    genitive: { 
+                        greek: "ἡμῶν", 
+                        translation: "de nosotros/nuestro",
+                        explanation: "Posesión plural"
+                    },
+                    dative: { 
+                        greek: "ἡμῖν", 
+                        translation: "a nosotros/para nosotros",
+                        explanation: "Objeto indirecto plural"
+                    },
+                    accusative: { 
+                        greek: "ἡμᾶς", 
+                        translation: "nos (a nosotros)",
+                        explanation: "Objeto directo plural"
+                    }
+                }
+            },
+            secondPerson: {
+                singular: {
+                    nominative: { 
+                        greek: "σύ", 
+                        translation: "tú",
+                        explanation: "Sujeto informal singular"
+                    },
+                    genitive: { 
+                        greek: "σοῦ", 
+                        translation: "de ti/tuyo",
+                        explanation: "Posesión informal"
+                    },
+                    dative: { 
+                        greek: "σοί", 
+                        translation: "a ti/para ti",
+                        explanation: "Objeto indirecto informal"
+                    },
+                    accusative: { 
+                        greek: "σέ", 
+                        translation: "te (a ti)",
+                        explanation: "Objeto directo informal"
+                    }
+                },
+                plural: {
+                    nominative: { 
+                        greek: "ὑμεῖς", 
+                        translation: "vosotros/vosotras",
+                        explanation: "Sujeto informal plural"
+                    },
+                    genitive: { 
+                        greek: "ὑμῶν", 
+                        translation: "de vosotros/vuestro",
+                        explanation: "Posesión informal plural"
+                    },
+                    dative: { 
+                        greek: "ὑμῖν", 
+                        translation: "a vosotros/para vosotros",
+                        explanation: "Objeto indirecto informal plural"
+                    },
+                    accusative: { 
+                        greek: "ὑμᾶς", 
+                        translation: "os (a vosotros)",
+                        explanation: "Objeto directo informal plural"
+                    }
+                }
+            }
+        };
+
+        const caseNames = {
+            nominative: "Nominativo",
+            genitive: "Genitivo",
+            dative: "Dativo",
+            accusative: "Acusativo"
+        };
+
+        // Variables mejoradas del juego
+        let currentQuestion = 0;
+        let score = 0;
+        let questions = [];
+        let selectedAnswer = null;
+        let answerSubmitted = false;
+        let streak = 0;
+        let bestStreak = 0;
+        let startTime = null;
+        let timerInterval = null;
+        let timeSpent = 0;
+        const totalQuestions = 20;
+        const questionTimeLimit = 30; // segundos por pregunta
+
+        // Elementos del DOM
+        const elements = {
+            questionContainer: document.getElementById('question-container'),
+            resultsScreen: document.getElementById('results-screen'),
+            prompt: document.getElementById('prompt'),
+            caseIndicator: document.getElementById('case-indicator'),
+            optionsGrid: document.getElementById('options-grid'),
+            feedback: document.getElementById('feedback'),
+            nextButton: document.getElementById('next-btn'),
+            score: document.getElementById('score'),
+            progressFill: document.getElementById('progress'),
+            progressPercentage: document.getElementById('progress-percentage'),
+            currentQ: document.getElementById('current-q'),
+            totalQs: document.getElementById('total-qs'),
+            finalScore: document.getElementById('final-score'),
+            accuracy: document.getElementById('accuracy'),
+            timeSpent: document.getElementById('time-spent'),
+            bestStreak: document.getElementById('best-streak'),
+            resultMessage: document.getElementById('result-message'),
+            restartButton: document.getElementById('restart-btn'),
+            hintButton: document.getElementById('hint-btn'),
+            timerValue: document.getElementById('timer-value'),
+            streakDisplay: document.getElementById('streak-display'),
+            streak: document.getElementById('streak')
+        };
+
+        // Inicializar el juego
+        function initGame() {
+            currentQuestion = 0;
+            score = 0;
+            streak = 0;
+            bestStreak = 0;
+            timeSpent = 0;
+            selectedAnswer = null;
+            answerSubmitted = false;
+            
+            elements.score.textContent = score;
+            elements.streak.textContent = streak;
+            elements.totalQs.textContent = totalQuestions;
+            elements.progressFill.style.width = '0%';
+            elements.progressPercentage.textContent = '0%';
+            elements.streakDisplay.style.display = 'none';
+            
+            // Generar preguntas aleatorias pero balanceadas
+            questions = generateBalancedQuestions(totalQuestions);
+            
+            // Iniciar temporizador
+            startTime = Date.now();
+            startTimer();
+            
+            // Mostrar primera pregunta
+            showQuestion();
+            
+            // Mostrar contenedor de pregunta y ocultar resultados
+            elements.questionContainer.style.display = 'block';
+            elements.resultsScreen.style.display = 'none';
+        }
+
+        // Generar preguntas balanceadas
+        function generateBalancedQuestions(count) {
+            const generatedQuestions = [];
+            const cases = ['nominative', 'genitive', 'dative', 'accusative'];
+            
+            // Asegurar que cada caso aparezca al menos una vez
+            for (const caseType of cases) {
+                const person = Math.random() < 0.5 ? 'firstPerson' : 'secondPerson';
+                const number = Math.random() < 0.5 ? 'singular' : 'plural';
+                
+                generatedQuestions.push({
+                    person,
+                    number,
+                    case: caseType,
+                    ...pronounsData[person][number][caseType],
+                    asked: false
+                });
+            }
+            
+            // Completar el resto de preguntas aleatoriamente
+            while (generatedQuestions.length < count) {
+                const person = Math.random() < 0.5 ? 'firstPerson' : 'secondPerson';
+                const number = Math.random() < 0.5 ? 'singular' : 'plural';
+                const randomCase = cases[Math.floor(Math.random() * cases.length)];
+                
+                generatedQuestions.push({
+                    person,
+                    number,
+                    case: randomCase,
+                    ...pronounsData[person][number][randomCase],
+                    asked: false
+                });
+            }
+            
+            // Mezclar preguntas
+            return shuffleArray(generatedQuestions);
+        }
+
+        // Mostrar pregunta actual
+        function showQuestion() {
+            clearTimer();
+            const question = questions[currentQuestion];
+            
+            // Actualizar elementos de la interfaz
+            elements.prompt.innerHTML = `
+                Traduce: <strong>${question.translation}</strong>
+                <br><small>(${caseNames[question.case]} ${question.number === 'singular' ? 'singular' : 'plural'})</small>
+                <button class="hint-btn" id="hint-btn" onclick="showHint()">💡 Pista</button>
+            `;
+            
+            elements.caseIndicator.textContent = `${caseNames[question.case]} ${question.number === 'singular' ? 'Singular' : 'Plural'}`;
+            elements.currentQ.textContent = currentQuestion + 1;
+            
+            // Generar opciones de respuesta
+            generateOptions(question);
+            
+            // Reiniciar estado de la interfaz
+            elements.feedback.style.display = 'none';
+            elements.feedback.className = 'feedback-container';
+            elements.nextButton.style.display = 'block';
+            elements.nextButton.disabled = true;
+            elements.nextButton.textContent = 'Siguiente';
+            
+            // Resetear estado de respuesta
+            selectedAnswer = null;
+            answerSubmitted = false;
+            
+            // Iniciar temporizador para esta pregunta
+            startQuestionTimer();
+        }
+
+        // Generar opciones inteligentes
+        function generateOptions(question) {
+            elements.optionsGrid.innerHTML = '';
+            
+            // Obtener respuesta correcta
+            const correctAnswer = question.greek;
+            
+            // Generar opciones incorrectas inteligentes
+            let incorrectOptions = getPlausibleIncorrectOptions(question);
+            
+            // Mezclar opciones y tomar 3
+            incorrectOptions = shuffleArray(incorrectOptions).slice(0, 3);
+            
+            // Añadir respuesta correcta y mezclar
+            const allOptions = shuffleArray([...incorrectOptions, correctAnswer]);
+            
+            // Crear botones para cada opción
+            allOptions.forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.innerHTML = `<span class="greek">${option}</span>`;
+                optionElement.dataset.value = option;
+                
+                optionElement.addEventListener('click', () => {
+                    if (!answerSubmitted) {
+                        selectAnswer(option, correctAnswer);
+                    }
+                });
+                
+                elements.optionsGrid.appendChild(optionElement);
+            });
+        }
+
+        // Obtener opciones incorrectas plausibles
+        function getPlausibleIncorrectOptions(question) {
+            const incorrectOptions = [];
+            const { person, number, case: caseType } = question;
+            
+            // Opciones del mismo caso pero diferente persona/número
+            Object.keys(pronounsData).forEach(p => {
+                Object.keys(pronounsData[p]).forEach(n => {
+                    Object.keys(pronounsData[p][n]).forEach(c => {
+                        const option = pronounsData[p][n][c].greek;
+                        // Añadir opciones que sean similares pero no iguales
+                        if (!(p === person && n === number && c === caseType)) {
+                            // Priorizar opciones del mismo caso
+                            if (c === caseType) {
+                                incorrectOptions.unshift(option);
+                            } else {
+                                incorrectOptions.push(option);
+                            }
+                        }
+                    });
+                });
+            });
+            
+            return [...new Set(incorrectOptions)]; // Eliminar duplicados
+        }
+
+        // Seleccionar respuesta
+        function selectAnswer(selectedOption, correctAnswer) {
+            if (answerSubmitted) return;
+            
+            answerSubmitted = true;
+            selectedAnswer = selectedOption;
+            
+            // Marcar opción seleccionada
+            const allOptions = document.querySelectorAll('.option');
+            allOptions.forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (option.dataset.value === selectedOption) {
+                    option.classList.add('selected');
+                }
+                if (option.dataset.value === correctAnswer) {
+                    option.classList.add('correct');
+                }
+                if (option.dataset.value === selectedOption && option.dataset.value !== correctAnswer) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            // Verificar si la respuesta es correcta
+            const isCorrect = selectedOption === correctAnswer;
+            
+            // Actualizar puntuación y racha
+            if (isCorrect) {
+                score++;
+                streak++;
+                if (streak > bestStreak) bestStreak = streak;
+                elements.score.textContent = score;
+                elements.streak.textContent = streak;
+                
+                // Mostrar racha si es mayor a 2
+                if (streak >= 2) {
+                    elements.streakDisplay.style.display = 'inline-flex';
+                }
+            } else {
+                streak = 0;
+                elements.streakDisplay.style.display = 'none';
+            }
+            
+            // Mostrar retroalimentación
+            showFeedback(isCorrect, questions[currentQuestion]);
+            
+            // Habilitar botón siguiente
+            elements.nextButton.disabled = false;
+        }
+
+        // Mostrar retroalimentación
+        function showFeedback(isCorrect, question) {
+            let feedbackHTML = '';
+            
+            if (isCorrect) {
+                feedbackHTML = `
+                    <span class="feedback-icon">✅</span>
+                    <strong>¡Correcto!</strong> 
+                    <br><small>${question.explanation}</small>
+                `;
+                elements.feedback.className = 'feedback-container correct';
+            } else {
+                feedbackHTML = `
+                    <span class="feedback-icon">❌</span>
+                    <strong>Incorrecto.</strong> 
+                    La respuesta correcta es: <span class="greek">${question.greek}</span>
+                    <br><small>${question.explanation}</small>
+                `;
+                elements.feedback.className = 'feedback-container incorrect';
+            }
+            
+            elements.feedback.innerHTML = feedbackHTML;
+            elements.feedback.style.display = 'block';
+        }
+
+        // Mostrar pista
+        function showHint() {
+            if (answerSubmitted) return;
+            
+            const question = questions[currentQuestion];
+            const hintElement = document.createElement('div');
+            hintElement.className = 'feedback-container';
+            hintElement.style.background = 'linear-gradient(135deg, rgba(243, 156, 18, 0.1) 0%, rgba(230, 126, 34, 0.1) 100%)';
+            hintElement.style.borderLeft = '4px solid var(--game-warning)';
+            hintElement.style.marginTop = '1rem';
+            hintElement.innerHTML = `
+                <strong>💡 Pista:</strong> ${question.explanation}
+                <br><small>Esta forma se usa como ${caseNames[question.case].toLowerCase()} ${question.number === 'singular' ? 'singular' : 'plural'}</small>
+            `;
+            
+            // Insertar después de las opciones
+            elements.optionsGrid.parentNode.insertBefore(hintElement, elements.feedback);
+            
+            // Deshabilitar botón de pista
+            elements.hintBtn.disabled = true;
+            elements.hintBtn.style.opacity = '0.5';
+            elements.hintBtn.style.cursor = 'not-allowed';
+        }
+
+        // Siguiente pregunta
+        function nextQuestion() {
+            currentQuestion++;
+            
+            // Actualizar barra de progreso
+            const progress = (currentQuestion / totalQuestions) * 100;
+            elements.progressFill.style.width = `${progress}%`;
+            elements.progressPercentage.textContent = `${Math.round(progress)}%`;
+            
+            // Verificar si hemos terminado
+            if (currentQuestion >= totalQuestions) {
+                showResults();
+            } else {
+                showQuestion();
+            }
+        }
+
+        // Mostrar resultados finales
+        function showResults() {
+            clearTimer();
+            
+            // Calcular métricas finales
+            const accuracy = Math.round((score / totalQuestions) * 100);
+            const totalTime = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(totalTime / 60);
+            const seconds = totalTime % 60;
+            const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Mostrar resultados
+            elements.finalScore.textContent = `${score}/${totalQuestions}`;
+            elements.accuracy.textContent = `${accuracy}%`;
+            elements.timeSpent.textContent = timeString;
+            elements.bestStreak.textContent = bestStreak;
+            
+            // Mostrar mensaje según el resultado
+            let message;
+            if (accuracy >= 90) {
+                message = "¡Excelente trabajo! 🏆 Dominas completamente los pronombres personales.";
+            } else if (accuracy >= 70) {
+                message = "¡Buen trabajo! 👍 Tienes un buen dominio de los pronombres.";
+            } else if (accuracy >= 50) {
+                message = "No está mal. 🤔 Sigue practicando para mejorar tu precisión.";
+            } else {
+                message = "Necesitas más práctica. 📚 Revisa los pronombres y vuelve a intentarlo.";
+            }
+            
+            elements.resultMessage.textContent = message;
+            
+            // Mostrar pantalla de resultados
+            elements.questionContainer.style.display = 'none';
+            elements.resultsScreen.style.display = 'block';
+        }
+
+        // Funciones del temporizador
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                elements.timerValue.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function startQuestionTimer() {
+            let timeLeft = questionTimeLimit;
+            updateTimerDisplay(timeLeft);
+            
+            const questionTimer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay(timeLeft);
+                
+                if (timeLeft <= 0) {
+                    clearInterval(questionTimer);
+                    if (!answerSubmitted) {
+                        // Tiempo agotado - respuesta automática incorrecta
+                        const question = questions[currentQuestion];
+                        selectAnswer('', question.greek);
+                    }
+                }
+            }, 1000);
+            
+            // Guardar referencia para limpiar después
+            window.currentQuestionTimer = questionTimer;
+        }
+
+        function updateTimerDisplay(seconds) {
+            const percentage = (seconds / questionTimeLimit) * 100;
+            const timerColor = percentage > 50 ? 'var(--game-success)' : 
+                              percentage > 25 ? 'var(--game-warning)' : 'var(--game-accent)';
+            
+            elements.timerValue.textContent = seconds.toString().padStart(2, '0');
+            elements.timerValue.style.color = timerColor;
+        }
+
+        function clearTimer() {
+            if (window.currentQuestionTimer) {
+                clearInterval(window.currentQuestionTimer);
+            }
+        }
+
+        // Función para mezclar array (Fisher-Yates)
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Event listeners
+        elements.nextButton.addEventListener('click', nextQuestion);
+        elements.restartButton.addEventListener('click', initGame);
+
+        // Iniciar el juego al cargar la página
+        window.addEventListener('load', initGame);
+
+        // Agregar soporte para teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !elements.nextButton.disabled) {
+                nextQuestion();
+            }
+        });
+    </script>
+</body>
+</html>

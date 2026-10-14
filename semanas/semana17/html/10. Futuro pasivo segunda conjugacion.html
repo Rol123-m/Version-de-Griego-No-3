@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Futuro Pasivo de Segunda Conjugación</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Futuro Pasivo de Segunda Conjugación</h1>
+      <div class="subtitle">El Aoristo y Futuro Pasivo Indicativo</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-cogs"></i> 1. Formación</h2>
+      <p>Es igual al primero, pero la terminación temporal es <strong>ησ</strong>.</p>
+      <div class="formula" style="background: #fff3e0; padding: 15px; border-left: 5px solid #ff9800; margin: 20px 0; text-align: center; font-weight: bold; border-radius: 8px;">
+        Raíz de Aoristo Pasivo (Sin Aumento) + Formativo del tiempo (ησ) + Vocal de Conexión + Desinencias Primarias de Medio/Pasivo
+      </div>
+      <p>ἀποσταλ + ησ + ο + μαι → <strong>ἀποσταλήσομαι</strong> (Yo seré enviado)</p>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-table"></i> 2. Paradigma: Verbo ἀποστέλλω (Futuro Pasivo)</h2>
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Persona</th>
+              <th>Griego</th>
+              <th>Traducción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1a sg.</td><td>ἀποσταλήσομαι</td><td>Yo seré enviado</td></tr>
+            <tr><td>2a sg.</td><td>ἀποσταλήσῃ</td><td>Tú serás enviado</td></tr>
+            <tr><td>3a sg.</td><td>ἀποσταλήσεται</td><td>Él/Ella/Ello será enviado</td></tr>
+            <tr><td>1a pl.</td><td>ἀποσταλησόμεθα</td><td>Nosotros seremos enviados</td></tr>
+            <tr><td>2a pl.</td><td>ἀποσταλήσεσθε</td><td>Vosotros seréis enviados</td></tr>
+            <tr><td>3a pl.</td><td>ἀποσταλήσονται</td><td>Ellos serán enviados</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Futuro Pasivo 2ª Conjugación</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué terminación temporal identifica al futuro pasivo de segunda conjugación?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> θη</label>
+          <label><input type="radio" name="q1" value="b"> θησ</label>
+          <label><input type="radio" name="q1" value="c"> η</label>
+          <label><input type="radio" name="q1" value="d"> ησ</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿El futuro pasivo de segunda conjugación lleva aumento?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> No, al igual que el de primera conjugación</label>
+          <label><input type="radio" name="q2" value="b"> Sí, a diferencia del de primera conjugación</label>
+          <label><input type="radio" name="q2" value="c"> Solo en verbos irregulares</label>
+          <label><input type="radio" name="q2" value="d"> Depende de la persona</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 3:</strong> ¿Qué tipo de desinencias utiliza el futuro pasivo de segunda conjugación?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> Secundarias activas</label>
+          <label><input type="radio" name="q3" value="b"> Primarias de medio/pasivo</label>
+          <label><input type="radio" name="q3" value="c"> Secundarias de medio/pasivo</label>
+          <label><input type="radio" name="q3" value="d"> Primarias activas</label>
+        </div>
+        <div class="result" id="result3"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'd', q2: 'a', q3: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

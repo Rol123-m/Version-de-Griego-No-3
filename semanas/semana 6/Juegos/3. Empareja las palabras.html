@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendizaje Griego Koiné - Ministerio Vivos para Servir</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 10px 0 20px;
+            border: 3px solid #FFD700;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #FFD700;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            padding: 0 15px;
+            line-height: 1.3;
+        }
+
+        .game-container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            min-height: 500px;
+        }
+
+        .level-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .level-title {
+            color: #FFD700;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .level-counter {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            width: 0%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .instruction {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #FFD700;
+            margin-bottom: 25px;
+            font-weight: 500;
+            padding: 0 10px;
+        }
+
+        .levels-container {
+            position: relative;
+            width: 100%;
+            min-height: 400px;
+        }
+
+        .game-level {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .game-level.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .columns-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            min-height: 350px;
+        }
+
+        .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .column-title {
+            text-align: center;
+            color: #FFD700;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .word-card {
+            background: rgba(0, 0, 0, 0.25);
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            border-radius: 12px;
+            padding: 18px 10px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70px;
+            flex: 1;
+        }
+
+        .word-card:hover {
+            background: rgba(0, 0, 0, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .word-card.selected {
+            background: rgba(255, 215, 0, 0.15);
+            border-color: #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .word-card.correct {
+            background: rgba(46, 204, 113, 0.25);
+            border-color: #27ae60;
+            animation: correctPulse 0.5s ease;
+        }
+
+        .word-card.incorrect {
+            background: rgba(231, 76, 60, 0.25);
+            border-color: #c0392b;
+            animation: shake 0.5s;
+        }
+
+        .word-card.matched {
+            opacity: 0.6;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .word-card.matched:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .feedback-container {
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .feedback-correct {
+            background: rgba(46, 204, 113, 0.2);
+            border-color: #27ae60;
+            color: #2ecc71;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .feedback-incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            border-color: #c0392b;
+            color: #e74c3c;
+            font-size: 1.1rem;
+        }
+
+        .next-button {
+            display: block;
+            margin: 20px auto 0;
+            padding: 16px 50px;
+            background: linear-gradient(to right, #FFD700, #FFA500);
+            color: #1a237e;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .next-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .next-button:active {
+            transform: translateY(1px);
+        }
+
+        .next-button.hidden {
+            display: none;
+        }
+
+        .final-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .final-message.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .final-content {
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+            border-radius: 25px;
+            padding: 35px 25px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            border: 3px solid #FFD700;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+
+        .final-message.show .final-content {
+            transform: scale(1);
+        }
+
+        .final-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid #FFD700;
+        }
+
+        .final-title {
+            color: #FFD700;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .final-text {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .final-verse {
+            font-style: italic;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            color: #FFD700;
+        }
+
+        .restart-button {
+            margin-top: 25px;
+            padding: 15px 40px;
+            background: linear-gradient(to right, #FFD700, #FFA500);
+            color: #1a237e;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .restart-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Responsive design - Mantiene columnas lado a lado */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .logo {
+                width: 100px;
+                height: 100px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+
+            .game-container {
+                padding: 15px;
+                border-radius: 15px;
+            }
+
+            .columns-container {
+                gap: 10px;
+                min-height: 300px;
+            }
+
+            .column {
+                gap: 8px;
+            }
+
+            .word-card {
+                padding: 16px 8px;
+                font-size: 1.1rem;
+                min-height: 65px;
+                border-radius: 10px;
+            }
+
+            .column-title {
+                font-size: 1rem;
+            }
+
+            .level-title {
+                font-size: 1.1rem;
+            }
+
+            .next-button, .restart-button {
+                padding: 14px 40px;
+                font-size: 1.1rem;
+            }
+
+            .final-content {
+                padding: 25px 20px;
+            }
+
+            .final-title {
+                font-size: 1.7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .word-card {
+                padding: 14px 6px;
+                font-size: 1rem;
+                min-height: 60px;
+            }
+
+            .columns-container {
+                gap: 8px;
+            }
+
+            .column {
+                gap: 6px;
+            }
+
+            .next-button, .restart-button {
+                padding: 12px 35px;
+                font-size: 1rem;
+            }
+
+            h1 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Para pantallas muy pequeñas */
+        @media (max-width: 360px) {
+            .word-card {
+                font-size: 0.95rem;
+                padding: 12px 5px;
+            }
+            
+            .columns-container {
+                gap: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" class="logo" alt="Logo Ministerio">
+    <h1>Desafío del Griego Bíblico</h1>
+
+    <div class="game-container">
+        <div class="level-info">
+            <div class="level-title" id="level-title">Nivel 1: Fundamentos del Vocabulario</div>
+            <div class="level-counter">Nivel: <span id="current-level">1</span>/6</div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="level-progress"></div>
+        </div>
+
+        <div class="instruction" id="instruction">
+            Selecciona una palabra griega y luego su significado correcto
+        </div>
+
+        <div class="levels-container">
+            <!-- Los niveles se generarán dinámicamente aquí -->
+            <div class="game-level active" id="level1">
+                <div class="columns-container">
+                    <div class="column">
+                        <div class="column-title">Griego Koiné</div>
+                        <!-- Cartas griegas se generarán aquí -->
+                    </div>
+                    <div class="column">
+                        <div class="column-title">Significado</div>
+                        <!-- Cartas de significado se generarán aquí -->
+                    </div>
+                </div>
+                <div class="feedback-container" id="feedback1"></div>
+                <button class="next-button hidden" id="next1">Continuar →</button>
+            </div>
+
+            <div class="game-level" id="level2">
+                <div class="columns-container">
+                    <div class="column">
+                        <div class="column-title">Griego Koiné</div>
+                        <!-- Cartas griegas se generarán aquí -->
+                    </div>
+                    <div class="column">
+                        <div class="column-title">Significado</div>
+                        <!-- Cartas de significado se generarán aquí -->
+                    </div>
+                </div>
+                <div class="feedback-container" id="feedback2"></div>
+                <button class="next-button hidden" id="next2">Continuar →</button>
+            </div>
+
+            <div class="game-level" id="level3">
+                <div class="columns-container">
+                    <div class="column">
+                        <div class="column-title">Griego Koiné</div>
+                        <!-- Cartas griegas se generarán aquí -->
+                    </div>
+                    <div class="column">
+                        <div class="column-title">Significado</div>
+                        <!-- Cartas de significado se generarán aquí -->
+                    </div>
+                </div>
+                <div class="feedback-container" id="feedback3"></div>
+                <button class="next-button hidden" id="next3">Continuar →</button>
+            </div>
+
+            <div class="game-level" id="level4">
+                <div class="columns-container">
+                    <div class="column">
+                        <div class="column-title">Griego Koiné</div>
+                        <!-- Cartas griegas se generarán aquí -->
+                    </div>
+                    <div class="column">
+                        <div class="column-title">Significado</div>
+                        <!-- Cartas de significado se generarán aquí -->
+                    </div>
+                </div>
+                <div class="feedback-container" id="feedback4"></div>
+                <button class="next-button hidden" id="next4">Continuar →</button>
+            </div>
+
+            <div class="game-level" id="level5">
+                <div class="columns-container">
+                    <div class="column">
+                        <div class="column-title">Griego Koiné</div>
+                        <!-- Cartas griegas se generarán aquí -->
+                    </div>
+                    <div class="column">
+                        <div class="column-title">Significado</div>
+                        <!-- Cartas de significado se generarán aquí -->
+                    </div>
+                </div>
+                <div class="feedback-container" id="feedback5"></div>
+                <button class="next-button hidden" id="next5">Continuar →</button>
+            </div>
+
+            <div class="game-level" id="level6">
+                <div class="columns-container">
+                    <div class="column">
+                        <div class="column-title">Griego Koiné</div>
+                        <!-- Cartas griegas se generarán aquí -->
+                    </div>
+                    <div class="column">
+                        <div class="column-title">Significado</div>
+                        <!-- Cartas de significado se generarán aquí -->
+                    </div>
+                </div>
+                <div class="feedback-container" id="feedback6"></div>
+                <button class="next-button hidden" id="next6">Continuar →</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="final-message" id="finalMessage">
+        <div class="final-content">
+            <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" class="final-logo" alt="Logo Ministerio">
+            <h2 class="final-title">¡Felicidades!</h2>
+            <p class="final-text">Has completado todos los niveles del Desafío del Griego Koiné.</p>
+            <p class="final-text">Has aprendido 30 palabras del Griego Bíblico.</p>
+            <div class="final-verse">
+                <p>"Tu palabra es una lámpara a mis pies, y una luz a mi camino"</p>
+                <p>Salmo 119:105</p>
+            </div>
+            <button class="restart-button" id="restartButton">Jugar de nuevo</button>
+        </div>
+    </div>
+
+    <script>
+       const levelData = {
+    1: {
+        title: "Nivel 1: Adjetivos Fundamentales",
+        pairs: {
+            "ἅγιος, -ία, -ιον": "santo, sagrado",
+            "εἷς, μία, ἕν": "uno",
+            "ὄνομα, -ατος, τό": "nombre, reputación",
+            "σῶμα, -ατος, τό": "cuerpo",
+            "τέκνον, -ου, τό": "hijo, descendiente"
+        }
+    },
+    2: {
+        title: "Nivel 2: Pronombres y Términos Personales",
+        pairs: {
+            "οὐδείς, οὐδεμία, οὐδέν": "nadie, ninguno, nada",
+            "πᾶς, πᾶσα, πᾶν": "singular: cada, todo; plural: todos",
+            "σάρξ, σαρκός, ἡ": "carne, cuerpo",
+            "τίς, τί": "¿quién? ¿qué? ¿cuál? ¿por qué?",
+            "τις, τι": "alguien/algo; cierto/cualquiera"
+        }
+    },
+    3: {
+        title: "Nivel 3: Partículas y Preposiciones",
+        pairs: {
+            "εἰ": "si",
+            "εἰ μή": "excepto; si no",
+            "ἤδη": "ahora, ya",
+            "περί": "gen: acerca de; acus: alrededor",
+            "σύν": "con"
+        }
+    },
+    4: {
+        title: "Nivel 4: Conceptos Teológicos I",
+        pairs: {
+            "ἅγιος (usos teológicos)": "santidad en contextos bíblicos",
+            "εἷς (significados especiales)": "unidad en la Trinidad",
+            "ὄνομα (construcciones)": "en el nombre de...",
+            "σῶμα (Pablo)": "cuerpo como iglesia",
+            "τέκνον (relación)": "hijos de Dios"
+        }
+    },
+    5: {
+        title: "Nivel 5: Conceptos Teológicos II",
+        pairs: {
+            "πᾶς (aplicación bíblica)": "todo el mundo, toda la creación",
+            "σάρξ (sentido paulino)": "naturaleza humana caída",
+            "τίς (uso interrogativo)": "preguntas retóricas en enseñanzas",
+            "τις (indefinido teológico)": "cierta persona, algún creyente",
+            "εἰ (condicional teológico)": "si en proposiciones teológicas"
+        }
+    },
+    6: {
+        title: "Nivel 6: Uso Práctico en Contexto",
+        pairs: {
+            "σύν (comunión)": "comunión con Dios y los creyentes",
+            "περί (enseñanza)": "acerca de doctrinas y verdades",
+            "ἤδη (escatología)": "tiempo cumplido, ya presente",
+            "εἰ μή (exclusión)": "excepto en Cristo, exclusividad",
+            "ὄνομα (autoridad)": "en el nombre y autoridad de Jesús"
+        }
+    }
+};
+
+        // Estado del juego
+        let currentLevel = 1;
+        let selectedGreek = null;
+        let selectedMeaning = null;
+        let matchedPairs = 0;
+        let totalPairs = 5;
+
+        // Mezclar arrays
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Inicializar el juego con datos dinámicos
+        function initGame() {
+            // Generar dinámicamente todas las cartas para cada nivel
+            generateDynamicCards();
+            
+            // Configurar botones de siguiente nivel
+            for (let i = 1; i <= 6; i++) {
+                const nextButton = document.getElementById(`next${i}`);
+                if (nextButton) {
+                    nextButton.addEventListener('click', goToNextLevel);
+                }
+            }
+            
+            // Configurar botón de reinicio
+            document.getElementById('restartButton').addEventListener('click', () => {
+                location.reload();
+            });
+            
+            updateProgress();
+        }
+
+        // Generar cartas dinámicamente basadas en levelData
+        function generateDynamicCards() {
+            for (let level = 1; level <= 6; level++) {
+                const levelElement = document.getElementById(`level${level}`);
+                
+                // Obtener los pares de este nivel
+                const pairs = levelData[level].pairs;
+                
+                // Crear arrays de palabras griegas y significados
+                const greekWords = Object.keys(pairs);
+                const meanings = Object.values(pairs);
+                
+                // Mezclar ambos arrays
+                const shuffledGreek = shuffleArray([...greekWords]);
+                const shuffledMeanings = shuffleArray([...meanings]);
+                
+                // Obtener contenedores
+                const greekContainer = levelElement.querySelector('.column:nth-child(1)');
+                const meaningContainer = levelElement.querySelector('.column:nth-child(2)');
+                
+                // Limpiar contenedores completamente
+                greekContainer.innerHTML = '';
+                meaningContainer.innerHTML = '';
+                
+                // Agregar títulos
+                const greekTitle = document.createElement('div');
+                greekTitle.className = 'column-title';
+                greekTitle.textContent = 'Griego Koiné';
+                greekContainer.appendChild(greekTitle);
+                
+                const meaningTitle = document.createElement('div');
+                meaningTitle.className = 'column-title';
+                meaningTitle.textContent = 'Significado';
+                meaningContainer.appendChild(meaningTitle);
+                
+                // Crear cartas griegas
+                shuffledGreek.forEach(word => {
+                    const card = document.createElement('div');
+                    card.className = 'word-card';
+                    card.setAttribute('data-word', word);
+                    card.textContent = word;
+                    greekContainer.appendChild(card);
+                });
+                
+                // Crear cartas de significado
+                shuffledMeanings.forEach(meaning => {
+                    const card = document.createElement('div');
+                    card.className = 'word-card';
+                    card.setAttribute('data-meaning', meaning);
+                    card.textContent = meaning;
+                    meaningContainer.appendChild(card);
+                });
+            }
+            
+            // Configurar eventos para el nivel actual
+            setupCurrentLevel();
+        }
+
+        // Configurar eventos para el nivel actual
+        function setupCurrentLevel() {
+            const levelElement = document.getElementById(`level${currentLevel}`);
+            const greekCards = levelElement.querySelectorAll('.word-card[data-word]');
+            const meaningCards = levelElement.querySelectorAll('.word-card[data-meaning]');
+            
+            // Configurar eventos para cartas griegas
+            greekCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    if (!card.classList.contains('matched')) {
+                        // Deseleccionar otras cartas griegas
+                        greekCards.forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected');
+                        selectedGreek = card.getAttribute('data-word');
+                        checkMatch();
+                    }
+                });
+            });
+            
+            // Configurar eventos para cartas de significado
+            meaningCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    if (!card.classList.contains('matched')) {
+                        // Deseleccionar otras cartas de significado
+                        meaningCards.forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected');
+                        selectedMeaning = card.getAttribute('data-meaning');
+                        checkMatch();
+                    }
+                });
+            });
+        }
+
+        // Verificar si la selección es correcta
+        function checkMatch() {
+            if (selectedGreek && selectedMeaning) {
+                const correctMeaning = levelData[currentLevel].pairs[selectedGreek];
+                const feedbackElement = document.getElementById(`feedback${currentLevel}`);
+                
+                if (correctMeaning === selectedMeaning) {
+                    // Correcto
+                    markAsCorrect(selectedGreek, selectedMeaning);
+                    feedbackElement.textContent = `¡Perfecto! "${selectedGreek}" significa "${selectedMeaning}"`;
+                    feedbackElement.className = "feedback-container feedback-correct";
+                    
+                    matchedPairs++;
+                    updateProgress();
+                    
+                    // Verificar si se completó el nivel
+                    if (matchedPairs === totalPairs) {
+                        document.getElementById(`next${currentLevel}`).classList.remove('hidden');
+                        feedbackElement.textContent = "¡Excelente! Has completado este nivel.";
+                    }
+                } else {
+                    // Incorrecto
+                    markAsIncorrect(selectedGreek, selectedMeaning);
+                    feedbackElement.textContent = `Incorrecto. "${selectedGreek}" no significa "${selectedMeaning}"`;
+                    feedbackElement.className = "feedback-container feedback-incorrect";
+                    
+                    // Mostrar la respuesta correcta después de un momento
+                    setTimeout(() => {
+                        const correctAnswer = levelData[currentLevel].pairs[selectedGreek];
+                        feedbackElement.textContent = `La respuesta correcta es: "${selectedGreek}" = "${correctAnswer}"`;
+                        feedbackElement.className = "feedback-container feedback-incorrect";
+                        
+                        // Restablecer selección después de mostrar respuesta
+                        setTimeout(() => {
+                            resetSelection();
+                            feedbackElement.textContent = "";
+                            feedbackElement.className = "feedback-container";
+                        }, 2000);
+                    }, 1000);
+                }
+                
+                // Restablecer selección
+                selectedGreek = null;
+                selectedMeaning = null;
+            }
+        }
+
+        // Marcar par como correcto
+        function markAsCorrect(greek, meaning) {
+            const levelElement = document.getElementById(`level${currentLevel}`);
+            const greekCards = levelElement.querySelectorAll(`.word-card[data-word="${greek}"]`);
+            const meaningCards = levelElement.querySelectorAll(`.word-card[data-meaning="${meaning}"]`);
+            
+            greekCards.forEach(card => {
+                card.classList.remove('selected');
+                card.classList.add('correct');
+                card.classList.add('matched');
+            });
+            
+            meaningCards.forEach(card => {
+                card.classList.remove('selected');
+                card.classList.add('correct');
+                card.classList.add('matched');
+            });
+        }
+
+        // Marcar par como incorrecto
+        function markAsIncorrect(greek, meaning) {
+            const levelElement = document.getElementById(`level${currentLevel}`);
+            const greekCards = levelElement.querySelectorAll(`.word-card[data-word="${greek}"]`);
+            const meaningCards = levelElement.querySelectorAll(`.word-card[data-meaning="${meaning}"]`);
+            
+            greekCards.forEach(card => {
+                card.classList.add('incorrect');
+            });
+            
+            meaningCards.forEach(card => {
+                card.classList.add('incorrect');
+            });
+        }
+
+        // Restablecer selección
+        function resetSelection() {
+            const levelElement = document.getElementById(`level${currentLevel}`);
+            const cards = levelElement.querySelectorAll('.word-card');
+            
+            cards.forEach(card => {
+                if (!card.classList.contains('matched')) {
+                    card.classList.remove('selected', 'incorrect');
+                }
+            });
+        }
+
+        // Ir al siguiente nivel
+        function goToNextLevel() {
+            // Ocultar nivel actual
+            const currentLevelElement = document.getElementById(`level${currentLevel}`);
+            currentLevelElement.classList.remove('active');
+            
+            if (currentLevel < 6) {
+                currentLevel++;
+                document.getElementById('current-level').textContent = currentLevel;
+                document.getElementById('level-title').textContent = levelData[currentLevel].title;
+                
+                // Mostrar nuevo nivel
+                const nextLevelElement = document.getElementById(`level${currentLevel}`);
+                nextLevelElement.classList.add('active');
+                
+                // Restablecer estado
+                selectedGreek = null;
+                selectedMeaning = null;
+                matchedPairs = 0;
+                
+                // Configurar eventos para el nuevo nivel
+                setupCurrentLevel();
+                updateProgress();
+                
+                // Desplazar hacia arriba
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            } else {
+                // Mostrar mensaje final
+                document.getElementById('finalMessage').classList.add('show');
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = (matchedPairs / totalPairs) * 100;
+            document.getElementById('level-progress').style.width = `${progressPercentage}%`;
+        }
+
+        // Inicializar el juego cuando se cargue la página
+        document.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>
+

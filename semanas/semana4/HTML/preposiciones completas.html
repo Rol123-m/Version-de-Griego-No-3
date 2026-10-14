@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendizaje de Griego</title>
+    <link rel="stylesheet" href="vocabulario.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   
+</head>
+<body>
+
+<h1>Flashcards de Griego a Español</h1>
+
+<div id="flashcard-section">
+    <div class="flashcard-container">
+        <div class="flashcard" onclick="flipCard()">
+            <div class="flashcard-front" id="front">
+                <p id="greek-word"></p>
+            </div>
+            <div class="flashcard-back" id="back">
+                <p id="spanish-word"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button onclick="prevCard()" id="prev-btn" disabled>
+            <i class="fas fa-arrow-left"></i> Anterior
+        </button>
+        <button onclick="nextCard()" id="next-btn">
+            Siguiente <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+</div>
+
+<!-- BOTÓN PARA COMENZAR EXAMEN -->
+<button onclick="startQuiz()" class="hidden" id="start-quiz-btn">
+    <i class="fas fa-play-circle"></i> COMENZAR EXAMEN
+</button>
+
+<!-- SECCIÓN DEL EXAMEN - ESTRUCTURA CORREGIDA -->
+<div class="quiz hidden" id="quiz-section">
+    <p>Traduce la siguiente palabra del griego al español:</p>
+    <div id="quiz-question"></div>
+    <input type="text" id="quiz-answer" placeholder="Escribe tu respuesta aquí">
+    
+    <!-- CONTENEDOR DE BOTONES - ESTA ES LA PARTE CRÍTICA -->
+    <div class="quiz-buttons quiz-button-emergency">
+        <button onclick="checkQuizAnswer()">
+            <i class="fas fa-check-circle"></i> COMPROBAR
+        </button>
+        <button onclick="nextQuizQuestion()" class="hidden" id="next-quiz-btn">
+            <i class="fas fa-forward"></i> SIGUIENTE PREGUNTA
+        </button>
+    </div>
+    
+    <div id="quiz-result" class="result"></div>
+</div>
+
+<footer>
+    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Ministerio Vivos para Servir">
+    <p id="foot">© Copyright Sección Educativa del Ministerio: "Vivos para Servir"</p>
+</footer>
+
+<script>
+ const vocabulary = [
+    { greek: "ἀνά", spanish: "acc: arriba, a lo largo de (distribución)" },
+    { greek: "ἀντί", spanish: "gen: en lugar de, por (sustitución)" },
+    { greek: "ἀπό", spanish: "gen: desde, de (origen o separación)" },
+    { greek: "ἄνευ", spanish: "gen: sin (ausencia)" },
+    { greek: "διά", spanish: "gen: a través de / acc: a causa de" },
+    { greek: "εἰς", spanish: "acc: hacia, en, para (dirección o propósito)" },
+    { greek: "ἐκ", spanish: "gen: de, desde (fuente o procedencia)" },
+    { greek: "ἐν", spanish: "dat: en, dentro de (ubicación o instrumento)" },
+    { greek: "ἐπί", spanish: "gen: sobre / dat: sobre/en / acc: hacia" },
+    { greek: "ἕνεκεν/ἕνεκα", spanish: "gen: por causa de" },
+    { greek: "κατά", spanish: "gen: contra / acc: según, a lo largo de" },
+    { greek: "μετά", spanish: "gen: después de / acc: con (compañía)" },
+    { greek: "παρά", spanish: "gen: desde / dat: junto a / acc: al lado de" },
+    { greek: "περί", spanish: "gen: acerca de / acc: alrededor de" },
+    { greek: "πρό", spanish: "gen: antes de (tiempo/espacio)" },
+    { greek: "πρός", spanish: "acc: hacia, con, cerca de" },
+    { greek: "σύν", spanish: "dat: con (compañía)" },
+    { greek: "ὑπέρ", spanish: "gen: en favor de / acc: sobre" },
+    { greek: "ὑπό", spanish: "gen: por / acc: bajo" },
+    { greek: "χωρίς", spanish: "gen: sin, separado de" }
+];
+
+    let currentCardIndex = 0;
+    let quizIndex = 0;
+    let quizScore = 0;
+
+    function normalizeText(text) {
+        return text
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, ' ');
+    }
+
+    function updateCard() {
+        document.getElementById('greek-word').textContent = vocabulary[currentCardIndex].greek;
+        document.getElementById('spanish-word').textContent = vocabulary[currentCardIndex].spanish;
+        document.getElementById('prev-btn').disabled = currentCardIndex === 0;
+        document.getElementById('next-btn').disabled = currentCardIndex === vocabulary.length - 1;
+        if (currentCardIndex === vocabulary.length - 1) {
+            document.getElementById('start-quiz-btn').classList.remove('hidden');
+        } else {
+            document.getElementById('start-quiz-btn').classList.add('hidden');
+        }
+    }
+
+    function flipCard() {
+        document.querySelector('.flashcard').classList.toggle('flipped');
+    }
+
+    function prevCard() {
+        if (currentCardIndex > 0) {
+            currentCardIndex--;
+            updateCard();
+        }
+    }
+
+    function nextCard() {
+        if (currentCardIndex < vocabulary.length - 1) {
+            currentCardIndex++;
+            updateCard();
+        }
+    }
+
+    function startQuiz() {
+        document.getElementById('flashcard-section').classList.add('hidden');
+        document.getElementById('start-quiz-btn').classList.add('hidden');
+        document.getElementById('quiz-section').classList.remove('hidden');
+        quizIndex = 0;
+        quizScore = 0;
+        nextQuizQuestion();
+    }
+
+    function nextQuizQuestion() {
+        if (quizIndex < vocabulary.length) {
+            document.getElementById('quiz-question').textContent = vocabulary[quizIndex].greek;
+            document.getElementById('quiz-answer').value = '';
+            document.getElementById('quiz-result').textContent = '';
+            document.getElementById('quiz-result').className = 'result';
+            document.getElementById('next-quiz-btn').classList.add('hidden');
+        } else {
+            document.getElementById('quiz-section').classList.add('hidden');
+            alert(`🎉 ¡EXAMEN TERMINADO!\nPuntuación: ${quizScore} de ${vocabulary.length}\nPorcentaje: ${Math.round((quizScore/vocabulary.length)*100)}%`);
+        }
+    }
+
+    function checkQuizAnswer() {
+        const userInput = document.getElementById('quiz-answer').value.trim();
+        if (!userInput) {
+            document.getElementById('quiz-result').textContent = 'Por favor, escribe una respuesta';
+            document.getElementById('quiz-result').className = 'result incorrect';
+            return;
+        }
+
+        const userAnswers = userInput.split(',').map(answer => normalizeText(answer));
+        const correctAnswers = vocabulary[quizIndex].spanish.split(',').map(answer => normalizeText(answer));
+        const resultDiv = document.getElementById('quiz-result');
+
+        const isCorrect = userAnswers.some(userAnswer => 
+            correctAnswers.some(correctAnswer => 
+                userAnswer.includes(correctAnswer) || correctAnswer.includes(userAnswer)
+            )
+        );
+
+        if (isCorrect) {
+            resultDiv.textContent = '✅ ¡CORRECTO!';
+            resultDiv.className = 'result correct';
+            quizScore++;
+        } else {
+            resultDiv.textContent = `❌ Incorrecto. La respuesta correcta es: ${vocabulary[quizIndex].spanish}`;
+            resultDiv.className = 'result incorrect';
+        }
+        
+        document.getElementById('next-quiz-btn').classList.remove('hidden');
+        quizIndex++;
+    }
+
+    window.onload = updateCard;
+    
+    // GARANTIZAR QUE LOS BOTONES DEL EXAMEN SEAN VISIBLES
+    document.addEventListener('DOMContentLoaded', function() {
+        const emergencyStyle = document.createElement('style');
+        emergencyStyle.textContent = `
+            .quiz-buttons {
+                display: flex !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                position: relative !important;
+                z-index: 1000 !important;
+            }
+            
+            .quiz-buttons button {
+                display: inline-flex !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+            
+            #quiz-section:not(.hidden) {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+        `;
+        document.head.appendChild(emergencyStyle);
+    });
+</script>
+</body>
+</html>

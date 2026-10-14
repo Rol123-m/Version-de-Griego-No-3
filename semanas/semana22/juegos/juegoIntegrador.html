@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Juegos de Participios Adjetivales - Semana 22</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Segoe UI', 'Poppins', Arial, sans-serif; background: linear-gradient(145deg, #0a1628, #1a2a4a, #0d1f3c); min-height: 100vh; color: white; padding: 15px; }
+    .header { text-align: center; padding: 15px 0; }
+    .logo { width: 100px; border-radius: 50%; border: 3px solid rgba(255,215,0,0.5); margin-bottom: 10px; }
+    h1 { color: #FFD700; font-size: clamp(1.2rem, 4vw, 1.8rem); margin-bottom: 5px; }
+    .subtitle { color: rgba(255,255,255,0.6); font-size: clamp(0.8rem, 2vw, 1rem); letter-spacing: 2px; }
+    .game-selector { display: flex; justify-content: center; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+    .game-btn { padding: 10px 20px; border-radius: 50px; border: 2px solid rgba(255,215,0,0.3); background: rgba(255,255,255,0.05); color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; font-size: clamp(0.8rem, 2vw, 0.95rem); }
+    .game-btn.active { background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; border-color: #FFD700; }
+    .game-btn:hover { transform: translateY(-2px); }
+    .game-container { display: none; max-width: 900px; margin: 0 auto; }
+    .game-container.active { display: block; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .game-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); border-radius: 24px; padding: clamp(20px, 4vw, 35px); border: 1px solid rgba(255,215,0,0.1); }
+    .score-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 12px 20px; background: rgba(255,255,255,0.05); border-radius: 50px; flex-wrap: wrap; gap: 10px; }
+    .score-bar .stat { display: flex; align-items: center; gap: 8px; font-size: clamp(0.8rem, 2vw, 1rem); }
+    .score-bar .stat span { color: #FFD700; font-weight: 700; }
+    .progress-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FFA500); border-radius: 4px; transition: width 0.5s ease; }
+    .word-display { font-size: clamp(1.8rem, 5vw, 3rem); font-family: 'Times New Roman', 'New Athena Unicode', serif; color: #FFD700; font-weight: 700; margin: 20px 0; text-align: center; text-shadow: 0 2px 10px rgba(255,215,0,0.3); animation: popIn 0.4s ease; }
+    @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    .instruction { color: rgba(255,255,255,0.7); margin-bottom: 15px; font-size: clamp(0.9rem, 2vw, 1rem); text-align: center; }
+    .categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(clamp(140px, 25vw, 200px), 1fr)); gap: clamp(10px, 2vw, 16px); margin-top: 20px; }
+    .category-btn { padding: clamp(16px, 3vw, 24px) clamp(12px, 2vw, 20px); border: 3px solid rgba(255, 215, 0, 0.3); border-radius: 16px; background: rgba(255, 255, 255, 0.05); color: white; font-family: 'Poppins', sans-serif; font-size: clamp(0.95rem, 2vw, 1.15rem); font-weight: 700; cursor: pointer; transition: all 0.3s; min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+    .category-btn .emoji { font-size: 1.8em; }
+    .category-btn:hover:not(:disabled) { transform: translateY(-4px); border-color: #FFD700; background: rgba(255, 215, 0, 0.1); }
+    .category-btn.correct { border-color: #2ecc71; background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+    .category-btn.wrong { border-color: #e74c3c; background: rgba(231, 76, 60, 0.2); color: #e74c3c; animation: shake 0.5s ease; }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+    .feedback { margin-top: 15px; padding: 14px; border-radius: 12px; text-align: center; font-weight: 600; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
+    .feedback.show { opacity: 1; transform: translateY(0); }
+    .feedback.success { background: rgba(46,204,113,0.15); border: 1px solid rgba(46,204,113,0.3); color: #2ecc71; }
+    .feedback.error { background: rgba(231,76,60,0.15); border: 1px solid rgba(231,76,60,0.3); color: #e74c3c; }
+    .next-btn { display: none; margin: 15px auto 0; padding: 14px 40px; border: none; border-radius: 50px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    .next-btn.show { display: block; }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+    .overlay.active { opacity: 1; pointer-events: all; }
+    .final-message { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0); background: linear-gradient(145deg, #0f1a2e, #1a2a4a); padding: 40px; border-radius: 30px; text-align: center; animation: zoomIn 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards; border: 2px solid rgba(255,215,0,0.3); z-index: 1000; max-width: 90vw; width: 420px; }
+    @keyframes zoomIn { 0% { transform: translate(-50%,-50%) scale(0) rotate(-3deg); opacity: 0; } 100% { transform: translate(-50%,-50%) scale(1) rotate(0deg); opacity: 1; } }
+    .final-message img { width: 130px; margin-bottom: 15px; border-radius: 15px; }
+    .final-message h2 { color: #FFD700; margin-bottom: 10px; font-size: 1.6rem; }
+    .final-message p { font-size: 1.05rem; opacity: 0.9; line-height: 1.7; }
+    .final-message .stat-highlight { color: #FFD700; font-weight: 700; }
+    @media (max-width: 480px) {
+      .category-btn { padding: 12px 10px; min-height: 65px; }
+      .word-display { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img class="logo" src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo">
+    <h1>Juegos de Participios Adjetivales</h1>
+    <p class="subtitle">Semana 22 · Atributivo vs Sustantivo</p>
+  </div>
+
+  <div class="game-selector">
+    <button class="game-btn active" data-game="clasifica">🎯 Clasifica</button>
+    <button class="game-btn" data-game="caza">🔍 Caza-Participio</button>
+  </div>
+
+  <!-- JUEGO CLASIFICA -->
+  <div class="game-container active" id="clasifica">
+    <div class="game-card">
+      <div class="score-bar">
+        <div class="stat">📖 <span id="cl-current">1</span>/<span id="cl-total">18</span></div>
+        <div class="stat">✅ <span id="cl-score">0</span></div>
+        <div class="stat">💪 Racha: <span id="cl-streak">0</span>🔥</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="cl-progress"></div></div>
+      <div id="cl-content"></div>
+    </div>
+  </div>
+
+  <!-- JUEGO CAZA -->
+  <div class="game-container" id="caza">
+    <div class="game-card">
+      <div class="score-bar">
+        <div class="stat">📖 <span id="cz-current">1</span>/<span id="cz-total">12</span></div>
+        <div class="stat">✅ <span id="cz-score">0</span></div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="cz-progress"></div></div>
+      <div id="cz-content"></div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <script>
+    // DATOS
+    const clasificaData = [
+      {word: "ὁ ἄνθρωπος ὁ λέγων", type: "atributivo", desc: "Atributivo: 'el hombre que habla'"},
+      {word: "ἡ γυνὴ ἡ λαλοῦσα", type: "atributivo", desc: "Atributivo: 'la mujer que habla'"},
+      {word: "τὸ φῶς τὸ λάμπον", type: "atributivo", desc: "Atributivo: 'la luz que brilla'"},
+      {word: "ὁ κηρύσσων ἄνθρωπος", type: "atributivo", desc: "Atributivo: 'el hombre que predica'"},
+      {word: "ὁ βαστάζων σταυρός", type: "atributivo", desc: "Atributivo: 'la cruz que carga'"},
+      {word: "τὰ πεμπόμενα δῶρα", type: "atributivo", desc: "Atributivo: 'los regalos enviados'"},
+      {word: "ὁ ἐσθίων ἄρτος", type: "atributivo", desc: "Atributivo: 'el pan que come'"},
+      {word: "ἡ φέρουσα γυνή", type: "atributivo", desc: "Atributivo: 'la mujer que lleva'"},
+      {word: "ὁ πιστεύων μαθητής", type: "atributivo", desc: "Atributivo: 'el discípulo que cree'"},
+      {word: "ὁ λέγων", type: "sustantivo", desc: "Sustantivo: 'el que habla'"},
+      {word: "οἱ πενθοῦντες", type: "sustantivo", desc: "Sustantivo: 'los que lloran'"},
+      {word: "ὁ πιστεύων", type: "sustantivo", desc: "Sustantivo: 'el que cree'"},
+      {word: "τῶν διωκόντων", type: "sustantivo", desc: "Sustantivo: 'de los que persiguen'"},
+      {word: "ὁ ἀκούσας", type: "sustantivo", desc: "Sustantivo: 'el que oyó'"},
+      {word: "οἱ ἐσθίοντες", type: "sustantivo", desc: "Sustantivo: 'los que comen'"},
+      {word: "ὁ δεχόμενος", type: "sustantivo", desc: "Sustantivo: 'el que recibe'"},
+      {word: "οἱ δοκοῦντες", type: "sustantivo", desc: "Sustantivo: 'los que parecen'"},
+      {word: "ὁ φέρων", type: "sustantivo", desc: "Sustantivo: 'el que lleva'"}
+    ];
+
+    const cazaData = [
+      {ref:"Mateo 5:4", text:["μακάριοι","οἱ","πενθοῦντες","ὅτι","αὐτοὶ","παρακληθήσονται"], correct:"πενθοῦντες", translation:"los que lloran"},
+      {ref:"Juan 3:16", text:["πᾶς","ὁ","πιστεύων","εἰς","αὐτὸν","ἔχῃ","ζωὴν","αἰώνιον"], correct:"πιστεύων", translation:"el que cree"},
+      {ref:"Mateo 5:44", text:["προσεύχεσθε","ὑπὲρ","τῶν","διωκόντων","ὑμᾶς"], correct:"διωκόντων", translation:"de los que persiguen"},
+      {ref:"Juan 4:27", text:["ὁ","ἄνθρωπος","ὁ","λαλῶν","μετ'","αὐτῆς"], correct:"λαλῶν", translation:"el que habla"},
+      {ref:"Romanos 1:3", text:["τοῦ","υἱοῦ","αὐτοῦ","τοῦ","γενομένου","ἐκ","σπέρματος","Δαυίδ"], correct:"γενομένου", translation:"el que fue"},
+      {ref:"Romanos 1:4", text:["τοῦ","ὁρισθέντος","υἱοῦ","θεοῦ","ἐν","δυνάμει"], correct:"ὁρισθέντος", translation:"el que fue declarado"},
+      {ref:"Mateo 13:20", text:["ὁ","τὸν","λόγον","ἀκούσας","εὐθὺς","μετὰ","χαρᾶς","λαμβάνει"], correct:"ἀκούσας", translation:"el que oyó"},
+      {ref:"Mateo 5:6", text:["μακάριοι","οἱ","πεινῶντες","καὶ","διψῶντες","τὴν","δικαιοσύνην"], correct:"πεινῶντες", translation:"los que tienen hambre"},
+      {ref:"Juan 6:35", text:["ὁ","ἐρχόμενος","πρός","με","οὐ","μὴ","πεινάσῃ"], correct:"ἐρχόμενος", translation:"el que viene"},
+      {ref:"Juan 8:12", text:["ὁ","ἀκολουθῶν","ἐμοὶ","οὐ","μὴ","περιπατήσει","ἐν","τῇ","σκοτίᾳ"], correct:"ἀκολουθῶν", translation:"el que sigue"},
+      {ref:"Mateo 25:34", text:["οἱ","εὐλογημένοι","τοῦ","πατρός","μου","κληρονομήσατε"], correct:"εὐλογημένοι", translation:"los bendecidos"},
+      {ref:"Juan 15:5", text:["ὁ","μένων","ἐν","ἐμοὶ","καὶ","ἐγὼ","ἐν","αὐτῷ"], correct:"μένων", translation:"el que permanece"}
+    ];
+
+    // ESTADO
+    let clQuestions = shuffle([...clasificaData]);
+    let clIndex = 0, clScore = 0, clStreak = 0, clMaxStreak = 0, clAnswered = false;
+
+    let czQuestions = shuffle([...cazaData]);
+    let czIndex = 0, czScore = 0, czStreak = 0, czMaxStreak = 0, czAnswered = false;
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+      return a;
+    }
+
+    // ===== CLASIFICA =====
+    function loadClasifica(index) {
+      const q = clQuestions[index];
+      if (!q) { showFinal('clasifica'); return; }
+      clAnswered = false;
+      document.getElementById('cl-current').textContent = index + 1;
+      document.getElementById('cl-total').textContent = clQuestions.length;
+      document.getElementById('cl-score').textContent = clScore;
+      document.getElementById('cl-streak').textContent = clStreak;
+      document.getElementById('cl-progress').style.width = ((index) / clQuestions.length * 100) + '%';
+
+      document.getElementById('cl-content').innerHTML = `
+        <div class="instruction">¿Qué tipo de participio adjetival es?</div>
+        <div class="word-display">${q.word}</div>
+        <div class="categories">
+          <button class="category-btn" data-cat="atributivo"><span class="emoji">🔷</span><span>Atributivo</span></button>
+          <button class="category-btn" data-cat="sustantivo"><span class="emoji">🟢</span><span>Sustantivo</span></button>
+        </div>
+        <div class="feedback" id="cl-feedback"></div>
+        <button class="next-btn" id="cl-next">Siguiente →</button>
+      `;
+
+      document.querySelectorAll('#cl-content .category-btn').forEach(btn => {
+        btn.addEventListener('click', () => handleClasificaClick(btn, q));
+      });
+
+      document.getElementById('cl-next').addEventListener('click', () => {
+        if (clIndex < clQuestions.length - 1) { clIndex++; loadClasifica(clIndex); }
+        else { showFinal('clasifica'); }
+      });
+    }
+
+    function handleClasificaClick(btn, q) {
+      if (clAnswered) return;
+      clAnswered = true;
+      document.querySelectorAll('#cl-content .category-btn').forEach(b => b.disabled = true);
+      const feedback = document.getElementById('cl-feedback');
+      const selected = btn.dataset.cat;
+      const correct = q.type;
+
+      if (selected === correct) {
+        btn.classList.add('correct');
+        clScore++; clStreak++;
+        if (clStreak > clMaxStreak) clMaxStreak = clStreak;
+        feedback.textContent = `✅ ¡Correcto! ${q.desc}` + (clStreak > 1 ? ` ¡${clStreak} seguidos! 🔥` : '');
+        feedback.className = 'feedback success show';
+      } else {
+        btn.classList.add('wrong');
+        clStreak = 0;
+        document.querySelectorAll('#cl-content .category-btn').forEach(b => {
+          if (b.dataset.cat === correct) b.classList.add('correct');
+        });
+        feedback.textContent = `❌ Incorrecto. ${q.desc}`;
+        feedback.className = 'feedback error show';
+      }
+      document.getElementById('cl-score').textContent = clScore;
+      document.getElementById('cl-streak').textContent = clStreak;
+      document.getElementById('cl-next').classList.add('show');
+    }
+
+    // ===== CAZA =====
+    function loadCaza(index) {
+      const q = czQuestions[index];
+      if (!q) { showFinal('caza'); return; }
+      czAnswered = false;
+      document.getElementById('cz-current').textContent = index + 1;
+      document.getElementById('cz-total').textContent = czQuestions.length;
+      document.getElementById('cz-score').textContent = czScore;
+      document.getElementById('cz-progress').style.width = ((index) / czQuestions.length * 100) + '%';
+
+      const allWords = [...new Set(q.text)];
+      const distractors = allWords.filter(w => w !== q.correct && w.length > 3).slice(0, 3);
+      const options = shuffle([q.correct, ...distractors]);
+
+      document.getElementById('cz-content').innerHTML = `
+        <div class="instruction" style="color:#FFD700;font-weight:700;">📖 ${q.ref}</div>
+        <div style="font-family:'Times New Roman',serif;font-size:clamp(1.1rem,3vw,1.5rem);line-height:1.8;text-align:center;margin:15px 0;">
+          ${q.text.map(w => `<span style="display:inline-block;padding:4px 10px;margin:4px;border-radius:8px;background:rgba(255,255,255,0.05);">${w}</span>`).join(' ')}
+        </div>
+        <div class="categories" id="cz-options">
+          ${options.map(opt => `<button class="category-btn" data-opt="${opt}"><span>${opt}</span></button>`).join('')}
+        </div>
+        <div class="feedback" id="cz-feedback"></div>
+        <button class="next-btn" id="cz-next">Siguiente →</button>
+      `;
+
+      document.querySelectorAll('#cz-options .category-btn').forEach(btn => {
+        btn.addEventListener('click', () => handleCazaClick(btn, q));
+      });
+
+      document.getElementById('cz-next').addEventListener('click', () => {
+        if (czIndex < czQuestions.length - 1) { czIndex++; loadCaza(czIndex); }
+        else { showFinal('caza'); }
+      });
+    }
+
+    function handleCazaClick(btn, q) {
+      if (czAnswered) return;
+      czAnswered = true;
+      document.querySelectorAll('#cz-options .category-btn').forEach(b => b.disabled = true);
+      const feedback = document.getElementById('cz-feedback');
+      const selected = btn.dataset.opt;
+      const correct = q.correct;
+
+      if (selected === correct) {
+        btn.classList.add('correct');
+        czScore++; czStreak++;
+        if (czStreak > czMaxStreak) czMaxStreak = czStreak;
+        feedback.textContent = `✅ ¡Correcto! ${correct} = ${q.translation}` + (czStreak > 1 ? ` ¡${czStreak} seguidos! 🔥` : '');
+        feedback.className = 'feedback success show';
+      } else {
+        btn.classList.add('wrong');
+        czStreak = 0;
+        document.querySelectorAll('#cz-options .category-btn').forEach(b => {
+          if (b.dataset.opt === correct) b.classList.add('correct');
+        });
+        feedback.textContent = `❌ Incorrecto. La respuesta es: "${correct}" = ${q.translation}`;
+        feedback.className = 'feedback error show';
+      }
+      document.getElementById('cz-score').textContent = czScore;
+      document.getElementById('cz-next').classList.add('show');
+    }
+
+    // ===== FINAL =====
+    function showFinal(game) {
+      document.getElementById('overlay').classList.add('active');
+      let score, total, msg, streak;
+      if (game === 'clasifica') { score = clScore; total = clQuestions.length; streak = clMaxStreak; msg = `Aciertos: ${score}/${total} · Mejor racha: ${streak}`; }
+      else { score = czScore; total = czQuestions.length; streak = czMaxStreak; msg = `Aciertos: ${score}/${total}`; }
+      const pct = Math.round((score / total) * 100);
+      const emoji = pct >= 90 ? '🌟' : pct >= 70 ? '👍' : pct >= 50 ? '💪' : '📚';
+      const finalHTML = `
+        <div class="final-message">
+          <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo">
+          <h2>${emoji} ¡Completado!</h2>
+          <p>${msg}</p>
+          <p>Porcentaje: <span class="stat-highlight">${pct}%</span></p>
+          <button onclick="reiniciar('${game}')" style="margin-top: 20px; padding: 12px 35px; border: none; border-radius: 50px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-size: 1.05rem; font-weight: 700; cursor: pointer;">🔄 Jugar de nuevo</button>
+        </div>`;
+      const old = document.querySelector('.final-message'); if (old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', finalHTML);
+    }
+
+    function reiniciar(game) {
+      document.querySelector('.final-message')?.remove();
+      document.getElementById('overlay').classList.remove('active');
+      if (game === 'clasifica') {
+        clQuestions = shuffle([...clasificaData]);
+        clIndex = 0; clScore = 0; clStreak = 0; clMaxStreak = 0;
+        document.getElementById('cl-score').textContent = '0';
+        document.getElementById('cl-streak').textContent = '0';
+        loadClasifica(0);
+      } else {
+        czQuestions = shuffle([...cazaData]);
+        czIndex = 0; czScore = 0; czStreak = 0; czMaxStreak = 0;
+        document.getElementById('cz-score').textContent = '0';
+        loadCaza(0);
+      }
+    }
+
+    // SELECTOR
+    document.querySelectorAll('.game-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const game = btn.dataset.game;
+        document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.game-container').forEach(c => c.classList.remove('active'));
+        document.getElementById(game).classList.add('active');
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadClasifica(0);
+      loadCaza(0);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendizaje de Griego</title>
+    <link rel="stylesheet" href="vocabulario.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        if(!localStorage.getItem('authenticated')) {
+            window.location.href = "../login.html";
+        }
+    </script>
+</head>
+<body>
+
+<h1>Flashcards de Griego a Español</h1>
+
+<div id="flashcard-section">
+    <div class="flashcard-container">
+        <div class="flashcard" onclick="flipCard()">
+            <div class="flashcard-front" id="front">
+                <p id="greek-word"></p>
+            </div>
+            <div class="flashcard-back" id="back">
+                <p id="spanish-word"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button onclick="prevCard()" id="prev-btn" disabled>
+            <i class="fas fa-arrow-left"></i> Anterior
+        </button>
+        <button onclick="nextCard()" id="next-btn">
+            Siguiente <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+</div>
+
+<!-- BOTÓN PARA COMENZAR EXAMEN -->
+<button onclick="startQuiz()" class="hidden" id="start-quiz-btn">
+    <i class="fas fa-play-circle"></i> COMENZAR EXAMEN
+</button>
+
+<!-- SECCIÓN DEL EXAMEN -->
+<div class="quiz hidden" id="quiz-section">
+    <p>Traduce la siguiente palabra del griego al español:</p>
+    <div id="quiz-question"></div>
+    <input type="text" id="quiz-answer" placeholder="Escribe tu respuesta aquí">
+    
+    <div class="quiz-buttons">
+        <button onclick="checkQuizAnswer()" id="check-quiz-btn">
+            <i class="fas fa-check-circle"></i> COMPROBAR
+        </button>
+        <button onclick="nextQuizQuestion()" class="hidden" id="next-quiz-btn">
+            <i class="fas fa-forward"></i> SIGUIENTE PREGUNTA
+        </button>
+    </div>
+    
+    <div id="quiz-result" class="result"></div>
+</div>
+
+<footer>
+    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Ministerio Vivos para Servir">
+    <p id="foot">© Copyright Sección Educativa del Ministerio: "Vivos para Servir"</p>
+</footer>
+
+<script>
+    const vocabulary = [
+        { greek: "ἅγιος, -ία, -ιον", spanish: "santo, sagrado" },
+        { greek: "εἰ", spanish: "si" },
+        { greek: "εἰ μή", spanish: "excepto; si no" },
+        { greek: "εἷς, μία, ἕν", spanish: "uno" },
+        { greek: "ἤδη", spanish: "ahora, ya" },
+        { greek: "ὄνομα, -ατος, τό", spanish: "nombre, reputación" },
+        { greek: "οὐδείς, οὐδεμία, οὐδέν", spanish: "nadie, ninguno, nada" },
+        { greek: "πᾶς, πᾶσα, πᾶν", spanish: "cada, todo; todos" },
+        { greek: "περί", spanish: "acerca de; alrededor" },
+        { greek: "σάρξ, σαρκός, ἡ", spanish: "carne, cuerpo" },
+        { greek: "σύν", spanish: "con" },
+        { greek: "σῶμα, -ατος, τό", spanish: "cuerpo" },
+        { greek: "τέκνον, -ου, τό", spanish: "hijo, descendiente" },
+        { greek: "τίς, τί", spanish: "quién, qué, cuál, por qué" },
+        { greek: "τις, τι", spanish: "alguien, algo; cierto, cualquiera" }
+    ];
+
+    let currentCardIndex = 0;
+    let quizIndex = 0;
+    let quizScore = 0;
+    let canAnswer = true;
+    let quizAnswered = false;
+
+    function normalizeText(text) {
+        if (!text) return '';
+        return text
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, ' ')
+            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+            .replace(/[-,;]/g, ' '); // Reemplazar guiones, comas y punto y coma por espacios
+    }
+
+    function updateCard() {
+        document.getElementById('greek-word').textContent = vocabulary[currentCardIndex].greek;
+        document.getElementById('spanish-word').textContent = vocabulary[currentCardIndex].spanish;
+        document.getElementById('prev-btn').disabled = currentCardIndex === 0;
+        document.getElementById('next-btn').disabled = currentCardIndex === vocabulary.length - 1;
+        
+        if (currentCardIndex === vocabulary.length - 1) {
+            document.getElementById('start-quiz-btn').classList.remove('hidden');
+        } else {
+            document.getElementById('start-quiz-btn').classList.add('hidden');
+        }
+    }
+
+    function flipCard() {
+        document.querySelector('.flashcard').classList.toggle('flipped');
+    }
+
+    function prevCard() {
+        if (currentCardIndex > 0) {
+            currentCardIndex--;
+            updateCard();
+        }
+    }
+
+    function nextCard() {
+        if (currentCardIndex < vocabulary.length - 1) {
+            currentCardIndex++;
+            updateCard();
+        }
+    }
+
+    function startQuiz() {
+        document.getElementById('flashcard-section').classList.add('hidden');
+        document.getElementById('start-quiz-btn').classList.add('hidden');
+        document.getElementById('quiz-section').classList.remove('hidden');
+        
+        quizIndex = 0;
+        quizScore = 0;
+        canAnswer = true;
+        quizAnswered = false;
+        
+        loadQuizQuestion();
+    }
+
+    function loadQuizQuestion() {
+        if (quizIndex < vocabulary.length) {
+            document.getElementById('quiz-question').textContent = vocabulary[quizIndex].greek;
+            document.getElementById('quiz-answer').value = '';
+            document.getElementById('quiz-result').textContent = '';
+            document.getElementById('quiz-result').className = 'result';
+            document.getElementById('next-quiz-btn').classList.add('hidden');
+            document.getElementById('check-quiz-btn').disabled = false;
+            document.getElementById('quiz-answer').disabled = false;
+            
+            canAnswer = true;
+            quizAnswered = false;
+            
+            setTimeout(() => {
+                document.getElementById('quiz-answer').focus();
+            }, 100);
+        } else {
+            finishQuiz();
+        }
+    }
+
+    function nextQuizQuestion() {
+        if (quizIndex < vocabulary.length - 1) {
+            quizIndex++;
+            loadQuizQuestion();
+        } else if (quizIndex === vocabulary.length - 1) {
+            quizIndex++;
+            finishQuiz();
+        }
+    }
+
+    function finishQuiz() {
+        document.getElementById('quiz-section').classList.add('hidden');
+        
+        const percentage = Math.round((quizScore / vocabulary.length) * 100);
+        
+        let message = `🎉 ¡EXAMEN TERMINADO!\n\n`;
+        message += `Puntuación: ${quizScore} de ${vocabulary.length}\n`;
+        message += `Porcentaje: ${percentage}%\n\n`;
+        
+        if (percentage >= 90) message += "¡Excelente! 🌟";
+        else if (percentage >= 70) message += "¡Buen trabajo! 👍";
+        else if (percentage >= 50) message += "Puedes mejorar 💪";
+        else message += "Sigue practicando 📚";
+        
+        alert(message);
+        
+        document.getElementById('flashcard-section').classList.remove('hidden');
+        if (currentCardIndex === vocabulary.length - 1) {
+            document.getElementById('start-quiz-btn').classList.remove('hidden');
+        }
+    }
+
+    function checkQuizAnswer() {
+        if (!canAnswer || quizAnswered) return;
+        
+        const userInput = document.getElementById('quiz-answer').value.trim();
+        const resultDiv = document.getElementById('quiz-result');
+        
+        if (!userInput) {
+            resultDiv.textContent = '❌ Por favor, escribe una respuesta';
+            resultDiv.className = 'result incorrect';
+            return;
+        }
+
+        const normalizedUserInput = normalizeText(userInput);
+        
+        if (normalizedUserInput.length < 2) {
+            resultDiv.textContent = '❌ La respuesta es demasiado corta';
+            resultDiv.className = 'result incorrect';
+            return;
+        }
+
+        // Obtener respuestas correctas (manejar múltiples opciones separadas por coma o punto y coma)
+        const correctAnswers = vocabulary[quizIndex].spanish
+            .split(/[,;]/) // Dividir por coma o punto y coma
+            .map(answer => {
+                // Limpiar la respuesta
+                let cleanAnswer = answer
+                    .replace(/\([^)]*\)/g, '') // Eliminar texto entre paréntesis
+                    .replace(/[-,;]/g, ' ') // Reemplazar guiones y punto y coma por espacios
+                    .trim();
+                return normalizeText(cleanAnswer);
+            })
+            .filter(answer => answer.length > 0);
+
+        let isCorrect = false;
+        
+        // Verificar coincidencia exacta
+        if (correctAnswers.includes(normalizedUserInput)) {
+            isCorrect = true;
+        } else {
+            // Para respuestas con múltiples palabras
+            isCorrect = correctAnswers.some(correctAnswer => {
+                const correctWords = correctAnswer.split(' ');
+                const userWords = normalizedUserInput.split(' ');
+                
+                // Si el usuario escribió una sola palabra
+                if (userWords.length === 1 && correctWords.length > 1) {
+                    return correctWords.some(word => 
+                        word === userWords[0] || 
+                        (word.length > 3 && word.includes(userWords[0]) && userWords[0].length > 2)
+                    );
+                }
+                
+                // Para respuestas múltiples
+                return userWords.every(userWord => 
+                    correctWords.some(correctWord => 
+                        correctWord === userWord || 
+                        (correctWord.includes(userWord) && userWord.length > 2)
+                    )
+                );
+            });
+        }
+
+        quizAnswered = true;
+        canAnswer = false;
+        
+        if (isCorrect) {
+            resultDiv.textContent = '✅ ¡CORRECTO!';
+            resultDiv.className = 'result correct';
+            quizScore++;
+        } else {
+            resultDiv.textContent = `❌ Incorrecto.\n\nRespuesta correcta: ${vocabulary[quizIndex].spanish}`;
+            resultDiv.className = 'result incorrect';
+        }
+        
+        document.getElementById('check-quiz-btn').disabled = true;
+        document.getElementById('quiz-answer').disabled = true;
+        document.getElementById('next-quiz-btn').classList.remove('hidden');
+    }
+
+    window.onload = function() {
+        updateCard();
+    };
+    
+    // Garantizar visibilidad de elementos del examen
+    document.addEventListener('DOMContentLoaded', function() {
+        const emergencyStyle = document.createElement('style');
+        emergencyStyle.textContent = `
+            .hidden {
+                display: none !important;
+            }
+            
+            .quiz-buttons {
+                display: flex !important;
+                gap: 10px !important;
+                justify-content: center !important;
+                margin: 20px 0 !important;
+            }
+            
+            .quiz-buttons button {
+                padding: 12px 24px !important;
+                font-size: 16px !important;
+                border-radius: 50px !important;
+                border: none !important;
+                cursor: pointer !important;
+                font-weight: 600 !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                gap: 8px !important;
+            }
+            
+            #check-quiz-btn {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+            }
+            
+            #next-quiz-btn {
+                background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+                color: white;
+            }
+            
+            #quiz-section:not(.hidden) {
+                display: block !important;
+                text-align: center !important;
+                max-width: 600px !important;
+                margin: 0 auto !important;
+                padding: 20px !important;
+            }
+            
+            #quiz-question {
+                font-size: 48px !important;
+                font-weight: bold !important;
+                margin: 20px 0 !important;
+                color: #333 !important;
+            }
+            
+            #quiz-answer {
+                width: 100% !important;
+                max-width: 400px !important;
+                padding: 15px !important;
+                font-size: 18px !important;
+                border: 2px solid #e0e0e0 !important;
+                border-radius: 10px !important;
+                margin: 15px auto !important;
+                display: block !important;
+            }
+            
+            #quiz-answer:focus {
+                outline: none !important;
+                border-color: #667eea !important;
+            }
+            
+            .result {
+                margin-top: 20px !important;
+                padding: 15px !important;
+                border-radius: 10px !important;
+                font-size: 18px !important;
+                white-space: pre-line !important;
+            }
+            
+            .correct {
+                background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+                color: #2d3748;
+            }
+            
+            .incorrect {
+                background: linear-gradient(135deg, #fad0c4 0%, #ff9a9e 100%);
+                color: #2d3748;
+            }
+            
+            button:disabled {
+                opacity: 0.5 !important;
+                cursor: not-allowed !important;
+            }
+        `;
+        document.head.appendChild(emergencyStyle);
+    });
+</script>
+</body>
+</html>

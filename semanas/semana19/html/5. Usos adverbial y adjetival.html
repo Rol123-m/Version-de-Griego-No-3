@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usos del Participio: Adverbial y Adjetival</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Usos Fundamentales: Adverbial vs Adjetival</h1>
+      <div class="subtitle">Las dos funciones principales del participio</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-stream"></i> Participio adverbial</h2>
+      <p>Modifica el verbo principal (expresa tiempo, causa, condición, concesión, propósito, etc.). Se traduce por una frase circunstancial: «mientras..., habiendo..., porque...»</p>
+      <div class="example-box">
+        <p><strong>Ejemplo:</strong> <span class="greek-text">πορευθέντες οὖν μαθητεύσατε πάντα τὰ ἔθνη</span> (Mt 28:19) — «Id, <strong>habiendo ido</strong>, haced discípulos...»</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-tag"></i> Participio adjetival</h2>
+      <p>Modifica un sustantivo; suele equivaler a una oración de relativo: «el que...», «la que...»</p>
+      <div class="example-box">
+        <p><strong>Ejemplo:</strong> <span class="greek-text">ὁ πιστεύων εἰς τὸν υἱόν</span> — «el que cree en el Hijo» (sustantivación del participio).</p>
+      </div>
+
+      <div class="important-note">
+        <p><strong>Consejo:</strong> Si la forma concuerda en caso con un sustantivo cercano, casi siempre es adjetival; si no, suele ser adverbial y relacionarse con la acción.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Usos</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Cómo suele traducirse un participio adverbial?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Como frase circunstancial (mientras, habiendo, porque)</label>
+          <label><input type="radio" name="q1" value="b"> Como adjetivo simple sin relación al verbo</label>
+          <label><input type="radio" name="q1" value="c"> Siempre como oración de relativo</label>
+          <label><input type="radio" name="q1" value="d"> Como sustantivo</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'a' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

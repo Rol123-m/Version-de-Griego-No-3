@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ἐάν + Subjuntivo (Oraciones Condicionales)</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>ἐάν + Subjuntivo (Oraciones Condicionales)</h1>
+      <div class="subtitle">Condiciones de Tercera Clase</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-question-circle"></i> Terminología</h2>
+      <p>Esta combinación se usa en enunciados condicionales ("Si... entonces...").</p>
+
+      <ul>
+        <li>La cláusula "si" se llama <strong>protasis</strong></li>
+        <li>La cláusula "entonces" se llama <strong>apodosis</strong></li>
+      </ul>
+
+      <p>Las oraciones condicionales con <strong>ἐάν</strong> y subjuntivo en la protasis se conocen como <strong>Condiciones de Tercera Clase</strong>.</p>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-list"></i> Tipos de Condiciones de Tercera Clase</h2>
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Significado</th>
+              <th>Ejemplo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Futura Más Probable</strong></td>
+              <td>Condición específica en el futuro</td>
+              <td class="greek-text">ταῦτά σοι πάντα δώσω, <strong>ἐὰν πεσὼν προσκυνήσῃς</strong> μοι (Mt 4:9)<br>"Todo esto te daré, <strong>si te postras y me adoras</strong>"</td>
+            </tr>
+            <tr>
+              <td><strong>Presente General</strong></td>
+              <td>Verdad general o axiomática</td>
+              <td class="greek-text"><strong>ἐάν τις περιπατῇ</strong> ἐν τῇ ἡμέρᾳ, οὐ προσκόπτει (Jn 11:9)<br>"<strong>Si alguien camina</strong> de día, no tropieza"</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="important-note">
+        <p><strong>🔍 Diferencia clave:</strong></p>
+        <p>Aparte del tiempo del verbo en la apodosis, solo <strong>contexto</strong> puede decirte si el hablante está haciendo una declaración específica o enunciando una verdad general.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: ἐάν + Subjuntivo</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué tipo de oración forma ἐάν + subjuntivo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Temporal</label>
+          <label><input type="radio" name="q1" value="b"> Condicional</label>
+          <label><input type="radio" name="q1" value="c"> Causal</label>
+          <label><input type="radio" name="q1" value="d"> Concesiva</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

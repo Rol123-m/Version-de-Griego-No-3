@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego del Alfabeto Griego - Semana 1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .game-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            margin: 30px 0;
+        }
+        .memory-card {
+            height: 100px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: #333;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+        .memory-card.flipped {
+            background: #4A6FA5;
+            color: white;
+        }
+        button {
+            background: #FFC107;
+            color: #333;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🎮 Juego de Memoria: Alfabeto Griego</h1>
+        <p>Encuentra las parejas de letras griegas y su equivalente en español</p>
+        
+        <div class="memory-grid" id="memoryGrid">
+            <!-- Las cartas se generarán con JavaScript -->
+        </div>
+        
+        <div>
+            <p id="score">Pares encontrados: 0/12</p>
+            <p id="timer">Tiempo: 00:00</p>
+            <button onclick="startGame()">Nuevo Juego</button>
+            <button onclick="window.parent.postMessage('gameCompleted', '*')">Completar Juego</button>
+        </div>
+    </div>
+
+    <script>
+        const pairs = [
+            ['α', 'a'], ['β', 'v'], ['γ', 'g'], ['δ', 'd'],
+            ['ε', 'e'], ['ζ', 'z'], ['η', 'ē'], ['θ', 'th'],
+            ['ι', 'i'], ['κ', 'k'], ['λ', 'l'], ['μ', 'm']
+        ];
+        
+        let gameStarted = false;
+        let startTime;
+        let timerInterval;
+        let score = 0;
+        
+        function startGame() {
+            gameStarted = true;
+            score = 0;
+            startTime = Date.now();
+            
+            clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 1000);
+            
+            createCards();
+            updateScore();
+        }
+        
+        function createCards() {
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+            
+            // Duplicar y mezclar las cartas
+            let cards = [];
+            pairs.forEach(pair => {
+                cards.push({type: 'greek', value: pair[0]});
+                cards.push({type: 'trans', value: pair[1]});
+            });
+            
+            // Mezclar
+            cards.sort(() => Math.random() - 0.5);
+            
+            // Crear cartas HTML
+            cards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'memory-card';
+                cardElement.dataset.index = index;
+                cardElement.dataset.type = card.type;
+                cardElement.dataset.value = card.value;
+                cardElement.textContent = '?';
+                
+                cardElement.addEventListener('click', () => flipCard(cardElement));
+                grid.appendChild(cardElement);
+            });
+        }
+        
+        function flipCard(card) {
+            if (!gameStarted || card.classList.contains('flipped')) return;
+            
+            card.classList.add('flipped');
+            card.textContent = card.dataset.value;
+            
+            // Lógica para encontrar pares
+            checkForPairs();
+        }
+        
+        function checkForPairs() {
+            const flippedCards = document.querySelectorAll('.memory-card.flipped');
+            
+            if (flippedCards.length === 2) {
+                const [card1, card2] = flippedCards;
+                
+                // Verificar si son pares correspondientes
+                const index1 = pairs.findIndex(p => p[0] === card1.dataset.value && p[1] === card2.dataset.value);
+                const index2 = pairs.findIndex(p => p[1] === card1.dataset.value && p[0] === card2.dataset.value);
+                
+                if (index1 !== -1 || index2 !== -1) {
+                    // Par encontrado
+                    score++;
+                    updateScore();
+                    
+                    // Verificar si se completó el juego
+                    if (score === pairs.length) {
+                        clearInterval(timerInterval);
+                        setTimeout(() => {
+                            alert('¡Felicidades! Completaste el juego');
+                            // Notificar al sistema padre que el juego se completó
+                            if (window.parent) {
+                                window.parent.postMessage('gameCompleted', '*');
+                            }
+                        }, 500);
+                    }
+                } else {
+                    // No son par, voltear de nuevo después de un tiempo
+                    setTimeout(() => {
+                        card1.classList.remove('flipped');
+                        card2.classList.remove('flipped');
+                        card1.textContent = '?';
+                        card2.textContent = '?';
+                    }, 1000);
+                }
+            }
+        }
+        
+        function updateScore() {
+            document.getElementById('score').textContent = `Pares encontrados: ${score}/${pairs.length}`;
+        }
+        
+        function updateTimer() {
+            if (!startTime) return;
+            
+            const elapsed = Date.now() - startTime;
+            const minutes = Math.floor(elapsed / 60000);
+            const seconds = Math.floor((elapsed % 60000) / 1000);
+            
+            document.getElementById('timer').textContent = 
+                `Tiempo: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Iniciar juego automáticamente
+        startGame();
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz de lectura</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Georgia,serif;background:linear-gradient(160deg,#0f1b3d,#1d2f63);color:#f1f3fa;min-height:100vh}
+  .w{max-width:820px;margin:auto;padding:24px 16px 60px}
+  h1{font-size:1.6em;text-align:center;margin-bottom:4px}
+  h1 small{display:block;font-size:.5em;color:#f5c542;font-weight:400;margin-top:6px;letter-spacing:1px}
+  .c{background:rgba(255,255,255,.08);border:1px solid rgba(245,197,66,.3);border-radius:16px;padding:20px;margin:18px 0}
+  .r{color:#f5c542;font-family:sans-serif;font-size:.85em;letter-spacing:1px;margin-bottom:8px;text-transform:uppercase}
+  .g{font-size:1.25em;line-height:1.6;margin:8px 0}
+  button,.b{background:#f5c542;color:#16224a;border:0;padding:10px 18px;border-radius:10px;font-weight:700;cursor:pointer;font-family:sans-serif;margin:4px 0;transition:.2s}
+  button:hover{background:#ffe27a}
+  .t{font-family:sans-serif;font-size:.85em;color:#b8c2e6;text-align:center}
+  .o1{display:block;width:100%;text-align:left;margin:6px 0;background:rgba(255,255,255,.12);color:#fff;font-weight:400;border-radius:8px;padding:10px 14px}
+  .o1.ok{background:#2e9e5b}
+  .o1.no{background:#b3394a}
+  .n{max-height:0;overflow:hidden;transition:max-height .5s,padding .3s;font-family:sans-serif;line-height:1.55;background:rgba(245,197,66,.12);border-radius:10px;padding:0 14px}
+  .n.o{max-height:500px;padding:12px 14px}
+  .nav-links{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;margin-top:20px}
+  .nav-links a{background:#f5c542;color:#16224a;padding:10px 18px;border-radius:10px;font-weight:700;text-decoration:none;font-family:sans-serif;transition:.2s}
+  .nav-links a:hover{background:#ffe27a}
+</style>
+</head>
+<body>
+<div class="w">
+  <h1>Quiz de lectura<small>Juan 1:1-18 · Semana 29</small></h1>
+
+  <div class="c">
+    <div id="q"></div>
+    <p id="s" class="t"></p>
+  </div>
+
+  <div class="nav-links">
+    <a href="2. La Palabra hecha carne.html">◀ Anterior: La Palabra hecha carne</a>
+    <a href="3. Video de la semana.html">Volver al inicio ▶</a>
+  </div>
+
+  <p class="t" style="margin-top:24px">Ministerio «Vivos para Servir» · Curso de Griego Koiné · Semana 29</p>
+</div>
+
+<script>
+const Q = [
+  {q:"¿Qué diferencia hay entre ἦν y ἐγένετο en los vv. 1-14?", o:["Existencia continua vs. llegar a ser","Pasado vs. futuro","Activo vs. pasivo"], a:0, e:"ἦν (imperfecto de εἰμί) = existencia continua; ἐγένετο (aoristo de γίνομαι) = origen o cambio."},
+  {q:"¿Por qué θεὸς ἦν ὁ λόγος no debe traducirse «un dios»?", o:["Porque θεός es cualitativo: el Verbo posee la naturaleza plena de Dios","Porque θεός lleva artículo","Porque es un vocativo"], a:0, e:"El predicado sin artículo antes del verbo es cualitativo (Wallace; regla de Colwell). El contexto es monoteísta y el Verbo es creador de todo (v. 3)."},
+  {q:"¿Qué significa δι’ αὐτοῦ ἐγένετο en 1:3?", o:["Por medio de él fue hecho","Contra él fue hecho","Sin él fue hecho"], a:0, e:"διά + genitivo indica el agente intermedio: el Padre crea por medio del Verbo."},
+  {q:"¿Qué contraste hay entre φαίνει y κατέλαβεν en 1:5?", o:["Presente (sigue brillando) vs. aoristo (hecho concluido)","Aoristo vs. presente","Perfecto vs. imperfecto"], a:0, e:"φαίνει (presente): la luz sigue brillando. κατέλαβεν (aoristo): las tinieblas no la comprendieron ni la vencieron."},
+  {q:"¿Qué significa ἀπεσταλμένος en 1:6?", o:["Enviado (participio perfecto pasivo)","Creado","Elegido"], a:0, e:"Participio perfecto pasivo de ἀποστέλλω: Juan es un enviado con una comisión que permanece."},
+  {q:"¿Qué significa ἀληθινός en 1:9?", o:["Genuino, verdadero","Oculto","Antiguo"], a:0, e:"Frente a lo provisional o imitado: la luz verdadera."},
+  {q:"¿Qué es ἐξουσία en 1:12?", o:["Derecho o autoridad concedida","Riqueza","Poder militar"], a:0, e:"No es un mérito: es el derecho que se concede a los que creen."},
+  {q:"¿Qué significa ἐσκήνωσεν en 1:14?", o:["Habitó, puso su tienda","Escribió","Murió"], a:0, e:"De σκηνόω: alude al tabernáculo y a la shekiná. La presencia de Dios habita en una persona."},
+  {q:"¿Qué significa μονογενής?", o:["Único en su clase","Creado","Engendrado por sangre"], a:0, e:"μόνος (único) + γένος (clase): «único en su clase», no solo «engendrado único»."},
+  {q:"¿Qué significa χάριν ἀντὶ χάριτος en 1:16?", o:["Gracia sobre gracia, sucediéndose sin interrupción","Gracia contra gracia","Gracia y ley"], a:0, e:"ἀντί = «en lugar de, sucediendo a»: dones que se renuevan."},
+  {q:"¿Qué variante textual importante hay en 1:18?", o:["μονογενὴς θεός vs. ὁ μονογενὴς υἱός","ἦν vs. ἐγένετο","λόγος vs. σάρξ"], a:0, e:"μονογενὴς θεός («el Dios unigénito») tiene mejor apoyo externo (P66, P75, ℵ, B) y forma inclusión con θεός de 1:1."},
+  {q:"¿Qué significa ἐξηγήσατο en 1:18?", o:["Dio a conocer, explicó","Ocultó","Escribió"], a:0, e:"Aoristo de ἐξηγέομαι, de donde viene «exégesis». El Hijo es el exegeta del Padre."}
+];
+
+let i=0, p=0;
+function r(){
+  const q = Q[i];
+  const cont = document.getElementById("q");
+  const s = document.getElementById("s");
+  if(!q){
+    cont.innerHTML = `<h2 style="text-align:center;color:#f5c542">🏆 ${p} / ${Q.length}</h2><div style="text-align:center"><button onclick="i=0;p=0;r()">Repetir</button></div>`;
+    s.textContent = "";
+    return;
+  }
+  s.textContent = "Pregunta " + (i+1) + " de " + Q.length;
+  cont.innerHTML = "<p class='g'>" + q.q + "</p>" +
+    q.o.map((x,k)=>`<button class='o1' onclick='a(${k},this)'>${x}</button>`).join("") +
+    "<div class='n' id='e'></div>";
+}
+function a(k,b){
+  const q = Q[i];
+  if(document.querySelector(".ok")) return;
+  if(k == q.a){ p++; b.classList.add("ok"); }
+  else { b.classList.add("no"); document.querySelectorAll(".o1")[q.a].classList.add("ok"); }
+  const e = document.getElementById("e");
+  e.textContent = q.e;
+  e.classList.add("o");
+  e.insertAdjacentHTML("afterend","<button onclick='i++;r()'>Siguiente ▶</button>");
+}
+r();
+</script>
+</body>
+</html>

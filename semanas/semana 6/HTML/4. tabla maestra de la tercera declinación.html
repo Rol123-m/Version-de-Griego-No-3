@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprendiendo Griego Koiné: Cuadro Maestro de Terminaciones</title>
+  <link rel="stylesheet" href="semana.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .ending {
+      color: #E74C3C;
+      font-weight: bold;
+    }
+    .warning-box {
+      background: linear-gradient(135deg, rgba(231, 76, 60, 0.1) 0%, rgba(192, 57, 43, 0.1) 100%);
+      border-radius: var(--radius);
+      padding: 25px;
+      margin: 25px 0;
+      border-left: 4px solid var(--danger);
+      position: relative;
+    }
+    
+    .warning-box::before {
+      content: '¡Atención!';
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--danger);
+      color: white;
+      padding: 5px 15px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 0 0 0 var(--radius);
+    }
+    
+    .master-table-box {
+      background: linear-gradient(135deg, rgba(255, 168, 0, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
+      border-radius: var(--radius);
+      padding: 25px;
+      margin: 25px 0;
+      border-left: 4px solid #FFA000;
+      position: relative;
+    }
+    
+    .consonant-grid-box {
+      background: linear-gradient(135deg, rgba(46, 125, 50, 0.1) 0%, rgba(56, 142, 60, 0.1) 100%);
+      border-radius: var(--radius);
+      padding: 25px;
+      margin: 25px 0;
+      border-left: 4px solid #2E7D32;
+      position: relative;
+    }
+    
+    .master-table-box::before {
+      content: 'Cuadro Maestro';
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #FFA000;
+      color: white;
+      padding: 5px 15px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 0 0 0 var(--radius);
+    }
+    
+    .consonant-grid-box::before {
+      content: 'Consonantes';
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #2E7D32;
+      color: white;
+      padding: 5px 15px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 0 0 0 var(--radius);
+    }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio Vivos para servir" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Aprendiendo Griego Koiné: Cuadro Maestro de Terminaciones</h1>
+      <p class="subtitle">Resumen completo de todas las terminaciones</p>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-table"></i> Cuadro Maestro de Terminaciones de Caso</h2>
+      <div class="warning-box">
+        <h3>Recomendación:</h3>
+        <p>No memorices paradigmas completos, sino estas terminaciones y cómo se unen a las raíces.</p>
+      </div>
+      
+      <div class="master-table-box">
+        <h3>Terminaciones Verdaderas (sin vocal temática)</h3>
+        <div class="vocab-table-container">
+          <table class="vocab-table declension-table">
+            <thead>
+              <tr>
+                <th>Caso</th>
+                <th>1ª/2ª Decl.</th>
+                <th>3ª Decl. (masc/fem)</th>
+                <th>3ª Decl. (neutro)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Nom. sg.</td>
+                <td><span class="ending">ς</span></td>
+                <td><span class="ending">ς</span></td>
+                <td><span class="ending">–</span> (sin terminación)</td>
+              </tr>
+              <tr>
+                <td>Gen. sg.</td>
+                <td><span class="ending">ου/ς</span></td>
+                <td><span class="ending">ος</span></td>
+                <td><span class="ending">ος</span></td>
+              </tr>
+              <tr>
+                <td>Dat. sg.</td>
+                <td><span class="ending">ι</span></td>
+                <td><span class="ending">ι</span></td>
+                <td><span class="ending">ι</span></td>
+              </tr>
+              <tr>
+                <td>Ac. sg.</td>
+                <td><span class="ending">ν</span></td>
+                <td><span class="ending">α/v</span></td>
+                <td><span class="ending">–</span></td>
+              </tr>
+              <tr>
+                <td>Nom. pl.</td>
+                <td><span class="ending">ι/α</span></td>
+                <td><span class="ending">ες</span></td>
+                <td><span class="ending">α</span></td>
+              </tr>
+              <tr>
+                <td>Gen. pl.</td>
+                <td><span class="ending">ων</span></td>
+                <td><span class="ending">ων</span></td>
+                <td><span class="ending">ων</span></td>
+              </tr>
+              <tr>
+                <td>Dat. pl.</td>
+                <td><span class="ending">ις</span></td>
+                <td><span class="ending">σι(ν)</span></td>
+                <td><span class="ending">σι(ν)</span></td>
+              </tr>
+              <tr>
+                <td>Ac. pl.</td>
+                <td><span class="ending">υς/α</span></td>
+                <td><span class="ending">ας</span></td>
+                <td><span class="ending">α</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="important-note">
+          <p><strong>Nota:</strong> Todas las tablas anteriores se reducen a este único paradigma, solo es necesario aplicar las reglas y la lógica.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-card rules">
+      <h2><i class="fas fa-venus-mars"></i> Género en la Tercera Declinación</h2>
+      <p>El género en la tercera declinación es menos predecible que en las primeras dos. Debes memorizarlo para cada palabra. Sin embargo, hay patrones:</p>
+      <div class="vocab-item">
+        <div class="vocab-item-header">
+          <h3>Raíces en -ματ</h3>
+          <span class="vocab-tag">Neutro siempre</span>
+        </div>
+        <p>Siempre son neutras (ej. <span class="greek-text">ὄνομα, -τος, τό</span>)</p>
+      </div>
+      
+      <div class="important-note">
+        <h3>Artículo como Guía</h3>
+        <p>El artículo (ὁ, ἡ, τό) es clave para identificar el género, ya que no cambia independientemente de la declinación:</p>
+        <ul>
+          <li><strong><span class="greek-text">τό ὄνομα</span></strong> (neutro)</li>
+          <li><strong><span class="greek-text">ἡ σάρξ</span></strong> (femenino)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-th"></i> Reglas de Consonantes (Cuadrado de Oclusivas)</h2>
+      <div class="consonant-grid-box">
+        <p>Las oclusivas son consonantes que detienen el flujo de aire. Se clasifican en:</p>
+        <div class="vocab-table-container">
+          <table class="vocab-table">
+            <thead>
+              <tr>
+                <th>Labiales</th>
+                <th>Velares</th>
+                <th>Dentales</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="greek-text">π, β, φ</span></td>
+                <td><span class="greek-text">κ, γ, χ</span></td>
+                <td><span class="greek-text">τ, δ, θ</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="important-note">
+          <h3>Regla 7: Cuadrado de Oclusivas</h3>
+          <p>Memoriza este cuadro para predecir cambios:</p>
+          <ul>
+            <li><strong>Labial + σ → ψ</strong> (ej. σκολοπ + σ → <span class="greek-text">σκόλοψ</span>)</li>
+            <li><strong>Velar + σ → ξ</strong> (ej. σαρκ + σ → <span class="greek-text">σάρξ</span>)</li>
+            <li><strong>Dental + σ → σ</strong> (ej. ονοματ + σι → <span class="greek-text">ὀνόμασι</span>)</li>
+          </ul>
+        </div>
+        
+        <div class="important-note">
+          <h3>Regla 8: La Tau Final Desaparece</h3>
+          <p>Si una palabra termina en tau (τ), esta cae (ej. ονοματ + – → <span class="greek-text">ὄνομα</span>).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-question-circle"></i> Practica con las Terminaciones</h2>
+      
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Cuál es la terminación del genitivo singular en tercera declinación?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> ων</label>
+          <label><input type="radio" name="q1" value="b"> ος</label>
+          <label><input type="radio" name="q1" value="c"> ι</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿Qué ocurre cuando una velar (κ, γ, χ) se encuentra con sigma?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Se convierte en ψ</label>
+          <label><input type="radio" name="q2" value="b"> Se convierte en ξ</label>
+          <label><input type="radio" name="q2" value="c"> Permanece igual</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 3:</strong> ¿Cómo puedes identificar el género de un sustantivo de tercera declinación?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> Por su terminación</label>
+          <label><input type="radio" name="q3" value="b"> Por el artículo que lo acompaña</label>
+          <label><input type="radio" name="q3" value="c"> Por la raíz del sustantivo</label>
+        </div>
+        <div class="result" id="result3"></div>
+      </div>
+
+      <button class="week-button" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos del ministerio">
+      </div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio: "Vivos para Servir"</p>
+        <p class="copyright">@Copyright</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = {
+        q1: 'b', // ος
+        q2: 'b', // ξ
+        q3: 'b'  // Por el artículo
+      };
+
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprendiendo Griego Koiné: Resumen de Reglas Clave</title>
+  <link rel="stylesheet" href="semana.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .ending {
+      color: #E74C3C;
+      font-weight: bold;
+    }
+    
+    .consonant-box {
+      background: linear-gradient(135deg, rgba(46, 125, 50, 0.1) 0%, rgba(56, 142, 60, 0.1) 100%);
+      border-radius: var(--radius);
+      padding: 25px;
+      margin: 25px 0;
+      border-left: 4px solid #2E7D32;
+      position: relative;
+      text-align: center;
+    }
+    
+    .consonant-box::before {
+      content: 'Regla 7';
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #2E7D32;
+      color: white;
+      padding: 5px 15px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 0 0 0 var(--radius);
+    }
+    
+    .conclusion-box {
+      background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(30, 136, 229, 0.1) 100%);
+      border-radius: var(--radius);
+      padding: 25px;
+      margin: 25px 0;
+      border-left: 4px solid #2196F3;
+      text-align: center;
+      font-weight: bold;
+    }
+    
+    .conclusion-box h2 {
+      color: #1565C0;
+      margin-bottom: 20px;
+    }
+    
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 25px 0;
+    }
+    
+    .rule-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid transparent;
+      transition: var(--transition);
+    }
+    
+    .rule-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-light);
+    }
+    
+    .rule-card h3 {
+      color: var(--primary-dark);
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+      font-family: 'Roboto Slab', serif;
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 10px;
+    }
+    
+    .rule-number {
+      display: inline-block;
+      background: var(--gradient-primary);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 30px;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio Vivos para servir" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Aprendiendo Griego Koiné: Resumen de Reglas Clave</h1>
+      <p class="subtitle">Compendio esencial de todas las reglas importantes</p>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card rules">
+      <h2><i class="fas fa-key"></i> Resumen de Reglas Clave</h2>
+      
+      <div class="rules-grid">
+        <div class="rule-card">
+          <h3><span class="rule-number">1</span> Tercera Declinación</h3>
+          <ul>
+            <li>Raíces terminadas en consonante</li>
+            <li>Para hallar la raíz: Usa el genitivo singular y elimina la terminación (ej. <strong><span class="greek-text">σαρκός → σαρκ-</span></strong>)</li>
+          </ul>
+        </div>
+        
+        <div class="rule-card">
+          <h3><span class="rule-number">2</span> Género</h3>
+          <ul>
+            <li>Memoriza el artículo con el sustantivo (ej. <strong><span class="greek-text">ἡ σάρξ</span></strong> = femenino)</li>
+          </ul>
+        </div>
+        
+        <div class="rule-card">
+          <h3><span class="rule-number">3</span> Cuadro de Terminaciones</h3>
+          <ul>
+            <li>Domina las terminaciones de caso:
+              <ul>
+                <li>Nominativo: <span class="ending">ς/–</span></li>
+                <li>Genitivo: <span class="ending">ος</span></li>
+                <li>Dativo: <span class="ending">ι</span></li>
+                <li>etc.</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="rule-card">
+          <h3><span class="rule-number">5</span> Regla 8: La tau (τ) final desaparece</h3>
+          <ul>
+            <li>Ejemplo: <strong><span class="greek-text">ὀνοματ → ὄνομα</span></strong></li>
+          </ul>
+        </div>
+        
+        <div class="rule-card">
+          <h3><span class="rule-number">6</span> Adjetivo πᾶς ("todo")</h3>
+          <ul>
+            <li>Modelo esencial para participios en el futuro</li>
+            <li>Ejemplo: <strong><span class="greek-text">πᾶς ὁ ἄνθρωπος</span></strong> = "Todo hombre" (posición predicativa)</li>
+          </ul>
+        </div>
+        
+        <div class="rule-card">
+          <h3><span class="rule-number">7</span> Traducción del Artículo</h3>
+          <ul>
+            <li><strong><span class="greek-text">ὁ δέ</span></strong> = "Pero él"</li>
+            <li>Artículo + preposición = atributivo (traducir como relativo)</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="consonant-box">
+        <h3>Regla 7: Cuadrado de Oclusivas</h3>
+        <div class="vocab-table-container">
+          <table class="vocab-table" style="max-width: 500px; margin: 0 auto;">
+            <thead>
+              <tr>
+                <th>Consonante</th>
+                <th>+ σ resulta en</th>
+                <th>Ejemplo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Labiales (π, β, φ)</td>
+                <td>→ ψ</td>
+                <td><span class="greek-text">σκόλοψ</span></td>
+              </tr>
+              <tr>
+                <td>Velares (κ, γ, χ)</td>
+                <td>→ ξ</td>
+                <td><span class="greek-text">σάρξ</span></td>
+              </tr>
+              <tr>
+                <td>Dentales (τ, δ, θ)</td>
+                <td>→ σ</td>
+                <td><span class="greek-text">ὀνόμασι</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-flag-checkered"></i> Conclusión</h2>
+      <div class="conclusion-box">
+        <h2>¡Alentador avance!</h2>
+        <p>Ahora conoces:</p>
+        <div class="vocab-item mnemonic-card" style="max-width: 600px; margin: 20px auto;">
+          <div class="vocab-item-header">
+            <h3>Logros alcanzados</h3>
+            <span class="vocab-tag">Éxito</span>
+          </div>
+          <ul>
+            <li>Las tres declinaciones griegas</li>
+            <li>Las cuatro categorías de adjetivos</li>
+            <li>Los usos flexibles del artículo</li>
+            <li>Las reglas clave de consonantes</li>
+          </ul>
+        </div>
+        <p style="margin-top: 20px; font-size: 1.1rem;">¡Has completado una etapa fundamental en el aprendizaje del Griego Koiné!</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-question-circle"></i> Practica con las Reglas Clave</h2>
+      
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Cómo encontramos la raíz de un sustantivo de tercera declinación?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Usando el nominativo singular</label>
+          <label><input type="radio" name="q1" value="b"> Usando el genitivo singular y eliminando la terminación</label>
+          <label><input type="radio" name="q1" value="c"> Añadiendo sigma al final</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿Qué ocurre cuando una dental (τ, δ, θ) se encuentra con sigma?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Se convierte en ψ</label>
+          <label><input type="radio" name="q2" value="b"> Se convierte en ξ</label>
+          <label><input type="radio" name="q2" value="c"> Permanece como σ</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 3:</strong> ¿Cómo se traduce normalmente la construcción "ὁ δέ"?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> "Pero él"</label>
+          <label><input type="radio" name="q3" value="b"> "El que"</label>
+          <label><input type="radio" name="q3" value="c"> "Todo el"</label>
+        </div>
+        <div class="result" id="result3"></div>
+      </div>
+
+      <button class="week-button" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos del ministerio">
+      </div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio: "Vivos para Servir"</p>
+        <p class="copyright">@Copyright</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = {
+        q1: 'b', // Usando el genitivo singular
+        q2: 'c', // Permanece como σ
+        q3: 'a'  // "Pero él"
+      };
+
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

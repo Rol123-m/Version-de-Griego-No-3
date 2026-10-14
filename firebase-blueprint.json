@@ -1,0 +1,146 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile for Greek Koine course students and teachers",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "User identifier matching auth or student ID",
+          "maxLength": 128
+        },
+        "name": {
+          "type": "string",
+          "description": "Full name of student or professor",
+          "maxLength": 150
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address",
+          "maxLength": 150
+        },
+        "role": {
+          "type": "string",
+          "description": "Role in the course",
+          "enum": ["estudiante", "profesor_titular", "profesor_asistente", "facilitador", "asistente"]
+        },
+        "group": {
+          "type": "string",
+          "description": "Assigned cohort group",
+          "enum": ["ALFA", "BETA", "GAMMA", "ALL"]
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of profile creation"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last update"
+        }
+      },
+      "required": ["userId", "name", "role", "group"]
+    },
+    "StudentProgress": {
+      "title": "StudentProgress",
+      "description": "Progress tracking record for a student in the 30-week course",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Student user ID",
+          "maxLength": 128
+        },
+        "studentName": {
+          "type": "string",
+          "description": "Student full name",
+          "maxLength": 150
+        },
+        "group": {
+          "type": "string",
+          "description": "Group key",
+          "enum": ["ALFA", "BETA", "GAMMA"]
+        },
+        "xp": {
+          "type": "number",
+          "description": "Experience points earned through lessons and games"
+        },
+        "streak": {
+          "type": "number",
+          "description": "Consecutive days active streak"
+        },
+        "semanasCompletadas": {
+          "type": "array",
+          "description": "Array of completed week numbers"
+        },
+        "semanasDesbloqueadas": {
+          "type": "array",
+          "description": "Array of unlocked week numbers"
+        },
+        "recursosCompletados": {
+          "type": "array",
+          "description": "List of completed resource keys"
+        },
+        "juegosCompletados": {
+          "type": "array",
+          "description": "List of completed game keys"
+        },
+        "lastActiveDate": {
+          "type": "string",
+          "description": "ISO timestamp of last activity"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of update"
+        }
+      },
+      "required": ["userId", "studentName", "group"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Course announcements published by professors for groups",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Announcement title",
+          "maxLength": 200
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the announcement",
+          "maxLength": 2000
+        },
+        "authorName": {
+          "type": "string",
+          "description": "Name of publishing professor",
+          "maxLength": 150
+        },
+        "targetGroup": {
+          "type": "string",
+          "description": "Target cohort group or ALL",
+          "enum": ["ALFA", "BETA", "GAMMA", "ALL"]
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        }
+      },
+      "required": ["title", "content", "authorName", "targetGroup"]
+    }
+  },
+  "firestore": {
+    "/user_profiles/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profiles for authenticated participants and instructors"
+    },
+    "/student_progress/{progressId}": {
+      "schema": { "$ref": "#/entities/StudentProgress" },
+      "description": "Weekly course progress and achievements per student"
+    },
+    "/announcements/{announcementId}": {
+      "schema": { "$ref": "#/entities/Announcement" },
+      "description": "Course bulletins and spiritual encouragement from instructors"
+    }
+  }
+}

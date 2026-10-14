@@ -1,0 +1,8 @@
+{
+  "name": "Curso de Griego Koiné - Ministerio Vivos para Servir",
+  "description": "Plataforma educativa para el Curso de Griego Koiné Elemental del Ministerio Vivos para Servir, con 30 semanas de lecciones, vocabulario, juegos interactivos, exámenes por grupos y seguimiento de progreso.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

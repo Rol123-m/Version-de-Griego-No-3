@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Importancia Exegética: 1 Corintios 15:25</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Importancia Exegética: 1 Corintios 15:25</h1>
+      <div class="subtitle">El infinitivo presente y el reinado de Cristo</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-book-bible"></i> El Texto Bíblico</h2>
+      <p>Los infinitivos a menudo completan ideas importantes. No existe idea más importante que la que Pablo expresa en <strong>1 Corintios 15:25</strong>.</p>
+
+      <div class="biblical-box" style="background: linear-gradient(135deg, rgba(233, 30, 99, 0.05) 0%, rgba(233, 30, 99, 0.02) 100%); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #e91e63; margin: 1.5rem 0;">
+        <p><strong>Texto griego:</strong></p>
+        <p class="greek-text">"δεῖ γὰρ αὐτὸν <strong>βασιλεύειν</strong> ἄχρι οὗ θῇ πάντας τοὺς ἐχθροὺς ὑπὸ τοὺς πόδας αὐτοῦ"</p>
+      </div>
+
+      <p><strong>Traducción:</strong> "Porque es necesario que él <strong>esté reinando</strong> hasta que haya puesto a todos sus enemigos bajo sus pies"</p>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-search"></i> Análisis Exegético</h2>
+      <p>Un infinitivo griego contiene <strong>tiempo verbal (aspecto)</strong>, algo que no es claro en los infinitivos españoles. El "tiempo" en este versículo es <strong>presente</strong>, lo que describe una <strong>acción continua</strong>.</p>
+
+      <p>Así, este infinitivo presente explica lo que es necesario acerca de lo que Dios <strong>está en proceso de hacer</strong> a través de Jesús. Pablo enfatiza que Jesús <strong>está en proceso de reinar</strong> hasta que la tarea de sujetar todo bajo sus pies esté completa.</p>
+
+      <div class="important-note">
+        <p><strong>💡 Significado teológico:</strong></p>
+        <p>Esta idea es importante porque algunos piensan en el reinado de Jesús solo como algo anticipado en el futuro. Habrá una manifestación total de esa autoridad un día, pero <strong>el proceso ya ha comenzado</strong> en el segundo Adán.</p>
+      </div>
+
+      <div class="important-note" style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.08) 0%, rgba(52, 152, 219, 0.03) 100%); border-left-color: #3498db;">
+        <p><strong>📖 Referencia del AT:</strong></p>
+        <p>La observación sobre la sujeción es una alusión al <strong>Salmo 110:1</strong>, uno de los pasajes del Antiguo Testamento favoritos del Nuevo Testamento.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Ejemplo Exegético</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué aspecto tiene el infinitivo βασιλεύειν en 1 Corintios 15:25?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Aoristo (indefinido)</label>
+          <label><input type="radio" name="q1" value="b"> Presente (continuo)</label>
+          <label><input type="radio" name="q1" value="c"> Perfecto (completado)</label>
+          <label><input type="radio" name="q1" value="d"> Futuro (futuro)</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

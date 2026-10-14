@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aspecto (No Tiempo) en el Subjuntivo</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Aspecto (No Tiempo) en el Subjuntivo</h1>
+      <div class="subtitle">Continuo vs Indefinido</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-clock"></i> Aspecto Clave</h2>
+      <p>Un verbo griego solo tiene <strong>significado de tiempo absoluto</strong> (pasado, presente, futuro) en el <strong>modo indicativo</strong>.</p>
+
+      <p>El <strong>único significado</strong> que tiene un verbo en subjuntivo es de <strong>aspecto</strong>, al igual que el participio.</p>
+
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Tipo de Subjuntivo</th>
+              <th>Aspecto</th>
+              <th>Significado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Subjuntivo Presente</strong></td>
+              <td>Continuo</td>
+              <td>Acción continua o repetitiva</td>
+            </tr>
+            <tr>
+              <td><strong>Subjuntivo Aoristo</strong></td>
+              <td>Indefinido</td>
+              <td>Acción indefinida o puntual</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="important-note">
+        <p><strong>🔍 Terminología precisa:</strong></p>
+        <p>Es más preciso llamarlos <strong>"subjuntivo continuo"</strong> y <strong>"subjuntivo indefinido"</strong>, porque su verdadero significado es aspectual, no temporal.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-book-bible"></i> Ejemplos Bíblicos</h2>
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Texto griego</th>
+              <th>Traducción</th>
+              <th>Análisis aspectual</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="greek-text">κύριε, <strong>ἐὰν θέλῃς</strong> δύνασαί με καθαρίσαι (Mt 8:2)</td>
+              <td>Señor, <strong>si quieres</strong>, puedes limpiarme</td>
+              <td><strong>θέλῃς</strong>: Subjuntivo presente (continuo)</td>
+            </tr>
+            <tr>
+              <td class="greek-text">ἐπὰν δὲ <strong>εὕρητε</strong>, ἀπαγγείλατέ μοι (Mt 2:8)</td>
+              <td><strong>Cuando hayan encontrado</strong>, avísenme</td>
+              <td><strong>εὕρητε</strong>: Subjuntivo aoristo (indefinido)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Aspecto vs Tiempo</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué significado tiene un verbo en subjuntivo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Tiempo absoluto</label>
+          <label><input type="radio" name="q1" value="b"> Aspecto</label>
+          <label><input type="radio" name="q1" value="c"> Modo</label>
+          <label><input type="radio" name="q1" value="d"> Voz</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

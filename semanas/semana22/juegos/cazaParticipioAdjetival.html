@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Caza-Participio Adjetival | Semana 22</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Segoe UI', 'Poppins', Arial, sans-serif; background: linear-gradient(145deg, #0a1628, #1a2a4a, #0d1f3c); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px 15px 60px; color: white; }
+    .logo { width: 160px; max-width: 60%; margin: 10px auto 5px; filter: drop-shadow(0 4px 20px rgba(255, 215, 0, 0.2)); border-radius: 12px; }
+    h1 { text-align: center; font-size: clamp(1.3rem, 4.5vw, 2.2rem); margin-bottom: 8px; color: #FFD700; font-weight: 700; }
+    h1 span { background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .subtitle { text-align: center; font-size: clamp(0.8rem, 2vw, 1rem); color: rgba(255, 255, 255, 0.5); margin-bottom: 15px; letter-spacing: 2px; }
+    #progress { font-size: clamp(0.85rem, 2.2vw, 1.1rem); margin: 5px 0 15px; padding: 10px 25px; background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border-radius: 50px; border: 1px solid rgba(255, 215, 0, 0.15); display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    #progress .stat span { color: #FFD700; font-weight: 700; }
+    .game-container { width: 100%; max-width: 850px; }
+    .question-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border-radius: 24px; padding: clamp(20px, 4vw, 40px); border: 1px solid rgba(255, 215, 0, 0.1); margin-bottom: 20px; text-align: center; }
+    .verse-ref { font-size: clamp(0.9rem, 2vw, 1.1rem); color: #FFD700; font-weight: 700; margin-bottom: 15px; letter-spacing: 1px; }
+    .verse-text { font-size: clamp(1.2rem, 3.5vw, 1.8rem); font-family: 'Times New Roman', 'New Athena Unicode', serif; color: #fff; font-weight: 600; line-height: 1.8; margin-bottom: 15px; }
+    .verse-text span { display: inline-block; padding: 4px 10px; margin: 4px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); }
+    .verse-text span.highlight-correct { background: rgba(46,204,113,0.3); color: #2ecc71; }
+    .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(clamp(100px, 20vw, 180px), 1fr)); gap: clamp(10px, 2vw, 16px); margin-top: 15px; }
+    .option-btn { padding: clamp(14px, 2.5vw, 20px) clamp(10px, 1.5vw, 20px); border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 14px; background: rgba(255, 255, 255, 0.05); color: white; font-size: clamp(1rem, 2.2vw, 1.2rem); font-family: 'Times New Roman', 'New Athena Unicode', serif; cursor: pointer; transition: all 0.25s; text-align: center; font-weight: 600; min-height: 55px; display: flex; align-items: center; justify-content: center; }
+    .option-btn:hover:not(.used):not(.disabled) { transform: translateY(-3px) scale(1.03); border-color: #FFD700; background: rgba(255, 215, 0, 0.1); }
+    .option-btn.correct { border-color: #2ecc71; background: rgba(46, 204, 113, 0.2); color: #2ecc71; transform: scale(1.05); }
+    .option-btn.wrong { border-color: #e74c3c; background: rgba(231, 76, 60, 0.2); color: #e74c3c; animation: shake 0.5s ease; }
+    .option-btn.used { opacity: 0.3; cursor: not-allowed; transform: scale(0.95); filter: grayscale(0.5); }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-12px) rotate(-2deg); } 40% { transform: translateX(12px) rotate(2deg); } 60% { transform: translateX(-8px); } 80% { transform: translateX(8px); } }
+    .feedback { margin-top: 20px; padding: clamp(12px, 2vw, 20px); border-radius: 14px; font-size: clamp(0.95rem, 2vw, 1.1rem); text-align: center; min-height: 50px; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
+    .feedback.show { opacity: 1; transform: translateY(0); }
+    .feedback.success { background: rgba(46, 204, 113, 0.15); border: 1px solid rgba(46, 204, 113, 0.3); color: #2ecc71; }
+    .feedback.error { background: rgba(231, 76, 60, 0.15); border: 1px solid rgba(231, 76, 60, 0.3); color: #e74c3c; }
+    .next-btn { margin-top: 15px; padding: clamp(14px, 2.5vw, 18px) clamp(30px, 5vw, 50px); border: none; border-radius: 50px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 700; cursor: pointer; display: none; align-items: center; gap: 10px; margin-left: auto; margin-right: auto; }
+    .next-btn.show { display: inline-flex; }
+    .final-message { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: linear-gradient(145deg, #0f1a2e, #1a2a4a); padding: clamp(30px, 5vw, 50px); border-radius: 30px; text-align: center; animation: zoomIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; border: 2px solid rgba(255, 215, 0, 0.3); z-index: 1000; max-width: 90vw; width: 450px; }
+    @keyframes zoomIn { 0% { transform: translate(-50%, -50%) scale(0) rotate(-3deg); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } }
+    .final-message img { width: clamp(120px, 25vw, 170px); margin-bottom: 15px; border-radius: 15px; }
+    .final-message h2 { color: #FFD700; font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 10px; }
+    .final-message .stats { font-size: clamp(1rem, 2vw, 1.2rem); opacity: 0.9; line-height: 1.8; }
+    .final-message .stats span { color: #FFD700; font-weight: 700; }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+    .overlay.active { opacity: 1; pointer-events: all; }
+    @media (max-width: 480px) {
+      .logo { width: 110px; }
+      h1 { font-size: 1.1rem; }
+      .verse-text { font-size: 1rem; }
+      .option-btn { padding: 10px 6px; font-size: 0.8rem; min-height: 40px; }
+    }
+  </style>
+</head>
+<body>
+  <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" class="logo" alt="Logo">
+  <h1>🔍 <span>Caza-Participio Adjetival</span></h1>
+  <div class="subtitle">✧ Semana 22: Participios Adjetivales ✧</div>
+
+  <div id="progress">
+    <div class="stat">📖 <span id="current-q">1</span>/<span id="total-q">12</span></div>
+    <div class="stat">✅ <span id="correct-count">0</span></div>
+    <div class="stat">💪 Racha: <span id="streak">0</span>🔥</div>
+  </div>
+
+  <div class="game-container">
+    <div class="question-card" id="questionCard">
+      <div class="verse-ref" id="verseRef"></div>
+      <div class="verse-text" id="verseText"></div>
+      <div class="options-grid" id="optionsGrid"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="nextBtn"><span>Siguiente</span> <span>→</span></button>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <script>
+    const questions = [
+      {ref:"Mateo 5:4", text:["μακάριοι","οἱ","πενθοῦντες","ὅτι","αὐτοὶ","παρακληθήσονται"], correct:"πενθοῦντες", translation:"los que lloran"},
+      {ref:"Juan 3:16", text:["πᾶς","ὁ","πιστεύων","εἰς","αὐτὸν","ἔχῃ","ζωὴν","αἰώνιον"], correct:"πιστεύων", translation:"el que cree"},
+      {ref:"Mateo 5:44", text:["προσεύχεσθε","ὑπὲρ","τῶν","διωκόντων","ὑμᾶς"], correct:"διωκόντων", translation:"de los que persiguen"},
+      {ref:"Juan 4:27", text:["ὁ","ἄνθρωπος","ὁ","λαλῶν","μετ'","αὐτῆς"], correct:"λαλῶν", translation:"el que habla"},
+      {ref:"Romanos 1:3", text:["τοῦ","υἱοῦ","αὐτοῦ","τοῦ","γενομένου","ἐκ","σπέρματος","Δαυίδ"], correct:"γενομένου", translation:"el que fue"},
+      {ref:"Romanos 1:4", text:["τοῦ","ὁρισθέντος","υἱοῦ","θεοῦ","ἐν","δυνάμει"], correct:"ὁρισθέντος", translation:"el que fue declarado"},
+      {ref:"Mateo 13:20", text:["ὁ","τὸν","λόγον","ἀκούσας","εὐθὺς","μετὰ","χαρᾶς","λαμβάνει"], correct:"ἀκούσας", translation:"el que oyó"},
+      {ref:"Mateo 5:6", text:["μακάριοι","οἱ","πεινῶντες","καὶ","διψῶντες","τὴν","δικαιοσύνην"], correct:"πεινῶντες", translation:"los que tienen hambre"},
+      {ref:"Juan 6:35", text:["ὁ","ἐρχόμενος","πρός","με","οὐ","μὴ","πεινάσῃ"], correct:"ἐρχόμενος", translation:"el que viene"},
+      {ref:"Juan 8:12", text:["ὁ","ἀκολουθῶν","ἐμοὶ","οὐ","μὴ","περιπατήσει","ἐν","τῇ","σκοτίᾳ"], correct:"ἀκολουθῶν", translation:"el que sigue"},
+      {ref:"Mateo 25:34", text:["οἱ","εὐλογημένοι","τοῦ","πατρός","μου","κληρονομήσατε"], correct:"εὐλογημένοι", translation:"los bendecidos"},
+      {ref:"Juan 15:5", text:["ὁ","μένων","ἐν","ἐμοὶ","καὶ","ἐγὼ","ἐν","αὐτῷ"], correct:"μένων", translation:"el que permanece"}
+    ];
+
+    let currentIndex = 0, correctCount = 0, streak = 0, maxStreak = 0, isAnswered = false, totalQuestions = questions.length;
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; }
+      return array;
+    }
+    let shuffledQuestions = shuffleArray([...questions]);
+
+    function loadQuestion(index) {
+      const q = shuffledQuestions[index];
+      if (!q) return;
+      isAnswered = false;
+      document.getElementById('nextBtn').classList.remove('show');
+      const feedback = document.getElementById('feedback');
+      feedback.className = 'feedback'; feedback.textContent = '';
+      document.getElementById('current-q').textContent = index + 1;
+      document.getElementById('total-q').textContent = totalQuestions;
+      document.getElementById('verseRef').textContent = '📖 ' + q.ref;
+      document.getElementById('verseText').innerHTML = q.text.map(w => `<span>${w}</span>`).join(' ');
+
+      const allWords = [...new Set(q.text)];
+      const distractors = allWords.filter(w => w !== q.correct && w.length > 3).slice(0, 3);
+      const options = shuffleArray([q.correct, ...distractors]);
+      const grid = document.getElementById('optionsGrid');
+      grid.innerHTML = '';
+      options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt;
+        btn.dataset.value = opt;
+        btn.addEventListener('click', () => handleOptionClick(btn, q));
+        btn.addEventListener('touchend', (e) => { e.preventDefault(); handleOptionClick(btn, q); });
+        grid.appendChild(btn);
+      });
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('correct', 'wrong', 'used', 'disabled'));
+    }
+
+    function handleOptionClick(btn, q) {
+      if (isAnswered || btn.classList.contains('used')) return;
+      const selected = btn.dataset.value, correct = q.correct;
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.add('disabled'));
+      document.querySelectorAll('#verseText span').forEach(span => {
+        if (span.textContent === correct) span.classList.add('highlight-correct');
+      });
+      if (selected === correct) {
+        btn.classList.add('correct');
+        correctCount++; streak++; if (streak > maxStreak) maxStreak = streak;
+        const feedback = document.getElementById('feedback');
+        feedback.textContent = '✅ ¡Correcto! ' + correct + ' = ' + q.translation + (streak > 1 ? ` ¡${streak} seguidos! 🔥` : '');
+        feedback.className = 'feedback success show';
+        btn.classList.add('used'); isAnswered = true;
+      } else {
+        btn.classList.add('wrong');
+        streak = 0;
+        document.querySelectorAll('.option-btn').forEach(b => { if (b.dataset.value === correct) b.classList.add('correct'); });
+        const feedback = document.getElementById('feedback');
+        feedback.textContent = `❌ Incorrecto. La respuesta correcta es: "${correct}" = ${q.translation}`;
+        feedback.className = 'feedback error show';
+        btn.classList.add('used'); isAnswered = true;
+      }
+      document.getElementById('correct-count').textContent = correctCount;
+      document.getElementById('streak').textContent = streak;
+      document.getElementById('nextBtn').classList.add('show');
+    }
+
+    function nextQuestion() {
+      if (currentIndex < totalQuestions - 1) { currentIndex++; loadQuestion(currentIndex); }
+      else { showFinalMessage(); }
+    }
+
+    function showFinalMessage() {
+      document.getElementById('overlay').classList.add('active');
+      const percentage = Math.round((correctCount / totalQuestions) * 100);
+      let emoji = '📚', message = 'Sigue practicando, ¡lo lograrás!';
+      if (percentage >= 90) { emoji = '🌟'; message = '¡Excelente cazador de participios!'; }
+      else if (percentage >= 70) { emoji = '👍'; message = '¡Buen trabajo! Sigue así.'; }
+      else if (percentage >= 50) { emoji = '💪'; message = 'Vas por buen camino, ¡sigue practicando!'; }
+      const finalHTML = `
+        <div class="final-message">
+          <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo">
+          <h2>${emoji} ¡Juego Completado!</h2>
+          <div class="stats">
+            <p>📖 Preguntas: <span>${totalQuestions}</span></p>
+            <p>✅ Aciertos: <span>${correctCount}</span></p>
+            <p>🎯 Porcentaje: <span>${percentage}%</span></p>
+            <p>🔥 Mejor racha: <span>${maxStreak}</span></p>
+            <p style="margin-top: 10px;">${message}</p>
+          </div>
+          <button onclick="reiniciarJuego()" style="margin-top: 20px; padding: 12px 35px; border: none; border-radius: 50px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-size: 1.1rem; font-weight: 700; cursor: pointer;">🔄 Jugar de nuevo</button>
+        </div>`;
+      const old = document.querySelector('.final-message'); if (old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', finalHTML);
+    }
+
+    function reiniciarJuego() {
+      document.querySelector('.final-message')?.remove();
+      document.getElementById('overlay').classList.remove('active');
+      shuffledQuestions = shuffleArray([...questions]);
+      currentIndex = 0; correctCount = 0; streak = 0; maxStreak = 0; isAnswered = false;
+      document.getElementById('correct-count').textContent = '0';
+      document.getElementById('streak').textContent = '0';
+      document.getElementById('nextBtn').classList.remove('show');
+      loadQuestion(0);
+    }
+
+    document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+    document.addEventListener('DOMContentLoaded', () => { loadQuestion(0); });
+  </script>
+</body>
+</html>

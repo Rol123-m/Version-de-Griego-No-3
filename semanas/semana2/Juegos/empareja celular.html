@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Aprendizaje Griego Koiné - Ministerio Vivos para Servir</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a237e, #0d47a1);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: white;
+        }
+
+        .logo {
+            width: 200px;
+            margin: 20px 0;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 1.8em;
+        }
+
+        .levels-container {
+            width: 100%;
+            max-width: 1200px;
+            position: relative;
+            min-height: 500px;
+        }
+
+        .game-level {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+
+        .game-level.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 45%;
+            min-width: 160px;
+        }
+
+        .word {
+            padding: 12px 15px;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            background: rgba(0,0,0,0.4);
+            cursor: grab;
+            text-align: center;
+            transition: transform 0.2s;
+            font-size: 1em;
+        }
+
+        .word:active {
+            cursor: grabbing;
+        }
+
+        .correct {
+            background: #27ae60 !important;
+            border-color: #219a52 !important;
+        }
+
+        .incorrect {
+            background: #c0392b !important;
+            border-color: #a93226 !important;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        #progress {
+            font-size: 1.2em;
+            margin: 10px 0;
+            padding: 8px 20px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+        }
+
+        .final-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            animation: zoomIn 0.5s ease-out;
+            border: 2px solid gold;
+            box-shadow: 0 0 30px gold;
+        }
+
+        @keyframes zoomIn {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .music-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: rgba(0,0,0,0.7);
+            padding: 10px;
+            border-radius: 50px;
+        }
+
+        .music-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: #FFD700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-btn img {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .column {
+                width: 90%;
+            }
+
+            .levels-container {
+                min-height: auto;
+            }
+
+            .word {
+                font-size: 1.1em;
+                padding: 15px;
+            }
+
+            .music-controls {
+                bottom: 10px;
+                right: 10px;
+            }
+
+            .logo {
+                width: 150px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+  
+</head>
+<body>
+    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" class="logo" alt="Logo Ministerio">
+    <h1>Desafío del Griego Bíblico</h1>
+    <div id="progress">Nivel: <span id="current-level">1</span>/4</div>
+
+    <div class="levels-container">
+        <div class="game-level active" id="level1"></div>
+        <div class="game-level" id="level2"></div>
+        <div class="game-level" id="level3"></div>
+        <div class="game-level" id="level4"></div>
+    </div>
+    <div class="music-controls">
+        <button class="music-btn" id="playBtn">▶</button>
+        <button class="music-btn" id="pauseBtn">⏸</button>
+    </div>
+
+    <div class="levels-container">
+        <div class="game-level active" id="level1"></div>
+        <div class="game-level" id="level2"></div>
+        <div class="game-level" id="level3"></div>
+        <div class="game-level" id="level4"></div>
+    </div>
+
+    <!-- Elemento de audio -->
+    <audio id="backgroundMusic" loop>
+        <source src="01. Dios Sabe Lo Que Hace.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio HTML5
+    </audio>
+
+    <script>
+        const vocabulary = {
+            level1: [
+        {griego: 'εὐαγγέλιον', significado: 'evangelio'},
+        {griego: 'ἀγάπη', significado: 'amor'},
+        {griego: 'ἐκκλησία', significado: 'iglesia'},
+        {griego: 'σωτηρία', significado: 'salvación'},
+        { griego: "ὥρα", significado: "Hora, momento, ocasión" }
+            ],
+
+            level2: [
+        { griego: "ἀγάπη", significado: "Amor" },
+        { griego: "ἄλλος", significado: "Otro, otra" },
+        { griego: "αὐτός", significado: "Él, ella, ello (singular); ellos, ellas (plural)" },
+        { griego: "ὁ, ἡ, τό", significado: "El, la, lo (artículo definido)" },
+        { griego: "βασιλεία", significado: "Reino" }
+            ],
+            level3: [
+        { griego: "δέ", significado: "Pero, y" },
+        { griego: "ἐν", significado: "En, dentro de, entre" },
+        { griego: "ἔργον", significado: "Trabajo, obra, acción" },
+        {griego: 'σωτηρία', significado: 'salvación'},
+        { griego: "καιρός", significado: "Tiempo, momento, temporada" }
+            ],
+            level4: [
+        { griego: "νῦν", significado: "Ahora" },
+        { griego: "ἀγάπη", significado: "Amor" },
+        { griego: "ὁ, ἡ, τό", significado: "El, la, lo (artículo definido)" },
+        { griego: "ὅτι", significado: "Que, porque, ya que" },
+        { griego: "οὐ (οὐκ, οὐχ)", significado: "No" },
+            ],
+         
+        };
+        
+        
+        let currentLevel = 1;
+        let selectedElement = null;
+
+        function initializeGame() {
+            initializeLevel(currentLevel);
+            document.addEventListener('dragstart', handleDragStart);
+            document.addEventListener('dragover', handleDragOver);
+            document.addEventListener('drop', handleDrop);
+        }
+
+        function initializeLevel(level) {
+            // Resetear todos los niveles
+            document.querySelectorAll('.game-level').forEach(el => {
+                el.classList.remove('active');
+                el.innerHTML = '';
+            });
+            
+            const container = document.getElementById(`level${level}`);
+            const data = vocabulary[`level${level}`];
+            
+            // Mezclar elementos
+            const shuffledGreek = shuffleArray([...data]);
+            const shuffledMeanings = shuffleArray([...data].map(item => item.significado));
+
+            container.innerHTML = `
+                <div class="column">
+                    ${shuffledGreek.map(word => `
+                        <div class="word" data-greek="${word.griego}" draggable="true">
+                            ${word.griego}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="column">
+                    ${shuffledMeanings.map(meaning => `
+                        <div class="word" data-meaning="${meaning}" draggable="true">
+                            ${meaning}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            container.classList.add('active');
+        }
+
+        function handleDragStart(e) {
+            selectedElement = e.target;
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            if (!selectedElement || !e.target.classList.contains('word')) return;
+
+            const target = e.target;
+            const isGreek = selectedElement.hasAttribute('data-greek');
+            const isMeaning = target.hasAttribute('data-meaning');
+
+            if (isGreek && isMeaning) {
+                checkMatch(selectedElement, target);
+            }
+        }
+
+        function checkMatch(greekElement, meaningElement) {
+            const correctMatch = vocabulary[`level${currentLevel}`].some(item =>
+                item.griego === greekElement.dataset.greek &&
+                item.significado === meaningElement.dataset.meaning
+            );
+
+            if (correctMatch) {
+                greekElement.classList.add('correct');
+                meaningElement.classList.add('correct');
+                checkLevelProgress();
+            } else {
+                greekElement.classList.add('incorrect');
+                meaningElement.classList.add('incorrect');
+                setTimeout(() => {
+                    greekElement.classList.remove('incorrect');
+                    meaningElement.classList.remove('incorrect');
+                }, 800);
+            }
+        }
+
+        function checkLevelProgress() {
+            const currentContainer = document.getElementById(`level${currentLevel}`);
+            const correctPairs = currentContainer.querySelectorAll('.correct').length / 2;
+            
+            if (correctPairs === 5) {
+                if (currentLevel === 4) {
+                    showFinalMessage();
+                } else {
+                    currentLevel++;
+                    document.getElementById('current-level').textContent = currentLevel;
+                    setTimeout(() => initializeLevel(currentLevel), 500);
+                }
+            }
+        }
+
+        function showFinalMessage() {
+            const finalHTML = `
+                <div class="final-message">
+                    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" style="width: 200px; margin-bottom: 20px;">
+                    <h2 style="color: #FFD700; margin-bottom: 15px;">¡Niveles Completados!</h2>
+                    <p style="font-size: 1.2em;">Has dominado 20 palabras del Griego Koiné</p>
+                    <p style="margin-top: 20px;">"Tu palabra es una lámpara a mis pies"</p>
+                    <p style="font-style: italic;">Salmo 119:105</p>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', finalHTML);
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        // Control de música
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+
+        // Iniciar música con interacción del usuario
+        document.body.addEventListener('click', initAudio, { once: true });
+
+        function initAudio() {
+            backgroundMusic.volume = 0.3; // Volumen al 30%
+            backgroundMusic.play().catch(error => {
+                console.log('La reproducción automática fue bloqueada:', error);
+            });
+        }
+
+        // Controles manuales
+        playBtn.addEventListener('click', () => {
+            backgroundMusic.play();
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            backgroundMusic.pause();
+        });
+
+        // Ajustar volumen durante la reproducción
+        backgroundMusic.addEventListener('volumechange', () => {
+            backgroundMusic.volume = Math.min(0.3, backgroundMusic.volume);
+        });
+
+
+        initializeGame();
+    </script>
+</body>
+</html>

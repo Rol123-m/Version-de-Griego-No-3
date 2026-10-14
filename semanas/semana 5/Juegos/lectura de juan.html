@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio: Juan 3.14-21</title>
+    <style>
+        :root {
+            --primary: #27ae60;
+            --secondary: #2ecc71;
+            --light: #e8f8f0;
+            --dark: #1e8449;
+            --accent: #e74c3c;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: var(--light);
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: var(--dark);
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+        }
+        
+        .greek-text {
+            font-size: 1.4rem;
+            line-height: 2;
+            text-align: justify;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .word {
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: all 0.2s;
+        }
+        
+        .word:hover {
+            background-color: rgba(39, 174, 96, 0.2);
+        }
+        
+        .word.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .tooltip {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--dark);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: none;
+            font-size: 0.9rem;
+        }
+        
+        .tooltip h3 {
+            margin-top: 0;
+            color: var(--light);
+            border-bottom: 1px solid var(--secondary);
+            padding-bottom: 5px;
+        }
+        
+        .tooltip .close {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 8px;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .instructions {
+            background-color: #e8f8f0;
+            padding: 15px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .verse-number {
+            font-size: 0.8em;
+            color: var(--secondary);
+            vertical-align: super;
+            margin-right: 2px;
+        }
+        
+        @media (max-width: 600px) {
+            .greek-text {
+                font-size: 1.2rem;
+                padding: 15px;
+            }
+            
+            .tooltip {
+                width: 95%;
+                bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Juan 3:14-21 - Ejercicio Interactivo</h1>
+    
+    <div class="instructions">
+        <p>Haz clic en cualquier palabra del texto griego para ver su análisis morfológico y significado.</p>
+    </div>
+    
+    <div class="greek-text" id="john-text">
+        <span class="verse-number">14</span> Καὶ καθὼς Μωϋσῆς ὕψωσεν τὸν ὄφιν ἐν τῇ ἐρήμῳ, οὕτως ὑψωθῆναι δεῖ τὸν υἱὸν τοῦ ἀνθρώπου, 
+        <span class="verse-number">15</span> ἵνα πᾶς ὁ πιστεύων ἐν αὐτῷ ἔχῃ ζωὴν αἰώνιον. 
+        
+        <span class="verse-number">16</span> Οὕτως γὰρ ἠγάπησεν ὁ θεὸς τὸν κόσμον, ὥστε τὸν υἱὸν τὸν μονογενῆ ἔδωκεν, ἵνα πᾶς ὁ πιστεύων εἰς αὐτὸν μὴ ἀπόληται ἀλλ᾽ ἔχῃ ζωὴν αἰώνιον. 
+        <span class="verse-number">17</span> οὐ γὰρ ἀπέστειλεν ὁ θεὸς τὸν υἱὸν εἰς τὸν κόσμον ἵνα κρίνῃ τὸν κόσμον, ἀλλ᾽ ἵνα σωθῇ ὁ κόσμος δι᾽ αὐτοῦ. 
+        <span class="verse-number">18</span> ὁ πιστεύων εἰς αὐτὸν οὐ κρίνεται· ὁ δὲ μὴ πιστεύων ἤδη κέκριται, ὅτι μὴ πεπίστευκεν εἰς τὸ ὄνομα τοῦ μονογενοῦς υἱοῦ τοῦ θεοῦ. 
+        <span class="verse-number">19</span> αὕτη δέ ἐστιν ἡ κρίσις ὅτι τὸ φῶς ἐλήλυθεν εἰς τὸν κόσμον καὶ ἠγάπησαν οἱ ἄνθρωποι μᾶλλον τὸ σκότος ἢ τὸ φῶς· ἦν γὰρ αὐτῶν πονηρὰ τὰ ἔργα. 
+        <span class="verse-number">20</span> πᾶς γὰρ ὁ φαῦλα πράσσων μισεῖ τὸ φῶς καὶ οὐκ ἔρχεται πρὸς τὸ φῶς, ἵνα μὴ ἐλεγχθῇ τὰ ἔργα αὐτοῦ· 
+        <span class="verse-number">21</span> ὁ δὲ ποιῶν τὴν ἀλήθειαν ἔρχεται πρὸς τὸ φῶς, ἵνα φανερωθῇ αὐτοῦ τὰ ἔργα ὅτι ἐν θεῷ ἐστιν εἰργασμένα.
+    </div>
+    
+    <div class="tooltip" id="word-tooltip">
+        <span class="close" onclick="hideTooltip()">×</span>
+        <h3 id="tooltip-word"></h3>
+        <div class="info-grid">
+            <div class="info-label">Raíz:</div>
+            <div id="tooltip-root"></div>
+            
+            <div class="info-label">Forma:</div>
+            <div id="tooltip-form"></div>
+            
+            <div class="info-label">Función:</div>
+            <div id="tooltip-function"></div>
+            
+            <div class="info-label">Significado:</div>
+            <div id="tooltip-meaning"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Diccionario de palabras con su información
+        const wordData = {
+            "Καὶ": {
+                root: "καί",
+                form: "Conjunción coordinante",
+                function: "Conecta oraciones",
+                meaning: "y"
+            },
+            "καθὼς": {
+                root: "καθώς",
+                form: "Conjunción comparativa",
+                function: "Introduce comparación",
+                meaning: "como, así como"
+            },
+            "Μωϋσῆς": {
+                root: "Μωϋσῆς",
+                form: "Sustantivo propio, nominativo singular",
+                function: "Sujeto de la oración",
+                meaning: "Moisés"
+            },
+            "ὕψωσεν": {
+                root: "ὑψόω",
+                form: "Verbo, 3a persona singular aoristo activo indicativo",
+                function: "Verbo principal",
+                meaning: "levantó, exaltó"
+            },
+            "τὸν": {
+                root: "ὁ",
+                form: "Artículo definido, acusativo masculino singular",
+                function: "Determinante de ὄφιν",
+                meaning: "el"
+            },
+            "ὄφιν": {
+                root: "ὄφις",
+                form: "Sustantivo masculino, acusativo singular",
+                function: "Objeto directo",
+                meaning: "serpiente"
+            },
+            "ἐν": {
+                root: "ἐν",
+                form: "Preposición (con dativo)",
+                function: "Indica localización",
+                meaning: "en"
+            },
+            "τῇ": {
+                root: "ὁ",
+                form: "Artículo definido, dativo femenino singular",
+                function: "Determinante de ἐρήμῳ",
+                meaning: "la"
+            },
+            "ἐρήμῳ": {
+                root: "ἔρημος",
+                form: "Sustantivo femenino, dativo singular",
+                function: "Complemento de lugar",
+                meaning: "desierto"
+            },
+            "οὕτως": {
+                root: "οὕτως",
+                form: "Adverbio",
+                function: "Modo de comparación",
+                meaning: "así, de esta manera"
+            },
+            "ὑψωθῆναι": {
+                root: "ὑψόω",
+                form: "Verbo, aoristo pasivo infinitivo",
+                function: "Complemento de δεῖ",
+                meaning: "ser levantado"
+            },
+            "δεῖ": {
+                root: "δέω",
+                form: "Verbo, 3a persona singular presente activo indicativo",
+                function: "Verbo principal",
+                meaning: "es necesario, debe"
+            },
+            "τὸν": {
+                root: "ὁ",
+                form: "Artículo definido, acusativo masculino singular",
+                function: "Determinante de υἱόν",
+                meaning: "el"
+            },
+            "υἱὸν": {
+                root: "υἱός",
+                form: "Sustantivo masculino, acusativo singular",
+                function: "Sujeto del infinitivo",
+                meaning: "hijo"
+            },
+            "τοῦ": {
+                root: "ὁ",
+                form: "Artículo definido, genitivo masculino singular",
+                function: "Determinante de ἀνθρώπου",
+                meaning: "el"
+            },
+            "ἀνθρώπου": {
+                root: "ἄνθρωπος",
+                form: "Sustantivo masculino, genitivo singular",
+                function: "Complemento de υἱόν",
+                meaning: "del hombre"
+            },
+            "ἵνα": {
+                root: "ἵνα",
+                form: "Conjunción final",
+                function: "Introduce propósito",
+                meaning: "para que"
+            },
+            "πᾶς": {
+                root: "πᾶς",
+                form: "Adjetivo/pronombre, nominativo masculino singular",
+                function: "Determinante de πιστεύων",
+                meaning: "todo, cada"
+            },
+            "ὁ": {
+                root: "ὁ",
+                form: "Artículo definido, nominativo masculino singular",
+                function: "Determinante de πιστεύων",
+                meaning: "el"
+            },
+            "πιστεύων": {
+                root: "πιστεύω",
+                form: "Participio presente activo, nominativo masculino singular",
+                function: "Sujeto de la oración",
+                meaning: "el que cree"
+            },
+            "ἐν": {
+                root: "ἐν",
+                form: "Preposición (con dativo)",
+                function: "Indica esfera",
+                meaning: "en"
+            },
+            "αὐτῷ": {
+                root: "αὐτός",
+                form: "Pronombre personal, dativo masculino singular",
+                function: "Complemento de πιστεύων",
+                meaning: "en él"
+            },
+            "ἔχῃ": {
+                root: "ἔχω",
+                form: "Verbo, 3a persona singular presente activo subjuntivo",
+                function: "Verbo principal",
+                meaning: "tenga"
+            },
+            "ζωὴν": {
+                root: "ζωή",
+                form: "Sustantivo femenino, acusativo singular",
+                function: "Objeto directo",
+                meaning: "vida"
+            },
+            "αἰώνιον": {
+                root: "αἰώνιος",
+                form: "Adjetivo, acusativo femenino singular",
+                function: "Atributo de ζωήν",
+                meaning: "eterna"
+            },
+            "Οὕτως": {
+                root: "οὕτως",
+                form: "Adverbio",
+                function: "Modo de comparación",
+                meaning: "de esta manera, así"
+            },
+            "γὰρ": {
+                root: "γάρ",
+                form: "Conjunción explicativa",
+                function: "Explica o justifica",
+                meaning: "porque, pues"
+            },
+            "ἠγάπησεν": {
+                root: "ἀγαπάω",
+                form: "Verbo, 3a persona singular aoristo activo indicativo",
+                function: "Verbo principal",
+                meaning: "amó"
+            },
+            "ὁ": {
+                root: "ὁ",
+                form: "Artículo definido, nominativo masculino singular",
+                function: "Determinante de θεός",
+                meaning: "el"
+            },
+            "θεὸς": {
+                root: "θεός",
+                form: "Sustantivo masculino, nominativo singular",
+                function: "Sujeto de la oración",
+                meaning: "Dios"
+            },
+            "τὸν": {
+                root: "ὁ",
+                form: "Artículo definido, acusativo masculino singular",
+                function: "Determinante de κόσμον",
+                meaning: "el"
+            },
+            "κόσμον": {
+                root: "κόσμος",
+                form: "Sustantivo masculino, acusativo singular",
+                function: "Objeto directo",
+                meaning: "mundo"
+            },
+            "ὥστε": {
+                root: "ὥστε",
+                form: "Conjunción consecutiva",
+                function: "Introduce resultado",
+                meaning: "que, de tal manera que"
+            },
+            "τὸν": {
+                root: "ὁ",
+                form: "Artículo definido, acusativo masculino singular",
+                function: "Determinante de υἱόν",
+                meaning: "el"
+            },
+            "υἱὸν": {
+                root: "υἱός",
+                form: "Sustantivo masculino, acusativo singular",
+                function: "Objeto directo",
+                meaning: "hijo"
+            },
+            "τὸν": {
+                root: "ὁ",
+                form: "Artículo definido, acusativo masculino singular",
+                function: "Determinante de μονογενῆ",
+                meaning: "el"
+            },
+            "μονογενῆ": {
+                root: "μονογενής",
+                form: "Adjetivo, acusativo masculino singular",
+                function: "Atributo de υἱόν",
+                meaning: "unigénito"
+            },
+            "ἔδωκεν": {
+                root: "δίδωμι",
+                form: "Verbo, 3a persona singular aoristo activo indicativo",
+                function: "Verbo principal",
+                meaning: "dio"
+            },
+            "εἰς": {
+                root: "εἰς",
+                form: "Preposición (con acusativo)",
+                function: "Indica dirección",
+                meaning: "en, hacia"
+            },
+            "αὐτὸν": {
+                root: "αὐτός",
+                form: "Pronombre personal, acusativo masculino singular",
+                function: "Complemento de πιστεύων",
+                meaning: "en él"
+            },
+            "μὴ": {
+                root: "μή",
+                form: "Partícula negativa",
+                function: "Niega el verbo en subjuntivo",
+                meaning: "no"
+            },
+            "ἀπόληται": {
+                root: "ἀπόλλυμι",
+                form: "Verbo, 3a persona singular aoristo medio subjuntivo",
+                function: "Verbo subordinado",
+                meaning: "perece, se pierda"
+            },
+            "ἀλλ᾽": {
+                root: "ἀλλά",
+                form: "Conjunción adversativa",
+                function: "Contraste",
+                meaning: "sino"
+            },
+            "οὐ": {
+                root: "οὐ",
+                form: "Partícula negativa",
+                function: "Niega el verbo",
+                meaning: "no"
+            },
+            "γὰρ": {
+                root: "γάρ",
+                form: "Conjunción explicativa",
+                function: "Explica o justifica",
+                meaning: "porque, pues"
+            },
+            "ἀπέστειλεν": {
+                root: "ἀποστέλλω",
+                form: "Verbo, 3a persona singular aoristo activo indicativo",
+                function: "Verbo principal",
+                meaning: "envió"
+            },
+            "ἵνα": {
+                root: "ἵνα",
+                form: "Conjunción final",
+                function: "Introduce propósito",
+                meaning: "para que"
+            },
+            "κρίνῃ": {
+                root: "κρίνω",
+                form: "Verbo, 3a persona singular aoristo activo subjuntivo",
+                function: "Verbo subordinado",
+                meaning: "juzgue"
+            },
+            "σωθῇ": {
+                root: "σώζω",
+                form: "Verbo, 3a persona singular aoristo pasivo subjuntivo",
+                function: "Verbo subordinado",
+                meaning: "sea salvo"
+            },
+            "δι᾽": {
+                root: "διά",
+                form: "Preposición (con genitivo)",
+                function: "Indica medio",
+                meaning: "por medio de"
+            },
+            "αὐτοῦ": {
+                root: "αὐτός",
+                form: "Pronombre personal, genitivo masculino singular",
+                function: "Complemento de διά",
+                meaning: "de él"
+            },
+            "ὁ": {
+                root: "ὁ",
+                form: "Artículo definido, nominativo masculino singular",
+                function: "Determinante de πιστεύων",
+                meaning: "el"
+            },
+            "δὲ": {
+                root: "δέ",
+                form: "Conjunción adversativa",
+                function: "Contraste",
+                meaning: "pero"
+            },
+            "μὴ": {
+                root: "μή",
+                form: "Partícula negativa",
+                function: "Niega el verbo",
+                meaning: "no"
+            },
+            "πιστεύων": {
+                root: "πιστεύω",
+                form: "Participio presente activo, nominativo masculino singular",
+                function: "Sujeto de la oración",
+                meaning: "el que no cree"
+            },
+            "ἤδη": {
+                root: "ἤδη",
+                form: "Adverbio",
+                function: "Indica tiempo",
+                meaning: "ya"
+            },
+            "κέκριται": {
+                root: "κρίνω",
+                form: "Verbo, 3a persona singular perfecto pasivo indicativo",
+                function: "Verbo principal",
+                meaning: "ha sido juzgado"
+            },
+            "ὅτι": {
+                root: "ὅτι",
+                form: "Conjunción causal",
+                function: "Introduce causa",
+                meaning: "porque"
+            },
+            "πεπίστευκεν": {
+                root: "πιστεύω",
+                form: "Verbo, 3a persona singular perfecto activo indicativo",
+                function: "Verbo principal",
+                meaning: "ha creído"
+            },
+            "εἰς": {
+                root: "εἰς",
+                form: "Preposición (con acusativo)",
+                function: "Indica dirección",
+                meaning: "en, hacia"
+            },
+            "τὸ": {
+                root: "ὁ",
+                form: "Artículo definido, acusativo neutro singular",
+                function: "Determinante de ὄνομα",
+                meaning: "el"
+            },
+            "ὄνομα": {
+                root: "ὄνομα",
+                form: "Sustantivo neutro, acusativo singular",
+                function: "Objeto de πεπίστευκεν",
+                meaning: "nombre"
+            },
+            "αὕτη": {
+                root: "οὗτος",
+                form: "Pronombre demostrativo, nominativo femenino singular",
+                function: "Sujeto de la oración",
+                meaning: "esta"
+            },
+            "δέ": {
+                root: "δέ",
+                form: "Conjunción adversativa",
+                function: "Contraste",
+                meaning: "pero"
+            },
+            "ἐστιν": {
+                root: "εἰμί",
+                form: "Verbo, 3a persona singular presente activo indicativo",
+                function: "Verbo copulativo",
+                meaning: "es"
+            },
+            "ἡ": {
+                root: "ὁ",
+                form: "Artículo definido, nominativo femenino singular",
+                function: "Determinante de κρίσις",
+                meaning: "la"
+            },
+            "κρίσις": {
+                root: "κρίσις",
+                form: "Sustantivo femenino, nominativo singular",
+                function: "Atributo del sujeto",
+                meaning: "juicio"
+            },
+            "ὅτι": {
+                root: "ὅτι",
+                form: "Conjunción causal",
+                function: "Introduce causa",
+                meaning: "porque"
+            },
+            "τὸ": {
+                root: "ὁ",
+                form: "Artículo definido, nominativo neutro singular",
+                function: "Determinante de φῶς",
+                meaning: "la"
+            },
+            "φῶς": {
+                root: "φῶς",
+                form: "Sustantivo neutro, nominativo singular",
+                function: "Sujeto de la oración",
+                meaning: "luz"
+            },
+            "ἐλήλυθεν": {
+                root: "ἔρχομαι",
+                form: "Verbo, 3a persona singular perfecto activo indicativo",
+                function: "Verbo principal",
+                meaning: "ha venido"
+            },
+            "εἰς": {
+                root: "εἰς",
+                form: "Preposición (con acusativo)",
+                function: "Indica dirección",
+                meaning: "a, hacia"
+            },
+            "τὸν": {
+                root: "ὁ",
+                form: "Artículo definido, acusativo masculino singular",
+                function: "Determinante de κόσμον",
+                meaning: "el"
+            },
+            "κόσμον": {
+                root: "κόσμος",
+                form: "Sustantivo masculino, acusativo singular",
+                function: "Complemento de lugar",
+                meaning: "mundo"
+            },
+            "καὶ": {
+                root: "καί",
+                form: "Conjunción coordinante",
+                function: "Conecta oraciones",
+                meaning: "y"
+            },
+            "ἠγάπησαν": {
+                root: "ἀγαπάω",
+                form: "Verbo, 3a persona plural aoristo activo indicativo",
+                function: "Verbo principal",
+                meaning: "amaron"
+            },
+            "οἱ": {
+                root: "ὁ",
+                form: "Artículo definido, nominativo masculino plural",
+                function: "Determinante de ἄνθρωποι",
+                meaning: "los"
+            },
+            "ἄνθρωποι": {
+                root: "ἄνθρωπος",
+                form: "Sustantivo masculino, nominativo plural",
+                function: "Sujeto de la oración",
+                meaning: "hombres"
+            },
+            "μᾶλλον": {
+                root: "μᾶλλον",
+                form: "Adverbio comparativo",
+                function: "Comparación",
+                meaning: "más"
+            },
+            "τὸ": {
+                root: "ὁ",
+                form: "Artículo definido, acusativo neutro singular",
+                function: "Determinante de σκότος",
+                meaning: "la"
+            },
+            "σκότος": {
+                root: "σκότος",
+                form: "Sustantivo neutro, acusativo singular",
+                function: "Objeto de ἠγάπησαν",
+                meaning: "tiniebla"
+            },
+            "ἢ": {
+                root: "ἤ",
+                form: "Conjunción comparativa",
+                function: "Comparación",
+                meaning: "que"
+            },
+            "τὸ": {
+                root: "ὁ",
+                form: "Artículo definido, acusativo neutro singular",
+                function: "Determinante de φῶς",
+                meaning: "la"
+            },
+            "φῶς": {
+                root: "φῶς",
+                form: "Sustantivo neutro, acusativo singular",
+                function: "Objeto de comparación",
+                meaning: "luz"
+            },
+            "ἦν": {
+                root: "εἰμί",
+                form: "Verbo, 3a persona singular imperfecto activo indicativo",
+                function: "Verbo copulativo",
+                meaning: "era"
+            },
+            "γὰρ": {
+                root: "γάρ",
+                form: "Conjunción explicativa",
+                function: "Explica o justifica",
+                meaning: "porque, pues"
+            },
+            "αὐτῶν": {
+                root: "αὐτός",
+                form: "Pronombre personal, genitivo masculino plural",
+                function: "Complemento de ἔργα",
+                meaning: "de ellos"
+            },
+            "πονηρὰ": {
+                root: "πονηρός",
+                form: "Adjetivo, nominativo neutro plural",
+                function: "Atributo de ἔργα",
+                meaning: "malvadas"
+            },
+            "τὰ": {
+                root: "ὁ",
+                form: "Artículo definido, nominativo neutro plural",
+                function: "Determinante de ἔργα",
+                meaning: "las"
+            },
+            "ἔργα": {
+                root: "ἔργον",
+                form: "Sustantivo neutro, nominativo plural",
+                function: "Sujeto de la oración",
+                meaning: "obras"
+            },
+            "πᾶς": {
+                root: "πᾶς",
+                form: "Adjetivo/pronombre, nominativo masculino singular",
+                function: "Determinante de πράσσων",
+                meaning: "todo"
+            },
+            "ὁ": {
+                root: "ὁ",
+                form: "Artículo definido, nominativo masculino singular",
+                function: "Determinante de φαῦλα",
+                meaning: "el"
+            },
+            "φαῦλα": {
+                root: "φαῦλος",
+                form: "Adjetivo, acusativo neutro plural",
+                function: "Complemento de πράσσων",
+                meaning: "malas"
+            },
+            "πράσσων": {
+                root: "πράσσω",
+                form: "Participio presente activo, nominativo masculino singular",
+                function: "Sujeto de la oración",
+                meaning: "el que practica"
+            },
+            "μισεῖ": {
+                root: "μισέω",
+                form: "Verbo, 3a persona singular presente activo indicativo",
+                function: "Verbo principal",
+                meaning: "odia"
+            },
+            "τὸ": {
+                root: "ὁ",
+                form: "Artículo definido, acusativo neutro singular",
+                function: "Determinante de φῶς",
+                meaning: "la"
+            },
+            "φῶς": {
+                root: "φῶς",
+                form: "Sustantivo neutro, acusativo singular",
+                function: "Objeto directo",
+                meaning: "luz"
+            },
+            "οὐκ": {
+                root: "οὐ",
+                form: "Partícula negativa",
+                function: "Niega el verbo",
+                meaning: "no"
+            },
+            "ἔρχεται": {
+                root: "ἔρχομαι",
+                form: "Verbo, 3a persona singular presente medio/pasivo indicativo",
+                function: "Verbo principal",
+                meaning: "viene"
+            },
+            "πρὸς": {
+                root: "πρός",
+                form: "Preposición (con acusativo)",
+                function: "Indica dirección",
+                meaning: "hacia"
+            },
+            "τὸ": {
+                root: "ὁ",
+                form: "Artículo definido, acusativo neutro singular",
+                function: "Determinante de φῶς",
+                meaning: "la"
+            },
+            "φῶς": {
+                root: "φῶς",
+                form: "Sustantivo neutro, acusativo singular",
+                function: "Complemento de dirección",
+                meaning: "luz"
+            },
+            "ἵνα": {
+                root: "ἵνα",
+                form: "Conjunción final",
+                function: "Introduce propósito",
+                meaning: "para que"
+            },
+            "μὴ": {
+                root: "μή",
+                form: "Partícula negativa",
+                function: "Niega el verbo",
+                meaning: "no"
+            },
+            "ἐλεγχθῇ": {
+                root: "ἐλέγχω",
+                form: "Verbo, 3a persona singular aoristo pasivo subjuntivo",
+                function: "Verbo subordinado",
+                meaning: "sea reprendido"
+            },
+            "τὰ": {
+                root: "ὁ",
+                form: "Artículo definido, nominativo neutro plural",
+                function: "Determinante de ἔργα",
+                meaning: "las"
+            },
+            "ἔργα": {
+                root: "ἔργον",
+                form: "Sustantivo neutro, nominativo plural",
+                function: "Sujeto de ἐλεγχθῇ",
+                meaning: "obras"
+            },
+            "αὐτοῦ": {
+                root: "αὐτός",
+                form: "Pronombre personal, genitivo masculino singular",
+                function: "Complemento de ἔργα",
+                meaning: "de él"
+            },
+            "ὁ": {
+                root: "ὁ",
+                form: "Artículo definido, nominativo masculino singular",
+                function: "Determinante de ποιῶν",
+                meaning: "el"
+            },
+            "ποιῶν": {
+                root: "ποιέω",
+                form: "Participio presente activo, nominativo masculino singular",
+                function: "Sujeto de la oración",
+                meaning: "el que hace"
+            },
+            "τὴν": {
+                root: "ὁ",
+                form: "Artículo definido, acusativo femenino singular",
+                function: "Determinante de ἀλήθειαν",
+                meaning: "la"
+            },
+            "ἀλήθειαν": {
+                root: "ἀλήθεια",
+                form: "Sustantivo femenino, acusativo singular",
+                function: "Objeto directo",
+                meaning: "verdad"
+            },
+            "φανερωθῇ": {
+                root: "φανερόω",
+                form: "Verbo, 3a persona singular aoristo pasivo subjuntivo",
+                function: "Verbo subordinado",
+                meaning: "sea manifestado"
+            },
+            "ὅτι": {
+                root: "ὅτι",
+                form: "Conjunción causal",
+                function: "Introduce causa",
+                meaning: "porque"
+            },
+            "ἐν": {
+                root: "ἐν",
+                form: "Preposición (con dativo)",
+                function: "Indica esfera",
+                meaning: "en"
+            },
+            "θεῷ": {
+                root: "θεός",
+                form: "Sustantivo masculino, dativo singular",
+                function: "Complemento de εἰργασμένα",
+                meaning: "Dios"
+            },
+            "ἐστιν": {
+                root: "εἰμί",
+                form: "Verbo, 3a persona singular presente activo indicativo",
+                function: "Verbo copulativo",
+                meaning: "es"
+            },
+            "εἰργασμένα": {
+                root: "ἐργάζομαι",
+                form: "Participio perfecto medio/pasivo, nominativo neutro plural",
+                function: "Atributo de ἔργα",
+                meaning: "hechas"
+            }
+        };
+        
+        // Procesar el texto para hacer las palabras clickeables
+        document.addEventListener('DOMContentLoaded', function() {
+            const textContainer = document.getElementById('john-text');
+            const text = textContainer.textContent;
+            const words = text.split(/([\s,\.;:]+)/); // Separar palabras y signos de puntuación
+            
+            let processedText = '';
+            words.forEach(word => {
+                if (word.trim() === '' || /^[\s,\.;:]+$/.test(word)) {
+                    processedText += word;
+                } else if (wordData[word]) {
+                    processedText += `<span class="word" onclick="showWordInfo('${word}')">${word}</span>`;
+                } else {
+                    processedText += word;
+                }
+            });
+            
+            textContainer.innerHTML = processedText;
+        });
+        
+        // Mostrar información de la palabra
+        function showWordInfo(word) {
+            const data = wordData[word];
+            if (!data) return;
+            
+            document.getElementById('tooltip-word').textContent = word;
+            document.getElementById('tooltip-root').textContent = data.root;
+            document.getElementById('tooltip-form').textContent = data.form;
+            document.getElementById('tooltip-function').textContent = data.function;
+            document.getElementById('tooltip-meaning').textContent = data.meaning;
+            
+            // Resaltar la palabra seleccionada
+            document.querySelectorAll('.word').forEach(el => {
+                el.classList.remove('active');
+                if (el.textContent === word) {
+                    el.classList.add('active');
+                }
+            });
+            
+            document.getElementById('word-tooltip').style.display = 'block';
+        }
+        
+        // Ocultar el tooltip
+        function hideTooltip() {
+            document.getElementById('word-tooltip').style.display = 'none';
+            document.querySelectorAll('.word').forEach(el => {
+                el.classList.remove('active');
+            });
+        }
+        
+        // Cerrar tooltip al hacer clic fuera
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('word') && 
+                e.target.id !== 'word-tooltip' && 
+                !document.getElementById('word-tooltip').contains(e.target)) {
+                hideTooltip();
+            }
+        });
+    </script>
+</body>
+</html>

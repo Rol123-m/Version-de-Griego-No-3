@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz de lectura</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Georgia,serif;background:linear-gradient(160deg,#0f1b3d,#1d2f63);color:#f1f3fa;min-height:100vh}
+  .w{max-width:860px;margin:auto;padding:24px 16px 60px}
+  h1{font-size:1.6em;text-align:center;animation:d 1s}
+  h1 small{display:block;font-size:.5em;color:#f5c542;font-weight:400;margin-top:6px;letter-spacing:1px}
+  .c{background:rgba(255,255,255,.08);border:1px solid rgba(245,197,66,.3);border-radius:16px;padding:18px;margin:18px 0;opacity:0;animation:u .8s forwards}
+  .c:nth-child(2){animation-delay:.2s}.c:nth-child(3){animation-delay:.4s}.c:nth-child(4){animation-delay:.6s}.c:nth-child(5){animation-delay:.8s}
+  .r{color:#f5c542;font-family:sans-serif;font-size:.85em;letter-spacing:1px}
+  .g{font-size:1.35em;line-height:1.6;margin:8px 0;text-shadow:0 0 14px rgba(245,197,66,.35)}
+  .k{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+  .k span{background:#f5c542;color:#16224a;padding:5px 11px;border-radius:20px;font-family:sans-serif;font-size:.85em;cursor:pointer;transition:.3s}
+  .k span:hover{transform:scale(1.1) rotate(-2deg)}
+  .n{max-height:0;overflow:hidden;transition:max-height .6s,padding .4s;font-family:sans-serif;line-height:1.55;background:rgba(245,197,66,.12);border-radius:10px;padding:0 14px}
+  .n.o{max-height:500px;padding:12px 14px}
+  button,.b{background:#f5c542;color:#16224a;border:0;padding:10px 18px;border-radius:10px;font-weight:700;cursor:pointer;text-decoration:none;font-family:sans-serif;display:inline-block;margin:4px 0;transition:.2s}
+  button:hover,.b:hover{background:#ffe27a;transform:translateY(-1px)}
+  .t{font-family:sans-serif;font-size:.85em;color:#b8c2e6;text-align:center}
+  .o1{display:block;width:100%;text-align:left;margin:6px 0;background:rgba(255,255,255,.12);color:#fff;font-weight:400;border-radius:8px;padding:10px 14px}
+  .o1.ok{background:#2e9e5b}
+  .o1.no{background:#b3394a;animation:s .4s}
+  .nav-links{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;margin-top:20px}
+  .nav-links a{background:#f5c542;color:#16224a;padding:10px 18px;border-radius:10px;font-weight:700;text-decoration:none;font-family:sans-serif;transition:.2s}
+  .nav-links a:hover{background:#ffe27a;transform:translateY(-1px)}
+  @keyframes u{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+  @keyframes d{from{opacity:0;transform:translateY(-20px)}to{opacity:1}}
+  @keyframes s{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+</style>
+</head>
+<body>
+<div class="w">
+  <h1>Quiz de lectura<small>1 Juan 1:1-10</small></h1>
+
+  <div class="c">
+    <div id="q"></div>
+    <p id="s" class="t"></p>
+  </div>
+
+  <div class="nav-links">
+    <a href="2. Dios es luz.html">◀ Anterior: Dios es luz</a>
+    <a href="3. Video de la semana.html">Volver al inicio ▶</a>
+  </div>
+
+  <p class="t" style="margin-top:24px">Curso de Griego Koiné · Ministerio Vivos para Servir</p>
+</div>
+
+<script>
+const Q = [
+  {q:"¿Qué estructura es ἐὰν περιπατῶμεν?", o:["Condicional de 3.ª clase","Imperativo","Participio"], a:0, e:"ἐάν + subjuntivo: condicional de tercera clase (hipótesis real)."},
+  {q:"¿Qué tiempo es ἀκηκόαμεν?", o:["Aoristo","Presente","Perfecto"], a:2, e:"Perfecto: el testimonio permanece vigente."},
+  {q:"¿Qué significa ὁμολογέω?", o:["Negar","Confesar (decir lo mismo)","Caminar"], a:1, e:"ὁμο- (mismo) + λέγω (decir): decir lo mismo que Dios."},
+  {q:"¿Qué modo es ἀφῇ en 1:9?", o:["Indicativo","Imperativo","Subjuntivo"], a:2, e:"Subjuntivo aoristo tras ἵνα."},
+  {q:"¿Qué enfatiza οὐκ … οὐδεμία en 1:5?", o:["Duda","Negación enfática total","Pregunta"], a:1, e:"Doble negación: ninguna tiniebla en Dios."},
+  {q:"¿Qué tiempo es ἑωράκαμεν en 1:1?", o:["Aoristo","Perfecto","Futuro"], a:1, e:"Perfecto de ὁράω: hemos visto, con resultado permanente."},
+  {q:"¿Qué significa ἐψηλάφησαν?", o:["Palparon, tocaron","Oyeron","Escribieron"], a:0, e:"Aoristo de ψηλαφάω: afirma la realidad física de la encarnación."},
+  {q:"¿Qué es κοινωνία?", o:["Comunión, participación","Condena","Tiniebla"], a:0, e:"Palabra clave en Juan: comunión con Dios y con los hermanos."},
+  {q:"¿Qué significa ποιοῦμεν τὴν ἀλήθειαν en 1:6?", o:["Practicamos la verdad","Negamos la verdad","Ocultamos la verdad"], a:0, e:"La verdad no solo se cree, se practica."},
+  {q:"¿Qué atributos de Dios garantizan el perdón en 1:9?", o:["Fiel y justo","Fuerte y sabio","Eterno e invisible"], a:0, e:"πιστός ἐστιν καὶ δίκαιος: fiel y justo."},
+  {q:"¿Qué significa ψεύστην ποιοῦμεν αὐτόν en 1:10?", o:["Le hacemos mentiroso","Le alabamos","Le negamos"], a:0, e:"Negar el pecado es atribuir mentira a Dios."},
+  {q:"¿Cuál es el propósito del anuncio apostólico en 1:3?", o:["Que tengamos comunión","Que demos dinero","Que viajemos"], a:0, e:"ἵνα καὶ ὑμεῖς κοινωνίαν ἔχητε μεθ’ ἡμῶν."}
+];
+
+let i=0, p=0;
+
+function r(){
+  const q = Q[i];
+  const cont = document.getElementById("q");
+  const s = document.getElementById("s");
+  if(!q){
+    cont.innerHTML = `<h2 style="text-align:center;color:#f5c542">🏆 ${p} / ${Q.length}</h2><div style="text-align:center"><button onclick="i=0;p=0;r()">Repetir</button></div>`;
+    s.textContent = "";
+    return;
+  }
+  s.textContent = "Pregunta " + (i+1) + " de " + Q.length;
+  cont.innerHTML = "<p class='g' style='font-size:1.15em'>" + q.q + "</p>" +
+    q.o.map((x,k)=>`<button class='o1' onclick='a(${k},this)'>${x}</button>`).join("") +
+    "<div class='n' id='e'></div>";
+}
+
+function a(k,b){
+  const q = Q[i];
+  if(document.querySelector(".ok")) return;
+  if(k == q.a){ p++; b.classList.add("ok"); }
+  else { b.classList.add("no"); document.querySelectorAll(".o1")[q.a].classList.add("ok"); }
+  const e = document.getElementById("e");
+  e.textContent = q.e;
+  e.classList.add("o");
+  e.insertAdjacentHTML("afterend","<button onclick='i++;r()'>Siguiente ▶</button>");
+}
+
+r();
+</script>
+</body>
+</html>

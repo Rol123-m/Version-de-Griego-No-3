@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Persona: Segunda y Tercera Persona</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Persona: Segunda y Tercera Persona</h1>
+      <div class="subtitle">"¡Tú haz!" vs "¡Que él haga!"</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-users"></i> Comparación de Personas</h2>
+      <p>El griego tiene imperativos de <strong>segunda persona</strong> ("¡Tú haz!") y de <strong>tercera persona</strong> ("¡Que él haga!").</p>
+
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Persona</th>
+              <th>Ejemplo Griego</th>
+              <th>Traducción Literal</th>
+              <th>Traducción Natural</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>2a Singular</strong></td><td class="greek-text"><strong>βλέπε</strong></td><td>"(Tú) ¡Mira!"</td><td>"¡Mira!"</td></tr>
+            <tr><td><strong>3a Singular</strong></td><td class="greek-text"><strong>βλεπέτω</strong></td><td>"Que él mire"</td><td>"¡Que él mire!" / "Él debe mirar"</td></tr>
+            <tr><td><strong>2a Plural</strong></td><td class="greek-text"><strong>βλέπετε</strong></td><td>"(Vosotros) ¡Mirad!"</td><td>"¡Miren!"</td></tr>
+            <tr><td><strong>3a Plural</strong></td><td class="greek-text"><strong>βλεπέτωσαν</strong></td><td>"Que ellos miren"</td><td>"¡Que ellos miren!" / "Ellos deben mirar"</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="important-note">
+        <p><strong>💡 Clave para 3a persona:</strong></p>
+        <p>Para los imperativos de tercera persona, en español usamos palabras como "<strong>que</strong>", "<strong>debe</strong>" o un pronombre ("él", "ellos").</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-book-bible"></i> Ejemplos Bíblicos</h2>
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Texto griego</th>
+              <th>Traducción</th>
+              <th>Análisis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="greek-text"><strong>ἀκολούθει μοι</strong> (Mr 2:14)</td>
+              <td>"¡Sígueme!"</td>
+              <td>2a persona singular</td>
+            </tr>
+            <tr>
+              <td class="greek-text"><strong>ἐλθέτω ἡ βασιλεία σου</strong> (Mt 6:10)</td>
+              <td>"¡Venga tu reino!"</td>
+              <td>3a persona singular</td>
+            </tr>
+            <tr>
+              <td class="greek-text"><strong>δότε αὐτοῖς ὑμεῖς φαγεῖν</strong> (Mr 6:37)</td>
+              <td>"¡Vosotros dadles de comer!"</td>
+              <td>2a persona plural (con énfasis)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Persona del Imperativo</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Cómo se traduce normalmente un imperativo de 3a persona?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Con "tú" implícito</label>
+          <label><input type="radio" name="q1" value="b"> Con "que" o "debe"</label>
+          <label><input type="radio" name="q1" value="c"> Como infinitivo</label>
+          <label><input type="radio" name="q1" value="d"> Como participio</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

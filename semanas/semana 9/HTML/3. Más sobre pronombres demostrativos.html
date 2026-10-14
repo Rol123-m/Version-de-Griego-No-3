@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uso de los Pronombres Demostrativos en Griego</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek {
+      font-family: "New Athena Unicode", "Galatia SIL", "Gentium Plus", "Times New Roman", serif;
+      font-size: 1.1em;
+    }
+    .comparison {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .comparison-box {
+      flex: 1;
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(74, 111, 165, 0.05) 0%, rgba(139, 95, 191, 0.05) 100%);
+      border-radius: 12px;
+      border-left: 4px solid var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio Vivos para servir" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Uso de los Pronombres Demostrativos en Griego</h1>
+      <div class="subtitle">Como pronombre y como adjetivo</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-user"></i> Uso como Pronombre</h2>
+      <div class="vocab-item">
+        <div class="vocab-item-header">
+          <h3>Definición</h3>
+          <span class="vocab-tag">Función pronominal</span>
+        </div>
+        <p>Cuando funciona como pronombre, no modifica a otra palabra (actúa como un adjetivo sustantivado).</p>
+      </div>
+
+      <div class="comparison">
+        <div class="comparison-box">
+          <h3>οὗτος ("este")</h3>
+          <p class="greek">οὗτος → "este (hombre)"</p>
+          <p class="greek">αὕτη → "esta (mujer)"</p>
+          <p class="greek">τοῦτο → "esto (cosa)"</p>
+          <p class="greek">οὗτοι → "estos (hombres)"</p>
+          <p class="greek">αὗται → "estas (mujeres)"</p>
+          <p class="greek">ταῦτα → "estas (cosas)"</p>
+        </div>
+        <div class="comparison-box">
+          <h3>ἐκεῖνος ("aquel")</h3>
+          <p class="greek">ἐκεῖνος → "aquel (hombre)"</p>
+          <p class="greek">ἐκείνη → "aquella (mujer)"</p>
+          <p class="greek">ἐκεῖνο → "aquello (cosa)"</p>
+          <p class="greek">ἐκεῖνοι → "aquellos (hombres)"</p>
+          <p class="greek">ἐκεῖναι → "aquellas (mujeres)"</p>
+          <p class="greek">ἐκεῖνα → "aquellas (cosas)"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-tag"></i> Uso como Adjetivo</h2>
+      <div class="important-note">
+        <p>Cuando funciona como adjetivo, aparece en posición predicativa aunque se traduzca como atributivo. El sustantivo que modifica siempre lleva artículo.</p>
+        
+        <div class="example-box">
+          <h3>Ejemplos:</h3>
+          <ul class="greek">
+            <li>οὗτος ὁ ἄνθρωπος → "este hombre"</li>
+            <li>ἐκεῖνοι οἱ ἄνθρωποι → "aquellos hombres"</li>
+          </ul>
+          <p><strong>Nota:</strong> Esto es lo opuesto a los adjetivos normales, que suelen ir en posición atributiva.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-user-circle"></i> Uso como Pronombre Personal</h2>
+      <div class="note-box">
+        <p>A veces, el demostrativo pierde fuerza demostrativa y funciona como pronombre personal:</p>
+        <p class="greek">οὗτος ἔσται μέγας (Lucas 1:32) → "Él será grande".</p>
+        <p>Hay superposición entre el artículo, el pronombre personal y el demostrativo.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Practica con los Usos de los Pronombres Demostrativos</h2>
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Cómo se diría "esta mujer" usando οὗτος como adjetivo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> <span class="greek">αὕτη γυνή</span></label>
+          <label><input type="radio" name="q1" value="b"> <span class="greek">οὗτος ἡ γυνή</span></label>
+          <label><input type="radio" name="q1" value="c"> <span class="greek">αὕτη ἡ γυνή</span></label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿Cuál es la diferencia principal entre el uso como pronombre y como adjetivo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Como pronombre modifica un sustantivo, como adjetivo lo reemplaza</label>
+          <label><input type="radio" name="q2" value="b"> Como pronombre reemplaza al sustantivo, como adjetivo lo modifica</label>
+          <label><input type="radio" name="q2" value="c"> No hay diferencia significativa</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+      <div class="quiz-question">
+        <p><strong>Pregunta 3:</strong> ¿Qué caracteriza la posición del demostrativo cuando funciona como adjetivo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> Va en posición atributiva (entre artículo y sustantivo)</label>
+          <label><input type="radio" name="q3" value="b"> Aparece en posición predicativa aunque se traduzca como atributivo</label>
+          <label><input type="radio" name="q3" value="c"> Siempre precede al artículo</label>
+        </div>
+        <div class="result" id="result3"></div>
+      </div>
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales">
+      </div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'c', q2: 'b', q3: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + (question === 'q1' ? 'c' : (question === 'q2' ? 'b' : 'b'));
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aspecto (No Tiempo) en el Infinitivo</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Aspecto (No Tiempo) en el Infinitivo</h1>
+      <div class="subtitle">Presente, Aoristo y Perfecto</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-clock"></i> Los Tres Aspectos</h2>
+      <p>Los infinitivos pueden aparecer en tres tiempos: <strong>presente, aoristo y perfecto</strong>. Como el infinitivo está fuera del modo indicativo, estas formas <strong>no diferencian tiempo absoluto, sino solo aspecto</strong>.</p>
+
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Tiempo</th>
+              <th>Aspecto</th>
+              <th>Traducción (Aspecto)</th>
+              <th>Traducción común</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Presente</strong></td><td>Continuo</td><td>"el continuar estudiando"</td><td>"estudiar"</td></tr>
+            <tr><td><strong>Aoristo</strong></td><td>Indefinido</td><td>"el estudiar (de una vez)"</td><td>"estudiar"</td></tr>
+            <tr><td><strong>Perfecto</strong></td><td>Completado</td><td>"el haber estudiado"</td><td>"haber estudiado"</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-book-bible"></i> Ejemplos Bíblicos</h2>
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Texto griego</th>
+              <th>Traducción</th>
+              <th>Análisis aspectual</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="greek-text">Οὐδεὶς δύναται δυσὶ κυρίοις <strong>δουλεύειν</strong> (Mt 6:24)</td>
+              <td>Nadie puede <strong>servir</strong> a dos señores</td>
+              <td><strong>δουλεύειν</strong>: Infinitivo presente (continuo)</td>
+            </tr>
+            <tr>
+              <td class="greek-text">μὴ φοβηθῇς <strong>παραλαβεῖν</strong> Μαρίαν (Mt 1:20)</td>
+              <td>No temas <strong>tomar</strong> a María</td>
+              <td><strong>παραλαβεῖν</strong>: Infinitivo aoristo (indefinido)</td>
+            </tr>
+            <tr>
+              <td class="greek-text">ἤκουσαν τοῦτο αὐτὸν <strong>πεποιηκέναι</strong> (Jn 12:18)</td>
+              <td>Oyeron que él <strong>había hecho</strong> esta señal</td>
+              <td><strong>πεποιηκέναι</strong>: Infinitivo perfecto (completado)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="important-note">
+        <p><strong>💡 Consejo de traducción:</strong></p>
+        <p>Para reforzar el significado del aspecto, intenta inicialmente usar "continuar" en tu traducción del infinitivo presente. <strong>βλέπειν</strong> significa "continuar viendo", mientras <strong>βλέψαι</strong> significa "ver (de una vez)".</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Aspecto vs Tiempo</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué significado tiene un verbo en infinitivo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Tiempo absoluto</label>
+          <label><input type="radio" name="q1" value="b"> Aspecto</label>
+          <label><input type="radio" name="q1" value="c"> Modo</label>
+          <label><input type="radio" name="q1" value="d"> Persona</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

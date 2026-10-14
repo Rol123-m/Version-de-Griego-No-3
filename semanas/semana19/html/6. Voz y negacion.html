@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voz del Participio y Negación</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Voz del Participio y Negación</h1>
+      <div class="subtitle">Activa, Pasiva, Media y la negación con μή</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-volume-up"></i> Voces posibles</h2>
+      <ul>
+        <li><strong>Activa:</strong> el sujeto realiza la acción (<span class="greek-text">ἀκούοντες</span> — oyendo).</li>
+        <li><strong>Pasiva:</strong> el sujeto recibe la acción (<span class="greek-text">ἀκουόμενοι</span> — siendo oídos).</li>
+        <li><strong>Media / Deponente:</strong> formas medias que se traducen activamente en significado (<span class="greek-text">ἐρχόμενοι</span> — viniendo).</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-ban"></i> Negación</h2>
+      <p>La negación de un participio se hace normalmente con <strong>μή</strong>, no con οὐ (que es para formas finitas de indicativo).</p>
+      <div class="example-box">
+        <p>Ejemplo: <span class="greek-text">μὴ φοβούμενοι</span> — «no temiendo»</p>
+      </div>
+
+      <div class="important-note">
+        <p><strong>Atención:</strong> identificar la voz cambia la traducción: <span class="greek-text">βαπτιζόμενος</span> = «el que es bautizado», mientras que <span class="greek-text">βαπτίζων</span> = «el que bautiza».</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Voz y Negación</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Con qué palabra se niega normalmente un participio?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> μή</label>
+          <label><input type="radio" name="q1" value="b"> οὐ</label>
+          <label><input type="radio" name="q1" value="c"> οὖν</label>
+          <label><input type="radio" name="q1" value="d"> ἵνα</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'a' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

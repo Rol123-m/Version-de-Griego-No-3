@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regla 4: Ablaut (Cambio de Vocal Radical)</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Regla 4: Ablaut</h1>
+      <div class="subtitle">Cambio de vocal radical</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-exchange-alt"></i> ¿Qué es el Ablaut?</h2>
+      <p>La <strong>vocal radical de los verbos en -μι puede alargarse, acortarse o desaparecer</strong> (fenómeno llamado "ablaut").</p>
+
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Forma</th>
+              <th>Vocal Radical</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="greek-text"><strong>δίδωμι</strong> (1 sg)</td><td>ω</td><td><strong>Larga</strong> (en singular)</td></tr>
+            <tr><td class="greek-text"><strong>δίδομεν</strong> (1 pl)</td><td>ο</td><td><strong>Corta</strong> (en plural)</td></tr>
+            <tr><td class="greek-text"><strong>δώσω</strong> (futuro)</td><td>ω</td><td><strong>Larga</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="important-note">
+        <p><strong>🎯 Para el reconocimiento:</strong></p>
+        <p>No es tan importante saber <em>cuándo</em> sucederá esto, sino simplemente reconocer que <em>sí sucede</em>.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-search"></i> Ejemplo Práctico: δώσω vs δόσω</h2>
+      <p>Una vez que reconoces la raíz verbal <strong>*δο</strong>:</p>
+      <ul>
+        <li><span class="greek-text">δώσω</span> solo puede ser una forma: <strong>futuro</strong>.</li>
+        <li><span class="greek-text">δόσω</span> también sería futuro (con vocal corta).</li>
+      </ul>
+      <p>¡Lo importante es identificar la raíz y la presencia de sigma para el futuro!</p>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-book"></i> En la Voz Media/Pasiva</h2>
+      <p>En el presente medio/pasivo, la vocal radical es <strong>siempre corta</strong>:</p>
+      <div class="example-box">
+        <p class="greek-text">δίδομαι, δίδοσαι, δίδοται, διδόμεθα, δίδοσθε, δίδονται</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Mini-quiz: Regla 4</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué es el "ablaut" en verbos -μι?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> La reduplicación</label>
+          <label><input type="radio" name="q1" value="b"> El cambio de vocal radical</label>
+          <label><input type="radio" name="q1" value="c"> El aumento</label>
+          <label><input type="radio" name="q1" value="d"> La terminación -μι</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

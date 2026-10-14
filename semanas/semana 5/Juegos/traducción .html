@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio: Juan 3:15-18</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --background: #1a1f2b;
+            --text: #ecf0f1;
+            --card-bg: #2c3e50;
+            --correct: #27ae60;
+            --incorrect: #c0392b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui;
+            background-color: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .exercise-container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: enter 0.5s ease forwards;
+            margin: 1rem 0;
+        }
+
+        @keyframes enter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .exercise-container.active {
+            display: block;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .greek-phrase {
+            font-size: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            font-family: 'New Athena Unicode', 'Gentium Plus', serif;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .option {
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 1.1rem;
+        }
+
+        .option:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+
+        .option.selected {
+            border-color: var(--secondary);
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .option.correct {
+            background: rgba(39, 174, 96, 0.2);
+            border-color: var(--correct);
+        }
+
+        .option.incorrect {
+            background: rgba(192, 57, 43, 0.2);
+            border-color: var(--incorrect);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .progress {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--secondary);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background: #7f8c8d;
+            cursor: not-allowed;
+        }
+
+        .final-screen {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .final-screen h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .score {
+            font-size: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .greek-phrase {
+                font-size: 1.5rem;
+            }
+            
+            .option {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ejercicio 1 -->
+    <div class="exercise-container active" data-exercise="1">
+        <div class="header">
+            <h1>Traducción de Juan 3:15-18</h1>
+            <div class="progress">Frase 1 de 6</div>
+        </div>
+        
+        <div class="greek-phrase">ἵνα πᾶς ὁ πιστεύων ἐν αὐτῷ ἔχῃ ζωὴν αἰώνιον</div>
+        
+        <div class="options-grid">
+            <div class="option">Para que todos los que crean en él tengan vida abundante</div>
+            <div class="option" data-correct="true">Para que todo aquel que cree en él tenga vida eterna</div>
+            <div class="option">De modo que quienes tengan fe en él alcancen la inmortalidad</div>
+            <div class="option">Así los fieles en él obtendrán salvación perpetua</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Ejercicio 2 -->
+    <div class="exercise-container" data-exercise="2">
+        <div class="header">
+            <h1>Análisis Gramatical</h1>
+            <div class="progress">Frase 2 de 6</div>
+        </div>
+        
+        <div class="greek-phrase">οὕτως γὰρ ἠγάπησεν ὁ θεὸς τὸν κόσμον</div>
+        
+        <div class="options-grid">
+            <div class="option">Pues así amó Dios al universo</div>
+            <div class="option" data-correct="true">Porque de tal manera amó Dios al mundo</div>
+            <div class="option">De esta forma el Creador quiso a la humanidad</div>
+            <div class="option">Así es como el Señor amó a la creación</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="prevExercise()">Anterior</button>
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Ejercicio 3 -->
+    <div class="exercise-container" data-exercise="3">
+        <div class="header">
+            <h1>Interpretación Contextual</h1>
+            <div class="progress">Frase 3 de 6</div>
+        </div>
+        
+        <div class="greek-phrase">ὥστε τὸν υἱὸν τὸν μονογενῆ ἔδωκεν</div>
+        
+        <div class="options-grid">
+            <div class="option">que hasta a su hijo primogénito entregó</div>
+            <div class="option" data-correct="true">que dio a su Hijo unigénito</div>
+            <div class="option">por lo cual ofreció a su único descendiente</div>
+            <div class="option">de modo que sacrificó a su hijo amado</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="prevExercise()">Anterior</button>
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Ejercicio 4 -->
+    <div class="exercise-container" data-exercise="4">
+        <div class="header">
+            <h1>Traducción Profesional</h1>
+            <div class="progress">Frase 4 de 6</div>
+        </div>
+        
+        <div class="greek-phrase">ἵνα πᾶς ὁ πιστεύων εἰς αὐτὸν μὴ ἀπόληται</div>
+        
+        <div class="options-grid">
+            <div class="option">para que ninguno que crea en él desfallezca</div>
+            <div class="option">a fin de que los fieles a él no perezcan</div>
+            <div class="option" data-correct="true">para que todo aquel que cree en él no se pierda</div>
+            <div class="option">de modo que quien tenga fe en él no muera</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="prevExercise()">Anterior</button>
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Ejercicio 5 -->
+    <div class="exercise-container" data-exercise="5">
+        <div class="header">
+            <h1>Análisis Teológico</h1>
+            <div class="progress">Frase 5 de 6</div>
+        </div>
+        
+        <div class="greek-phrase">ἀλλ᾽ ἔχῃ ζωὴν αἰώνιον</div>
+        
+        <div class="options-grid">
+            <div class="option">mas obtenga vida sin fin</div>
+            <div class="option">sino que alcance inmortalidad</div>
+            <div class="option" data-correct="true">sino que tenga vida eterna</div>
+            <div class="option">pero consiga salvación perpetua</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="prevExercise()">Anterior</button>
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Ejercicio 6 -->
+    <div class="exercise-container" data-exercise="6">
+        <div class="header">
+            <h1>Traducción Completa</h1>
+            <div class="progress">Frase 6 de 6</div>
+        </div>
+        
+        <div class="greek-phrase">ὁ πιστεύων εἰς αὐτὸν οὐ κρίνεται</div>
+        
+        <div class="options-grid">
+            <div class="option">El que cree en él no será condenado</div>
+            <div class="option" data-correct="true">El que cree en él no es condenado</div>
+            <div class="option">Quien tiene fe en él no recibe juicio</div>
+            <div class="option">El fiel a él no enfrentará castigo</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="prevExercise()">Anterior</button>
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Pantalla Final -->
+    <div class="exercise-container final-screen" id="final-screen">
+        <h2>¡Traducción Completa! 🎉</h2>
+        <p>Has completado Juan 3:15-18</p>
+        <div class="score" id="final-score"></div>
+        <button onclick="location.reload()">Reiniciar Ejercicio</button>
+    </div>
+
+    <script>
+        let currentExercise = 1;
+        let totalExercises = 6;
+        let score = 0;
+
+        function updateProgress() {
+            document.querySelectorAll('.progress').forEach(progress => {
+                progress.textContent = `Frase ${currentExercise} de ${totalExercises}`;
+            });
+        }
+
+        function checkAnswer(option) {
+            const exercise = option.closest('.exercise-container');
+            const options = exercise.querySelectorAll('.option');
+            const correct = option.dataset.correct === "true";
+            
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                if(opt.dataset.correct === "true") {
+                    opt.classList.add('correct');
+                }
+            });
+
+            option.classList.add(correct ? 'correct' : 'incorrect');
+            if(correct) score++;
+
+            exercise.querySelector('button[onclick="nextExercise()"]').disabled = false;
+        }
+
+        function nextExercise() {
+            document.querySelector(`[data-exercise="${currentExercise}"]`).classList.remove('active');
+            currentExercise++;
+            
+            if(currentExercise > totalExercises) {
+                document.getElementById('final-screen').classList.add('active');
+                document.getElementById('final-score').textContent = `Puntuación: ${score}/${totalExercises}`;
+            } else {
+                document.querySelector(`[data-exercise="${currentExercise}"]`).classList.add('active');
+                updateProgress();
+            }
+        }
+
+        function prevExercise() {
+            document.querySelector(`[data-exercise="${currentExercise}"]`).classList.remove('active');
+            currentExercise--;
+            document.querySelector(`[data-exercise="${currentExercise}"]`).classList.add('active');
+            updateProgress();
+        }
+
+        // Event Listeners
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                if(this.classList.contains('selected')) return;
+                
+                this.closest('.options-grid').querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                this.classList.add('selected');
+                checkAnswer(this);
+            });
+        });
+
+        // Inicializar primer ejercicio
+        updateProgress();
+    </script>
+</body>
+</html>

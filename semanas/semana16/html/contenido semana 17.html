@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consolidación: Primer Aoristo en Griego Koiné</title>
+    <link rel="stylesheet" href="semana.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .incorrect { color: #C0392B; }
+        .correct { color: #27AE60; }
+        .result { margin-top: 10px; font-weight: bold; }
+        
+        /* Estilos para navegación interna */
+        .sub-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 1rem 0;
+        }
+        .sub-nav-btn {
+            background: #e8f4fc;
+            border: 1px solid var(--primary, #4A6FA5);
+            color: var(--dark, #2C3E50);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .sub-nav-btn:hover, .sub-nav-btn.active {
+            background: var(--primary, #4A6FA5);
+            color: white;
+        }
+        
+        /* Estilos para los quizzes dentro de content-card */
+        .quiz-question {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+            border: 2px solid transparent;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .quiz-question:hover {
+            border-color: var(--primary-light, #6B8CBC);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        .quiz-question p {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark, #2C3E50);
+            font-size: 1.05rem;
+        }
+        .quiz-options {
+            display: grid;
+            gap: 12px;
+        }
+        .quiz-options label {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            background: #f8f9fa;
+            border: 2px solid #ECF0F1;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-size: 0.95rem;
+        }
+        .quiz-options label:hover {
+            transform: translateX(5px);
+            border-color: var(--primary, #4A6FA5);
+            background: white;
+        }
+        .quiz-options input[type="radio"] {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            accent-color: #4A6FA5;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .option-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-top: 8px;
+        }
+        .option-input:focus {
+            outline: none;
+            border-color: var(--primary, #4A6FA5);
+        }
+        
+        /* Estilos para bloques de contenido */
+        .definition, .rules, .examples, .tip, .biblical, .paradigm, .formula, .comparison, .illustration, .important, .deponent, .summary-item, .analogy, .review, .mnemonic {
+            margin: 1rem 0;
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+        }
+        .definition { background: #e8f5e9; border-left: 5px solid #4CAF50; }
+        .rules { background: #fff3e0; border-left: 5px solid #ff9800; }
+        .examples { background: #e3f2fd; border-left: 5px solid #2196F3; }
+        .tip { background: #e1f5fe; border-left: 5px solid #0288d1; }
+        .biblical { background: #fce4ec; border-left: 5px solid #e91e63; }
+        .paradigm { background: #f5f5f5; border-left: 5px solid #607d8b; }
+        .formula { background: #fff3e0; border-left: 5px solid #ff9800; text-align: center; font-weight: bold; }
+        .comparison { background: #e8f5e9; border-left: 5px solid #4CAF50; }
+        .illustration { text-align: center; background: #f5f5f5; border-radius: 8px; }
+        .important { background: #ffebee; border-left: 5px solid #f44336; }
+        .deponent { background: #e8eaf6; border-left: 5px solid #3f51b5; }
+        .review { background: #fff8e1; border-left: 5px solid #ffc107; }
+        .mnemonic { background: #e8f5e9; border-left: 5px solid #4CAF50; font-style: italic; }
+        .summary-item { margin: 15px 0; padding: 15px 20px; border-radius: 8px; display: flex; align-items: flex-start; }
+        .summary-icon { font-size: 2rem; margin-right: 15px; min-width: 60px; text-align: center; }
+        .summary-content { flex: 1; }
+        .summary-1 { background: #e8f5e9; border-left: 5px solid #4CAF50; }
+        .summary-2 { background: #e3f2fd; border-left: 5px solid #2196F3; }
+        .summary-3 { background: #fff8e1; border-left: 5px solid #ffc107; }
+        .summary-4 { background: #f3e5f5; border-left: 5px solid #9c27b0; }
+        .summary-5 { background: #e8eaf6; border-left: 5px solid #3f51b5; }
+        .summary-6 { background: #fce4ec; border-left: 5px solid #e91e63; }
+        .analogy { background: #e0f2f1; padding: 15px; border-left: 5px solid #009688; margin: 20px 0; text-align: center; font-style: italic; }
+        
+        .vocabulary-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        .app-link {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-top: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        .app-link:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo Vivos para Servir" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Consolidación: Primer Aoristo en Griego Koiné</h1>
+      <div class="subtitle">Resumen y práctica integradora</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <!-- Sección de navegación principal -->
+    <div class="content-card" style="background: transparent; box-shadow: none; padding: 0;">
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px;">
+        <button class="week-button" onclick="showSection('intro')" id="nav-intro" style="flex: 1; min-width: 120px; padding: 12px 20px; font-size: 0.9rem;">
+          <i class="fas fa-home"></i> Introducción
+        </button>
+        <button class="week-button" onclick="showSection('aoristo-activo')" id="nav-activo" style="flex: 1; min-width: 120px; padding: 12px 20px; font-size: 0.9rem;">
+          <i class="fas fa-play"></i> Aoristo Activo
+        </button>
+        <button class="week-button" onclick="showSection('particularidades')" id="nav-particularidades" style="flex: 1; min-width: 120px; padding: 12px 20px; font-size: 0.9rem;">
+          <i class="fas fa-exclamation-triangle"></i> Particularidades
+        </button>
+        <button class="week-button" onclick="showSection('aoristo-medio')" id="nav-medio" style="flex: 1; min-width: 120px; padding: 12px 20px; font-size: 0.9rem;">
+          <i class="fas fa-user"></i> Aoristo Medio
+        </button>
+        <button class="week-button" onclick="showSection('resumen')" id="nav-resumen" style="flex: 1; min-width: 120px; padding: 12px 20px; font-size: 0.9rem;">
+          <i class="fas fa-check-double"></i> Resumen
+        </button>
+      </div>
+    </div>
+
+    <!-- INTRODUCCIÓN -->
+    <div id="section-intro" class="content-card">
+      <h2><i class="fas fa-home"></i> Introducción al Primer Aoristo</h2>
+      
+      <div class="sub-nav">
+        <button class="sub-nav-btn active" onclick="showSubSection('intro-intro')" id="sub-intro-intro">Introducción</button>
+        <button class="sub-nav-btn" onclick="showSubSection('intro-activo')" id="sub-intro-activo">Aoristo Activo</button>
+      </div>
+      
+      <div id="intro-intro" class="sub-content">
+        <div class="review">
+          <p>El aoristo es un tiempo verbal griego que expresa una acción simple en el pasado, sin referencia a su duración o resultado. El primer aoristo es la forma más común y regular de este tiempo verbal.</p>
+          
+          <p>En esta lección aprenderás:</p>
+          <ul>
+            <li>La fórmula de construcción del primer aoristo</li>
+            <li>Comparación con otros tiempos verbales</li>
+            <li>Cómo traducir correctamente el primer aoristo</li>
+            <li>El paradigma completo del primer aoristo activo</li>
+            <li>Las particularidades y excepciones del primer aoristo</li>
+            <li>El aoristo medio y los verbos deponentes</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div id="intro-activo" class="sub-content" style="display:none;">
+        <!-- Contenido de Aoristo Activo (resumido) -->
+        <h3 style="color: var(--primary, #4A6FA5); margin: 1.2rem 0 0.8rem;">2.1 La Fórmula Secreta</h3>
+        <div class="formula">
+          Aumento + Raíz Verbal + Formativo -σα- + Terminaciones Secundarias
+        </div>
+        <p>Ejemplo: [ἐ-] + [λυ] + [σα] + [α] = ἔλυσα (yo desaté)</p>
+        
+        <div class="biblical">
+          <p><strong>Ejemplo bíblico:</strong> Marcos 2:12 - "Y él se levantó (ἀνέστη), y tomando (ἄρας) su camilla, salió (ἐξῆλθεν) delante de todos".</p>
+        </div>
+        
+        <h3 style="color: var(--primary, #4A6FA5); margin: 1.2rem 0 0.8rem;">Paradigma del Aoristo Activo (λύω)</h3>
+        <div class="vocab-table-container">
+          <table class="vocab-table">
+            <thead><tr><th>Persona</th><th>Griego</th><th>Traducción</th></tr></thead>
+            <tbody>
+              <tr><td>1ª Sing.</td><td>ἔλυσα</td><td>Yo desaté</td></tr>
+              <tr><td>2ª Sing.</td><td>ἔλυσας</td><td>Tú desataste</td></tr>
+              <tr><td>3ª Sing.</td><td>ἔλυσε(ν)</td><td>Él/Ella desató</td></tr>
+              <tr><td>1ª Plural</td><td>ἐλύσαμεν</td><td>Nosotros desatamos</td></tr>
+              <tr><td>2ª Plural</td><td>ἐλύσατε</td><td>Vosotros desatasteis</td></tr>
+              <tr><td>3ª Plural</td><td>ἔλυσαν</td><td>Ellos desataron</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="vocabulary-section">
+        <h3>Recurso de Vocabulario</h3>
+        <p>Amplía tu vocabulario con la app de nuestro ministerio:</p>
+        <a href="https://rol123-m.github.io/Aplicacion-de-vocabulario-de-Griego-Koin-/" class="app-link">Vivos para Servir - App de Vocabulario</a>
+      </div>
+    </div>
+
+    <!-- AORISTO ACTIVO -->
+    <div id="section-aoristo-activo" class="content-card" style="display:none;">
+      <h2><i class="fas fa-play"></i> Primer Aoristo Activo: La Forma "Regular"</h2>
+      
+      <div class="sub-nav">
+        <button class="sub-nav-btn" onclick="showSubSection('activo-intro')" id="sub-activo-intro">Introducción</button>
+        <button class="sub-nav-btn active" onclick="showSubSection('activo-activo')" id="sub-activo-activo">Aoristo Activo</button>
+        <button class="sub-nav-btn" onclick="showSubSection('activo-particularidades')" id="sub-activo-particularidades">Particularidades</button>
+      </div>
+      
+      <div id="activo-intro" class="sub-content" style="display:none;">
+        <div class="review">
+          <p>El primer aoristo activo es la forma más común del aoristo en griego koiné. Se caracteriza por el formativo -σα- que se añade a la raíz verbal.</p>
+        </div>
+      </div>
+      
+      <div id="activo-activo" class="sub-content">
+        <h3 style="color: var(--primary, #4A6FA5); margin: 1.2rem 0 0.8rem;">La Fórmula de Construcción</h3>
+        <div class="formula">
+          Aumento + Raíz Verbal + Formativo -σα- + Terminaciones Secundarias
+        </div>
+        
+        <div class="comparison">
+          <p>Comparación con el español e inglés:</p>
+          <div class="vocab-table-container">
+            <table class="vocab-table">
+              <thead><tr><th>Idioma</th><th>Tipo</th><th>Ejemplo</th></tr></thead>
+              <tbody>
+                <tr><td>Español/Inglés</td><td>Regular</td><td>Yo limpio → Yo limpié / I clean → I cleaned</td></tr>
+                <tr><td>Griego</td><td>Primer Aoristo</td><td>λύω → ἔλυσα</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <div class="tip">
+          <p><strong>Traducción:</strong> La traducción más común es el pretérito perfecto simple (pasado simple) en español.</p>
+          <p class="formula">ἔλυσα = "desaté" o "solté"</p>
+        </div>
+        
+        <div class="biblical">
+          <p><strong>Ejemplo en el NT:</strong> Hechos 16:26 - "...y al instante se abrieron (ἠνεῴχθησαν) todas las puertas".</p>
+        </div>
+        
+        <h3 style="color: var(--primary, #4A6FA5); margin: 1.2rem 0 0.8rem;">Paradigma Completo</h3>
+        <div class="vocab-table-container">
+          <table class="vocab-table">
+            <thead><tr><th>Persona</th><th>Griego</th><th>Traducción</th></tr></thead>
+            <tbody>
+              <tr><td>1ª Sing.</td><td>ἔλυσα</td><td>Yo desaté</td></tr>
+              <tr><td>2ª Sing.</td><td>ἔλυσας</td><td>Tú desataste</td></tr>
+              <tr><td>3ª Sing.</td><td>ἔλυσε(ν)</td><td>Él/Ella desató</td></tr>
+              <tr><td>1ª Plural</td><td>ἐλύσαμεν</td><td>Nosotros desatamos</td></tr>
+              <tr><td>2ª Plural</td><td>ἐλύσατε</td><td>Vosotros desatasteis</td></tr>
+              <tr><td>3ª Plural</td><td>ἔλυσαν</td><td>Ellos desataron</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div id="activo-particularidades" class="sub-content" style="display:none;">
+        <div class="review">
+          <p>Las particularidades del primer aoristo incluyen verbos contractos, raíces con oclusivas y aoristos líquidos.</p>
+        </div>
+      </div>
+      
+      <div class="quiz-container" style="background: #f8f9fa; border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem; border-left: 4px solid var(--primary, #4A6FA5);">
+        <h3 style="color: var(--primary, #4A6FA5);">Practica con el Aoristo Activo</h3>
+        
+        <div class="quiz-question">
+          <p><strong>Pregunta 1:</strong> ¿Cuál es el componente distintivo del primer aoristo?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="activo-q1" value="a"> El aumento (ἐ-)</label>
+            <label><input type="radio" name="activo-q1" value="b"> El formativo (-σα-)</label>
+            <label><input type="radio" name="activo-q1" value="c"> Las terminaciones secundarias</label>
+          </div>
+          <div class="result" id="activo-result1"></div>
+        </div>
+        
+        <div class="quiz-question">
+          <p><strong>Pregunta 2:</strong> ¿Qué porcentaje de verbos en el NT siguen el patrón del primer aoristo?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="activo-q2" value="a"> 30-40%</label>
+            <label><input type="radio" name="activo-q2" value="b"> 50-60%</label>
+            <label><input type="radio" name="activo-q2" value="c"> 70-80%</label>
+          </div>
+          <div class="result" id="activo-result2"></div>
+        </div>
+        
+        <button class="week-button success" onclick="checkActivoQuiz()">
+          <i class="fas fa-check-circle"></i> Comprobar Respuestas
+        </button>
+      </div>
+    </div>
+
+    <!-- PARTICULARIDADES -->
+    <div id="section-particularidades" class="content-card" style="display:none;">
+      <h2><i class="fas fa-exclamation-triangle"></i> Particularidades del Primer Aoristo</h2>
+      
+      <div class="sub-nav">
+        <button class="sub-nav-btn" onclick="showSubSection('part-activo')" id="sub-part-activo">Aoristo Activo</button>
+        <button class="sub-nav-btn active" onclick="showSubSection('part-particularidades')" id="sub-part-particularidades">Particularidades</button>
+        <button class="sub-nav-btn" onclick="showSubSection('part-medio')" id="sub-part-medio">Aoristo Medio</button>
+      </div>
+      
+      <div id="part-activo" class="sub-content" style="display:none;">
+        <div class="review">
+          <p>El primer aoristo activo se forma con el aumentativo -σα-.</p>
+        </div>
+      </div>
+      
+      <div id="part-particularidades" class="sub-content">
+        <div class="review">
+          <p>En esta lección aprenderás las excepciones a la regla del primer aoristo:</p>
+          <ul>
+            <li>Verbos contractos (en -άω, -έω, -όω)</li>
+            <li>Raíces que terminan en consonantes oclusivas</li>
+            <li>Aoristos líquidos (verbos con raíces en λ, μ, ν, ρ)</li>
+          </ul>
+        </div>
+        
+        <h3 style="color: var(--primary, #4A6FA5); margin: 1.2rem 0 0.8rem;">6.1 Verbos Contractos</h3>
+        <div class="definition">
+          <p><strong>Regla:</strong> La vocal contracta se alarga antes de añadir el formativo -σα-.</p>
+          <div class="vocab-table-container">
+            <table class="vocab-table">
+              <thead><tr><th>Verbo (Presente)</th><th>Aoristo (1ª sg)</th><th>Significado</th></tr></thead>
+              <tbody>
+                <tr><td>ἀγαπά-ω</td><td>ἠγάπησα</td><td>yo amé</td></tr>
+                <tr><td>ποιέ-ω</td><td>ἐποίησα</td><td>yo hice</td></tr>
+                <tr><td>πληρό-ω</td><td>ἐπλήρωσα</td><td>yo cumplí</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="biblical">
+            <p><strong>Ejemplo:</strong> Juan 3:16 - "Porque de tal manera <strong>amó</strong> (ἠγάπησεν) Dios al mundo..."</p>
+          </div>
+        </div>
+        
+        <h3 style="color: var(--primary, #4A6FA5); margin: 1.2rem 0 0.8rem;">6.2 Raíces con Oclusivas</h3>
+        <div class="rules">
+          <p>Cuando la raíz termina en una consonante oclusiva, se combina con la σ:</p>
+          <div class="vocab-table-container">
+            <table class="vocab-table">
+              <thead><tr><th>Consonante</th><th>+ σ</th><th>Resultado</th><th>Ejemplo</th></tr></thead>
+              <tbody>
+                <tr><td>κ, γ, χ</td><td>+ σ</td><td>→ ξ</td><td>φυλάσσω → ἐφύλαξα</td></tr>
+                <tr><td>π, β, φ</td><td>+ σ</td><td>→ ψ</td><td>γράφω → ἔγραψα</td></tr>
+                <tr><td>τ, δ, θ</td><td>+ σ</td><td>→ σ</td><td>πείθω → ἔπεισα</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mnemonic">
+            <p><strong>Regla mnemotécnica:</strong> "Kappa se convierte en Xi, Pi se convierte en Psi, Tau desaparece".</p>
+          </div>
+        </div>
+        
+        <h3 style="color: var(--primary, #4A6FA5); margin: 1.2rem 0 0.8rem;">6.3 Aoristos Líquidos</h3>
+        <div class="important">
+          <p><strong>¡Atención!</strong> En verbos cuya raíz termina en λ, μ, ν, o ρ, el formativo -σα- se simplifica a -α-.</p>
+          <div class="vocab-table-container">
+            <table class="vocab-table">
+              <thead><tr><th>Verbo</th><th>Presente</th><th>Aoristo</th><th>Traducción</th></tr></thead>
+              <tbody>
+                <tr><td>μένω</td><td>yo permanezco</td><td>ἔμεινα</td><td>yo permanecí</td></tr>
+                <tr><td>αἴρω</td><td>yo levanto</td><td>ἦρα</td><td>yo levanté</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="biblical">
+            <p><strong>Ejemplo:</strong> Juan 1:39 - "Se quedaron (ἔμειναν) con él aquel día".</p>
+          </div>
+        </div>
+      </div>
+      
+      <div id="part-medio" class="sub-content" style="display:none;">
+        <div class="review">
+          <p>El aoristo medio usa terminaciones medias y puede tener matices reflexivos o de interés propio.</p>
+        </div>
+      </div>
+      
+      <div class="quiz-container" style="background: #f8f9fa; border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem; border-left: 4px solid var(--primary, #4A6FA5);">
+        <h3 style="color: var(--primary, #4A6FA5);">Practica con las Particularidades</h3>
+        
+        <div class="quiz-question">
+          <p><strong>Pregunta 1:</strong> ¿Qué sucede con los verbos contractos en aoristo?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="part-q1" value="a"> La vocal contracta se acorta</label>
+            <label><input type="radio" name="part-q1" value="b"> La vocal contracta se alarga</label>
+            <label><input type="radio" name="part-q1" value="c"> La vocal contracta desaparece</label>
+          </div>
+          <div class="result" id="part-result1"></div>
+        </div>
+        
+        <div class="quiz-question">
+          <p><strong>Pregunta 2:</strong> ¿Qué sucede cuando una raíz termina en π, β, o φ y se encuentra con σ?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="part-q2" value="a"> Se convierte en ξ</label>
+            <label><input type="radio" name="part-q2" value="b"> Se convierte en ψ</label>
+            <label><input type="radio" name="part-q2" value="c"> Se convierte en σ</label>
+          </div>
+          <div class="result" id="part-result2"></div>
+        </div>
+        
+        <button class="week-button success" onclick="checkPartQuiz()">
+          <i class="fas fa-check-circle"></i> Comprobar Respuestas
+        </button>
+      </div>
+    </div>
+
+    <!-- AORISTO MEDIO -->
+    <div id="section-aoristo-medio" class="content-card" style="display:none;">
+      <h2><i class="fas fa-user"></i> Primer Aoristo Medio: La Voz que Encierra un Misterio</h2>
+      
+      <div class="sub-nav">
+        <button class="sub-nav-btn" onclick="showSubSection('medio-particularidades')" id="sub-medio-particularidades">Particularidades</button>
+        <button class="sub-nav-btn active" onclick="showSubSection('medio-medio')" id="sub-medio-medio">Aoristo Medio</button>
+        <button class="sub-nav-btn" onclick="showSubSection('medio-resumen')" id="sub-medio-resumen">Resumen</button>
+      </div>
+      
+      <div id="medio-particularidades" class="sub-content" style="display:none;">
+        <div class="review">
+          <p>Las particularidades del aoristo medio incluyen los verbos deponentes y los matices de significado.</p>
+        </div>
+      </div>
+      
+      <div id="medio-medio" class="sub-content">
+        <div class="review">
+          <p>En esta lección aprenderás:</p>
+          <ul>
+            <li>La diferencia entre voz activa y media</li>
+            <li>Cómo se forma el primer aoristo medio</li>
+            <li>Los distintos matices de significado de la voz media</li>
+            <li>Los verbos deponentes</li>
+          </ul>
+        </div>
+        
+        <h3 style="color: var(--primary, #4A6FA5); margin: 1.2rem 0 0.8rem;">7.1 Voz Activa vs. Voz Media</h3>
+        <div class="definition">
+          <div class="vocab-table-container">
+            <table class="vocab-table">
+              <thead><tr><th>Voz</th><th>Función</th><th>Ejemplo en español</th><th>Ejemplo en griego</th></tr></thead>
+              <tbody>
+                <tr><td>Activa</td><td>El sujeto realiza la acción</td><td>Yo lavé el auto</td><td>ἔλυσα</td></tr>
+                <tr><td>Media</td><td>El sujeto actúa sobre sí o para sí</td><td>Me lavé</td><td>ἐλυσάμην</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="analogy">
+            <p><strong>Analogía:</strong> Activo: "Corté el pan" | Medio: "Me corté"</p>
+          </div>
+        </div>
+        
+        <h3 style="color: var(--primary, #4A6FA5); margin: 1.2rem 0 0.8rem;">7.2 Paradigma del Aoristo Medio (λύω)</h3>
+        <div class="paradigm">
+          <div class="vocab-table-container">
+            <table class="vocab-table">
+              <thead><tr><th>Persona</th><th>Griego</th><th>Traducción</th></tr></thead>
+              <tbody>
+                <tr><td>1ª Sing.</td><td>ἐλυσάμην</td><td>Me desaté</td></tr>
+                <tr><td>2ª Sing.</td><td>ἐλύσω</td><td>Te desataste</td></tr>
+                <tr><td>3ª Sing.</td><td>ἐλύσατο</td><td>Se desató</td></tr>
+                <tr><td>1ª Plural</td><td>ἐλυσάμεθα</td><td>Nos desatamos</td></tr>
+                <tr><td>2ª Plural</td><td>ἐλύσασθε</td><td>Os desatasteis</td></tr>
+                <tr><td>3ª Plural</td><td>ἐλύσαντο</td><td>Se desataron</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <h3 style="color: var(--primary, #4A6FA5); margin: 1.2rem 0 0.8rem;">7.3 Verbos Deponentes</h3>
+        <div class="deponent">
+          <p>Los verbos deponentes tienen forma media o pasiva pero significado activo.</p>
+          <div class="vocab-table-container">
+            <table class="vocab-table">
+              <thead><tr><th>Verbo</th><th>Presente</th><th>Aoristo</th><th>Significado</th></tr></thead>
+              <tbody>
+                <tr><td>ἔρχομαι</td><td>vengo</td><td>ἦλθον</td><td>vine</td></tr>
+                <tr><td>γίνομαι</td><td>llegar a ser</td><td>ἐγενόμην</td><td>llegué a ser</td></tr>
+                <tr><td>πορεύομαι</td><td>voy</td><td>ἐπορεύθην</td><td>fui</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="biblical">
+            <p><strong>Ejemplo:</strong> Mateo 2:2 - "¿Dónde está el rey de los judíos...? ...y <strong>venimos</strong> (ἤλθομεν) a adorarle".</p>
+          </div>
+        </div>
+      </div>
+      
+      <div id="medio-resumen" class="sub-content" style="display:none;">
+        <div class="review">
+          <p>El aoristo medio se usa para acciones que afectan al sujeto o se hacen en su interés.</p>
+        </div>
+      </div>
+      
+      <div class="quiz-container" style="background: #f8f9fa; border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem; border-left: 4px solid var(--primary, #4A6FA5);">
+        <h3 style="color: var(--primary, #4A6FA5);">Practica con el Aoristo Medio</h3>
+        
+        <div class="quiz-question">
+          <p><strong>Pregunta 1:</strong> ¿Cuál es la diferencia principal entre voz activa y media?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="medio-q1" value="a"> La activa es para el presente, la media para el pasado</label>
+            <label><input type="radio" name="medio-q1" value="b"> La activa: sujeto actúa; la media: sujeto actúa sobre sí o para sí</label>
+            <label><input type="radio" name="medio-q1" value="c"> La activa es regular, la media es irregular</label>
+          </div>
+          <div class="result" id="medio-result1"></div>
+        </div>
+        
+        <div class="quiz-question">
+          <p><strong>Pregunta 2:</strong> ¿Qué son los verbos deponentes?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="medio-q2" value="a"> Verbos que solo existen en aoristo</label>
+            <label><input type="radio" name="medio-q2" value="b"> Verbos con forma media/pasiva pero significado activo</label>
+            <label><input type="radio" name="medio-q2" value="c"> Verbos que no siguen las reglas de conjugación</label>
+          </div>
+          <div class="result" id="medio-result2"></div>
+        </div>
+        
+        <button class="week-button success" onclick="checkMedioQuiz()">
+          <i class="fas fa-check-circle"></i> Comprobar Respuestas
+        </button>
+      </div>
+    </div>
+
+    <!-- RESUMEN -->
+    <div id="section-resumen" class="content-card" style="display:none;">
+      <h2><i class="fas fa-check-double"></i> Resumen y Consolidación del Primer Aoristo</h2>
+      
+      <div class="sub-nav">
+        <button class="sub-nav-btn" onclick="showSubSection('resumen-medio')" id="sub-resumen-medio">Aoristo Medio</button>
+        <button class="sub-nav-btn active" onclick="showSubSection('resumen-resumen')" id="sub-resumen-resumen">Resumen</button>
+      </div>
+      
+      <div id="resumen-medio" class="sub-content" style="display:none;">
+        <div class="review">
+          <p>El aoristo medio se caracteriza por terminaciones medias y matices de significado especiales.</p>
+        </div>
+      </div>
+      
+      <div id="resumen-resumen" class="sub-content">
+        <div class="review">
+          <p>En esta lección final, consolidaremos todo lo aprendido sobre el primer aoristo:</p>
+          <ul>
+            <li>Repaso de los conceptos clave</li>
+            <li>Estrategias para reconocer y traducir el primer aoristo</li>
+            <li>Ejercicios de práctica integradora</li>
+          </ul>
+        </div>
+        
+        <h3 style="color: var(--primary, #4A6FA5); margin: 1.2rem 0 0.8rem;">8.1 Repaso de Conceptos Clave</h3>
+        
+        <div class="summary-item summary-1">
+          <div class="summary-icon">📝</div>
+          <div class="summary-content">
+            <h4>Fórmula del Primer Aoristo Activo</h4>
+            <p>Aumento + Raíz Verbal + Formativo -σα- + Terminaciones Secundarias</p>
+            <p>Ejemplo: ἔλυσα (yo desaté)</p>
+          </div>
+        </div>
+        
+        <div class="summary-item summary-2">
+          <div class="summary-icon">🔍</div>
+          <div class="summary-content">
+            <h4>Particularidades del Primer Aoristo</h4>
+            <ul>
+              <li>Verbos contractos: la vocal se alarga (ἀγαπάω → ἠγάπησα)</li>
+              <li>Raíces con oclusivas: κ/γ/χ + σ → ξ; π/β/φ + σ → ψ; τ/δ/θ + σ → σ</li>
+              <li>Aoristos líquidos: raíz en λ, μ, ν, ρ → -σα- se simplifica a -α-</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="summary-item summary-3">
+          <div class="summary-icon">🔄</div>
+          <div class="summary-content">
+            <h4>Primer Aoristo Medio</h4>
+            <p>Aumento + Raíz Verbal + -σα- + Terminaciones Medias Secundarias</p>
+            <p>Ejemplo: ἐλυσάμην (me desaté)</p>
+            <p>Matices: reflexivo, interés propio, recíproco, intensivo</p>
+          </div>
+        </div>
+        
+        <div class="summary-item summary-4">
+          <div class="summary-icon">🎭</div>
+          <div class="summary-content">
+            <h4>Verbos Deponentes</h4>
+            <p>Forma media/pasiva pero significado activo</p>
+            <p>Ejemplos: ἔρχομαι (vengo), γίνομαι (llegar a ser)</p>
+          </div>
+        </div>
+        
+        <h3 style="color: var(--primary, #4A6FA5); margin: 1.2rem 0 0.8rem;">Estrategias para Reconocer y Traducir</h3>
+        <div class="tip">
+          <p><strong>Para reconocer un primer aoristo:</strong></p>
+          <ol>
+            <li>Busca el aumento (ἐ-) al principio → indica tiempo pasado</li>
+            <li>Identifica el formativo -σα- o sus variantes</li>
+            <li>Verifica las terminaciones secundarias (activas o medias)</li>
+          </ol>
+        </div>
+        
+        <div class="mnemonic">
+          <p>🎓 <strong>Mnemotécnica final:</strong> "El aoristo es como una fotografía: captura la acción completa en un momento del pasado."</p>
+        </div>
+      </div>
+      
+      <div class="vocabulary-section">
+        <h4>Recursos Recomendados</h4>
+        <ul>
+          <li><strong>App de Vocabulario:</strong> <a href="https://rol123-m.github.io/Aplicacion-de-vocabulario-de-Griego-Koin-/" class="app-link">Vivos para Servir - App de Vocabulario</a></li>
+          <li><strong>Gramáticas recomendadas:</strong> Greek Grammar Beyond the Basics (Wallace), Basics of Biblical Greek (Mounce)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Función para mostrar secciones principales
+    function showSection(sectionId) {
+      // Ocultar todas las secciones
+      document.querySelectorAll('.content-card[id^="section-"]').forEach(el => {
+        el.style.display = 'none';
+      });
+      // Mostrar la sección seleccionada
+      const target = document.getElementById('section-' + sectionId);
+      if (target) target.style.display = 'block';
+      
+      // Actualizar navegación principal
+      document.querySelectorAll('.week-button[onclick^="showSection"]').forEach(btn => {
+        btn.style.background = 'var(--gradient-primary, linear-gradient(135deg, #4A6FA5 0%, #8B5FBF 100%))';
+        btn.style.color = 'white';
+      });
+      const activeBtn = document.getElementById('nav-' + sectionId);
+      if (activeBtn) {
+        activeBtn.style.background = 'var(--gradient-secondary, linear-gradient(135deg, #8B5FBF 0%, #C779D0 100%))';
+      }
+    }
+
+    // Función para mostrar subsecciones
+    function showSubSection(subId) {
+      // Obtener la sección padre
+      const parent = document.getElementById(subId).closest('.content-card');
+      // Ocultar todas las subsecciones en esta tarjeta
+      parent.querySelectorAll('.sub-content').forEach(el => {
+        el.style.display = 'none';
+      });
+      // Mostrar la subsección seleccionada
+      const target = document.getElementById(subId);
+      if (target) target.style.display = 'block';
+      
+      // Actualizar navegación de subsección
+      parent.querySelectorAll('.sub-nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      const activeBtn = document.getElementById('sub-' + subId);
+      if (activeBtn) activeBtn.classList.add('active');
+    }
+
+    // Quizzes
+    function checkActivoQuiz() {
+      const answers = { 'activo-q1': 'b', 'activo-q2': 'c' };
+      for (const q in answers) {
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        const result = document.getElementById(q.replace('activo-', 'activo-result'));
+        if (selected) {
+          if (selected.value === answers[q]) {
+            result.textContent = "¡Correcto!";
+            result.className = "result correct";
+          } else {
+            result.textContent = "Incorrecto. Respuesta correcta: " + answers[q];
+            result.className = "result incorrect";
+          }
+        } else {
+          result.textContent = "Selecciona una respuesta.";
+          result.className = "result";
+        }
+      }
+    }
+
+    function checkPartQuiz() {
+      const answers = { 'part-q1': 'b', 'part-q2': 'b' };
+      for (const q in answers) {
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        const result = document.getElementById(q.replace('part-', 'part-result'));
+        if (selected) {
+          if (selected.value === answers[q]) {
+            result.textContent = "¡Correcto!";
+            result.className = "result correct";
+          } else {
+            result.textContent = "Incorrecto. Respuesta correcta: " + answers[q];
+            result.className = "result incorrect";
+          }
+        } else {
+          result.textContent = "Selecciona una respuesta.";
+          result.className = "result";
+        }
+      }
+    }
+
+    function checkMedioQuiz() {
+      const answers = { 'medio-q1': 'b', 'medio-q2': 'b' };
+      for (const q in answers) {
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        const result = document.getElementById(q.replace('medio-', 'medio-result'));
+        if (selected) {
+          if (selected.value === answers[q]) {
+            result.textContent = "¡Correcto!";
+            result.className = "result correct";
+          } else {
+            result.textContent = "Incorrecto. Respuesta correcta: " + answers[q];
+            result.className = "result incorrect";
+          }
+        } else {
+          result.textContent = "Selecciona una respuesta.";
+          result.className = "result";
+        }
+      }
+    }
+
+    // Inicializar: mostrar la primera sección
+    document.addEventListener('DOMContentLoaded', function() {
+      showSection('intro');
+      showSubSection('intro-intro');
+    });
+  </script>
+</body>
+</html>

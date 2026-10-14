@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendiendo Griego Koiné: La Forma del Sustantivo</title>
+    <link rel="stylesheet" href="semana2.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+</head>
+<body>
+    <header class="week-header">
+        <div class="header-logo">
+            <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio Vivos para servir" class="logo-main">
+        </div>
+        <div class="header-title">
+            <h1>Aprendiendo Griego Koiné: La Forma del Sustantivo</h1>
+            <div class="subtitle">Semana 2 - Fundamentos gramaticales</div>
+        </div>
+    </header>
+
+    <main class="week-container">
+        <section class="content-card pronunciation">
+            <h2><i class="fas fa-language"></i> Introducción a la Flexión de los Sustantivos</h2>
+            <div class="example-box">
+                <p>En griego, la función de una palabra en una oración se indica mediante <strong>terminaciones de caso</strong>. Estas son sufijos que se añaden al final de la palabra.</p>
+                <ul>
+                    <li>Si la palabra es el sujeto del verbo, lleva una terminación de caso equivalente al caso nominativo en español: <strong>ς</strong> (ἀπόστολος).</li>
+                    <li>Si es el objeto directo del verbo, lleva una terminación de caso equivalente al caso acusativo: <strong>ν</strong> (ἀπόστολον).</li>
+                </ul>
+                <p class="greek-example">ὁ ἀπόστολος πέμπει τὸν ἀπόστολον.</p>
+                <p>(El apóstol envía al apóstol).</p>
+            </div>
+            <p>En español, el orden de las palabras suele determinar su función, pero en griego, es la terminación de caso la que indica la función. Por eso, es esencial aprender bien las terminaciones de caso.</p>
+        </section>
+
+        <section class="content-card rules">
+            <h2><i class="fas fa-cogs"></i> Componentes del Sustantivo</h2>
+            <p>Los sustantivos en griego están compuestos por varios elementos clave:</p>
+            <ul>
+                <li><strong>Raíz:</strong> Si se quita la terminación de caso de un sustantivo, queda la raíz. Por ejemplo, la raíz de <span class="greek-text">λόγος</span> es <strong>λογο</strong>. La raíz lleva el significado principal de la palabra.</li>
+                <li><strong>Género:</strong> Los sustantivos en griego son masculinos, femeninos o neutros. El género es gramatical y no siempre coincide con el género natural. Por ejemplo, <span class="greek-text">ἁμαρτωλός</span> (pecador) es masculino, pero no implica que el pecador sea hombre. <span class="greek-text">ἁμαρτία</span> (pecado) es femenino, pero no implica que el pecado sea un rasgo femenino.</li>
+                <li><strong>Número:</strong> En lugar de añadir una "s" para el plural, el griego usa diferentes terminaciones de caso. Por ejemplo, <span class="greek-text">ἀπόστολος</span> (apóstol) y <span class="greek-text">ἀπόστολοι</span> (apóstoles).</li>
+            </ul>
+        </section>
+
+        <section class="content-card pronunciation">
+            <h2><i class="fas fa-layer-group"></i> Declinaciones</h2>
+            <p>En griego, hay tres patrones principales de flexión, llamados <strong>declinaciones</strong>. La declinación que sigue un sustantivo no afecta su significado, solo la forma de sus terminaciones de caso.</p>
+            <div class="example-box">
+                <ul>
+                    <li><strong>Primera declinación:</strong> Sustantivos con raíz terminada en alfa o eta. Son principalmente femeninos (ejemplo: <span class="greek-text">γραφή</span>).</li>
+                    <li><strong>Segunda declinación:</strong> Sustantivos con raíz terminada en ómicron. Son mayormente masculinos o neutros (ejemplo: <span class="greek-text">ἀπόστολος</span>, <span class="greek-text">ἔργον</span>).</li>
+                    <li><strong>Tercera declinación:</strong> Sustantivos con raíz terminada en consonante. Se tratará en el Capítulo 10.</li>
+                </ul>
+            </div>
+            <div class="important-note">
+                <p><strong>Nota:</strong> Algunas palabras en griego son <strong>indeclinables</strong>, como los nombres propios y las palabras prestadas de otros idiomas. Su forma no cambia, independientemente de su función en la oración. Por ejemplo, la palabra <span class="greek-text">Ἰσραήλ</span> (Israel) se escribe igual tanto si es el sujeto como si es el objeto directo.</p>
+            </div>
+        </section>
+
+        <section class="content-card quiz">
+            <h2><i class="fas fa-question-circle"></i> Comprueba tu Conocimiento</h2>
+            
+            <div class="quiz-question">
+                <p><strong>Pregunta 1:</strong> ¿Qué indica la terminación de caso en griego?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> La relación con el verbo</label>
+                    <label><input type="radio" name="q1" value="b"> La función de la palabra en la oración (caso gramatical)</label>
+                    <label><input type="radio" name="q1" value="c"> La intención del autor</label>
+                </div>
+                <div class="result" id="result1"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Pregunta 2:</strong> ¿Cuál es la raíz de la palabra λόγος?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> λογο</label>
+                    <label><input type="radio" name="q2" value="b"> λογ</label>
+                    <label><input type="radio" name="q2" value="c"> λογος</label>
+                </div>
+                <div class="result" id="result2"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Pregunta 3:</strong> ¿Qué declinación siguen los sustantivos con raíz terminada en ómicron?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> Primera declinación</label>
+                    <label><input type="radio" name="q3" value="b"> Segunda declinación</label>
+                    <label><input type="radio" name="q3" value="c"> Tercera declinación</label>
+                </div>
+                <div class="result" id="result3"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Pregunta 4:</strong> ¿Qué género es el sustantivo ἁμαρτία?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q4" value="a"> Masculino</label>
+                    <label><input type="radio" name="q4" value="b"> Femenino</label>
+                    <label><input type="radio" name="q4" value="c"> Neutro</label>
+                </div>
+                <div class="result" id="result4"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Pregunta 5:</strong> ¿Qué palabra es indeclinable?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q5" value="a"> ἀπόστολος</label>
+                    <label><input type="radio" name="q5" value="b"> Ἰσραήλ</label>
+                    <label><input type="radio" name="q5" value="c"> γραφή</label>
+                </div>
+                <div class="result" id="result5"></div>
+            </div>
+
+            <button class="week-button" onclick="checkAnswers()">
+                <i class="fas fa-check-circle"></i> Comprobar Respuestas
+            </button>
+        </section>
+    </main>
+
+    <footer class="week-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales">
+            </div>
+            <div class="footer-info">
+                <p>Sección educativa del ministerio: "Vivos para Servir"</p>
+                <p class="copyright">@Copyright 2024 - Todos los derechos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function checkAnswers() {
+            const answers = {
+                q1: 'b', // La función de la palabra en la oración
+                q2: 'a', // λογο
+                q3: 'b', // Segunda declinación
+                q4: 'b', // Femenino
+                q5: 'b', // Ἰσραήλ
+            };
+
+            for (const question in answers) {
+                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                const resultElement = document.getElementById(`result${question.slice(1)}`);
+                
+                if (selectedOption) {
+                    if (selectedOption.value === answers[question]) {
+                        resultElement.textContent = "¡Correcto!";
+                        resultElement.className = "result correct";
+                    } else {
+                        resultElement.textContent = `Incorrecto. La respuesta correcta es la opción ${answers[question].toUpperCase()}.`;
+                        resultElement.className = "result incorrect";
+                    }
+                } else {
+                    resultElement.textContent = "Por favor, selecciona una respuesta.";
+                    resultElement.className = "result";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

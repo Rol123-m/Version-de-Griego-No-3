@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego: Presente de εἰμί</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e74c3c;
+            --background: #f8f9fa;
+            --text: #2c3e50;
+            --card-bg: #ffffff;
+            --correct: #27ae60;
+            --incorrect: #e74c3c;
+            --highlight: #e3f2fd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .game-container {
+            max-width: 600px;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .logo img {
+            width: 100px;
+            height: 100px;
+            border-radius: 100%;
+            position: absolute;
+            left: 30rem;
+            top: 2rem;
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: var(--text);
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .score-display {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #ecf0f1;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-container {
+            margin-bottom: 2rem;
+        }
+
+        .question {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            font-weight: bold;
+        }
+
+        .greek-word {
+            font-family: 'New Athena Unicode', 'Gentium Plus', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .option {
+            padding: 1rem;
+            background-color: white;
+            border: 2px solid #dfe6e9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .option:hover {
+            background-color: var(--highlight);
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .option.correct {
+            background-color: rgba(39, 174, 96, 0.2);
+            border-color: var(--correct);
+            color: var(--correct);
+        }
+
+        .option.incorrect {
+            background-color: rgba(231, 76, 60, 0.2);
+            border-color: var(--incorrect);
+            color: var(--incorrect);
+        }
+
+        .feedback {
+            min-height: 24px;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+        }
+
+        .correct-feedback {
+            color: var(--correct);
+        }
+
+        .incorrect-feedback {
+            color: var(--incorrect);
+        }
+
+        .next-btn {
+            padding: 0.8rem 1.8rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .next-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .next-btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .results-screen h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .final-score {
+            font-size: 1.5rem;
+            margin: 1.5rem 0;
+            color: var(--text);
+        }
+
+        .restart-btn {
+            padding: 0.8rem 1.8rem;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        .conjugation-table {
+            width: 100%;
+            margin: 2rem 0;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .conjugation-table th, .conjugation-table td {
+            padding: 0.8rem;
+            border-bottom: 1px solid #dfe6e9;
+        }
+
+        .conjugation-table th {
+            background-color: var(--highlight);
+            color: var(--primary);
+        }
+
+        .conjugation-table tr:hover {
+            background-color: var(--highlight);
+        }
+
+        @media (max-width: 600px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-container {
+                padding: 1.5rem;
+            }
+            
+            .greek-word {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="logo del ministerio"></div>
+        <div id="quiz-screen">
+            <h1>Juego del Verbo εἰμί</h1>
+            <p class="subtitle">Practica el presente de indicativo del verbo ser/estar en griego koiné</p>
+            
+            <div class="score-display">
+                <div>Puntuación: <span id="score">0</span></div>
+                <div>Pregunta: <span id="question-count">1</span>/10</div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question" id="question-text">¿Cómo se traduce correctamente?</div>
+                <div class="greek-word" id="greek-word">εἰμί</div>
+            </div>
+            
+            <div class="feedback" id="feedback"></div>
+            
+            <div class="options-grid" id="options-container">
+                <!-- Las opciones se generarán dinámicamente -->
+            </div>
+            
+            <button class="next-btn" id="next-btn" disabled>Siguiente</button>
+        </div>
+        
+        <div class="results-screen" id="results-screen">
+            <h2>¡Resultados!</h2>
+            <div class="final-score" id="final-score"></div>
+            
+            <h3>Tabla de conjugación: Presente de εἰμί</h3>
+            <table class="conjugation-table">
+                <tr>
+                    <th>Persona</th>
+                    <th>Griego</th>
+                    <th>Traducción</th>
+                </tr>
+                <tr>
+                    <td>1a singular</td>
+                    <td>εἰμί</td>
+                    <td>yo soy/estoy</td>
+                </tr>
+                <tr>
+                    <td>2a singular</td>
+                    <td>εἶ</td>
+                    <td>tú eres/estás</td>
+                </tr>
+                <tr>
+                    <td>3a singular</td>
+                    <td>ἐστί(ν)</td>
+                    <td>él/ella es/está</td>
+                </tr>
+                <tr>
+                    <td>1a plural</td>
+                    <td>ἐσμέν</td>
+                    <td>nosotros somos/estamos</td>
+                </tr>
+                <tr>
+                    <td>2a plural</td>
+                    <td>ἐστέ</td>
+                    <td>vosotros sois/estáis</td>
+                </tr>
+                <tr>
+                    <td>3a plural</td>
+                    <td>εἰσί(ν)</td>
+                    <td>ellos son/están</td>
+                </tr>
+            </table>
+            
+            <button class="restart-btn" id="restart-btn">Volver a Jugar</button>
+        </div>
+    </div>
+
+    <script>
+        // Conjugaciones del presente de εἰμί
+        const conjugations = [
+            { greek: "εἰμί", person: "1a singular", translation: "yo soy/estoy" },
+            { greek: "εἶ", person: "2a singular", translation: "tú eres/estás" },
+            { greek: "ἐστί(ν)", person: "3a singular", translation: "él/ella es/está" },
+            { greek: "ἐσμέν", person: "1a plural", translation: "nosotros somos/estamos" },
+            { greek: "ἐστέ", person: "2a plural", translation: "vosotros sois/estáis" },
+            { greek: "εἰσί(ν)", person: "3a plural", translation: "ellos son/están" }
+        ];
+
+        // Posibles traducciones incorrectas
+        const wrongTranslations = [
+            "yo era",
+            "tú fuiste",
+            "él estará",
+            "nosotros éramos",
+            "vosotros seríais",
+            "ellos estarían",
+            "yo fui",
+            "tú estabas",
+            "él sería",
+            "nosotros estuvimos"
+        ];
+
+        // Variables del juego
+        let currentQuestion = 0;
+        let score = 0;
+        const totalQuestions = 10;
+        let questions = [];
+
+        // Elementos del DOM
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultsScreen = document.getElementById('results-screen');
+        const questionText = document.getElementById('question-text');
+        const greekWordEl = document.getElementById('greek-word');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackEl = document.getElementById('feedback');
+        const nextBtn = document.getElementById('next-btn');
+        const scoreEl = document.getElementById('score');
+        const questionCountEl = document.getElementById('question-count');
+        const progressEl = document.getElementById('progress');
+        const finalScoreEl = document.getElementById('final-score');
+        const restartBtn = document.getElementById('restart-btn');
+
+        // Generar preguntas aleatorias
+        function generateQuestions() {
+            questions = [];
+            
+            // Preguntas de traducción griego -> español
+            for (let i = 0; i < totalQuestions / 2; i++) {
+                const correct = conjugations[Math.floor(Math.random() * conjugations.length)];
+                const options = [correct.translation];
+                
+                // Añadir opciones incorrectas únicas
+                while (options.length < 4) {
+                    const wrong = wrongTranslations[Math.floor(Math.random() * wrongTranslations.length)];
+                    if (!options.includes(wrong)) {
+                        options.push(wrong);
+                    }
+                }
+                
+                questions.push({
+                    type: 'translation',
+                    greek: correct.greek,
+                    correctAnswer: correct.translation,
+                    options: shuffleArray(options),
+                    person: correct.person
+                });
+            }
+            
+            // Preguntas de identificación español -> griego
+            for (let i = 0; i < totalQuestions / 2; i++) {
+                const correct = conjugations[Math.floor(Math.random() * conjugations.length)];
+                const options = [correct.greek];
+                
+                // Añadir opciones incorrectas únicas (otras formas del verbo)
+                while (options.length < 4) {
+                    const wrongConj = conjugations[Math.floor(Math.random() * conjugations.length)];
+                    if (!options.includes(wrongConj.greek) && wrongConj.greek !== correct.greek) {
+                        options.push(wrongConj.greek);
+                    }
+                }
+                
+                questions.push({
+                    type: 'identification',
+                    translation: correct.translation,
+                    correctAnswer: correct.greek,
+                    options: shuffleArray(options),
+                    person: correct.person
+                });
+            }
+            
+            // Mezclar todas las preguntas
+            questions = shuffleArray(questions);
+        }
+
+        // Mostrar la pregunta actual
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            
+            // Actualizar progreso
+            progressEl.style.width = `${(currentQuestion / totalQuestions) * 100}%`;
+            questionCountEl.textContent = currentQuestion + 1;
+            
+            if (question.type === 'translation') {
+                questionText.textContent = `¿Cómo se traduce esta forma verbal?`;
+                greekWordEl.textContent = question.greek;
+                greekWordEl.style.display = 'block';
+            } else {
+                questionText.textContent = `¿Cuál es la forma griega para: "${question.translation}" ?`;
+                greekWordEl.style.display = 'none';
+            }
+            
+            // Limpiar feedback y opciones anteriores
+            feedbackEl.textContent = '';
+            feedbackEl.className = 'feedback';
+            optionsContainer.innerHTML = '';
+            
+            // Generar opciones
+            question.options.forEach(option => {
+                const optionEl = document.createElement('div');
+                optionEl.className = 'option';
+                optionEl.textContent = option;
+                optionEl.addEventListener('click', () => selectAnswer(option, question.correctAnswer));
+                optionsContainer.appendChild(optionEl);
+            });
+            
+            // Deshabilitar siguiente hasta responder
+            nextBtn.disabled = true;
+        }
+
+        // Manejar selección de respuesta
+        function selectAnswer(selected, correct) {
+            // Deshabilitar todas las opciones
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                if (opt.textContent === correct) {
+                    opt.classList.add('correct');
+                } else if (opt.textContent === selected && selected !== correct) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Mostrar feedback
+            if (selected === correct) {
+                feedbackEl.textContent = '¡Correcto!';
+                feedbackEl.className = 'feedback correct-feedback';
+                score++;
+                scoreEl.textContent = score;
+            } else {
+                feedbackEl.textContent = `Incorrecto. La respuesta correcta es: ${correct}`;
+                feedbackEl.className = 'feedback incorrect-feedback';
+            }
+            
+            // Habilitar siguiente
+            nextBtn.disabled = false;
+        }
+
+        // Siguiente pregunta
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < totalQuestions) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Mostrar resultados finales
+        function showResults() {
+            quizScreen.style.display = 'none';
+            resultsScreen.style.display = 'block';
+            
+            const percentage = Math.round((score / totalQuestions) * 100);
+            let message;
+            
+            if (percentage === 100) {
+                message = '¡Perfecto! Dominas el presente de εἰμί. 🎉';
+            } else if (percentage >= 80) {
+                message = `¡Muy bien! Puntuación: ${score}/${totalQuestions} (${percentage}%)`;
+            } else if (percentage >= 60) {
+                message = `Buen trabajo. Puntuación: ${score}/${totalQuestions} (${percentage}%)`;
+            } else {
+                message = `Puntuación: ${score}/${totalQuestions} (${percentage}%). Sigue practicando.`;
+            }
+            
+            finalScoreEl.textContent = message;
+        }
+
+        // Reiniciar juego
+        function restartGame() {
+            currentQuestion = 0;
+            score = 0;
+            scoreEl.textContent = '0';
+            
+            generateQuestions();
+            showQuestion();
+            
+            resultsScreen.style.display = 'none';
+            quizScreen.style.display = 'block';
+        }
+
+        // Función para mezclar array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Event listeners
+        nextBtn.addEventListener('click', nextQuestion);
+        restartBtn.addEventListener('click', restartGame);
+
+        // Iniciar juego
+        generateQuestions();
+        showQuestion();
+    </script>
+</body>
+</html>

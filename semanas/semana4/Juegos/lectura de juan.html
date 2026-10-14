@@ -1,0 +1,410 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio: Prólogo de Juan 1:1-18</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --accent: #e74c3c;
+            --card-bg: #ffffff;
+            --highlight: #e3f2fd;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: var(--dark);
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+        
+        .greek-text {
+            font-size: 1.4rem;
+            line-height: 2;
+            text-align: justify;
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .word {
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: all 0.2s;
+        }
+        
+        .word:hover {
+            background-color: rgba(52, 152, 219, 0.15);
+        }
+        
+        .word.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .tooltip {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgb(12, 69, 155);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: none;
+            font-size: 0.95rem;
+        }
+        
+        .tooltip h3 {
+            margin-top: 0;
+            color: var(--secondary);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 8px;
+        }
+        
+        .tooltip .close {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 10px;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .instructions {
+            background-color: var(--highlight);
+            padding: 15px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .verse-number {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 0.8em;
+            vertical-align: super;
+            margin-right: 3px;
+        }
+        
+        @media (max-width: 600px) {
+            .greek-text {
+                font-size: 1.2rem;
+                padding: 15px;
+            }
+            
+            .tooltip {
+                width: 95%;
+                bottom: 10px;
+                font-size: 0.85rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 80px 1fr;
+                gap: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Prólogo de Juan 1:1-18 - Ejercicio Interactivo</h1>
+    
+    <div class="instructions">
+        <p>Haz clic en cualquier palabra del texto griego para ver su análisis gramatical y significado. Explora el prólogo completo del Evangelio de Juan.</p>
+    </div>
+    
+    <div class="greek-text" id="john-prologue">
+        <span class="verse-number">1</span> Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν, καὶ θεὸς ἦν ὁ λόγος.<br>
+        <span class="verse-number">2</span> οὗτος ἦν ἐν ἀρχῇ πρὸς τὸν θεόν.<br>
+        <span class="verse-number">3</span> πάντα δι' αὐτοῦ ἐγένετο, καὶ χωρὶς αὐτοῦ ἐγένετο οὐδὲ ἕν. ὃ γέγονεν<br>
+        <span class="verse-number">4</span> ἐν αὐτῷ ζωὴ ἦν, καὶ ἡ ζωὴ ἦν τὸ φῶς τῶν ἀνθρώπων·<br>
+        <span class="verse-number">5</span> καὶ τὸ φῶς ἐν τῇ σκοτίᾳ φαίνει, καὶ ἡ σκοτία αὐτὸ οὐ κατέλαβεν.<br><br>
+        
+        <span class="verse-number">6</span> Ἐγένετο ἄνθρωπος ἀπεσταλμένος παρὰ θεοῦ, ὄνομα αὐτῷ Ἰωάννης·<br>
+        <span class="verse-number">7</span> οὗτος ἦλθεν εἰς μαρτυρίαν ἵνα μαρτυρήσῃ περὶ τοῦ φωτός, ἵνα πάντες πιστεύσωσιν δι' αὐτοῦ.<br>
+        <span class="verse-number">8</span> οὐκ ἦν ἐκεῖνος τὸ φῶς, ἀλλ' ἵνα μαρτυρήσῃ περὶ τοῦ φωτός.<br>
+        <span class="verse-number">9</span> Ἦν τὸ φῶς τὸ ἀληθινόν, ὃ φωτίζει πάντα ἄνθρωπον, ἐρχόμενον εἰς τὸν κόσμον.<br>
+        <span class="verse-number">10</span> Ἐν τῷ κόσμῳ ἦν, καὶ ὁ κόσμος δι' αὐτοῦ ἐγένετο, καὶ ὁ κόσμος αὐτὸν οὐκ ἔγνω.<br>
+        <span class="verse-number">11</span> Εἰς τὰ ἴδια ἦλθεν, καὶ οἱ ἴδιοι αὐτὸν οὐ παρέλαβον.<br>
+        <span class="verse-number">12</span> ὅσοι δὲ ἔλαβον αὐτόν, ἔδωκεν αὐτοῖς ἐξουσίαν τέκνα θεοῦ γενέσθαι, τοῖς πιστεύουσιν εἰς τὸ ὄνομα αὐτοῦ,<br>
+        <span class="verse-number">13</span> οἳ οὐκ ἐξ αἱμάτων οὐδὲ ἐκ θελήματος σαρκὸς οὐδὲ ἐκ θελήματος ἀνδρὸς ἀλλ' ἐκ θεοῦ ἐγεννήθησαν.<br><br>
+        
+        <span class="verse-number">14</span> Καὶ ὁ λόγος σὰρξ ἐγένετο καὶ ἐσκήνωσεν ἐν ἡμῖν, καὶ ἐθεασάμεθα τὴν δόξαν αὐτοῦ, δόξαν ὡς μονογενοῦς παρὰ πατρός, πλήρης χάριτος καὶ ἀληθείας.<br>
+        <span class="verse-number">15</span> Ἰωάννης μαρτυρεῖ περὶ αὐτοῦ καὶ κέκραγεν λέγων· οὗτος ἦν ὃν εἶπον· ὁ ὀπίσω μου ἐρχόμενος ἔμπροσθέν μου γέγονεν, ὅτι πρῶτός μου ἦν.<br>
+        <span class="verse-number">16</span> ὅτι ἐκ τοῦ πληρώματος αὐτοῦ ἡμεῖς πάντες ἐλάβομεν, καὶ χάριν ἀντὶ χάριτος·<br>
+        <span class="verse-number">17</span> ὅτι ὁ νόμος διὰ Μωϋσέως ἐδόθη, ἡ χάρις καὶ ἡ ἀλήθεια διὰ Ἰησοῦ Χριστοῦ ἐγένετο.<br>
+        <span class="verse-number">18</span> Θεὸν οὐδεὶς ἑώρακεν πώποτε· μονογενὴς θεὸς ὁ ὢν εἰς τὸν κόλπον τοῦ πατρὸς ἐκεῖνος ἐξηγήσατο.
+    </div>
+    
+    <div class="tooltip" id="word-tooltip">
+        <span class="close" onclick="hideTooltip()">×</span>
+        <h3 id="tooltip-word"></h3>
+        <div class="info-grid">
+            <div class="info-label">Raíz:</div>
+            <div id="tooltip-root"></div>
+            
+            <div class="info-label">Forma:</div>
+            <div id="tooltip-form"></div>
+            
+            <div class="info-label">Función:</div>
+            <div id="tooltip-function"></div>
+            
+            <div class="info-label">Significado:</div>
+            <div id="tooltip-meaning"></div>
+            
+            <div class="info-label">Versículo:</div>
+            <div id="tooltip-verse"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Diccionario completo de palabras con su información (ahora incluyendo Juan 1:1-18)
+        const wordData = {
+            // Juan 1:1-5 (palabras existentes)
+            "Ἐν": { root: "ἐν", form: "Preposición (dativo)", function: "Indica localización", meaning: "en", verse: 1 },
+            "ἀρχῇ": { root: "ἀρχή", form: "Sust. fem. dativo sg.", function: "Complemento", meaning: "principio", verse: 1 },
+            "ἦν": { root: "εἰμί", form: "Verbo imperfecto", function: "Copulativo", meaning: "era", verse: 1 },
+            "ὁ": { root: "ὁ", form: "Artículo masc. nom.", function: "Determinante", meaning: "el", verse: 1 },
+            "λόγος": { root: "λόγος", form: "Sust. masc. nom.", function: "Sujeto", meaning: "Palabra/Verbo", verse: 1 },
+            "καὶ": { root: "καί", form: "Conjunción", function: "Conecta oraciones", meaning: "y", verse: 1 },
+            "πρὸς": { root: "πρός", form: "Preposición (acus.)", function: "Dirección", meaning: "hacia/con", verse: 1 },
+            "τὸν": { root: "ὁ", form: "Artículo masc. acus.", function: "Determinante", meaning: "el", verse: 1 },
+            "θεόν": { root: "θεός", form: "Sust. masc. acus.", function: "Objeto", meaning: "Dios", verse: 1 },
+            "θεὸς": { root: "θεός", form: "Sust. masc. nom.", function: "Atributo", meaning: "Dios", verse: 1 },
+            "οὗτος": { root: "οὗτος", form: "Pron. demostrativo", function: "Sujeto", meaning: "este/él", verse: 2 },
+            "πάντα": { root: "πᾶς", form: "Adj. neut. pl.", function: "Sujeto", meaning: "todas las cosas", verse: 3 },
+            "δι'": { root: "διά", form: "Preposición (gen.)", function: "Medio", meaning: "por medio de", verse: 3 },
+            "αὐτοῦ": { root: "αὐτός", form: "Pron. gen. masc.", function: "Complemento", meaning: "de él", verse: 3 },
+            "ἐγένετο": { root: "γίνομαι", form: "Verbo aoristo", function: "Principal", meaning: "fue hecho", verse: 3 },
+            "χωρὶς": { root: "χωρίς", form: "Preposición (gen.)", function: "Separación", meaning: "sin", verse: 3 },
+            "οὐδὲ": { root: "οὐδέ", form: "Conjunción", function: "Negación", meaning: "ni siquiera", verse: 3 },
+            "ἕν": { root: "εἷς", form: "Numeral neut.", function: "Sujeto", meaning: "una cosa", verse: 3 },
+            "ὃ": { root: "ὅς", form: "Pron. relativo", function: "Sujeto", meaning: "lo que", verse: 3 },
+            "γέγονεν": { root: "γίνομαι", form: "Verbo perfecto", function: "Principal", meaning: "ha llegado a ser", verse: 3 },
+            "αὐτῷ": { root: "αὐτός", form: "Pron. dat. masc.", function: "Complemento", meaning: "en él", verse: 4 },
+            "ζωὴ": { root: "ζωή", form: "Sust. fem. nom.", function: "Sujeto", meaning: "vida", verse: 4 },
+            "ἡ": { root: "ὁ", form: "Artículo fem. nom.", function: "Determinante", meaning: "la", verse: 4 },
+            "τὸ": { root: "ὁ", form: "Artículo neut. nom.", function: "Determinante", meaning: "el", verse: 4 },
+            "φῶς": { root: "φῶς", form: "Sust. neut. nom.", function: "Atributo", meaning: "luz", verse: 4 },
+            "τῶν": { root: "ὁ", form: "Artículo gen. masc.", function: "Determinante", meaning: "de los", verse: 4 },
+            "ἀνθρώπων": { root: "ἄνθρωπος", form: "Sust. masc. gen.", function: "Complemento", meaning: "hombres", verse: 4 },
+            "τῇ": { root: "ὁ", form: "Artículo dat. fem.", function: "Determinante", meaning: "la", verse: 5 },
+            "σκοτίᾳ": { root: "σκοτία", form: "Sust. fem. dat.", function: "Complemento", meaning: "oscuridad", verse: 5 },
+            "φαίνει": { root: "φαίνω", form: "Verbo presente", function: "Principal", meaning: "brilla", verse: 5 },
+            "σκοτία": { root: "σκοτία", form: "Sust. fem. nom.", function: "Sujeto", meaning: "oscuridad", verse: 5 },
+            "αὐτὸ": { root: "αὐτός", form: "Pron. acus. neut.", function: "Objeto", meaning: "lo", verse: 5 },
+            "οὐ": { root: "οὐ", form: "Partícula", function: "Negación", meaning: "no", verse: 5 },
+            "κατέλαβεν": { root: "καταλαμβάνω", form: "Verbo aoristo", function: "Principal", meaning: "comprendió", verse: 5 },
+            
+            // Juan 1:6-18 (nuevas palabras)
+            "Ἐγένετο": { root: "γίνομαι", form: "Verbo aoristo", function: "Principal", meaning: "surgió", verse: 6 },
+            "ἄνθρωπος": { root: "ἄνθρωπος", form: "Sust. masc. nom.", function: "Sujeto", meaning: "hombre", verse: 6 },
+            "ἀπεσταλμένος": { root: "ἀποστέλλω", form: "Participio perf.", function: "Atributo", meaning: "enviado", verse: 6 },
+            "παρὰ": { root: "παρά", form: "Preposición (gen.)", function: "Origen", meaning: "de parte de", verse: 6 },
+            "θεοῦ": { root: "θεός", form: "Sust. masc. gen.", function: "Complemento", meaning: "de Dios", verse: 6 },
+            "ὄνομα": { root: "ὄνομα", form: "Sust. neut. nom.", function: "Sujeto", meaning: "nombre", verse: 6 },
+            "Ἰωάννης": { root: "Ἰωάννης", form: "Sust. masc. nom.", function: "Atributo", meaning: "Juan", verse: 6 },
+            "ἦλθεν": { root: "ἔρχομαι", form: "Verbo aoristo", function: "Principal", meaning: "vino", verse: 7 },
+            "εἰς": { root: "εἰς", form: "Preposición (acus.)", function: "Finalidad", meaning: "para", verse: 7 },
+            "μαρτυρίαν": { root: "μαρτυρία", form: "Sust. fem. acus.", function: "Objeto", meaning: "testimonio", verse: 7 },
+            "ἵνα": { root: "ἵνα", form: "Conjunción", function: "Finalidad", meaning: "para que", verse: 7 },
+            "μαρτυρήσῃ": { root: "μαρτυρέω", form: "Verbo aoristo subj.", function: "Final", meaning: "diera testimonio", verse: 7 },
+            "περὶ": { root: "περί", form: "Preposición (gen.)", function: "Relación", meaning: "acerca de", verse: 7 },
+            "τοῦ": { root: "ὁ", form: "Artículo gen. neut.", function: "Determinante", meaning: "el", verse: 7 },
+            "φωτός": { root: "φῶς", form: "Sust. neut. gen.", function: "Complemento", meaning: "luz", verse: 7 },
+            "πάντες": { root: "πᾶς", form: "Adj. masc. nom.", function: "Sujeto", meaning: "todos", verse: 7 },
+            "πιστεύσωσιν": { root: "πιστεύω", form: "Verbo aoristo subj.", function: "Final", meaning: "creyeran", verse: 7 },
+            "οὐκ": { root: "οὐ", form: "Partícula", function: "Negación", meaning: "no", verse: 8 },
+            "ἐκεῖνος": { root: "ἐκεῖνος", form: "Pron. demostrativo", function: "Sujeto", meaning: "aquel", verse: 8 },
+            "ἀλλ'": { root: "ἀλλά", form: "Conjunción", function: "Contraste", meaning: "sino", verse: 8 },
+            "Ἦν": { root: "εἰμί", form: "Verbo imperfecto", function: "Copulativo", meaning: "era", verse: 9 },
+            "ἀληθινόν": { root: "ἀληθινός", form: "Adj. neut. nom.", function: "Atributo", meaning: "verdadero", verse: 9 },
+            "ὃ": { root: "ὅς", form: "Pron. relativo", function: "Sujeto", meaning: "que", verse: 9 },
+            "φωτίζει": { root: "φωτίζω", form: "Verbo presente", function: "Principal", meaning: "ilumina", verse: 9 },
+            "ἄνθρωπον": { root: "ἄνθρωπος", form: "Sust. masc. acus.", function: "Objeto", meaning: "hombre", verse: 9 },
+            "ἐρχόμενον": { root: "ἔρχομαι", form: "Participio pres.", function: "Atributo", meaning: "que viene", verse: 9 },
+            "κόσμον": { root: "κόσμος", form: "Sust. masc. acus.", function: "Complemento", meaning: "mundo", verse: 9 },
+            "κόσμῳ": { root: "κόσμος", form: "Sust. masc. dat.", function: "Complemento", meaning: "mundo", verse: 10 },
+            "ἔγνω": { root: "γινώσκω", form: "Verbo aoristo", function: "Principal", meaning: "reconoció", verse: 10 },
+            "Εἰς": { root: "εἰς", form: "Preposición (acus.)", function: "Dirección", meaning: "a", verse: 11 },
+            "ἴδια": { root: "ἴδιος", form: "Adj. neut. pl.", function: "Objeto", meaning: "lo propio", verse: 11 },
+            "οἱ": { root: "ὁ", form: "Artículo masc. nom.", function: "Determinante", meaning: "los", verse: 11 },
+            "ἴδιοι": { root: "ἴδιος", form: "Adj. masc. nom.", function: "Sujeto", meaning: "suyos/propios", verse: 11 },
+            "παρέλαβον": { root: "παραλαμβάνω", form: "Verbo aoristo", function: "Principal", meaning: "recibieron", verse: 11 },
+            "ὅσοι": { root: "ὅσος", form: "Pron. relativo", function: "Sujeto", meaning: "cuantos", verse: 12 },
+            "δὲ": { root: "δέ", form: "Conjunción", function: "Contraste", meaning: "pero", verse: 12 },
+            "ἔλαβον": { root: "λαμβάνω", form: "Verbo aoristo", function: "Principal", meaning: "recibieron", verse: 12 },
+            "ἔδωκεν": { root: "δίδωμι", form: "Verbo aoristo", function: "Principal", meaning: "dio", verse: 12 },
+            "αὐτοῖς": { root: "αὐτός", form: "Pron. dat. masc.", function: "Complemento", meaning: "a ellos", verse: 12 },
+            "ἐξουσίαν": { root: "ἐξουσία", form: "Sust. fem. acus.", function: "Objeto", meaning: "derecho", verse: 12 },
+            "τέκνα": { root: "τέκνον", form: "Sust. neut. nom.", function: "Atributo", meaning: "hijos", verse: 12 },
+            "γενέσθαι": { root: "γίνομαι", form: "Verbo aoristo inf.", function: "Complemento", meaning: "llegar a ser", verse: 12 },
+            "τοῖς": { root: "ὁ", form: "Artículo dat. masc.", function: "Determinante", meaning: "a los", verse: 12 },
+            "πιστεύουσιν": { root: "πιστεύω", form: "Participio pres.", function: "Atributo", meaning: "que creen", verse: 12 },
+            "ὄνομα": { root: "ὄνομα", form: "Sust. neut. acus.", function: "Objeto", meaning: "nombre", verse: 12 },
+            "οἳ": { root: "ὅς", form: "Pron. relativo", function: "Sujeto", meaning: "los cuales", verse: 13 },
+            "ἐξ": { root: "ἐκ", form: "Preposición (gen.)", function: "Origen", meaning: "de", verse: 13 },
+            "αἱμάτων": { root: "αἷμα", form: "Sust. neut. gen.", function: "Complemento", meaning: "sangres", verse: 13 },
+            "ἐκ": { root: "ἐκ", form: "Preposición (gen.)", function: "Origen", meaning: "de", verse: 13 },
+            "θελήματος": { root: "θέλημα", form: "Sust. neut. gen.", function: "Complemento", meaning: "voluntad", verse: 13 },
+            "σαρκὸς": { root: "σάρξ", form: "Sust. fem. gen.", function: "Complemento", meaning: "carne", verse: 13 },
+            "ἀνδρὸς": { root: "ἀνήρ", form: "Sust. masc. gen.", function: "Complemento", meaning: "hombre", verse: 13 },
+            "ἐγεννήθησαν": { root: "γεννάω", form: "Verbo aoristo pas.", function: "Principal", meaning: "nacieron", verse: 13 },
+            "Καὶ": { root: "καί", form: "Conjunción", function: "Conexión", meaning: "Y", verse: 14 },
+            "σὰρξ": { root: "σάρξ", form: "Sust. fem. nom.", function: "Atributo", meaning: "carne", verse: 14 },
+            "ἐγένετο": { root: "γίνομαι", form: "Verbo aoristo", function: "Principal", meaning: "se hizo", verse: 14 },
+            "ἐσκήνωσεν": { root: "σκηνόω", form: "Verbo aoristo", function: "Principal", meaning: "habitó", verse: 14 },
+            "ἡμῖν": { root: "ἐγώ", form: "Pron. dat. pl.", function: "Complemento", meaning: "entre nosotros", verse: 14 },
+            "ἐθεασάμεθα": { root: "θεάομαι", form: "Verbo aoristo", function: "Principal", meaning: "contemplamos", verse: 14 },
+            "τὴν": { root: "ὁ", form: "Artículo fem. acus.", function: "Determinante", meaning: "la", verse: 14 },
+            "δόξαν": { root: "δόξα", form: "Sust. fem. acus.", function: "Objeto", meaning: "gloria", verse: 14 },
+            "δόξαν": { root: "δόξα", form: "Sust. fem. acus.", function: "Atributo", meaning: "gloria", verse: 14 },
+            "ὡς": { root: "ὡς", form: "Conjunción", function: "Comparación", meaning: "como", verse: 14 },
+            "μονογενοῦς": { root: "μονογενής", form: "Adj. gen. masc.", function: "Complemento", meaning: "unigénito", verse: 14 },
+            "πατρός": { root: "πατήρ", form: "Sust. masc. gen.", function: "Complemento", meaning: "Padre", verse: 14 },
+            "πλήρης": { root: "πλήρης", form: "Adj. masc. nom.", function: "Atributo", meaning: "lleno", verse: 14 },
+            "χάριτος": { root: "χάρις", form: "Sust. fem. gen.", function: "Complemento", meaning: "gracia", verse: 14 },
+            "ἀληθείας": { root: "ἀλήθεια", form: "Sust. fem. gen.", function: "Complemento", meaning: "verdad", verse: 14 },
+            "Ἰωάννης": { root: "Ἰωάννης", form: "Sust. masc. nom.", function: "Sujeto", meaning: "Juan", verse: 15 },
+            "μαρτυρεῖ": { root: "μαρτυρέω", form: "Verbo presente", function: "Principal", meaning: "da testimonio", verse: 15 },
+            "περὶ": { root: "περί", form: "Preposición (gen.)", function: "Relación", meaning: "acerca de", verse: 15 },
+            "κέκραγεν": { root: "κράζω", form: "Verbo perfecto", function: "Principal", meaning: "ha proclamado", verse: 15 },
+            "λέγων": { root: "λέγω", form: "Participio pres.", function: "Complemento", meaning: "diciendo", verse: 15 },
+            "οὗτος": { root: "οὗτος", form: "Pron. demostrativo", function: "Sujeto", meaning: "este", verse: 15 },
+            "ἦν": { root: "εἰμί", form: "Verbo imperfecto", function: "Copulativo", meaning: "era", verse: 15 },
+            "ὃν": { root: "ὅς", form: "Pron. relativo", function: "Objeto", meaning: "a quien", verse: 15 },
+            "εἶπον": { root: "λέγω", form: "Verbo aoristo", function: "Principal", meaning: "dije", verse: 15 },
+            "ὀπίσω": { root: "ὀπίσω", form: "Adverbio", function: "Lugar", meaning: "después", verse: 15 },
+            "μου": { root: "ἐγώ", form: "Pron. gen.", function: "Complemento", meaning: "mí", verse: 15 },
+            "ἐρχόμενος": { root: "ἔρχομαι", form: "Participio pres.", function: "Atributo", meaning: "que viene", verse: 15 },
+            "ἔμπροσθέν": { root: "ἔμπροσθεν", form: "Adverbio", function: "Lugar", meaning: "delante", verse: 15 },
+            "γέγονεν": { root: "γίνομαι", form: "Verbo perfecto", function: "Principal", meaning: "ha llegado a ser", verse: 15 },
+            "ὅτι": { root: "ὅτι", form: "Conjunción", function: "Causal", meaning: "porque", verse: 15 },
+            "πρῶτός": { root: "πρῶτος", form: "Adj. masc. nom.", function: "Atributo", meaning: "primero", verse: 15 },
+            "ἦν": { root: "εἰμί", form: "Verbo imperfecto", function: "Copulativo", meaning: "era", verse: 15 },
+            "ὅτι": { root: "ὅτι", form: "Conjunción", function: "Causal", meaning: "porque", verse: 16 },
+            "ἐκ": { root: "ἐκ", form: "Preposición (gen.)", function: "Origen", meaning: "de", verse: 16 },
+            "πληρώματος": { root: "πλήρωμα", form: "Sust. neut. gen.", function: "Complemento", meaning: "plenitud", verse: 16 },
+            "ἡμεῖς": { root: "ἐγώ", form: "Pron. nom. pl.", function: "Sujeto", meaning: "nosotros", verse: 16 },
+            "πάντες": { root: "πᾶς", form: "Adj. masc. nom.", function: "Atributo", meaning: "todos", verse: 16 },
+            "ἐλάβομεν": { root: "λαμβάνω", form: "Verbo aoristo", function: "Principal", meaning: "hemos recibido", verse: 16 },
+            "χάριν": { root: "χάρις", form: "Sust. fem. acus.", function: "Objeto", meaning: "gracia", verse: 16 },
+            "ἀντὶ": { root: "ἀντί", form: "Preposición (gen.)", function: "Intercambio", meaning: "sobre", verse: 16 },
+            "χάριτος": { root: "χάρις", form: "Sust. fem. gen.", function: "Complemento", meaning: "gracia", verse: 16 },
+            "νόμος": { root: "νόμος", form: "Sust. masc. nom.", function: "Sujeto", meaning: "ley", verse: 17 },
+            "διὰ": { root: "διά", form: "Preposición (gen.)", function: "Agente", meaning: "por medio de", verse: 17 },
+            "Μωϋσέως": { root: "Μωϋσῆς", form: "Sust. masc. gen.", function: "Complemento", meaning: "Moisés", verse: 17 },
+            "ἐδόθη": { root: "δίδωμι", form: "Verbo aoristo pas.", function: "Principal", meaning: "fue dada", verse: 17 },
+            "ἡ": { root: "ὁ", form: "Artículo fem. nom.", function: "Determinante", meaning: "la", verse: 17 },
+            "χάρις": { root: "χάρις", form: "Sust. fem. nom.", function: "Sujeto", meaning: "gracia", verse: 17 },
+            "ἀλήθεια": { root: "ἀλήθεια", form: "Sust. fem. nom.", function: "Sujeto", meaning: "verdad", verse: 17 },
+            "Ἰησοῦ": { root: "Ἰησοῦς", form: "Sust. masc. gen.", function: "Complemento", meaning: "Jesús", verse: 17 },
+            "Χριστοῦ": { root: "Χός", form: "Sust. masc. gen.", function: "Complemento", meaning: "Cristo", verse: 17 },
+            "Θεὸν": { root: "θεός", form: "Sust. masc. acus.", function: "Objeto", meaning: "Dios", verse: 18 },
+            "οὐδεὶς": { root: "οὐδείς", form: "Pron. indefinido", function: "Sujeto", meaning: "nadie", verse: 18 },
+            "ἑώρακεν": { root: "ὁράω", form: "Verbo perfecto", function: "Principal", meaning: "ha visto", verse: 18 },
+            "πώποτε": { root: "πώποτε", form: "Adverbio", function: "Tiempo", meaning: "jamás", verse: 18 },
+            "μονογενὴς": { root: "μονογενής", form: "Adj. masc. nom.", function: "Atributo", meaning: "unigénito", verse: 18 },
+            "ὁ": { root: "ὁ", form: "Artículo masc. nom.", function: "Determinante", meaning: "el", verse: 18 },
+            "ὢν": { root: "εἰμί", form: "Participio pres.", function: "Atributo", meaning: "siendo", verse: 18 },
+            "κόλπον": { root: "κόλπος", form: "Sust. masc. acus.", function: "Complemento", meaning: "seno", verse: 18 },
+            "πατρὸς": { root: "πατήρ", form: "Sust. masc. gen.", function: "Complemento", meaning: "Padre", verse: 18 },
+            "ἐκεῖνος": { root: "ἐκεῖνος", form: "Pron. demostrativo", function: "Sujeto", meaning: "aquel", verse: 18 },
+            "ἐξηγήσατο": { root: "ἐξηγέομαι", form: "Verbo aoristo", function: "Principal", meaning: "ha dado a conocer", verse: 18 }
+        };
+        
+        // Procesar el texto para hacer las palabras clickeables
+        document.addEventListener('DOMContentLoaded', function() {
+            const textContainer = document.getElementById('john-prologue');
+            const text = textContainer.innerHTML;
+            
+            // Procesar cada palabra conocida
+            let processedText = text;
+            Object.keys(wordData).forEach(word => {
+                const regex = new RegExp(`([^>])(${word})([^<])`, 'g');
+                processedText = processedText.replace(regex, `$1<span class="word" onclick="showWordInfo('${word}')">$2</span>$3`);
+            });
+            
+            textContainer.innerHTML = processedText;
+        });
+        
+        // Mostrar información de la palabra
+        function showWordInfo(word) {
+            const data = wordData[word];
+            if (!data) return;
+            
+            document.getElementById('tooltip-word').textContent = word;
+            document.getElementById('tooltip-root').textContent = data.root;
+            document.getElementById('tooltip-form').textContent = data.form;
+            document.getElementById('tooltip-function').textContent = data.function;
+            document.getElementById('tooltip-meaning').textContent = data.meaning;
+            document.getElementById('tooltip-verse').textContent = data.verse;
+            
+            // Resaltar la palabra seleccionada
+            document.querySelectorAll('.word').forEach(el => {
+                el.classList.remove('active');
+                if (el.textContent === word) {
+                    el.classList.add('active');
+                    // Desplazar para que sea visible si es necesario
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+            
+            document.getElementById('word-tooltip').style.display = 'block';
+        }
+        
+        // Ocultar el tooltip
+        function hideTooltip() {
+            document.getElementById('word-tooltip').style.display = 'none';
+            document.querySelectorAll('.word').forEach(el => {
+                el.classList.remove('active');
+            });
+        }
+        
+        // Cerrar tooltip al hacer clic fuera
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('word') && 
+                e.target.id !== 'word-tooltip' && 
+                !document.getElementById('word-tooltip').contains(e.target)) {
+                hideTooltip();
+            }
+        });
+    </script>
+</body>
+</html>

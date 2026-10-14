@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ἵνα + Subjuntivo</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>ἵνα + Subjuntivo</h1>
+      <div class="subtitle">Cláusulas de propósito</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-bullseye"></i> ἵνα + Subjuntivo</h2>
+      <p><strong>ἵνα</strong> se usa casi siempre con el subjuntivo y suele indicar <strong>propósito</strong> (para que, a fin de que).</p>
+
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Texto griego</th>
+              <th>Traducción</th>
+              <th>Análisis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="greek-text">τίς σοι ἔδωκεν τὴν ἐξουσίαν ταύτην <strong>ἵνα ταῦτα ποιῇς</strong>; (Mr 11:28)</td>
+              <td>¿Quién te dio esta autoridad <strong>para que hagas</strong> estas cosas?</td>
+              <td><strong>ἵνα</strong> + subjuntivo presente (propósito)</td>
+            </tr>
+            <tr>
+              <td class="greek-text">ἐπηρώτησαν αὐτὸν ... <strong>ἵνα κατηγορήσωσιν</strong> αὐτοῦ (Mt 12:10)</td>
+              <td>Le preguntaron ... <strong>para poder acusarlo</strong></td>
+              <td><strong>ἵνα</strong> + subjuntivo aoristo (propósito)</td>
+            </tr>
+            <tr>
+              <td class="greek-text">ἐκήρυξαν <strong>ἵνα μετανοῶσιν</strong> (Mr 6:12)</td>
+              <td>Predicaron <strong>que debían arrepentirse</strong></td>
+              <td><strong>ἵνα</strong> + subjuntivo (contenido)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-ban"></i> ἵνα μή (para que no)</h2>
+      <p>La frase <strong>ἵνα μή</strong> puede traducirse "<strong>para que no</strong>" o "<strong>no sea que</strong>".</p>
+
+      <div class="biblical-box" style="background: linear-gradient(135deg, rgba(233, 30, 99, 0.05) 0%, rgba(233, 30, 99, 0.02) 100%); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #e91e63; margin: 1.5rem 0;">
+        <p class="greek-text">οἱ πατέρες, μὴ ἐρεθίζετε τὰ τέκνα ὑμῶν, <strong>ἵνα μὴ ἀθυμῶσιν</strong> (Col 3:21)</p>
+        <p>"Padres, no provoquen a sus hijos, <strong>para que no se desanimen</strong>"</p>
+      </div>
+
+      <div class="important-note" style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.08) 0%, rgba(52, 152, 219, 0.03) 100%); border-left-color: #3498db;">
+        <p><strong>💡 Uso especial:</strong></p>
+        <p>A veces, la cláusula con ἵνα da el <strong>contenido</strong> de lo que se anuncia con el verbo principal.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: ἵνα + Subjuntivo</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué significado suele tener ἵνα + subjuntivo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Tiempo</label>
+          <label><input type="radio" name="q1" value="b"> Propósito</label>
+          <label><input type="radio" name="q1" value="c"> Condición</label>
+          <label><input type="radio" name="q1" value="d"> Causa</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
