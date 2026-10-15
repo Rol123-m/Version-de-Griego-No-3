@@ -1,0 +1,584 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meteoritos Griegos - Tercera Declinación</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0a0a1a;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    
+    header {
+      background-color: #2a2a4a;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      padding: 10px;
+    }
+    
+    .game-container {
+      position: relative;
+      width: 100%;
+      height: 55vh;
+      margin: 0 auto;
+      background-color: #12122a;
+      overflow: hidden;
+      border-bottom: 2px solid #4CAF50;
+    }
+    
+    .prompt-container {
+      padding: 15px;
+      background-color: #1a1a3a;
+      text-align: center;
+      font-size: 1.2em;
+      min-height: 30px;
+    }
+    
+    .options-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 15px;
+      background-color: #1a1a3a;
+      min-height: 100px;
+    }
+    
+    .option {
+      padding: 15px;
+      background-color: #2a2a4a;
+      border: 2px solid #4CAF50;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      font-family: "New Athena Unicode", serif;
+      font-size: 1.2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    
+    .option:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+    }
+    
+    .meteor {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, #FF5722, #E91E63);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "New Athena Unicode", serif;
+      font-size: 1.5em;
+      font-weight: bold;
+      color: white;
+      box-shadow: 0 0 20px #FF5722;
+      z-index: 10;
+    }
+    
+    .game-info {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+      background-color: #2a2a4a;
+    }
+    
+    .info-box {
+      text-align: center;
+      padding: 5px;
+      min-width: 80px;
+    }
+    
+    .info-label {
+      font-weight: bold;
+      color: #4CAF50;
+      margin-bottom: 5px;
+      font-size: 0.9em;
+    }
+    
+    .info-value {
+      font-size: 1.2em;
+      background-color: #1a1a3a;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+    
+    .controls {
+      text-align: center;
+      padding: 15px;
+      background-color: #1a1a3a;
+    }
+    
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      margin: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 5px;
+      transition: all 0.3s;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+    }
+    
+    button:disabled {
+      background-color: #666;
+      cursor: not-allowed;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 10px;
+      background-color: #1a1a3a;
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    @keyframes fall {
+      from { transform: translateY(-100px); }
+      to { transform: translateY(calc(55vh - 100px)); }
+    }
+    
+    .falling {
+      animation: fall linear forwards;
+    }
+    
+    .explosion {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(255,255,255,0.8), rgba(255,87,34,0));
+      border-radius: 50%;
+      z-index: 20;
+      animation: explode 0.5s forwards;
+    }
+    
+    @keyframes explode {
+      0% { transform: scale(0.1); opacity: 1; }
+      100% { transform: scale(2); opacity: 0; }
+    }
+    
+    .meteor-barrier {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 0;
+      background: linear-gradient(to top, rgba(233,30,99,0.7), transparent);
+      z-index: 5;
+      transition: height 0.5s;
+    }
+    
+    .game-over {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(233,30,99,0.9);
+      padding: 20px 40px;
+      border-radius: 10px;
+      font-size: 1.5em;
+      font-weight: bold;
+      z-index: 30;
+      box-shadow: 0 0 30px rgba(233,30,99,0.7);
+      text-align: center;
+      display: none;
+    }
+    
+    .root-display {
+      font-family: "New Athena Unicode", serif;
+      font-size: 1.3em;
+      color: #FFC107;
+      margin: 5px 0;
+    }
+    
+    .prompt-text {
+      font-weight: bold;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Meteoritos Griegos - Tercera Declinación</h1>
+    <div class="game-info">
+      <div class="info-box">
+        <div class="info-label">Puntuación</div>
+        <div class="info-value" id="score">0</div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Nivel</div>
+        <div class="info-value" id="level">1</div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Vidas</div>
+        <div class="info-value" id="lives">5</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="game-container" id="game-area">
+    <div class="meteor-barrier" id="meteor-barrier"></div>
+    <div class="game-over" id="game-over">
+      ¡Juego Terminado!<br>
+      <span style="font-size: 0.8em;">Puntuación: <span id="final-score">0</span></span><br>
+      <button onclick="resetGame()" style="margin-top: 10px;">Jugar de nuevo</button>
+    </div>
+  </div>
+
+  <div class="prompt-container" id="prompt-container"></div>
+  <div class="options-container" id="options-container"></div>
+
+  <div class="controls">
+    <button id="start-btn">Comenzar Juego</button>
+    <button id="help-btn">Ayuda</button>
+  </div>
+
+  <footer>
+    @Copyright Sección educativa del ministerio: "Vivos para Servir"
+  </footer>
+
+  <script>
+    // Datos del juego
+    const wordForms = [
+      { 
+        root: "σαρκ", 
+        forms: [
+          {text: "σάρξ", case: "nom", number: "sg", gender: "fem", prompt: "Nominativo singular femenino"},
+          {text: "σαρκός", case: "gen", number: "sg", gender: "fem", prompt: "Genitivo singular femenino"},
+          {text: "σαρκί", case: "dat", number: "sg", gender: "fem", prompt: "Dativo singular femenino"},
+          {text: "σάρκα", case: "acc", number: "sg", gender: "fem", prompt: "Acusativo singular femenino"}
+        ]
+      },
+      { 
+        root: "ὀνοματ", 
+        forms: [
+          {text: "ὄνομα", case: "nom", number: "sg", gender: "neut", prompt: "Nominativo singular neutro"},
+          {text: "ὀνόματος", case: "gen", number: "sg", gender: "neut", prompt: "Genitivo singular neutro"},
+          {text: "ὀνόματι", case: "dat", number: "sg", gender: "neut", prompt: "Dativo singular neutro"},
+          {text: "ὄνομα", case: "acc", number: "sg", gender: "neut", prompt: "Acusativo singular neutro"}
+        ]
+      },
+      { 
+        root: "φυλακ", 
+        forms: [
+          {text: "φύλαξ", case: "nom", number: "sg", gender: "masc", prompt: "Nominativo singular masculino"},
+          {text: "φυλακός", case: "gen", number: "sg", gender: "masc", prompt: "Genitivo singular masculino"},
+          {text: "φυλακί", case: "dat", number: "sg", gender: "masc", prompt: "Dativo singular masculino"},
+          {text: "φύλακα", case: "acc", number: "sg", gender: "masc", prompt: "Acusativo singular masculino"}
+        ]
+      }
+    ];
+
+    // Variables del juego
+    let gameState = {
+      score: 0,
+      level: 1,
+      lives: 5,
+      active: false,
+      currentMeteor: null,
+      currentChallenge: null,
+      meteors: [],
+      meteorInterval: null,
+      levelInterval: null
+    };
+
+    // Elementos del DOM
+    const domElements = {
+      gameArea: document.getElementById('game-area'),
+      promptContainer: document.getElementById('prompt-container'),
+      optionsContainer: document.getElementById('options-container'),
+      scoreDisplay: document.getElementById('score'),
+      levelDisplay: document.getElementById('level'),
+      livesDisplay: document.getElementById('lives'),
+      startBtn: document.getElementById('start-btn'),
+      meteorBarrier: document.getElementById('meteor-barrier'),
+      gameOver: document.getElementById('game-over'),
+      finalScore: document.getElementById('final-score')
+    };
+
+    // Inicialización del juego
+    function initGame() {
+      domElements.startBtn.addEventListener('click', startGame);
+      document.getElementById('help-btn').addEventListener('click', showHelp);
+    }
+
+    // Mostrar ayuda
+    function showHelp() {
+      alert('INSTRUCCIONES:\n\n1. Lee la raíz griega y lo que se pide\n2. Selecciona la opción correcta entre las 3 alternativas\n3. Si aciertas, el meteorito explotará\n4. Si fallas, perderás una vida\n5. Evita que los meteoritos llenen la pantalla\n\n¡Tienes 5 vidas!');
+    }
+
+    // Comenzar juego
+    function startGame() {
+      resetGame();
+      gameState.active = true;
+      domElements.startBtn.disabled = true;
+      createNewChallenge();
+      
+      // Configurar intervalos
+      gameState.meteorInterval = setInterval(createNewChallenge, 3000);
+      gameState.levelInterval = setInterval(levelUp, 30000);
+    }
+
+    // Reiniciar juego
+    function resetGame() {
+      // Limpiar estado
+      gameState = {
+        score: 0,
+        level: 1,
+        lives: 5,
+        active: false,
+        currentMeteor: null,
+        currentChallenge: null,
+        meteors: [],
+        meteorInterval: null,
+        levelInterval: null
+      };
+      
+      // Limpiar intervalos
+      clearInterval(gameState.meteorInterval);
+      clearInterval(gameState.levelInterval);
+      
+      // Limpiar UI
+      domElements.gameArea.innerHTML = '<div class="meteor-barrier" id="meteor-barrier"></div>';
+      domElements.promptContainer.innerHTML = '';
+      domElements.optionsContainer.innerHTML = '';
+      domElements.gameOver.style.display = 'none';
+      domElements.meteorBarrier = document.getElementById('meteor-barrier');
+      domElements.meteorBarrier.style.height = '0px';
+      
+      // Actualizar displays
+      updateDisplays();
+      domElements.startBtn.disabled = false;
+    }
+
+    // Crear nuevo desafío
+    function createNewChallenge() {
+      if (!gameState.active || gameState.currentChallenge) return;
+
+      // Seleccionar raíz aleatoria
+      const rootData = wordForms[Math.floor(Math.random() * wordForms.length)];
+      
+      // Seleccionar forma correcta aleatoria
+      const correctForm = rootData.forms[Math.floor(Math.random() * rootData.forms.length)];
+      
+      // Obtener 2 formas incorrectas diferentes
+      const incorrectForms = [];
+      while (incorrectForms.length < 2) {
+        const randomForm = rootData.forms[Math.floor(Math.random() * rootData.forms.length)];
+        if (randomForm.text !== correctForm.text && !incorrectForms.some(f => f.text === randomForm.text)) {
+          incorrectForms.push(randomForm);
+        }
+      }
+      
+      // Mezclar opciones
+      const allOptions = [correctForm, ...incorrectForms];
+      const shuffledOptions = [...allOptions].sort(() => Math.random() - 0.5);
+      
+      // Guardar desafío actual
+      gameState.currentChallenge = {
+        root: rootData.root,
+        correct: correctForm.text,
+        options: shuffledOptions.map(opt => opt.text),
+        prompt: correctForm.prompt
+      };
+
+      // Mostrar desafío
+      displayChallenge(gameState.currentChallenge);
+      
+      // Crear meteorito después de un breve retraso
+      setTimeout(() => {
+        if (gameState.active && gameState.currentChallenge) {
+          createMeteor();
+        }
+      }, 500);
+    }
+
+    // Mostrar desafío en pantalla
+    function displayChallenge(challenge) {
+      domElements.promptContainer.innerHTML = `
+        <div class="root-display">Raíz: ${challenge.root}</div>
+        <div class="prompt-text">${challenge.prompt}</div>
+      `;
+      
+      domElements.optionsContainer.innerHTML = '';
+      challenge.options.forEach(option => {
+        const optionElement = document.createElement('div');
+        optionElement.className = 'option';
+        optionElement.textContent = option;
+        optionElement.addEventListener('click', () => handleOptionClick(option));
+        domElements.optionsContainer.appendChild(optionElement);
+      });
+    }
+
+    // Manejar clic en opción
+    function handleOptionClick(selectedOption) {
+      if (!gameState.active || !gameState.currentChallenge || !gameState.currentMeteor) return;
+
+      const isCorrect = selectedOption === gameState.currentChallenge.correct;
+      
+      // Resaltar opciones
+      const optionElements = domElements.optionsContainer.querySelectorAll('.option');
+      optionElements.forEach(option => {
+        if (option.textContent === gameState.currentChallenge.correct) {
+          option.style.backgroundColor = '#4CAF50'; // Verde para correcta
+        } else if (option.textContent === selectedOption && !isCorrect) {
+          option.style.backgroundColor = '#f44336'; // Rojo para incorrecta seleccionada
+        }
+      });
+      
+      // Actualizar puntuación
+      if (isCorrect) {
+        gameState.score += 10;
+        destroyMeteor(true);
+      } else {
+        gameState.score = Math.max(0, gameState.score - 5);
+        loseLife();
+      }
+      
+      updateDisplays();
+      
+      // Limpiar desafío después de 1 segundo
+      setTimeout(() => {
+        if (gameState.active) {
+          clearChallenge();
+        }
+      }, 1000);
+    }
+
+    // Crear meteorito
+    function createMeteor() {
+      if (!gameState.active || !gameState.currentChallenge || gameState.currentMeteor) return;
+
+      const meteor = document.createElement('div');
+      meteor.className = 'meteor falling';
+      meteor.textContent = gameState.currentChallenge.root;
+      meteor.style.left = `${Math.random() * (domElements.gameArea.offsetWidth - 80)}px`;
+      meteor.style.animationDuration = `${8 / (1 + gameState.level * 0.1)}s`;
+      
+      domElements.gameArea.appendChild(meteor);
+      
+      gameState.currentMeteor = {
+        element: meteor,
+        hit: false
+      };
+      
+      meteor.addEventListener('animationend', () => {
+        if (gameState.currentMeteor && !gameState.currentMeteor.hit) {
+          handleMeteorLanding();
+        }
+      });
+    }
+
+    // Destruir meteorito
+    function destroyMeteor(success) {
+      if (!gameState.currentMeteor) return;
+
+      if (success) {
+        // Crear explosión
+        const explosion = document.createElement('div');
+        explosion.className = 'explosion';
+        explosion.style.left = gameState.currentMeteor.element.offsetLeft + 'px';
+        explosion.style.top = gameState.currentMeteor.element.offsetTop + 'px';
+        domElements.gameArea.appendChild(explosion);
+        
+        // Eliminar explosión después de la animación
+        setTimeout(() => {
+          explosion.remove();
+        }, 500);
+      }
+      
+      // Marcar como impactado y eliminar
+      gameState.currentMeteor.hit = true;
+      gameState.currentMeteor.element.remove();
+      gameState.currentMeteor = null;
+    }
+
+    // Perder vida
+    function loseLife() {
+      gameState.lives--;
+      
+      // Aumentar barrera de meteoritos
+      const currentHeight = parseInt(domElements.meteorBarrier.style.height) || 0;
+      domElements.meteorBarrier.style.height = `${currentHeight + 15}px`;
+      
+      // Verificar fin del juego
+      if (gameState.lives <= 0 || parseInt(domElements.meteorBarrier.style.height) > domElements.gameArea.offsetHeight * 0.8) {
+        endGame();
+      }
+    }
+
+    // Limpiar desafío actual
+    function clearChallenge() {
+      domElements.promptContainer.innerHTML = '';
+      domElements.optionsContainer.innerHTML = '';
+      
+      if (gameState.currentMeteor && !gameState.currentMeteor.hit) {
+        gameState.currentMeteor.element.remove();
+      }
+      
+      gameState.currentMeteor = null;
+      gameState.currentChallenge = null;
+    }
+
+    // Manejar aterrizaje de meteorito
+    function handleMeteorLanding() {
+      if (!gameState.active) return;
+      
+      loseLife();
+      clearChallenge();
+      updateDisplays();
+    }
+
+    // Subir de nivel
+    function levelUp() {
+      if (!gameState.active) return;
+      
+      gameState.level++;
+      gameState.score += 20;
+      updateDisplays();
+    }
+
+    // Terminar juego
+    function endGame() {
+      gameState.active = false;
+      clearInterval(gameState.meteorInterval);
+      clearInterval(gameState.levelInterval);
+      
+      domElements.finalScore.textContent = gameState.score;
+      domElements.gameOver.style.display = 'block';
+      domElements.startBtn.disabled = false;
+    }
+
+    // Actualizar displays
+    function updateDisplays() {
+      domElements.scoreDisplay.textContent = gameState.score;
+      domElements.levelDisplay.textContent = gameState.level;
+      domElements.livesDisplay.textContent = gameState.lives;
+    }
+
+    // Inicializar el juego cuando se carga la página
+    window.addEventListener('DOMContentLoaded', initGame);
+  </script>
+</body>
+</html>

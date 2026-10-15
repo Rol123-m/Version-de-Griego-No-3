@@ -1,3 +1,4 @@
+import { assetUrl } from '../utils/assetUrl';
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useProgress } from '../context/ProgressContext';
@@ -293,7 +294,7 @@ export const WeekView: React.FC<WeekViewProps> = ({
                       </button>
 
                       <a
-                        href={recurso.url}
+                        href={assetUrl(recurso.url)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
@@ -384,7 +385,7 @@ export const WeekView: React.FC<WeekViewProps> = ({
                       </button>
 
                       <a
-                        href={juego.url}
+                        href={assetUrl(juego.url)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"

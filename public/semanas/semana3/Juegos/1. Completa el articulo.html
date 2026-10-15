@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Artículo Invisible - Griego Koiné</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #7f8c8d;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+    .game-area {
+      margin-bottom: 30px;
+    }
+    .verse-display {
+      font-size: 1.3rem;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      border-left: 5px solid #3498db;
+    }
+    .missing-article {
+      display: inline-block;
+      width: 40px;
+      height: 30px;
+      border-bottom: 2px solid #e74c3c;
+      margin: 0 5px;
+      vertical-align: middle;
+      position: relative;
+    }
+    .missing-article::after {
+      content: '?';
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #e74c3c;
+      font-size: 0.8rem;
+    }
+    .article-options {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 25px 0;
+    }
+    .article-option {
+      padding: 10px 15px;
+      background-color: #e8f4f8;
+      border: 2px solid #3498db;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+    }
+    .article-option:hover {
+      background-color: #d4e6f1;
+      transform: translateY(-2px);
+    }
+    .hint-btn {
+      background-color: #f39c12;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px 0;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hint-btn:hover {
+      background-color: #e67e22;
+    }
+    .hint-text {
+      background-color: #fffde7;
+      padding: 15px;
+      border-radius: 5px;
+      border-left: 4px solid #fbc02d;
+      margin: 15px 0;
+      display: none;
+    }
+    .feedback {
+      margin: 20px 0;
+      padding: 15px;
+      border-radius: 5px;
+      font-weight: bold;
+      text-align: center;
+      display: none;
+    }
+    .correct {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .incorrect {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .controls {
+      text-align: center;
+      margin-top: 30px;
+    }
+    button {
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 0 10px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #1a252f;
+    }
+    .score-display {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    .instructions {
+      background-color: #e3f2fd;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 25px;
+      border-left: 5px solid #2196F3;
+    }
+    .greek-word {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .inserted-article {
+      background-color: #d4edda;
+      padding: 2px 5px;
+      border-radius: 3px;
+      border: 1px solid #c3e6cb;
+    }
+    .progress-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+    .progress-bar {
+      height: 10px;
+      background-color: #3498db;
+      border-radius: 5px;
+      width: 0%;
+      transition: width 0.5s;
+    }
+    .translation {
+      font-style: italic;
+      color: #555;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px dashed #ccc;
+    }
+  </style>
+   
+</script>
+</head>
+<body>
+  <div class="container">
+    <h1>El Artículo Invisible</h1>
+    <p class="subtitle">Completa los textos bíblicos con los artículos griegos que faltan</p>
+    
+    <div class="instructions">
+      <h2>Instrucciones:</h2>
+      <p>En los siguientes textos bíblicos se han eliminado los artículos definidos (ὁ, ἡ, τό).</p>
+      <p>Tu misión es:</p>
+      <ol>
+        <li>Identificar dónde deberían ir los artículos (marcados con líneas rojas).</li>
+        <li>Seleccionar el artículo correcto de las opciones proporcionadas.</li>
+        <li>Considerar el género, número y caso de los sustantivos para elegir la forma correcta.</li>
+      </ol>
+      <p>¡Usa las pistas si necesitas ayuda!</p>
+    </div>
+    
+    <div class="score-display">
+      Puntuación: <span id="score">0</span> / <span id="total">0</span>
+    </div>
+    
+    <div class="progress-container">
+      <div class="progress-bar" id="progress"></div>
+    </div>
+    
+    <div class="game-area">
+      <div class="verse-display" id="verse-display">
+        <!-- El texto con artículos faltantes se insertará aquí -->
+      </div>
+      
+      <button class="hint-btn" id="hint-btn">Mostrar pista</button>
+      <div class="hint-text" id="hint-text"></div>
+      
+      <h3>Selecciona el artículo que falta:</h3>
+      <div class="article-options" id="article-options">
+        <!-- Las opciones de artículo se insertarán aquí -->
+      </div>
+      
+      <div class="feedback" id="feedback"></div>
+      
+      <div class="controls">
+        <button id="check-btn">Comprobar</button>
+        <button id="next-btn">Siguiente</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Datos del juego - versículos con artículos faltantes
+    const verses = [
+      {
+        reference: "Juan 1:1",
+        modified: "Ἐν ἀρχῇ ἦν ____ λόγος, καὶ ____ λόγος ἦν πρὸς ____ θεόν, καὶ θεὸς ἦν ____ λόγος.",
+        missingArticles: [
+          { position: 14, article: "ὁ", gender: "masculino", number: "singular", case: "nominativo", noun: "λόγος" },
+          { position: 27, article: "ὁ", gender: "masculino", number: "singular", case: "nominativo", noun: "λόγος" },
+          { position: 40, article: "τόν", gender: "masculino", number: "singular", case: "acusativo", noun: "θεόν" },
+          { position: 58, article: "ὁ", gender: "masculino", number: "singular", case: "nominativo", noun: "λόγος" }
+        ],
+        hint: "Todos los artículos faltantes modifican la palabra 'λόγος' (masculino) o 'θεόν' (también masculino).",
+        translation: "Traducción: En el principio era el Verbo, y el Verbo estaba con Dios, y el Verbo era Dios."
+      },
+      {
+        reference: "1 Juan 4:8",
+        modified: "____ θεὸς ἀγάπη ἐστίν.",
+        missingArticles: [
+          { position: 0, article: "ὁ", gender: "masculino", number: "singular", case: "nominativo", noun: "θεὸς" }
+        ],
+        hint: "El artículo falta antes de 'θεὸς' (Dios, masculino singular en nominativo).",
+        translation: "Traducción: Dios es amor."
+      },
+      {
+        reference: "Mateo 5:3",
+        modified: "Μακάριοι ____ πτωχοὶ τῷ πνεύματι.",
+        missingArticles: [
+          { position: 10, article: "οἱ", gender: "masculino", number: "plural", case: "nominativo", noun: "πτωχοὶ" }
+        ],
+        hint: "El artículo falta antes de 'πτωχοὶ' (pobres, masculino plural en nominativo).",
+        translation: "Traducción: Bienaventurados los pobres en espíritu."
+      },
+      {
+        reference: "Romanos 12:1",
+        modified: "παρακαλῶ οὖν ὑμᾶς, ἀδελφοί, διὰ ____ οἰκτιρμῶν ____ θεοῦ.",
+        missingArticles: [
+          { position: 38, article: "τῶν", gender: "masculino", number: "plural", case: "genitivo", noun: "οἰκτιρμῶν" },
+          { position: 52, article: "τοῦ", gender: "masculino", number: "singular", case: "genitivo", noun: "θεοῦ" }
+        ],
+        hint: "El primer artículo falta antes de 'οἰκτιρμῶν' (misericordias, masculino plural genitivo). El segundo antes de 'θεοῦ' (Dios, masculino singular genitivo).",
+        translation: "Traducción: Os exhorto pues, hermanos, por las misericordias de Dios."
+      },
+      {
+        reference: "Efesios 2:8",
+        modified: "____ γὰρ χάριτί ἐστε σεσῳσμένοι διὰ πίστεως.",
+        missingArticles: [
+          { position: 0, article: "τῇ", gender: "femenino", number: "singular", case: "dativo", noun: "χάριτί" }
+        ],
+        hint: "El artículo falta antes de 'χάριτί' (gracia, femenino singular dativo).",
+        translation: "Traducción: Porque por gracia sois salvos por medio de la fe."
+      }
+    ];
+
+    // Variables del juego
+    let currentVerseIndex = 0;
+    let score = 0;
+    const totalQuestions = verses.reduce((acc, verse) => acc + verse.missingArticles.length, 0);
+    let selectedArticles = [];
+    let currentMissingIndex = 0;
+
+    // Elementos del DOM
+    const verseDisplay = document.getElementById('verse-display');
+    const articleOptions = document.getElementById('article-options');
+    const feedbackElement = document.getElementById('feedback');
+    const checkButton = document.getElementById('check-btn');
+    const nextButton = document.getElementById('next-btn');
+    const hintButton = document.getElementById('hint-btn');
+    const hintText = document.getElementById('hint-text');
+    const scoreElement = document.getElementById('score');
+    const totalElement = document.getElementById('total');
+    const progressBar = document.getElementById('progress');
+
+    // Inicializar juego
+    function initGame() {
+      totalElement.textContent = totalQuestions;
+      loadVerse(currentVerseIndex);
+    }
+
+    // Cargar versículo
+    function loadVerse(index) {
+      const verse = verses[index];
+      selectedArticles = [];
+      currentMissingIndex = 0;
+      
+      // Mostrar referencia
+      verseDisplay.innerHTML = `<h3>${verse.reference}</h3>`;
+      
+      // Procesar el texto modificado
+      const parts = verse.modified.split('____');
+      let displayHTML = '';
+      
+      parts.forEach((part, i) => {
+        displayHTML += part;
+        if (i < parts.length - 1) {
+          displayHTML += `<span class="missing-article" data-index="${i}"></span>`;
+        }
+      });
+      
+      verseDisplay.innerHTML += `<p class="greek-text">${displayHTML}</p>`;
+      verseDisplay.innerHTML += `<p class="translation">${verse.translation}</p>`;
+      
+      // Configurar pista
+      hintText.textContent = `${verse.hint} (Sustantivo: ${verse.missingArticles[currentMissingIndex].noun})`;
+      hintText.style.display = 'none';
+      
+      // Mostrar opciones de artículo para el primer faltante
+      showArticleOptions(verse.missingArticles[0]);
+    }
+
+    // Mostrar opciones de artículo
+    function showArticleOptions(missingArticle) {
+      articleOptions.innerHTML = '';
+      
+      // Opciones posibles (podrían generarse dinámicamente según el género/número/caso)
+      let options = [];
+      
+      switch (missingArticle.gender) {
+        case 'masculino':
+          if (missingArticle.number === 'singular') {
+            options = ['ὁ', 'τοῦ', 'τῷ', 'τόν'];
+          } else {
+            options = ['οἱ', 'τῶν', 'τοῖς', 'τούς'];
+          }
+          break;
+        case 'femenino':
+          if (missingArticle.number === 'singular') {
+            options = ['ἡ', 'τῆς', 'τῇ', 'τήν'];
+          } else {
+            options = ['αἱ', 'τῶν', 'ταῖς', 'τάς'];
+          }
+          break;
+        case 'neutro':
+          if (missingArticle.number === 'singular') {
+            options = ['τό', 'τοῦ', 'τῷ', 'τό'];
+          } else {
+            options = ['τά', 'τῶν', 'τοῖς', 'τά'];
+          }
+          break;
+      }
+      
+      // Crear botones de opciones
+      options.forEach(option => {
+        const button = document.createElement('div');
+        button.className = 'article-option';
+        button.textContent = option;
+        button.dataset.article = option;
+        button.addEventListener('click', () => selectArticle(option, missingArticle));
+        articleOptions.appendChild(button);
+      });
+      
+      // Actualizar pista con el sustantivo actual
+      const verse = verses[currentVerseIndex];
+      hintText.textContent = `${verse.hint} (Sustantivo: ${verse.missingArticles[currentMissingIndex].noun})`;
+    }
+
+    // Seleccionar artículo
+    function selectArticle(article, missingArticle) {
+      // Desmarcar todas las opciones
+      document.querySelectorAll('.article-option').forEach(opt => {
+        opt.style.backgroundColor = '#e8f4f8';
+      });
+      
+      // Marcar la seleccionada
+      event.target.style.backgroundColor = '#a5d6a7';
+      
+      // Guardar selección
+      selectedArticles[currentMissingIndex] = {
+        selected: article,
+        correct: missingArticle.article
+      };
+    }
+
+    // Comprobar respuesta
+    function checkAnswer() {
+      if (selectedArticles.length <= currentMissingIndex || !selectedArticles[currentMissingIndex]) {
+        feedbackElement.textContent = "Por favor selecciona un artículo antes de comprobar.";
+        feedbackElement.className = "feedback incorrect";
+        feedbackElement.style.display = 'block';
+        return;
+      }
+      
+      const currentSelection = selectedArticles[currentMissingIndex];
+      const isCorrect = currentSelection.selected === currentSelection.correct;
+      
+      // Mostrar retroalimentación
+      if (isCorrect) {
+        feedbackElement.textContent = `¡Correcto! El artículo "${currentSelection.correct}" es la forma adecuada aquí.`;
+        feedbackElement.className = "feedback correct";
+        score++;
+        scoreElement.textContent = score;
+        progressBar.style.width = `${(score / totalQuestions) * 100}%`;
+        
+        // Reemplazar el espacio vacío con el artículo insertado
+        const missingSpots = document.querySelectorAll('.missing-article');
+        missingSpots[currentMissingIndex].innerHTML = `<span class="inserted-article">${currentSelection.selected}</span>`;
+        missingSpots[currentMissingIndex].style.borderBottom = 'none';
+        
+        // Pasar al siguiente artículo faltante
+        const verse = verses[currentVerseIndex];
+        currentMissingIndex++;
+        
+        if (currentMissingIndex < verse.missingArticles.length) {
+          showArticleOptions(verse.missingArticles[currentMissingIndex]);
+        } else {
+          // Todos los artículos de este versículo completados
+          checkButton.style.display = 'none';
+          nextButton.style.display = 'inline-block';
+          feedbackElement.textContent += " ¡Has completado todos los artículos de este versículo!";
+        }
+      } else {
+        feedbackElement.textContent = `Incorrecto. El artículo correcto era "${currentSelection.correct}".`;
+        feedbackElement.className = "feedback incorrect";
+      }
+      
+      feedbackElement.style.display = 'block';
+    }
+
+    // Siguiente versículo
+    function nextVerse() {
+      currentVerseIndex++;
+      if (currentVerseIndex < verses.length) {
+        loadVerse(currentVerseIndex);
+        checkButton.style.display = 'inline-block';
+        nextButton.style.display = 'none';
+        feedbackElement.style.display = 'none';
+      } else {
+        // Fin del juego
+        verseDisplay.innerHTML = '<h2>¡Investigación completada!</h2>' +
+          `<p>Has identificado correctamente ${score} de ${totalQuestions} artículos.</p>` +
+          '<p>¡Excelente trabajo con los artículos griegos!</p>';
+        articleOptions.innerHTML = '';
+        checkButton.style.display = 'none';
+        nextButton.style.display = 'none';
+        hintButton.style.display = 'none';
+      }
+    }
+
+    // Event listeners
+    checkButton.addEventListener('click', checkAnswer);
+    nextButton.addEventListener('click', nextVerse);
+    hintButton.addEventListener('click', () => {
+      hintText.style.display = hintText.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Iniciar el juego
+    initGame();
+  </script>
+</body>
+</html>

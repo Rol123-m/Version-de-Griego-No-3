@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Juegos de Participios - Semana 20</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Segoe UI', 'Poppins', Arial, sans-serif; background: linear-gradient(145deg, #0a1628, #1a2a4a, #0d1f3c); min-height: 100vh; color: white; padding: 15px; }
+    .header { text-align: center; padding: 15px 0; }
+    .logo { width: 100px; border-radius: 50%; border: 3px solid rgba(255,215,0,0.5); margin-bottom: 10px; }
+    h1 { color: #FFD700; font-size: clamp(1.2rem, 4vw, 1.8rem); margin-bottom: 5px; }
+    .subtitle { color: rgba(255,255,255,0.6); font-size: clamp(0.8rem, 2vw, 1rem); letter-spacing: 2px; }
+    .game-selector { display: flex; justify-content: center; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+    .game-btn { padding: 10px 24px; border-radius: 50px; border: 2px solid rgba(255,215,0,0.3); background: rgba(255,255,255,0.05); color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; font-size: clamp(0.85rem, 2vw, 1rem); }
+    .game-btn.active { background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; border-color: #FFD700; }
+    .game-btn:hover { transform: translateY(-2px); }
+    .game-container { display: none; max-width: 850px; margin: 0 auto; }
+    .game-container.active { display: block; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .game-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); border-radius: 24px; padding: clamp(20px, 4vw, 35px); border: 1px solid rgba(255,215,0,0.1); }
+    .score-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 12px 20px; background: rgba(255,255,255,0.05); border-radius: 50px; flex-wrap: wrap; gap: 10px; }
+    .score-bar .stat { display: flex; align-items: center; gap: 8px; font-size: clamp(0.8rem, 2vw, 1rem); }
+    .score-bar .stat span { color: #FFD700; font-weight: 700; }
+    .progress-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FFA500); border-radius: 4px; transition: width 0.5s ease; }
+    .verse-ref { color: #FFD700; font-weight: 700; margin-bottom: 10px; font-size: clamp(0.85rem, 2vw, 1rem); }
+    .verse-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: clamp(1.05rem, 3vw, 1.5rem); line-height: 1.8; margin: 15px 0; text-align: center; }
+    .verse-text span { display: inline-block; padding: 3px 8px; margin: 2px; border-radius: 6px; background: rgba(255,255,255,0.03); }
+    .verse-text span.highlight-correct { background: rgba(46,204,113,0.3); color: #2ecc71; }
+    .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-top: 20px; }
+    .option-btn { padding: 14px 10px; border: 2px solid rgba(255,255,255,0.15); border-radius: 12px; background: rgba(255,255,255,0.05); color: white; font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: clamp(0.95rem, 2.2vw, 1.15rem); font-weight: 600; cursor: pointer; transition: all 0.25s; min-height: 55px; }
+    .option-btn:hover:not(.used) { transform: translateY(-3px); border-color: #FFD700; background: rgba(255,215,0,0.1); }
+    .option-btn.correct { border-color: #2ecc71; background: rgba(46,204,113,0.2); color: #2ecc71; }
+    .option-btn.wrong { border-color: #e74c3c; background: rgba(231,76,60,0.2); color: #e74c3c; animation: shake 0.5s ease; }
+    .option-btn.used { opacity: 0.3; cursor: not-allowed; }
+    @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+    .feedback { margin-top: 15px; padding: 14px; border-radius: 12px; text-align: center; font-weight: 600; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
+    .feedback.show { opacity: 1; transform: translateY(0); }
+    .feedback.success { background: rgba(46,204,113,0.15); border: 1px solid rgba(46,204,113,0.3); color: #2ecc71; }
+    .feedback.error { background: rgba(231,76,60,0.15); border: 1px solid rgba(231,76,60,0.3); color: #e74c3c; }
+    .next-btn { display: none; margin: 15px auto 0; padding: 14px 40px; border: none; border-radius: 50px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    .next-btn.show { display: block; }
+    .pieces-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px 0; min-height: 60px; }
+    .piece { padding: 14px 22px; background: rgba(255,255,255,0.08); border: 2px solid rgba(255,215,0,0.3); border-radius: 12px; cursor: pointer; font-family: 'Times New Roman', serif; font-size: clamp(1rem, 2.2vw, 1.2rem); font-weight: 700; transition: all 0.25s; }
+    .piece:hover:not(.used) { transform: translateY(-3px); border-color: #FFD700; background: rgba(255,215,0,0.1); }
+    .piece.used { opacity: 0.15; cursor: not-allowed; transform: scale(0.9); filter: grayscale(0.8); pointer-events: none; }
+    .assembly-area { min-height: 70px; padding: 15px; background: rgba(255,255,255,0.03); border: 2px dashed rgba(255,215,0,0.3); border-radius: 12px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; }
+    .placeholder { color: rgba(255,255,255,0.3); font-style: italic; }
+    .assembled-piece { padding: 10px 18px; background: rgba(46,204,113,0.15); border: 2px solid #2ecc71; border-radius: 10px; font-family: 'Times New Roman', serif; font-size: clamp(1rem, 2.2vw, 1.15rem); font-weight: 700; color: #2ecc71; cursor: pointer; transition: all 0.2s; }
+    .assembled-piece:hover { background: rgba(231,76,60,0.2); border-color: #e74c3c; color: #e74c3c; }
+    .assembled-piece::after { content: ' ✕'; font-size: 0.7em; opacity: 0.5; }
+    .controls-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 15px; }
+    .ctrl-btn { padding: 12px 28px; border-radius: 50px; font-size: clamp(0.85rem, 2vw, 0.95rem); font-weight: 700; cursor: pointer; transition: all 0.3s; }
+    .ctrl-btn.primary { background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; border: none; }
+    .ctrl-btn.secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.2); }
+    .ctrl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .ctrl-btn:hover:not(:disabled) { transform: translateY(-2px); }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+    .overlay.active { opacity: 1; pointer-events: all; }
+    .final-message { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0); background: linear-gradient(145deg, #0f1a2e, #1a2a4a); padding: 40px; border-radius: 30px; text-align: center; animation: zoomIn 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards; border: 2px solid rgba(255,215,0,0.3); z-index: 1000; max-width: 90vw; width: 420px; }
+    @keyframes zoomIn { 0% { transform: translate(-50%,-50%) scale(0) rotate(-3deg); opacity: 0; } 100% { transform: translate(-50%,-50%) scale(1) rotate(0deg); opacity: 1; } }
+    .final-message img { width: 130px; margin-bottom: 15px; border-radius: 15px; }
+    .final-message h2 { color: #FFD700; margin-bottom: 10px; font-size: 1.6rem; }
+    .final-message p { font-size: 1.05rem; opacity: 0.9; line-height: 1.7; }
+    .final-message .stat-highlight { color: #FFD700; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img class="logo" src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo">
+    <h1>Juegos de Participios - Semana 20</h1>
+    <p class="subtitle">Participio Presente · Acción Continua</p>
+  </div>
+
+  <div class="game-selector">
+    <button class="game-btn active" data-game="caza">🔍 Caza-Participios</button>
+    <button class="game-btn" data-game="rompecabezas">🧩 Rompecabezas</button>
+  </div>
+
+  <!-- JUEGO CAZA -->
+  <div class="game-container active" id="caza">
+    <div class="game-card">
+      <div class="score-bar">
+        <div class="stat">📖 <span id="caza-current">1</span>/<span id="caza-total">15</span></div>
+        <div class="stat">✅ <span id="caza-score">0</span></div>
+        <div class="stat">💪 Racha: <span id="caza-streak">0</span>🔥</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="caza-progress"></div></div>
+      <div id="caza-content"></div>
+    </div>
+  </div>
+
+  <!-- JUEGO ROMPECABEZAS -->
+  <div class="game-container" id="rompecabezas">
+    <div class="game-card">
+      <div class="score-bar">
+        <div class="stat">🧩 <span id="rom-current">1</span>/<span id="rom-total">15</span></div>
+        <div class="stat">✅ <span id="rom-score">0</span></div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="rom-progress"></div></div>
+      <div id="rom-content"></div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <script>
+    // ============================================================
+    // DATOS
+    // ============================================================
+    const cazaData = [
+      {ref:"Jn 1:29", text:["Ἴδε ὁ","ἀμνὸς","τοῦ θεοῦ","ὁ","αἴρων","τὴν ἁμαρτίαν","τοῦ κόσμου"], correct:"αἴρων", translation:"el que quita"},
+      {ref:"Jn 3:16", text:["πᾶς","ὁ","πιστεύων","εἰς αὐτὸν","μὴ ἀπόληται"], correct:"πιστεύων", translation:"el que cree"},
+      {ref:"Jn 8:12", text:["ὁ","ἀκολουθῶν","ἐμοὶ","οὐ μὴ περιπατήσει","ἐν τῇ σκοτίᾳ"], correct:"ἀκολουθῶν", translation:"el que sigue"},
+      {ref:"Jn 10:9", text:["εἰς ἐμὲ","εἰσερχόμενος","σωθήσεται"], correct:"εἰσερχόμενος", translation:"el que entra"},
+      {ref:"Jn 11:26", text:["πᾶς","ὁ","ζῶν","καὶ","πιστεύων","εἰς ἐμὲ"], correct:"ζῶν", translation:"el que vive"},
+      {ref:"Jn 11:26", text:["πᾶς","ὁ","ζῶν","καὶ","πιστεύων","εἰς ἐμὲ"], correct:"πιστεύων", translation:"el que cree"},
+      {ref:"Jn 14:21", text:["ὁ","ἔχων","τὰς ἐντολάς","μου","καὶ","τηρῶν","αὐτάς"], correct:"ἔχων", translation:"el que tiene"},
+      {ref:"Jn 14:21", text:["ὁ","ἔχων","τὰς ἐντολάς","μου","καὶ","τηρῶν","αὐτάς"], correct:"τηρῶν", translation:"el que guarda"},
+      {ref:"Jn 15:5", text:["ὁ","μένων","ἐν ἐμοὶ","καὶ ἐγὼ","ἐν αὐτῷ"], correct:"μένων", translation:"el que permanece"},
+      {ref:"Jn 15:6", text:["ἐὰν μή","τις","μένῃ","ἐν ἐμοί","ἐβλήθη","ὁ","μὴ","μένων","ἐν ἐμοί"], correct:"μένων", translation:"el que permanece"},
+      {ref:"1Jn 2:6", text:["ὁ","λέγων","ἐν αὐτῷ","μένειν"], correct:"λέγων", translation:"el que dice"},
+      {ref:"1Jn 3:6", text:["πᾶς","ὁ","μένων","ἐν αὐτῷ","οὐχ ἁμαρτάνει"], correct:"μένων", translation:"el que permanece"},
+      {ref:"1Jn 3:9", text:["πᾶς","ὁ","γεγεννημένος","ἐκ τοῦ θεοῦ","ἁμαρτίαν","οὐ","ποιεῖ"], correct:"γεγεννημένος", translation:"el que ha nacido"},
+      {ref:"Mc 5:36", text:["μὴ","φοβοῦ","μόνον","πίστευε"], correct:"πίστευε", translation:"cree"},
+      {ref:"Mc 9:23", text:["τῷ","πιστεύοντι","πάντα","δυνατά"], correct:"πιστεύοντι", translation:"al que cree"}
+    ];
+
+    // DATOS CORREGIDOS: parts.join('') === answer
+    const romData = [
+      {parts:["λύ","οντ","ος"], answer:"λύοντος", translation:"del que desata"},
+      {parts:["πιστεύ","οντ","ι"], answer:"πιστεύοντι", translation:"al que cree"},
+      {parts:["διδά","σκ","ων"], answer:"διδάσκων", translation:"enseñando"},
+      {parts:["μέν","ων"], answer:"μένων", translation:"permaneciendo"},
+      {parts:["τηρ","οῦσ","α"], answer:"τηροῦσα", translation:"guardando"},
+      {parts:["ἀκο","λουθ","ῶν"], answer:"ἀκολουθῶν", translation:"siguiendo"},
+      {parts:["εἰσερχ","όμεν","ος"], answer:"εἰσερχόμενος", translation:"entrando"},
+      {parts:["βλέπ","ουσ","ι"], answer:"βλέπουσι", translation:"viendo"},
+      {parts:["γραφ","όμεν","ος"], answer:"γραφόμενος", translation:"siendo escrito"},
+      {parts:["λέγ","οντ","ες"], answer:"λέγοντες", translation:"diciendo"},
+      {parts:["ἀγαπ","όντ","ων"], answer:"ἀγαπόντων", translation:"de los que aman"},
+      {parts:["ποι","οῦσ","αι"], answer:"ποιοῦσαι", translation:"haciendo"},
+      {parts:["λαμβαν","όμεν","ος"], answer:"λαμβανόμενος", translation:"siendo tomado"},
+      {parts:["φέρ","οντ","α"], answer:"φέροντα", translation:"llevando"},
+      {parts:["ἀκου","όντ","ων"], answer:"ἀκουόντων", translation:"de los que oyen"}
+    ];
+
+    // ============================================================
+    // UTILIDADES
+    // ============================================================
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function normalizeGreek(str) {
+      return str.normalize('NFC').trim();
+    }
+
+    // ============================================================
+    // ESTADO CAZA
+    // ============================================================
+    let cazaQuestions = shuffle([...cazaData]);
+    let cazaIndex = 0, cazaScore = 0, cazaStreak = 0, cazaMaxStreak = 0, cazaAnswered = false;
+
+    // ============================================================
+    // ESTADO ROMPECABEZAS
+    // ============================================================
+    let romQuestions = shuffle([...romData]);
+    let romIndex = 0, romScore = 0, romAssembled = [], romVerified = false;
+
+    // ============================================================
+    // CAZA-PARTICIPIOS
+    // ============================================================
+    function loadCaza(index) {
+      const q = cazaQuestions[index];
+      if (!q) { showFinal('caza'); return; }
+      cazaAnswered = false;
+      document.getElementById('caza-current').textContent = index + 1;
+      document.getElementById('caza-total').textContent = cazaQuestions.length;
+      document.getElementById('caza-score').textContent = cazaScore;
+      document.getElementById('caza-streak').textContent = cazaStreak;
+      document.getElementById('caza-progress').style.width = ((index) / cazaQuestions.length * 100) + '%';
+
+      const content = document.getElementById('caza-content');
+      content.innerHTML = `
+        <div class="verse-ref">📖 ${q.ref}</div>
+        <div class="verse-text">${q.text.map(w => `<span>${w}</span>`).join(' ')}</div>
+        <div class="options-grid" id="caza-options"></div>
+        <div class="feedback" id="caza-feedback"></div>
+        <button class="next-btn" id="caza-next">Siguiente →</button>
+      `;
+
+      const allWords = [...new Set(q.text)];
+      const distractors = allWords.filter(w => w !== q.correct && w.length > 2).slice(0, 3);
+      const options = shuffle([q.correct, ...distractors]);
+      const grid = document.getElementById('caza-options');
+      options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt;
+        btn.addEventListener('click', () => handleCazaClick(btn, q));
+        grid.appendChild(btn);
+      });
+
+      document.getElementById('caza-next').addEventListener('click', () => {
+        if (cazaIndex < cazaQuestions.length - 1) { cazaIndex++; loadCaza(cazaIndex); }
+        else { showFinal('caza'); }
+      });
+    }
+
+    function handleCazaClick(btn, q) {
+      if (cazaAnswered) return;
+      cazaAnswered = true;
+      document.querySelectorAll('#caza-options .option-btn').forEach(b => b.classList.add('used'));
+      const feedback = document.getElementById('caza-feedback');
+      document.querySelectorAll('#caza-content .verse-text span').forEach(span => {
+        if (span.textContent === q.correct) span.classList.add('highlight-correct');
+      });
+      if (btn.textContent === q.correct) {
+        btn.classList.add('correct');
+        cazaScore++; cazaStreak++;
+        if (cazaStreak > cazaMaxStreak) cazaMaxStreak = cazaStreak;
+        feedback.textContent = `✅ ¡Correcto! ${q.correct} = ${q.translation}` + (cazaStreak > 1 ? ` 🔥 Racha: ${cazaStreak}` : '');
+        feedback.className = 'feedback success show';
+      } else {
+        btn.classList.add('wrong');
+        cazaStreak = 0;
+        feedback.textContent = `❌ Incorrecto. La respuesta es: ${q.correct} = ${q.translation}`;
+        feedback.className = 'feedback error show';
+      }
+      document.getElementById('caza-score').textContent = cazaScore;
+      document.getElementById('caza-streak').textContent = cazaStreak;
+      document.getElementById('caza-next').classList.add('show');
+    }
+
+    // ============================================================
+    // ROMPECABEZAS (CORREGIDO)
+    // ============================================================
+    function loadRom(index) {
+      const ex = romQuestions[index];
+      if (!ex) { showFinal('rom'); return; }
+
+      romAssembled = [];
+      romVerified = false;
+
+      document.getElementById('rom-current').textContent = index + 1;
+      document.getElementById('rom-total').textContent = romQuestions.length;
+      document.getElementById('rom-score').textContent = romScore;
+      document.getElementById('rom-progress').style.width = ((index) / romQuestions.length * 100) + '%';
+
+      const content = document.getElementById('rom-content');
+      content.innerHTML = `
+        <div class="verse-ref" style="text-align:center;">💡 ${ex.translation}</div>
+        <div class="pieces-container" id="rom-pieces"></div>
+        <div class="assembly-area" id="rom-assembly">
+          <span class="placeholder">Toca las piezas para armar el participio</span>
+        </div>
+        <div class="feedback" id="rom-feedback"></div>
+        <div class="controls-row">
+          <button class="ctrl-btn secondary" id="rom-reset">↺ Reiniciar</button>
+          <button class="ctrl-btn primary" id="rom-check">✓ Verificar</button>
+          <button class="ctrl-btn primary" id="rom-next" disabled>Siguiente →</button>
+        </div>
+      `;
+
+      // Renderizar piezas mezcladas
+      const piecesContainer = document.getElementById('rom-pieces');
+      const shuffledParts = shuffle(ex.parts);
+      shuffledParts.forEach((part, i) => {
+        const piece = document.createElement('div');
+        piece.className = 'piece';
+        piece.textContent = part;
+        piece.dataset.part = part;
+        piece.dataset.uid = 'rp_' + index + '_' + i;
+        piece.addEventListener('click', () => handleRomPieceClick(piece));
+        piecesContainer.appendChild(piece);
+      });
+
+      document.getElementById('rom-reset').addEventListener('click', () => loadRom(index));
+      document.getElementById('rom-check').addEventListener('click', () => checkRomAnswer(ex));
+      document.getElementById('rom-next').addEventListener('click', () => {
+        if (romIndex < romQuestions.length - 1) { romIndex++; loadRom(romIndex); }
+        else { showFinal('rom'); }
+      });
+    }
+
+    function handleRomPieceClick(piece) {
+      if (romVerified) return;
+      if (piece.classList.contains('used')) return;
+
+      piece.classList.add('used');
+      romAssembled.push({
+        part: piece.dataset.part,
+        uid: piece.dataset.uid
+      });
+      updateRomAssembly();
+    }
+
+    function updateRomAssembly() {
+      const area = document.getElementById('rom-assembly');
+      if (romAssembled.length === 0) {
+        area.innerHTML = '<span class="placeholder">Toca las piezas para armar el participio</span>';
+        return;
+      }
+      area.innerHTML = '';
+      romAssembled.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'assembled-piece';
+        div.textContent = item.part;
+        div.addEventListener('click', () => removeRomPiece(idx));
+        area.appendChild(div);
+      });
+    }
+
+    function removeRomPiece(idx) {
+      if (romVerified) return;
+      const removed = romAssembled.splice(idx, 1)[0];
+      document.querySelectorAll('#rom-pieces .piece').forEach(p => {
+        if (p.dataset.uid === removed.uid) {
+          p.classList.remove('used');
+        }
+      });
+      updateRomAssembly();
+    }
+
+    function checkRomAnswer(ex) {
+      if (romVerified) return;
+      const feedback = document.getElementById('rom-feedback');
+      const userAnswer = normalizeGreek(romAssembled.map(a => a.part).join(''));
+      const correctAnswer = normalizeGreek(ex.answer);
+
+      if (userAnswer === correctAnswer) {
+        romVerified = true;
+        feedback.textContent = `✅ ¡Correcto! ${ex.answer} = ${ex.translation}`;
+        feedback.className = 'feedback success show';
+        romScore++;
+        document.getElementById('rom-score').textContent = romScore;
+        document.getElementById('rom-check').disabled = true;
+        document.getElementById('rom-next').disabled = false;
+      } else {
+        feedback.textContent = `❌ Incorrecto. La respuesta correcta es: "${ex.answer}"`;
+        feedback.className = 'feedback error show';
+      }
+    }
+
+    // ============================================================
+    // MENSAJE FINAL
+    // ============================================================
+    function showFinal(game) {
+      document.getElementById('overlay').classList.add('active');
+      let score, total, msg;
+      if (game === 'caza') {
+        score = cazaScore; total = cazaQuestions.length;
+        msg = `Aciertos: ${score}/${total} · Mejor racha: ${cazaMaxStreak}`;
+      } else {
+        score = romScore; total = romQuestions.length;
+        msg = `Aciertos: ${score}/${total}`;
+      }
+      const pct = Math.round((score / total) * 100);
+      const emoji = pct >= 90 ? '🌟' : pct >= 70 ? '👍' : pct >= 50 ? '💪' : '📚';
+      const finalHTML = `
+        <div class="final-message">
+          <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo">
+          <h2>${emoji} ¡Completado!</h2>
+          <p>${msg}</p>
+          <p>Porcentaje: <span class="stat-highlight">${pct}%</span></p>
+          <button onclick="reiniciarJuego('${game}')" style="margin-top: 20px; padding: 12px 35px; border: none; border-radius: 50px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-size: 1.05rem; font-weight: 700; cursor: pointer;">🔄 Jugar de nuevo</button>
+        </div>`;
+      const old = document.querySelector('.final-message'); if (old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', finalHTML);
+    }
+
+    function reiniciarJuego(game) {
+      document.querySelector('.final-message')?.remove();
+      document.getElementById('overlay').classList.remove('active');
+      if (game === 'caza') {
+        cazaQuestions = shuffle([...cazaData]);
+        cazaIndex = 0; cazaScore = 0; cazaStreak = 0; cazaMaxStreak = 0;
+        document.getElementById('caza-score').textContent = '0';
+        document.getElementById('caza-streak').textContent = '0';
+        loadCaza(0);
+      } else {
+        romQuestions = shuffle([...romData]);
+        romIndex = 0; romScore = 0;
+        document.getElementById('rom-score').textContent = '0';
+        loadRom(0);
+      }
+    }
+
+    // ============================================================
+    // SELECTOR DE JUEGO
+    // ============================================================
+    document.querySelectorAll('.game-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const game = btn.dataset.game;
+        document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.game-container').forEach(c => c.classList.remove('active'));
+        document.getElementById(game).classList.add('active');
+      });
+    });
+
+    // ============================================================
+    // INICIO
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCaza(0);
+      loadRom(0);
+    });
+  </script>
+</body>
+</html>

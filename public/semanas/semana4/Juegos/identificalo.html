@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preposiciones Griegas - Prólogo de Juan</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #7f8c8d;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+    .game-area {
+      margin-bottom: 30px;
+    }
+    .verse-display {
+      font-size: 1.3rem;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      border-left: 5px solid #3498db;
+    }
+    .missing-preposition {
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+      border-bottom: 2px solid #e74c3c;
+      margin: 0 5px;
+      vertical-align: middle;
+      position: relative;
+    }
+    .missing-preposition::after {
+      content: '?';
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #e74c3c;
+      font-size: 0.8rem;
+    }
+    .preposition-options {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 25px 0;
+    }
+    .preposition-option {
+      padding: 10px 15px;
+      background-color: #e8f4f8;
+      border: 2px solid #3498db;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+    }
+    .preposition-option:hover {
+      background-color: #d4e6f1;
+      transform: translateY(-2px);
+    }
+    .hint-btn {
+      background-color: #f39c12;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px 0;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hint-btn:hover {
+      background-color: #e67e22;
+    }
+    .hint-text {
+      background-color: #fffde7;
+      padding: 15px;
+      border-radius: 5px;
+      border-left: 4px solid #fbc02d;
+      margin: 15px 0;
+      display: none;
+    }
+    .feedback {
+      margin: 20px 0;
+      padding: 15px;
+      border-radius: 5px;
+      font-weight: bold;
+      text-align: center;
+      display: none;
+    }
+    .correct {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .incorrect {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .controls {
+      text-align: center;
+      margin-top: 30px;
+    }
+    button {
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 0 10px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #1a252f;
+    }
+    .score-display {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    .instructions {
+      background-color: #e3f2fd;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 25px;
+      border-left: 5px solid #2196F3;
+    }
+    .greek-word {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .inserted-preposition {
+      background-color: #d4edda;
+      padding: 2px 5px;
+      border-radius: 3px;
+      border: 1px solid #c3e6cb;
+    }
+    .progress-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+    .progress-bar {
+      height: 10px;
+      background-color: #3498db;
+      border-radius: 5px;
+      width: 0%;
+      transition: width 0.5s;
+    }
+    .translation {
+      font-style: italic;
+      color: #555;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px dashed #ccc;
+    }
+    .section-nav {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .section-btn {
+      padding: 8px 12px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .section-btn:hover {
+      background-color: #2980b9;
+    }
+    .section-btn.active {
+      background-color: #2c3e50;
+    }
+    .case-info {
+      background-color: #e8f4f8;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+    .meaning {
+      font-weight: bold;
+      color: #27ae60;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Preposiciones Griegas en el Prólogo de Juan</h1>
+    <p class="subtitle">Repasa las preposiciones griegas y su significado según el caso de su objeto</p>
+    
+    <div class="instructions">
+      <h2>Instrucciones:</h2>
+      <p>En los siguientes versículos del Prólogo de Juan (1:1-18) se han eliminado las preposiciones.</p>
+      <p>Tu misión es:</p>
+      <ol>
+        <li>Identificar las preposiciones que faltan (marcadas con líneas rojas).</li>
+        <li>Seleccionar la preposición correcta de las opciones proporcionadas.</li>
+        <li>Prestar atención al caso del objeto de la preposición (genitivo, dativo o acusativo).</li>
+        <li>Notar cómo el significado puede cambiar según la preposición y el caso.</li>
+      </ol>
+      <p>¡Usa las pistas si necesitas ayuda!</p>
+    </div>
+    
+    <div class="case-info">
+      <h3>Guía rápida de preposiciones:</h3>
+      <p><span class="meaning">ἐν</span> + dativo: "en" (posición estática)</p>
+      <p><span class="meaning">πρός</span> + acusativo: "hacia, con" (dirección)</p>
+      <p><span class="meaning">διὰ</span> + genitivo: "a través de, por medio de" | + acusativo: "a causa de"</p>
+      <p><span class="meaning">εἰς</span> + acusativo: "hacia, para" (movimiento hacia)</p>
+      <p><span class="meaning">κατὰ</span> + acusativo: "según, conforme a"</p>
+      <p><span class="meaning">παρὰ</span> + genitivo: "de parte de" | + dativo: "junto a" | + acusativo: "junto a, al lado de"</p>
+    </div>
+    
+    <div class="section-nav" id="section-nav">
+      <!-- Las secciones se generarán dinámicamente -->
+    </div>
+    
+    <div class="score-display">
+      Puntuación: <span id="score">0</span> / <span id="total">0</span>
+    </div>
+    
+    <div class="progress-container">
+      <div class="progress-bar" id="progress"></div>
+    </div>
+    
+    <div class="game-area">
+      <div class="verse-display" id="verse-display">
+        <!-- El texto con preposiciones faltantes se insertará aquí -->
+      </div>
+      
+      <button class="hint-btn" id="hint-btn">Mostrar pista</button>
+      <div class="hint-text" id="hint-text"></div>
+      
+      <h3>Selecciona la preposición que falta:</h3>
+      <div class="preposition-options" id="preposition-options">
+        <!-- Las opciones de preposición se insertarán aquí -->
+      </div>
+      
+      <div class="feedback" id="feedback"></div>
+      
+      <div class="controls">
+        <button id="check-btn">Comprobar</button>
+        <button id="next-btn">Siguiente</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Datos del juego - versículos con preposiciones faltantes organizados por secciones
+    const sections = [
+      {
+        title: "Juan 1:1-5",
+        verses: [
+          {
+            reference: "Juan 1:1",
+            modified: "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν ____ τόν θεόν, καὶ θεὸς ἦν ὁ λόγος.",
+            missingPrepositions: [
+              { 
+                position: 41, 
+                preposition: "πρός", 
+                case: "acusativo", 
+                object: "τόν θεόν",
+                meaning: "con (indicando relación cercana)",
+                hint: "Esta preposición con acusativo indica relación cercana o dirección hacia algo."
+              }
+            ],
+            translation: "Traducción: En el principio era el Verbo, y el Verbo estaba con Dios, y el Verbo era Dios."
+          },
+          {
+            reference: "Juan 1:3",
+            modified: "πάντα ____ αὐτοῦ ἐγένετο, καὶ χωρὶς αὐτοῦ ἐγένετο οὐδὲ ἕν.",
+            missingPrepositions: [
+              { 
+                position: 7, 
+                preposition: "διὰ", 
+                case: "genitivo", 
+                object: "αὐτοῦ",
+                meaning: "por medio de",
+                hint: "Esta preposición con genitivo indica el agente o medio por el cual algo sucede."
+              }
+            ],
+            translation: "Traducción: Todas las cosas por medio de él fueron hechas, y sin él nada de lo que ha sido hecho fue hecho."
+          },
+          {
+            reference: "Juan 1:4",
+            modified: "____ αὐτῷ ζωὴ ἦν, καὶ ἡ ζωὴ ἦν τὸ φῶς τῶν ἀνθρώπων.",
+            missingPrepositions: [
+              { 
+                position: 0, 
+                preposition: "ἐν", 
+                case: "dativo", 
+                object: "αὐτῷ",
+                meaning: "en",
+                hint: "Esta preposición con dativo indica localización o presencia en algo."
+              }
+            ],
+            translation: "Traducción: En él estaba la vida, y la vida era la luz de los hombres."
+          }
+        ]
+      },
+      {
+        title: "Juan 1:6-13",
+        verses: [
+          {
+            reference: "Juan 1:7",
+            modified: "οὗτος ἦλθεν ____ μαρτυρίαν, ἵνα μαρτυρήσῃ περὶ τοῦ φωτός.",
+            missingPrepositions: [
+              { 
+                position: 12, 
+                preposition: "εἰς", 
+                case: "acusativo", 
+                object: "μαρτυρίαν",
+                meaning: "para (con propósito de)",
+                hint: "Esta preposición con acusativo indica propósito o dirección hacia un fin."
+              }
+            ],
+            translation: "Traducción: Este vino para testimonio, para que diese testimonio de la luz."
+          },
+          {
+            reference: "Juan 1:9",
+            modified: "ἦν τὸ φῶς τὸ ἀληθινόν, ὃ φωτίζει πάντα ἄνθρωπον ἐρχόμενον ____ τὸν κόσμον.",
+            missingPrepositions: [
+              { 
+                position: 59, 
+                preposition: "εἰς", 
+                case: "acusativo", 
+                object: "τὸν κόσμον",
+                meaning: "hacia, al",
+                hint: "Esta preposición con acusativo indica movimiento hacia algo."
+              }
+            ],
+            translation: "Traducción: Aquella luz verdadera, que alumbra a todo hombre, venía al mundo."
+          },
+          {
+            reference: "Juan 1:11 y 12",
+            modified: "εἰς τὰ ἴδια ἦλθεν, καὶ οἱ ἴδιοι αὐτὸν οὐ παρέλαβον. ὅσοι δὲ ἔλαβον αὐτόν, ἔδωκεν αὐτοῖς ἐξουσίαν τέκνα θεοῦ γενέσθαι,  πιστεύουσιν _____ τὸ ὄνομα αὐτοῦ.",
+            missingPrepositions: [
+              { 
+                position: 122, 
+                preposition: "εἰς", 
+                case: "acusativo", 
+                object: "τὸ ὄνομα",
+                meaning: "en su nombre",
+                hint: "Piensa bien que me pesa darte una pista jaja."
+              }
+            ],
+            translation: "Traducción: A lo suyo vino, y los suyos no le recibieron. Mas a todos los que le recibieron, les dio potestad de ser hechos hijos de Dios, a los que creen en su nombre."
+          }
+        ]
+      },
+      {
+        title: "Juan 1:14-18",
+        verses: [
+          {
+            reference: "Juan 1:14",
+            modified: "Καὶ ὁ λόγος σὰρξ ἐγένετο καὶ ἐσκήνωσεν ____ ἡμῖν, καὶ ἐθεασάμεθα τὴν δόξαν αὐτοῦ.",
+            missingPrepositions: [
+              { 
+                position: 37, 
+                preposition: "ἐν", 
+                case: "dativo", 
+                object: "ἡμῖν",
+                meaning: "entre",
+                hint: "Esta preposición con dativo indica localización en medio de un grupo."
+              }
+            ],
+            translation: "Traducción: Y el Verbo se hizo carne y habitó entre nosotros, y vimos su gloria."
+          },
+          {
+            reference: "Juan 1:17",
+            modified: "ὁ νόμος ____ Μωϋσέως ἐδόθη, ἡ χάρις καὶ ἡ ἀλήθεια ____ Ἰησοῦ Χριστοῦ ἐγένετο.",
+            missingPrepositions: [
+              { 
+                position: 10, 
+                preposition: "διὰ", 
+                case: "genitivo", 
+                object: "Μωϋσέως",
+                meaning: "por medio de",
+                hint: "Esta preposición con genitivo indica el agente intermedio."
+              },
+              { 
+                position: 44, 
+                preposition: "διὰ", 
+                case: "genitivo", 
+                object: "Ἰησοῦ Χριστοῦ",
+                meaning: "por medio de",
+                hint: "Igual que la anterior, indica el agente intermedio."
+              }
+            ],
+            translation: "Traducción: La ley por medio de Moisés fue dada, pero la gracia y la verdad vinieron por medio de Jesucristo."
+          },
+          {
+            reference: "Juan 1:18",
+            modified: "Θεὸν οὐδεὶς ἑώρακεν πώποτε· ὁ μονογενὴς υἱὸς ὁ ὢν ____ τὸν κόλπον τοῦ πατρὸς ἐκεῖνος ἐξηγήσατο.",
+            missingPrepositions: [
+              { 
+                position: 58, 
+                preposition: "εἰς", 
+                case: "acusativo", 
+                object: "τὸν κόλπον",
+                meaning: "en (posición cercana)",
+                hint: "Esta preposición con acusativo aquí indica posición cercana o íntima."
+              }
+            ],
+            translation: "Traducción: A Dios nadie le vio jamás; el unigénito Hijo, que está en el seno del Padre, él le ha dado a conocer."
+          }
+        ]
+      }
+    ];
+
+    // Variables del juego
+    let currentSectionIndex = 0;
+    let currentVerseIndex = 0;
+    let score = 0;
+    let totalQuestions = 0;
+    let selectedPrepositions = [];
+    let currentMissingIndex = 0;
+
+    // Calcular el total de preguntas
+    sections.forEach(section => {
+      section.verses.forEach(verse => {
+        totalQuestions += verse.missingPrepositions.length;
+      });
+    });
+
+    // Elementos del DOM
+    const verseDisplay = document.getElementById('verse-display');
+    const prepositionOptions = document.getElementById('preposition-options');
+    const feedbackElement = document.getElementById('feedback');
+    const checkButton = document.getElementById('check-btn');
+    const nextButton = document.getElementById('next-btn');
+    const hintButton = document.getElementById('hint-btn');
+    const hintText = document.getElementById('hint-text');
+    const scoreElement = document.getElementById('score');
+    const totalElement = document.getElementById('total');
+    const progressBar = document.getElementById('progress');
+    const sectionNav = document.getElementById('section-nav');
+
+    // Inicializar juego
+    function initGame() {
+      totalElement.textContent = totalQuestions;
+      createSectionNavigation();
+      loadSection(currentSectionIndex);
+    }
+
+    // Crear navegación por secciones
+    function createSectionNavigation() {
+      sectionNav.innerHTML = '';
+      sections.forEach((section, index) => {
+        const button = document.createElement('button');
+        button.className = 'section-btn';
+        button.textContent = section.title;
+        button.dataset.section = index;
+        button.addEventListener('click', () => {
+          currentSectionIndex = index;
+          currentVerseIndex = 0;
+          loadSection(currentSectionIndex);
+          updateSectionNav();
+        });
+        sectionNav.appendChild(button);
+      });
+      updateSectionNav();
+    }
+
+    // Actualizar navegación de secciones
+    function updateSectionNav() {
+      document.querySelectorAll('.section-btn').forEach((btn, index) => {
+        if (index === currentSectionIndex) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    // Cargar sección
+    function loadSection(sectionIndex) {
+      const section = sections[sectionIndex];
+      loadVerse(sectionIndex, 0);
+    }
+
+    // Cargar versículo
+    function loadVerse(sectionIndex, verseIndex) {
+      const verse = sections[sectionIndex].verses[verseIndex];
+      selectedPrepositions = [];
+      currentMissingIndex = 0;
+      
+      // Mostrar referencia
+      verseDisplay.innerHTML = `<h3>${verse.reference}</h3>`;
+      
+      // Procesar el texto modificado
+      const parts = verse.modified.split('____');
+      let displayHTML = '';
+      
+      parts.forEach((part, i) => {
+        displayHTML += part;
+        if (i < parts.length - 1) {
+          displayHTML += `<span class="missing-preposition" data-index="${i}"></span>`;
+        }
+      });
+      
+      verseDisplay.innerHTML += `<p class="greek-text">${displayHTML}</p>`;
+      verseDisplay.innerHTML += `<p class="translation">${verse.translation}</p>`;
+      
+      // Configurar pista
+      hintText.textContent = `${verse.missingPrepositions[currentMissingIndex].hint} (Caso: ${verse.missingPrepositions[currentMissingIndex].case}, Objeto: ${verse.missingPrepositions[currentMissingIndex].object})`;
+      hintText.style.display = 'none';
+      
+      // Mostrar opciones de preposición para el primer faltante
+      showPrepositionOptions(verse.missingPrepositions[0]);
+    }
+
+    // Mostrar opciones de preposición
+    function showPrepositionOptions(missingPreposition) {
+      prepositionOptions.innerHTML = '';
+      
+      // Opciones posibles basadas en el caso
+      let options = [];
+      
+      switch(missingPreposition.case) {
+        case 'genitivo':
+          options = ['διὰ', 'ἐκ', 'πρὸ', 'ἄχρι', 'παρὰ', 'ὑπὲρ', 'ὑπὸ'];
+          break;
+        case 'dativo':
+          options = ['ἐν', 'πρός', 'σὺν', 'ἐπὶ', 'παρὰ', 'ὑπὲρ', 'ὑπὸ'];
+          break;
+        case 'acusativo':
+          options = ['εἰς', 'διὰ', 'κατὰ', 'πρός', 'ἐπὶ', 'παρὰ', 'ὑπὲρ', 'ὑπὸ'];
+          break;
+      }
+      
+      // Crear botones de opciones
+      options.forEach(option => {
+        const button = document.createElement('div');
+        button.className = 'preposition-option';
+        button.textContent = option;
+        button.dataset.preposition = option;
+        button.addEventListener('click', () => selectPreposition(option, missingPreposition));
+        prepositionOptions.appendChild(button);
+      });
+      
+      // Actualizar pista con el caso y objeto actual
+      const verse = sections[currentSectionIndex].verses[currentVerseIndex];
+      hintText.textContent = `${verse.missingPrepositions[currentMissingIndex].hint} (Caso: ${verse.missingPrepositions[currentMissingIndex].case}, Objeto: ${verse.missingPrepositions[currentMissingIndex].object})`;
+    }
+
+    // Seleccionar preposición
+    function selectPreposition(preposition, missingPreposition) {
+      // Desmarcar todas las opciones
+      document.querySelectorAll('.preposition-option').forEach(opt => {
+        opt.style.backgroundColor = '#e8f4f8';
+      });
+      
+      // Marcar la seleccionada
+      event.target.style.backgroundColor = '#a5d6a7';
+      
+      // Guardar selección
+      selectedPrepositions[currentMissingIndex] = {
+        selected: preposition,
+        correct: missingPreposition.preposition,
+        meaning: missingPreposition.meaning
+      };
+    }
+
+    // Comprobar respuesta
+    function checkAnswer() {
+      if (selectedPrepositions.length <= currentMissingIndex || !selectedPrepositions[currentMissingIndex]) {
+        feedbackElement.textContent = "Por favor selecciona una preposición antes de comprobar.";
+        feedbackElement.className = "feedback incorrect";
+        feedbackElement.style.display = 'block';
+        return;
+      }
+      
+      const currentSelection = selectedPrepositions[currentMissingIndex];
+      const isCorrect = currentSelection.selected === currentSelection.correct;
+      
+      // Mostrar retroalimentación
+      if (isCorrect) {
+        feedbackElement.innerHTML = `¡Correcto! La preposición "<span class="greek-word">${currentSelection.correct}</span>" es la forma adecuada aquí. <br>Significado en este contexto: <span class="meaning">${currentSelection.meaning}</span>`;
+        feedbackElement.className = "feedback correct";
+        score++;
+        scoreElement.textContent = score;
+        progressBar.style.width = `${(score / totalQuestions) * 100}%`;
+        
+        // Reemplazar el espacio vacío con la preposición insertada
+        const missingSpots = document.querySelectorAll('.missing-preposition');
+        missingSpots[currentMissingIndex].innerHTML = `<span class="inserted-preposition">${currentSelection.selected}</span>`;
+        missingSpots[currentMissingIndex].style.borderBottom = 'none';
+        
+        // Pasar a la siguiente preposición faltante
+        const verse = sections[currentSectionIndex].verses[currentVerseIndex];
+        currentMissingIndex++;
+        
+        if (currentMissingIndex < verse.missingPrepositions.length) {
+          showPrepositionOptions(verse.missingPrepositions[currentMissingIndex]);
+        } else {
+          // Todas las preposiciones de este versículo completadas
+          checkButton.style.display = 'none';
+          nextButton.style.display = 'inline-block';
+          feedbackElement.innerHTML += " ¡Has completado todas las preposiciones de este versículo!";
+        }
+      } else {
+        feedbackElement.innerHTML = `Incorrecto. La preposición correcta era "<span class="greek-word">${currentSelection.correct}</span>". <br>Significado en este contexto: <span class="meaning">${currentSelection.meaning}</span>`;
+        feedbackElement.className = "feedback incorrect";
+      }
+      
+      feedbackElement.style.display = 'block';
+    }
+
+    // Siguiente versículo o sección
+    function nextVerse() {
+      const currentSection = sections[currentSectionIndex];
+      currentVerseIndex++;
+      
+      if (currentVerseIndex < currentSection.verses.length) {
+        loadVerse(currentSectionIndex, currentVerseIndex);
+        checkButton.style.display = 'inline-block';
+        nextButton.style.display = 'none';
+        feedbackElement.style.display = 'none';
+      } else {
+        // Fin de la sección actual
+        currentSectionIndex++;
+        if (currentSectionIndex < sections.length) {
+          currentVerseIndex = 0;
+          loadSection(currentSectionIndex);
+          updateSectionNav();
+        } else {
+          // Fin del juego
+          verseDisplay.innerHTML = '<h2>¡Repaso completado!</h2>' +
+            `<p>Has identificado correctamente ${score} de ${totalQuestions} preposiciones.</p>` +
+            '<p>¡Excelente trabajo con las preposiciones griegas!</p>';
+          prepositionOptions.innerHTML = '';
+          checkButton.style.display = 'none';
+          nextButton.style.display = 'none';
+          hintButton.style.display = 'none';
+          sectionNav.style.display = 'none';
+        }
+      }
+    }
+
+    // Event listeners
+    checkButton.addEventListener('click', checkAnswer);
+    nextButton.addEventListener('click', nextVerse);
+    hintButton.addEventListener('click', () => {
+      hintText.style.display = hintText.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Iniciar el juego
+    initGame();
+  </script>
+</body>
+</html>

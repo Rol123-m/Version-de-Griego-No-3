@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio: Prólogo de Juan 1:1-5</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --background: #1a1f2b;
+            --text: #ecf0f1;
+            --card-bg: #2c3e50;
+            --correct: #27ae60;
+            --incorrect: #c0392b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .exercise-container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: enter 0.5s ease forwards;
+            margin: 1rem 0;
+        }
+
+        @keyframes enter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .exercise-container.active {
+            display: block;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .greek-phrase {
+            font-size: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            font-family: 'New Athena Unicode', 'Gentium Plus', serif;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .option {
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 1.1rem;
+        }
+
+        .option:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+
+        .option.selected {
+            border-color: var(--secondary);
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .option.correct {
+            background: rgba(39, 174, 96, 0.2);
+            border-color: var(--correct);
+        }
+
+        .option.incorrect {
+            background: rgba(192, 57, 43, 0.2);
+            border-color: var(--incorrect);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .progress {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--secondary);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background: #7f8c8d;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .final-screen {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .final-screen h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .score {
+            font-size: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .complete-passage {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .exercise-container {
+                padding: 1.5rem;
+            }
+            
+            .greek-phrase {
+                font-size: 1.5rem;
+                padding: 1rem;
+            }
+            
+            .option {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            
+            .complete-passage {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenedores de ejercicios se generarán dinámicamente -->
+
+    <!-- Pantalla Final -->
+    <div class="exercise-container final-screen" id="final-screen">
+        <h2>¡Ejercicio Completo! 🎉</h2>
+        <p>Has completado el prólogo de Juan 1:1-5</p>
+        <div class="score" id="final-score"></div>
+        
+        <div class="complete-passage">
+            <h3>Juan 1:1-5 Completo:</h3>
+            <p>En el principio existía la Palabra, y la Palabra estaba con Dios, y la Palabra era Dios. 
+            Él estaba en el principio con Dios. Todas las cosas fueron hechas por medio de Él, 
+            y sin Él nada de lo que ha sido hecho fue hecho. En Él estaba la vida, y la vida era la luz de los hombres. 
+            La luz resplandece en las tinieblas, y las tinieblas no la comprendieron.</p>
+        </div>
+        
+        <button onclick="location.reload()">Reiniciar Ejercicio</button>
+    </div>
+
+    <script>
+        // Datos del ejercicio - Juan 1:1-5 dividido en frases
+        const phrases = [
+            {
+                greek: "Ἐν ἀρχῇ ἦν ὁ λόγος",
+                options: [
+                    "En el principio existía la Palabra",
+                    "Al comienzo había un mensaje",
+                    "Desde el origen existía la razón",
+                    "En la creación estaba el verbo"
+                ],
+                correct: 0
+            },
+            {
+                greek: "καὶ ὁ λόγος ἦν πρὸς τὸν θεόν",
+                options: [
+                    "En el principio existía la Palabra",
+                    "y la Palabra estaba con Dios",
+                    "y el verbo era para lo divino",
+                    "y la Palabra era Dios",
+                ],
+                correct: 1
+            },
+            {
+                greek: "καὶ θεὸς ἦν ὁ λόγος",
+                options: [
+                    "y un dios era el mensaje",
+                    "y la Palabra estaba con Dios",
+                    "y la Palabra era Dios",
+                    "y Dios tenía la razón"
+                ],
+                correct: 2
+            },
+            {
+                greek: "οὗτος ἦν ἐν ἀρχῇ πρὸς τὸν θεόν",
+                options: [
+                "y la Palabra era Dios",
+                    "Él estaba en el principio con Dios",
+                   "y sin Él nada de lo que ha sido hecho fue hecho",
+                    "Todas las cosas fueron hechas por medio de Él",
+                ],
+                correct: 1
+            },
+            {
+                greek: "πάντα δι’ αὐτοῦ ἐγένετο",
+                options: [
+                    "Todo pasó a través de él",
+                    "Todas las cosas fueron hechas por medio de Él",
+                    "Muchas cosas vinieron de él",
+                    "El universo se originó en él"
+                ],
+                correct: 1
+            },
+            {
+                greek: "καὶ χωρὶς αὐτοῦ ἐγένετο οὐδὲ ἕν",
+                options: [
+                    "y separado de él nada existió",
+                    "y sin Él nada de lo que ha sido hecho fue hecho",
+                    "y fuera de él no hubo creación",
+                    "Todas las cosas fueron hechas por medio de Él"
+                ],
+                correct: 1
+            },
+            {
+                greek: "ὃ γέγονεν ἐν αὐτῷ ζωὴ ἦν",
+                options: [
+                    "Lo que fue hecho en él tenía vida",
+                    "En Él estaba la vida",
+                    "Su creación contenía vida",
+                    "y sin Él nada de lo que ha sido hecho fue hecho"
+                ],
+                correct: 1
+            },
+            {
+                greek: "καὶ ἡ ζωὴ ἦν τὸ φῶς τῶν ἀνθρώπων",
+                options: [
+                    "y la vida era la luz de los hombres",
+                    "y esa vida iluminaba a la humanidad",
+                    "y la existencia humana provenía de su luz",
+                    "y la vida daba luz a las personas"
+                ],
+                correct: 0
+            },
+            {
+                greek: "καὶ τὸ φῶς ἐν τῇ σκοτίᾳ φαίνει",
+                options: [
+                    "y la luz brilla en la oscuridad",
+                    "La luz resplandece en las tinieblas",
+                    "y la claridad aparece en la noche",
+                    "y la iluminación vence a la sombra"
+                ],
+                correct: 1
+            },
+            {
+                greek: "καὶ ἡ σκοτία αὐτὸ οὐ κατέλαβεν",
+                options: [
+                    "pero la oscuridad no la entendió",
+                    "y las tinieblas no la comprendieron",
+                    "aunque la sombra no la recibió",
+                    "pero la noche no la aceptó"
+                ],
+                correct: 1
+            }
+        ];
+
+        // Mezclar las frases aleatoriamente
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        const shuffledPhrases = shuffleArray([...phrases]);
+        let currentExercise = 0;
+        let score = 0;
+
+        // Crear los contenedores de ejercicios dinámicamente
+        function createExerciseContainers() {
+            const body = document.body;
+            const finalScreen = document.getElementById('final-screen');
+            
+            shuffledPhrases.forEach((phrase, index) => {
+                const exercise = document.createElement('div');
+                exercise.className = 'exercise-container';
+                exercise.dataset.exercise = index + 1;
+                
+                exercise.innerHTML = `
+                    <div class="header">
+                        <h1>Traducción de Juan 1:1-5</h1>
+                        <div class="progress">Frase ${index + 1} de ${shuffledPhrases.length}</div>
+                    </div>
+                    
+                    <div class="greek-phrase">${phrase.greek}</div>
+                    
+                    <div class="options-grid">
+                        ${phrase.options.map((option, i) => 
+                            `<div class="option" data-correct="${i === phrase.correct}">${option}</div>`
+                        ).join('')}
+                    </div>
+                    
+                    <div class="navigation">
+                        ${index > 0 ? '<button class="prev-btn">Anterior</button>' : '<div></div>'}
+                        <button class="next-btn" disabled>${index < shuffledPhrases.length - 1 ? 'Continuar' : 'Finalizar'}</button>
+                    </div>
+                `;
+                
+                body.insertBefore(exercise, finalScreen);
+            });
+            
+            // Activar el primer ejercicio
+            document.querySelector('[data-exercise="1"]').classList.add('active');
+        }
+
+        function updateProgress() {
+            document.querySelectorAll('.progress').forEach(progress => {
+                progress.textContent = `Frase ${currentExercise + 1} de ${shuffledPhrases.length}`;
+            });
+        }
+
+        function checkAnswer(option) {
+            const exercise = option.closest('.exercise-container');
+            const options = exercise.querySelectorAll('.option');
+            const correct = option.dataset.correct === "true";
+            
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                if(opt.dataset.correct === "true") {
+                    opt.classList.add('correct');
+                }
+            });
+
+            option.classList.add(correct ? 'correct' : 'incorrect');
+            if(correct) score++;
+
+            exercise.querySelector('.next-btn').disabled = false;
+        }
+
+        function nextExercise() {
+            document.querySelector(`[data-exercise="${currentExercise + 1}"]`).classList.remove('active');
+            currentExercise++;
+            
+            if(currentExercise >= shuffledPhrases.length) {
+                document.getElementById('final-screen').classList.add('active');
+                document.getElementById('final-score').textContent = `Puntuación: ${score} de ${shuffledPhrases.length}`;
+            } else {
+                const nextExercise = document.querySelector(`[data-exercise="${currentExercise + 1}"]`);
+                nextExercise.classList.add('active');
+                nextExercise.style.animation = 'none';
+                setTimeout(() => {
+                    nextExercise.style.animation = '';
+                }, 10);
+                updateProgress();
+            }
+        }
+
+        function prevExercise() {
+            document.querySelector(`[data-exercise="${currentExercise + 1}"]`).classList.remove('active');
+            currentExercise--;
+            const prevExercise = document.querySelector(`[data-exercise="${currentExercise + 1}"]`);
+            prevExercise.classList.add('active');
+            prevExercise.style.animation = 'none';
+            setTimeout(() => {
+                prevExercise.style.animation = '';
+            }, 10);
+            updateProgress();
+        }
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', () => {
+            createExerciseContainers();
+            
+            // Event Listeners
+            document.addEventListener('click', function(e) {
+                // Manejar clic en opciones
+                if(e.target.classList.contains('option')) {
+                    const option = e.target;
+                    if(option.classList.contains('selected')) return;
+                    
+                    const optionsGrid = option.closest('.options-grid');
+                    if(optionsGrid) {
+                        optionsGrid.querySelectorAll('.option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                    }
+                    
+                    option.classList.add('selected');
+                    checkAnswer(option);
+                }
+                
+                // Manejar botones de navegación
+                if(e.target.classList.contains('next-btn')) {
+                    nextExercise();
+                }
+                
+                if(e.target.classList.contains('prev-btn')) {
+                    prevExercise();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

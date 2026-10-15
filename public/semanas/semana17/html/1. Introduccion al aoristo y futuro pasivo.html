@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introducción al Aoristo y Futuro Pasivo</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Introducción al Aoristo y Futuro Pasivo</h1>
+      <div class="subtitle">El Aoristo y Futuro Pasivo Indicativo</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-eye"></i> Visión General</h2>
+      <p>Ya has aprendido el aoristo y futuro en voz activa y media. Ahora estudiaremos el aoristo y futuro pasivo. Ambos tiempos se forman a partir de la misma raíz (la sexta forma principal), por lo que es natural estudiarlos juntos. La gramática de este capítulo es sencilla y estás a punto de completar la Tabla Maestra de Verbos.</p>
+
+      <div class="important-note">
+        <p>En este capítulo aprenderás que:</p>
+        <ul>
+          <li>El aoristo pasivo y el futuro pasivo se forman a partir de la <strong>misma raíz temporal</strong>, la cual se encuentra en <strong>sexto lugar</strong> en la entrada léxica del verbo.</li>
+          <li>El <strong>aoristo pasivo</strong> se forma con un <strong>aumento</strong>, la <strong>raíz del aoristo pasivo</strong>, la <strong>terminación temporal (θη o η)</strong> y <strong>desinencias activas secundarias</strong>.</li>
+          <li>El <strong>futuro pasivo</strong> se forma con la <strong>raíz del aoristo pasivo (sin aumento)</strong>, la <strong>terminación temporal (θησ o ησ)</strong>, la <strong>vocal de conexión</strong> y <strong>desinencias primarias de medio/pasivo</strong>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Introducción</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿De qué forma principal se derivan el aoristo pasivo y el futuro pasivo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Primera</label>
+          <label><input type="radio" name="q1" value="b"> Tercera</label>
+          <label><input type="radio" name="q1" value="c"> Sexta</label>
+          <label><input type="radio" name="q1" value="d"> Cuarta</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿Qué elemento NO lleva el futuro pasivo en su formación?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Aumento</label>
+          <label><input type="radio" name="q2" value="b"> Terminación temporal</label>
+          <label><input type="radio" name="q2" value="c"> Vocal de conexión</label>
+          <label><input type="radio" name="q2" value="d"> Desinencias</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 3:</strong> ¿Qué tipo de desinencias utiliza el aoristo pasivo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> Primarias de medio/pasivo</label>
+          <label><input type="radio" name="q3" value="b"> Secundarias activas</label>
+          <label><input type="radio" name="q3" value="c"> Primarias activas</label>
+          <label><input type="radio" name="q3" value="d"> Secundarias de medio/pasivo</label>
+        </div>
+        <div class="result" id="result3"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'c', q2: 'a', q3: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

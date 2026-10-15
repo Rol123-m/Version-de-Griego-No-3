@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curiosidad Exegética: Hechos 18:9-10 | Vivos para Servir</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #8e44ad;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+            --accent: #3498db;
+            --highlight: #f39c12;
+            --warning: #e74c3c;
+            --success: #27ae60;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .logo {
+            max-width: 200px;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+        
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 0.5rem;
+        }
+        
+        .subtitle {
+            color: var(--primary);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+        
+        .exegesis-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .greek-passage {
+            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+            font-size: 1.6rem;
+            color: var(--primary);
+            line-height: 1.8;
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .translation {
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #555;
+        }
+        
+        .grammatical-analysis {
+            background-color: #f0f8ff;
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .verb-card {
+            background-color: white;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-top: 3px solid var(--highlight);
+        }
+        
+        .verb-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .verb-greek {
+            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+            font-size: 1.8rem;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        .verb-tense {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        
+        .verb-meaning {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background-color: #f9f9f9;
+            border-left: 3px solid var(--success);
+        }
+        
+        .implication {
+            background-color: #fffaf0;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--highlight);
+        }
+        
+        .parallels {
+            background-color: #f5f5f5;
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+        }
+        
+        .parallel-item {
+            margin: 1rem 0;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+        
+        .conclusion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .conclusion-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 5px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .conclusion-card::after {
+            content: "✅";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            opacity: 0.2;
+            font-size: 3rem;
+        }
+        
+        .highlight {
+            background-color: var(--highlight);
+            color: white;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+        
+        .interactive-verb {
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .interactive-verb:hover {
+            background-color: rgba(142, 68, 173, 0.2);
+        }
+        
+        .interactive-verb.active {
+            background-color: var(--secondary);
+            color: white;
+            padding: 0 0.2rem;
+        }
+        
+        .verb-tooltip {
+            position: fixed;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            max-width: 300px;
+            display: none;
+        }
+        
+        .verb-tooltip h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        
+        .tooltip-grammar {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .greek-passage {
+                font-size: 1.3rem;
+            }
+            
+            .conclusion-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Vivos para Servir" class="logo">
+            <h1>Curiosidad Exegética</h1>
+            <p class="subtitle">El Imperativo que Revela el Temor de Pablo en Hechos 18:9-10</p>
+        </header>
+        
+        <div class="exegesis-container">
+            <h2>1. La Profundidad de los Imperativos: Revelando el Contexto Oculto</h2>
+            
+            <div class="greek-passage">
+                <span class="interactive-verb" data-verb="φοβοῦ" data-tense="Presente Activo Imperativo" data-meaning="Deja de tener miedo (acción en progreso)">Μὴ φοβοῦ</span>, 
+                <span class="interactive-verb" data-verb="λάλει" data-tense="Presente Activo Imperativo" data-meaning="Sigue hablando (acción continua)">ἀλλὰ λάλει</span> 
+                <span class="interactive-verb" data-verb="σιωπήσῃς" data-tense="Aoristo Activo Subjuntivo" data-meaning="No empieces a callar (acción puntual)">καὶ μὴ σιωπήσῃς</span>
+            </div>
+            
+            <div class="translation">
+                «Y el Señor le dijo a Pablo en una visión de noche: "No temas, sino habla y no calles, porque yo estoy contigo, y nadie te atacará para hacerte daño, pues tengo mucha gente en esta ciudad"».
+            </div>
+            
+            <p>En este pasaje encontramos una riqueza gramatical asombrosa. En el verso nueve, tenemos una serie de dos imperativos (no temas, habla) y un subjuntivo (no calles). En español, estos verbos no transmiten demasiado, pero en griego el énfasis es mucho más específico.</p>
+            
+            <div class="grammatical-analysis">
+                <h3>Análisis Gramatical Detallado</h3>
+                
+                <div class="verb-card">
+                    <div class="verb-header">
+                        <span class="verb-greek">φοβοῦ</span>
+                        <span class="verb-tense">Presente Activo Imperativo</span>
+                    </div>
+                    <div class="verb-meaning">
+                        <strong>Significado:</strong> "Deja de tener miedo" (indica detener una acción en progreso)
+                    </div>
+                    <p>El texto sugiere que <span class="highlight">Pablo en realidad tenía miedo</span> en ese momento. La traducción precisa sería: "Pablo, deja de tener miedo".</p>
+                </div>
+                
+                <div class="verb-card">
+                    <div class="verb-header">
+                        <span class="verb-greek">λάλει</span>
+                        <span class="verb-tense">Presente Activo Imperativo</span>
+                    </div>
+                    <div class="verb-meaning">
+                        <strong>Significado:</strong> "Sigue hablando" (acción continua)
+                    </div>
+                    <p>No significa "empieza a hablar", sino <span class="highlight">"continúa hablando"</span>. El texto sugiere que a pesar del temor por sus adversarios, ¡Pablo no había dejado de predicar!</p>
+                </div>
+                
+                <div class="verb-card">
+                    <div class="verb-header">
+                        <span class="verb-greek">σιωπήσῃς</span>
+                        <span class="verb-tense">Aoristo Activo Subjuntivo</span>
+                    </div>
+                    <div class="verb-meaning">
+                        <strong>Significado:</strong> "No empieces a callar" (acción puntual)
+                    </div>
+                    <p>Este aoristo puede ser entendido como <span class="highlight">ingresivo</span>: "No inicies la acción de callarte". Pablo no se había callado a pesar del temor, pero su miedo podía llevarlo a ser silenciado en algún momento.</p>
+                </div>
+            </div>
+            
+            <div class="implication">
+                <h3>Implicación Exegética</h3>
+                <ul>
+                    <li>Pablo no había dejado de predicar, pero estaba tentado a hacerlo debido a la oposición en Corinto (cf. Hch 18:6, donde los judíos lo rechazan y lo acusan de blasfemo).</li>
+                    <li>El Señor no le dice "empieza a predicar", sino <span class="highlight">"no dejes de hacerlo, aunque tengas miedo"</span>.</li>
+                    <li>Pablo ya estaba predicando, pero con dudas o temor (quizá por la falta de fruto inmediato).</li>
+                    <li>El Señor no lo reprende por callar, sino que lo anima a persistir, asegurándole protección y éxito futuro ("tengo mucha gente en esta ciudad").</li>
+                </ul>
+            </div>
+            
+            <blockquote style="margin: 1.5rem 0; padding: 1rem; background-color: #f0f0f0; border-left: 4px solid var(--secondary); font-style: italic;">
+                "La prohibición 'no temas' en tiempo presente puede dar la idea de que Pablo tiene miedo y el Señor quiere que 'pare de tener miedo'. El mandamiento 'sigue hablando' puede dar la idea de que Pablo está hablando y debe continuar. La prohibición 'no calles' en tiempo aoristo da la idea de que Pablo no debe empezar a callarse." <br><br>
+                <strong>- Daniel B. Wallace</strong>
+            </blockquote>
+            
+            <h2>2. Implicaciones Teológicas y Pastorales</h2>
+            
+            <div class="conclusion-grid">
+                <div class="conclusion-card">
+                    <h3>La perseverancia en la misión</h3>
+                    <p>No depende del éxito visible, sino de la promesa divina. Pablo no veía aún a la "mucha gente", pero Dios ya los tenía preparados.</p>
+                </div>
+                
+                <div class="conclusion-card">
+                    <h3>El temor en el ministerio</h3>
+                    <p>No siempre significa desobediencia, sino lucha espiritual. El Señor no condena a Pablo por sentir miedo, sino que lo fortalece en su debilidad (cf. 2 Co 12:9).</p>
+                </div>
+                
+                <div class="conclusion-card">
+                    <h3>Valor del griego</h3>
+                    <p>Los imperativos griegos revelan matices que el español no capta. Si el texto dijera "empieza a hablar" (aoristo), implicaría que Pablo había dejado de predicar.</p>
+                </div>
+            </div>
+            
+            <h2>3. Comparación con Otras Apariciones Divinas</h2>
+            
+            <div class="parallels">
+                <p>Este pasaje tiene paralelos con otras intervenciones divinas donde Dios anima a sus siervos en medio del temor:</p>
+                
+                <div class="parallel-item">
+                    <strong>Jeremías 1:8</strong>
+                    <p>"No temas delante de ellos, porque yo estoy contigo".</p>
+                </div>
+                
+                <div class="parallel-item">
+                    <strong>Josué 1:9</strong>
+                    <p>"No temas, porque yo soy contigo" (μετὰ σοῦ Κύριος ὁ θεός).</p>
+                </div>
+                
+                <div class="parallel-item">
+                    <strong>Isaías 41:10</strong>
+                    <p>"No temas, porque yo estoy contigo".</p>
+                </div>
+            </div>
+            
+            <h2>4. Conclusión: El Griego que Revela el Corazón de un Misionero</h2>
+            
+            <p>Este detalle gramatical (el imperativo presente en lugar del aoristo) nos permite ver:</p>
+            
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                <li><strong>La humanidad de Pablo:</strong> Un misionero que, a pesar de su valentía, luchaba con el temor.</li>
+                <li><strong>La gracia de Dios:</strong> No exige perfección, sino fidelidad en la debilidad.</li>
+                <li><strong>La importancia del griego:</strong> Sin él, perderíamos este matiz pastoral y teológico.</li>
+            </ul>
+            
+            <p style="margin-top: 1.5rem; font-style: italic; color: var(--secondary);">¿Qué otras riquezas ocultas descubriremos al estudiar el texto original? ¡El griego no solo informa, sino que transforma nuestra lectura de las Escrituras!</p>
+        </div>
+        
+        <footer>
+            <p>Ministerio "Vivos para Servir" &copy; <span id="year"></span> - Explorando las profundidades del Griego Koiné</p>
+        </footer>
+    </div>
+
+    <div class="verb-tooltip" id="verbTooltip">
+        <h4 id="tooltipVerb"></h4>
+        <div class="tooltip-grammar" id="tooltipTense"></div>
+        <div id="tooltipMeaning"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            // Interactive verbs functionality
+            const interactiveVerbs = document.querySelectorAll('.interactive-verb');
+            const verbTooltip = document.getElementById('verbTooltip');
+            const tooltipVerb = document.getElementById('tooltipVerb');
+            const tooltipTense = document.getElementById('tooltipTense');
+            const tooltipMeaning = document.getElementById('tooltipMeaning');
+            
+            let activeVerb = null;
+            
+            interactiveVerbs.forEach(verb => {
+                verb.addEventListener('click', function(e) {
+                    // Remove active class from previous verb
+                    if (activeVerb) {
+                        activeVerb.classList.remove('active');
+                    }
+                    
+                    // Set new active verb
+                    activeVerb = this;
+                    activeVerb.classList.add('active');
+                    
+                    // Get verb data
+                    const verbText = this.getAttribute('data-verb');
+                    const tense = this.getAttribute('data-tense');
+                    const meaning = this.getAttribute('data-meaning');
+                    
+                    // Update tooltip content
+                    tooltipVerb.textContent = verbText;
+                    tooltipTense.textContent = tense;
+                    tooltipMeaning.innerHTML = `<strong>Significado:</strong> ${meaning}`;
+                    
+                    // Position and show tooltip
+                    positionTooltip(e);
+                    verbTooltip.style.display = 'block';
+                });
+            });
+            
+            // Position tooltip near clicked verb
+            function positionTooltip(e) {
+                const x = e.clientX;
+                const y = e.clientY;
+                const tooltipWidth = verbTooltip.offsetWidth;
+                const tooltipHeight = verbTooltip.offsetHeight;
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                
+                // Adjust position if near edge of window
+                let left = x + 15;
+                let top = y + 15;
+                
+                if (x + tooltipWidth + 30 > windowWidth) {
+                    left = x - tooltipWidth - 5;
+                }
+                
+                if (y + tooltipHeight + 30 > windowHeight) {
+                    top = y - tooltipHeight - 5;
+                }
+                
+                verbTooltip.style.left = left + 'px';
+                verbTooltip.style.top = top + 'px';
+            }
+            
+            // Hide tooltip when clicking elsewhere
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.interactive-verb')) {
+                    verbTooltip.style.display = 'none';
+                    if (activeVerb) {
+                        activeVerb.classList.remove('active');
+                        activeVerb = null;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

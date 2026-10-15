@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introducción al Participio Aoristo Adverbial</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Introducción al Participio Aoristo Adverbial</h1>
+      <div class="subtitle">ἡ ἀόριστος ἐπιρρηματικὴ μετοχή</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-eye"></i> ¿Qué es el Participio Aoristo Adverbial?</h2>
+      <p>En griego koiné, los <strong>participios</strong> son formas verbales que funcionan como adjetivos o adverbios.</p>
+      <p>Cuando actúan como <strong>adverbios</strong>, describen <strong>cómo, cuándo, por qué o bajo qué condición</strong> ocurre la acción del verbo principal.</p>
+
+      <p>El <strong>participio aoristo adverbial</strong> indica una <strong>acción completa o global</strong>, normalmente <strong>anterior</strong> a la acción del verbo principal.</p>
+      <p>Sin embargo, <strong>no expresa tiempo absoluto</strong>, porque el participio <strong>no pertenece al modo indicativo</strong>.</p>
+
+      <p>Por eso, el participio aoristo no significa necesariamente "pasado", sino <strong>acción vista como un todo</strong>.</p>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-book-bible"></i> Ejemplo Bíblico Básico</h2>
+      <div class="biblical-box" style="background: linear-gradient(135deg, rgba(233, 30, 99, 0.05) 0%, rgba(233, 30, 99, 0.02) 100%); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #e91e63; margin: 1.5rem 0;">
+        <p class="greek-text"><strong>ἀκούσας</strong> δὲ ὁ βασιλεὺς Ἡρῴδης ἐταράχθη (Mateo 2:3)</p>
+      </div>
+      <p>"Y <strong>cuando oyó</strong> (habiendo oído) el rey Herodes, se turbó."</p>
+      <p>Aquí el participio <strong>ἀκούσας</strong> ("habiendo oído") expresa una <strong>acción completada antes</strong> de que Herodes se turbara.</p>
+      <p>Por eso podemos traducirlo como "<strong>después de oír</strong>" o "<strong>cuando oyó</strong>".</p>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-lightbulb"></i> Analogía Útil</h2>
+      <div class="important-note">
+        <p>Imagina que el verbo principal es una <strong>película</strong> (acción continua)</p>
+        <p>y el participio aoristo es una <strong>fotografía</strong> (acción completa vista en su totalidad).</p>
+        <p>No se enfoca en "cuándo" ocurrió, sino en que <strong>ya ocurrió en su conjunto</strong>.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Mini-quiz: Introducción</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué aspecto expresa el participio aoristo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Acción continua</label>
+          <label><input type="radio" name="q1" value="b"> Acción completa o global</label>
+          <label><input type="radio" name="q1" value="c"> Estado resultante</label>
+          <label><input type="radio" name="q1" value="d"> Acción futura</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿Qué significa la analogía "película vs. fotografía"?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> El aoristo es más largo que el presente</label>
+          <label><input type="radio" name="q2" value="b"> El aoristo muestra la acción como un todo completo</label>
+          <label><input type="radio" name="q2" value="c"> El aoristo siempre ocurre en el pasado</label>
+          <label><input type="radio" name="q2" value="d"> El aoristo es más importante que el presente</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b', q2: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

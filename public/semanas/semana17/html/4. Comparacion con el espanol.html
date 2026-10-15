@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comparación con el Español</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Comparación con el Español</h1>
+      <div class="subtitle">El Aoristo y Futuro Pasivo Indicativo</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-language"></i> Comparación con el Español</h2>
+
+      <div class="example-box">
+        <h3>Pasado Pasivo:</h3>
+        <p>Se forma con el verbo auxiliar "ser" ("fui", "fuiste", "fue") + el participio pasado del verbo.</p>
+        <ul>
+          <li><em>Ejemplo:</em> "Yo <strong>fui salvado</strong> por Jesús".</li>
+        </ul>
+      </div>
+
+      <div class="example-box">
+        <h3>Futuro Pasivo:</h3>
+        <p>Se forma con el verbo auxiliar "ser" en futuro ("seré", "serás", "será") + el participio pasado del verbo.</p>
+        <ul>
+          <li><em>Ejemplo:</em> "Tú <strong>serás salvado</strong> por la fe".</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Comparación con el Español</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Cómo se forma el pasado pasivo en español?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Verbo "ser" + participio pasado</label>
+          <label><input type="radio" name="q1" value="b"> Verbo "haber" + participio pasado</label>
+          <label><input type="radio" name="q1" value="c"> Verbo "estar" + participio pasado</label>
+          <label><input type="radio" name="q1" value="d"> Solo con el participio pasado</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿Qué auxiliar se usa para el futuro pasivo en español?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Haber</label>
+          <label><input type="radio" name="q2" value="b"> Ser</label>
+          <label><input type="radio" name="q2" value="c"> Estar</label>
+          <label><input type="radio" name="q2" value="d"> Tener</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 3:</strong> "Ellos serán bendecidos" es un ejemplo de:</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> Pasado pasivo</label>
+          <label><input type="radio" name="q3" value="b"> Futuro pasivo</label>
+          <label><input type="radio" name="q3" value="c"> Presente pasivo</label>
+          <label><input type="radio" name="q3" value="d"> Pluscuamperfecto pasivo</label>
+        </div>
+        <div class="result" id="result3"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'a', q2: 'b', q3: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

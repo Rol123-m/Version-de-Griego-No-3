@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { assetUrl } from '../utils/assetUrl';
 import { useAuth } from '../context/AuthContext';
 import { GroupKey } from '../types';
 import { COURSE_CONFIG, GRUPOS_CONFIG, ESTUDIANTES_POR_GRUPO, PROFESORES } from '../data/courseData';
@@ -74,7 +75,7 @@ export const Login: React.FC = () => {
         <div className="flex justify-center mb-4">
           <div className="relative group">
             <img
-              src="/mas logos.jpeg"
+              src={assetUrl('/logo.jpeg')}
               alt="Ministerio Vivos para Servir"
               className="w-24 h-24 rounded-full object-cover border-4 border-amber-400 shadow-2xl transition-transform transform group-hover:scale-105"
             />

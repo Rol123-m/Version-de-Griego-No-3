@@ -1,4 +1,5 @@
 import React from 'react';
+import { assetUrl } from '../utils/assetUrl';
 import { COURSE_CONFIG } from '../data/courseData';
 import { Mail, Phone, Heart } from 'lucide-react';
 
@@ -11,7 +12,7 @@ export const Footer: React.FC = () => {
           {/* Logo & Ministry */}
           <div className="flex items-center space-x-3.5">
             <img 
-              src="/mas logos.jpeg" 
+              src={assetUrl('/logo.jpeg')} 
               alt="Ministerio Vivos para Servir" 
               className="w-10 h-10 rounded-full object-cover border border-amber-400/60 shadow-sm"
               onError={(e) => {

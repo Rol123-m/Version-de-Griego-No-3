@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Completa el Participio - Griego Koiné</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Segoe UI', 'Poppins', Arial, sans-serif; background: linear-gradient(145deg, #0f1a2e, #1a2a4a, #0d1f3c); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px 15px 100px; color: white; position: relative; overflow-x: hidden; }
+        .logo { width: 160px; max-width: 60%; margin: 10px auto 5px; filter: drop-shadow(0 4px 20px rgba(255, 215, 0, 0.2)); position: relative; z-index: 1; border-radius: 12px; }
+        h1 { text-align: center; font-size: clamp(1.3rem, 4.5vw, 2.2rem); margin-bottom: 8px; color: #FFD700; font-weight: 700; position: relative; z-index: 1; }
+        h1 span { background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .subtitle { text-align: center; font-size: clamp(0.8rem, 2vw, 1rem); color: rgba(255, 255, 255, 0.5); margin-bottom: 15px; letter-spacing: 2px; position: relative; z-index: 1; }
+        #progress { font-size: clamp(0.85rem, 2.2vw, 1.1rem); margin: 5px 0 15px; padding: 10px 25px; background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border-radius: 50px; border: 1px solid rgba(255, 215, 0, 0.15); position: relative; z-index: 1; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        #progress .stat span { color: #FFD700; font-weight: 700; }
+        .game-container { width: 100%; max-width: 850px; position: relative; z-index: 1; }
+        .question-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border-radius: 24px; padding: clamp(20px, 4vw, 40px); border: 1px solid rgba(255, 215, 0, 0.1); margin-bottom: 20px; text-align: center; }
+        .question-label { font-size: clamp(0.7rem, 1.5vw, 0.85rem); color: rgba(255, 215, 0, 0.5); text-transform: uppercase; letter-spacing: 3px; font-weight: 600; margin-bottom: 5px; }
+        .question-text { font-size: clamp(1.8rem, 5vw, 3rem); font-family: 'Times New Roman', 'New Athena Unicode', serif; color: #fff; font-weight: 700; margin: 10px 0; min-height: 60px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 5px; }
+        .question-text .blank { display: inline-block; min-width: clamp(80px, 20vw, 160px); border-bottom: 4px solid #FFD700; padding: 0 10px; color: #FFD700; font-weight: 700; min-height: 50px; text-align: center; background: rgba(255, 215, 0, 0.05); border-radius: 4px 4px 0 0; }
+        .question-text .blank.correct-answer { border-bottom-color: #2ecc71; color: #2ecc71; background: rgba(46, 204, 113, 0.1); }
+        .question-text .blank.wrong-answer { border-bottom-color: #e74c3c; color: #e74c3c; background: rgba(231, 76, 60, 0.1); animation: shake 0.5s ease; }
+        .question-hint { font-size: clamp(0.8rem, 1.8vw, 1rem); color: rgba(255, 255, 255, 0.4); margin-top: 8px; font-style: italic; }
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(clamp(100px, 20vw, 180px), 1fr)); gap: clamp(10px, 2vw, 16px); margin-top: 15px; }
+        .option-btn { padding: clamp(14px, 2.5vw, 20px) clamp(10px, 1.5vw, 20px); border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 14px; background: rgba(255, 255, 255, 0.05); color: white; font-size: clamp(1rem, 2.2vw, 1.2rem); font-family: 'Times New Roman', 'New Athena Unicode', serif; cursor: pointer; transition: all 0.25s; text-align: center; font-weight: 600; min-height: 55px; display: flex; align-items: center; justify-content: center; word-break: break-word; }
+        .option-btn:hover:not(.used):not(.disabled) { transform: translateY(-3px) scale(1.03); border-color: #FFD700; background: rgba(255, 215, 0, 0.1); }
+        .option-btn.correct { border-color: #2ecc71; background: rgba(46, 204, 113, 0.2); color: #2ecc71; transform: scale(1.05); }
+        .option-btn.wrong { border-color: #e74c3c; background: rgba(231, 76, 60, 0.2); color: #e74c3c; animation: shake 0.5s ease; }
+        .option-btn.used { opacity: 0.3; cursor: not-allowed; transform: scale(0.95); filter: grayscale(0.5); }
+        .option-btn.disabled { cursor: not-allowed; opacity: 0.5; }
+        .feedback { margin-top: 20px; padding: clamp(12px, 2vw, 20px); border-radius: 14px; font-size: clamp(0.95rem, 2vw, 1.1rem); text-align: center; min-height: 50px; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
+        .feedback.show { opacity: 1; transform: translateY(0); }
+        .feedback.success { background: rgba(46, 204, 113, 0.15); border: 1px solid rgba(46, 204, 113, 0.3); color: #2ecc71; }
+        .feedback.error { background: rgba(231, 76, 60, 0.15); border: 1px solid rgba(231, 76, 60, 0.3); color: #e74c3c; }
+        .next-btn { margin-top: 15px; padding: clamp(14px, 2.5vw, 18px) clamp(30px, 5vw, 50px); border: none; border-radius: 50px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 700; cursor: pointer; display: none; align-items: center; gap: 10px; margin-left: auto; margin-right: auto; }
+        .next-btn.show { display: inline-flex; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-12px) rotate(-2deg); } 40% { transform: translateX(12px) rotate(2deg); } 60% { transform: translateX(-8px); } 80% { transform: translateX(8px); } }
+        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .question-card { animation: popIn 0.4s ease; }
+        .final-message { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: linear-gradient(145deg, #0f1a2e, #1a2a4a); padding: clamp(30px, 5vw, 50px); border-radius: 30px; text-align: center; animation: zoomIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; border: 2px solid rgba(255, 215, 0, 0.3); z-index: 1000; max-width: 90vw; width: 450px; }
+        @keyframes zoomIn { 0% { transform: translate(-50%, -50%) scale(0) rotate(-3deg); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } }
+        .final-message img { width: clamp(120px, 25vw, 170px); margin-bottom: 15px; border-radius: 15px; }
+        .final-message h2 { color: #FFD700; font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 10px; }
+        .final-message .stats { font-size: clamp(1rem, 2vw, 1.2rem); opacity: 0.9; line-height: 1.8; }
+        .final-message .stats span { color: #FFD700; font-weight: 700; }
+        .final-message .verse { margin-top: 15px; font-style: italic; color: rgba(255, 215, 0, 0.7); font-size: clamp(0.9rem, 1.8vw, 1.1rem); border-top: 1px solid rgba(255,215,0,0.15); padding-top: 15px; }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+        .overlay.active { opacity: 1; pointer-events: all; }
+        .music-controls { position: fixed; bottom: 25px; right: 25px; display: flex; gap: 10px; align-items: center; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); padding: 8px 15px; border-radius: 50px; border: 1px solid rgba(255, 215, 0, 0.1); z-index: 100; }
+        .music-btn { width: 36px; height: 36px; border: none; border-radius: 50%; background: linear-gradient(135deg, #FFD700, #FFA500); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #1a1a2e; font-weight: 700; }
+        @media (max-width: 768px) { .options-grid { grid-template-columns: repeat(2, 1fr); } .option-btn { padding: 12px 8px; font-size: clamp(0.85rem, 2.5vw, 1rem); min-height: 45px; } .question-text { font-size: clamp(1.5rem, 4.5vw, 2.2rem); } }
+        @media (max-width: 480px) { .logo { width: 120px; } h1 { font-size: 1.1rem; } .option-btn { padding: 10px 6px; font-size: clamp(0.75rem, 2.8vw, 0.85rem); min-height: 38px; } .question-text { font-size: clamp(1.2rem, 4vw, 1.6rem); } .question-text .blank { min-width: 50px; min-height: 32px; } }
+    </style>
+</head>
+<body>
+    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" class="logo" alt="Logo">
+    <h1>📜 <span>Completa el Participio</span></h1>
+    <div class="subtitle">✧ Participios en Griego Koiné ✧</div>
+
+    <div id="progress">
+        <div class="stat">📖 Pregunta <span id="current-q">1</span>/<span id="total-q">12</span></div>
+        <div class="stat">✅ Aciertos: <span id="correct-count">0</span></div>
+        <div class="stat">💪 Racha: <span id="streak">0</span>🔥</div>
+    </div>
+
+    <div class="game-container">
+        <div class="question-card" id="questionCard">
+            <div class="question-label" id="questionLabel">COMPLETA EL PARTICIPIO</div>
+            <div class="question-text" id="questionText"></div>
+            <div class="question-hint" id="questionHint"></div>
+            <div class="options-grid" id="optionsGrid"></div>
+            <div class="feedback" id="feedback"></div>
+            <button class="next-btn" id="nextBtn"><span>Siguiente</span> <span>→</span></button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="music-controls">
+        <button class="music-btn" id="playBtn">▶</button>
+        <button class="music-btn" id="pauseBtn">⏸</button>
+    </div>
+    <audio id="backgroundMusic" loop preload="auto"><source src="01. Dios Sabe Lo Que Hace.mp3" type="audio/mpeg"></audio>
+
+    <script>
+        const questions = [
+            { label: 'Participio Presente Activo - λύω', present: 'λύω', perfect: 'λύων', hint: 'Participio presente activo: proceso', options: ['λύων', 'λύουσα', 'λῦον', 'λύοντες'] },
+            { label: 'Participio Presente Activo - πιστεύω', present: 'πιστεύω', perfect: 'πιστεύων', hint: 'Participio presente activo: el que cree', options: ['πιστεύων', 'πιστεύουσα', 'πιστεῦον', 'πιστεύοντες'] },
+            { label: 'Participio Presente Activo - ἀκούω', present: 'ἀκούω', perfect: 'ἀκούων', hint: 'Participio presente activo: oyendo', options: ['ἀκούων', 'ἀκούουσα', 'ἀκοῦον', 'ἀκούοντες'] },
+            { label: 'Participio Aoristo Activo - λύω', present: 'λύω', perfect: 'λύσας', hint: 'Participio aoristo activo: habiendo soltado', options: ['λύσας', 'λύσασα', 'λῦσαν', 'λύσαντες'] },
+            { label: 'Participio Aoristo Activo - γράφω', present: 'γράφω', perfect: 'γράψας', hint: 'Participio aoristo activo: habiendo escrito', options: ['γράψας', 'γράψασα', 'γράψαν', 'γράψαντες'] },
+            { label: 'Participio Aoristo Activo - λαμβάνω', present: 'λαμβάνω', perfect: 'λαβών', hint: 'Participio aoristo activo: habiendo tomado', options: ['λαβών', 'λαβοῦσα', 'λαβόν', 'λαβόντες'] },
+            { label: 'Participio Aoristo Activo - λέγω', present: 'λέγω', perfect: 'εἰπών', hint: 'Participio aoristo activo: habiendo dicho', options: ['εἰπών', 'εἰποῦσα', 'εἰπόν', 'εἰπόντες'] },
+            { label: 'Participio Aoristo Pasivo - πορεύομαι', present: 'πορεύομαι', perfect: 'πορευθείς', hint: 'Participio aoristo pasivo: habiendo ido', options: ['πορευθείς', 'πορευθεῖσα', 'πορευθέν', 'πορευθέντες'] },
+            { label: 'Participio Perfecto Activo - λύω', present: 'λύω', perfect: 'λελυκώς', hint: 'Participio perfecto activo: estado resultante', options: ['λελυκώς', 'λελυκυῖα', 'λελυκός', 'λελυκότες'] },
+            { label: 'Participio Perfecto Medio/Pasivo - γράφω', present: 'γράφω', perfect: 'γεγραμμένος', hint: 'Participio perfecto pasivo: habiendo sido escrito', options: ['γεγραμμένος', 'γεγραμμένη', 'γεγραμμένον', 'γεγραμμένοι'] },
+            { label: 'Participio Presente Medio - ἔρχομαι', present: 'ἔρχομαι', perfect: 'ἐρχόμενος', hint: 'Participio presente medio: viniendo', options: ['ἐρχόμενος', 'ἐρχομένη', 'ἐρχόμενον', 'ἐρχόμενοι'] },
+            { label: 'Participio Presente Activo - ἀγαπάω', present: 'ἀγαπάω', perfect: 'ἀγαπῶν', hint: 'Participio presente activo: amando', options: ['ἀγαπῶν', 'ἀγαπῶσα', 'ἀγαπῶν', 'ἀγαπῶντες'] }
+        ];
+
+        let currentIndex = 0, correctCount = 0, streak = 0, maxStreak = 0, isAnswered = false, totalQuestions = questions.length;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; }
+            return array;
+        }
+        let shuffledQuestions = shuffleArray([...questions]);
+
+        function loadQuestion(index) {
+            const q = shuffledQuestions[index];
+            if (!q) return;
+            isAnswered = false;
+            document.getElementById('nextBtn').classList.remove('show');
+            const feedback = document.getElementById('feedback');
+            feedback.className = 'feedback'; feedback.textContent = '';
+            document.getElementById('current-q').textContent = index + 1;
+            document.getElementById('total-q').textContent = totalQuestions;
+            document.getElementById('questionLabel').textContent = q.label;
+            document.getElementById('questionText').innerHTML = `<span class="blank" id="blankSlot">???</span>`;
+            document.getElementById('questionHint').textContent = '💡 ' + q.hint;
+            const shuffledOptions = shuffleArray([...q.options]);
+            const grid = document.getElementById('optionsGrid');
+            grid.innerHTML = '';
+            shuffledOptions.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.dataset.value = opt;
+                btn.addEventListener('click', () => handleOptionClick(btn, q));
+                btn.addEventListener('touchend', (e) => { e.preventDefault(); handleOptionClick(btn, q); });
+                grid.appendChild(btn);
+            });
+            document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('correct', 'wrong', 'used', 'disabled'));
+            document.getElementById('questionCard').style.animation = 'none';
+            setTimeout(() => { document.getElementById('questionCard').style.animation = 'popIn 0.4s ease'; }, 10);
+        }
+
+        function handleOptionClick(btn, q) {
+            if (isAnswered || btn.classList.contains('used')) return;
+            const selected = btn.dataset.value, correct = q.perfect;
+            document.querySelectorAll('.option-btn').forEach(b => b.classList.add('disabled'));
+            const blank = document.getElementById('blankSlot');
+            if (selected === correct) {
+                btn.classList.add('correct');
+                blank.textContent = correct; blank.className = 'blank correct-answer';
+                correctCount++; streak++; if (streak > maxStreak) maxStreak = streak;
+                const feedback = document.getElementById('feedback');
+                feedback.textContent = '✅ ¡Correcto! ' + (streak > 1 ? `¡${streak} aciertos consecutivos! 🔥` : '');
+                feedback.className = 'feedback success show';
+                btn.classList.add('used'); isAnswered = true;
+            } else {
+                btn.classList.add('wrong');
+                blank.textContent = selected; blank.className = 'blank wrong-answer';
+                streak = 0;
+                document.querySelectorAll('.option-btn').forEach(b => { if (b.dataset.value === correct) b.classList.add('correct'); });
+                const feedback = document.getElementById('feedback');
+                feedback.textContent = `❌ Incorrecto. La respuesta correcta es: "${correct}"`;
+                feedback.className = 'feedback error show';
+                btn.classList.add('used'); isAnswered = true;
+            }
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('streak').textContent = streak;
+            document.getElementById('nextBtn').classList.add('show');
+        }
+
+        function nextQuestion() {
+            if (currentIndex < totalQuestions - 1) { currentIndex++; loadQuestion(currentIndex); }
+            else { showFinalMessage(); }
+        }
+
+        function showFinalMessage() {
+            document.getElementById('overlay').classList.add('active');
+            const percentage = Math.round((correctCount / totalQuestions) * 100);
+            let emoji = '📚', message = 'Sigue practicando, ¡lo lograrás!';
+            if (percentage >= 90) { emoji = '🌟'; message = '¡Excelente dominio de los participios!'; }
+            else if (percentage >= 70) { emoji = '👍'; message = '¡Buen trabajo! Sigue así.'; }
+            else if (percentage >= 50) { emoji = '💪'; message = 'Vas por buen camino, ¡sigue practicando!'; }
+            const finalHTML = `
+                <div class="final-message">
+                    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo">
+                    <h2>${emoji} ¡Nivel Completado!</h2>
+                    <div class="stats">
+                        <p>📖 Preguntas: <span>${totalQuestions}</span></p>
+                        <p>✅ Aciertos: <span>${correctCount}</span></p>
+                        <p>🎯 Porcentaje: <span>${percentage}%</span></p>
+                        <p>🔥 Mejor racha: <span>${maxStreak}</span></p>
+                        <p style="margin-top: 10px;">${message}</p>
+                    </div>
+                    <div class="verse">"La verdad os hará libres" — Juan 8:32</div>
+                    <button onclick="reiniciarJuego()" style="margin-top: 20px; padding: 12px 35px; border: none; border-radius: 50px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-size: 1.1rem; font-weight: 700; cursor: pointer;">🔄 Jugar de nuevo</button>
+                </div>`;
+            const old = document.querySelector('.final-message'); if (old) old.remove();
+            document.body.insertAdjacentHTML('beforeend', finalHTML);
+        }
+
+        function reiniciarJuego() {
+            document.querySelector('.final-message')?.remove();
+            document.getElementById('overlay').classList.remove('active');
+            shuffledQuestions = shuffleArray([...questions]);
+            currentIndex = 0; correctCount = 0; streak = 0; maxStreak = 0; isAnswered = false;
+            document.getElementById('correct-count').textContent = '0';
+            document.getElementById('streak').textContent = '0';
+            document.getElementById('nextBtn').classList.remove('show');
+            loadQuestion(0);
+        }
+
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const playBtn = document.getElementById('playBtn'), pauseBtn = document.getElementById('pauseBtn');
+        let audioStarted = false;
+        function initAudio() { if (!audioStarted) { backgroundMusic.volume = 0.2; backgroundMusic.play().catch(() => {}); audioStarted = true; } }
+        document.addEventListener('click', initAudio, { once: true });
+        document.addEventListener('touchstart', initAudio, { once: true });
+        playBtn.addEventListener('click', (e) => { e.stopPropagation(); backgroundMusic.play().catch(() => {}); });
+        pauseBtn.addEventListener('click', (e) => { e.stopPropagation(); backgroundMusic.pause(); });
+        document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+        document.getElementById('nextBtn').addEventListener('touchend', (e) => { e.preventDefault(); nextQuestion(); });
+        document.addEventListener('DOMContentLoaded', () => { loadQuestion(0); });
+    </script>
+</body>
+</html>

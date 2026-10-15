@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { assetUrl } from '../utils/assetUrl';
 import { X, Maximize2, Minimize2, ExternalLink, BookOpen, Gamepad2 } from 'lucide-react';
 
 interface InAppViewerModalProps {
@@ -23,6 +24,8 @@ export const InAppViewerModal: React.FC<InAppViewerModalProps> = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   if (!isOpen) return null;
+
+  const resolvedUrl = assetUrl(url);
 
   return (
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 animate-fadeIn">
@@ -64,7 +67,7 @@ export const InAppViewerModal: React.FC<InAppViewerModalProps> = ({
             )}
 
             <a
-              href={url}
+              href={resolvedUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
@@ -94,7 +97,7 @@ export const InAppViewerModal: React.FC<InAppViewerModalProps> = ({
         {/* Content iframe */}
         <div className="flex-1 w-full h-full bg-slate-950 relative">
           <iframe
-            src={url}
+            src={resolvedUrl}
             title={title}
             className="w-full h-full border-0 bg-white"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

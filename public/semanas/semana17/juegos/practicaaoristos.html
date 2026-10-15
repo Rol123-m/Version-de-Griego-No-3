@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Práctica de Aoristo - Griego Koiné</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --primary:#6c5ce7;
+      --secondary:#00cec9;
+      --accent:#fd79a8;
+      --bg:#f8f9fa;
+      --text:#2d3436;
+      --card:#fff;
+      --correct:#00b894;
+      --incorrect:#d63031;
+    }
+    body{
+      font-family:'Poppins',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      margin:0;
+      padding:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      min-height:100vh;
+    }
+    header{
+      text-align:center;
+      padding:1rem;
+      background:linear-gradient(to right,var(--primary),var(--secondary));
+      color:white;
+      width:100%;
+      box-shadow:0 4px 10px rgba(0,0,0,.1);
+    }
+    header img{width:80px;height:80px;border-radius:50%;margin-bottom:.5rem;border:3px solid #fff;}
+    h1{margin:.2rem 0;font-size:1.8rem;}
+    .subtitle{opacity:.9;font-size:1rem;}
+    .game-container{
+      max-width:800px;width:100%;background:var(--card);margin:1.5rem;
+      border-radius:20px;padding:2rem;box-shadow:0 10px 20px rgba(0,0,0,.1);
+    }
+    .progress-container{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+    .progress-bar{flex:1;height:12px;background:#dfe6e9;border-radius:8px;overflow:hidden;}
+    .progress-fill{height:100%;width:0;background:linear-gradient(to right,var(--primary),var(--secondary));transition:width .4s;}
+    .score-display{font-weight:600;color:var(--primary);}
+    .question-container{text-align:center;margin:1.2rem 0;}
+    .prompt{font-size:1.2rem;margin-bottom:1rem;padding:1rem;background:rgba(108,92,231,.05);border-left:4px solid var(--primary);}
+    .greek{font-family:"Gentium Plus","Galatia SIL",serif;font-size:1.6rem;color:var(--primary);font-weight:700;}
+    .options-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+    .option{padding:1rem;background:#fff;border:2px solid #ddd;border-radius:12px;cursor:pointer;transition:.2s;font-size:1.1rem;}
+    .option:hover{border-color:var(--primary);transform:translateY(-3px);}
+    .option.correct{background:rgba(0,184,148,.1);border-color:var(--correct);color:var(--correct);}
+    .option.incorrect{background:rgba(214,48,49,.05);border-color:var(--incorrect);color:var(--incorrect);}
+    .feedback{margin-top:.8rem;display:none;font-weight:600;}
+    .feedback.correct{color:var(--correct);}
+    .feedback.incorrect{color:var(--incorrect);}
+    .next-btn,.restart-btn{
+      background:linear-gradient(to right,var(--primary),var(--secondary));
+      color:white;border:none;padding:.8rem 2rem;border-radius:30px;cursor:pointer;
+      margin-top:1rem;font-weight:600;transition:.2s;
+    }
+    .next-btn:hover,.restart-btn:hover{transform:translateY(-2px);}
+    .results-screen{text-align:center;display:none;}
+    .final-score{font-size:2rem;font-weight:700;color:var(--primary);margin:1rem 0;}
+
+    @media (max-width: 480px) {
+      .game-container { padding: 1rem; margin: 1rem; }
+      .options-grid { grid-template-columns: 1fr; }
+      .option { font-size: 0.95rem; padding: 0.8rem; }
+      .prompt { font-size: 1rem; }
+      .greek { font-size: 1.3rem; }
+      h1 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo Ministerio">
+    <h1>Práctica de Aoristo</h1>
+    <p class="subtitle">Aoristo Activo y Medio — Primer y Segundo Aoristo</p>
+  </header>
+  <div class="game-container">
+    <div class="progress-container">
+      <div class="score-display">Puntuación: <span id="score">0</span></div>
+      <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
+      <div><span id="current">1</span>/<span id="total">15</span></div>
+    </div>
+    <div id="question-container" class="question-container">
+      <div class="prompt" id="prompt"></div>
+      <div class="options-grid" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+      <button id="next" class="next-btn">Siguiente</button>
+    </div>
+    <div id="results" class="results-screen">
+      <h2>¡Práctica completada!</h2>
+      <div class="final-score" id="final-score"></div>
+      <p id="message"></p>
+      <button id="restart" class="restart-btn">Volver a Practicar</button>
+    </div>
+  </div>
+<script>
+const verbs = {
+  "λύω":{meaning:"desatar",aoristo:{activo:{sing:{first:"ἔλυσα",second:"ἔλυσας",third:"ἔλυσε(ν)"},pl:{first:"ἐλύσαμεν",second:"ἐλύσατε",third:"ἔλυσαν"}},medio:{sing:{first:"ἐλυσάμην",second:"ἐλύσω",third:"ἐλύσατο"},pl:{first:"ἐλυσάμεθα",second:"ἐλύσασθε",third:"ἐλύσαντο"}}}},
+  "λαμβάνω":{meaning:"tomar",aoristo:{activo:{sing:{first:"ἔλαβον",second:"ἔλαβες",third:"ἔλαβε(ν)"},pl:{first:"ἐλάβομεν",second:"ἐλάβετε",third:"ἔλαβον"}},medio:{sing:{first:"ἐλαβόμην",second:"ἐλάβου",third:"ἐλάβετο"},pl:{first:"ἐλαβόμεθα",second:"ἐλάβεσθε",third:"ἐλάβοντο"}}}},
+  "γράφω":{meaning:"escribir",aoristo:{activo:{sing:{first:"ἔγραψα",second:"ἔγραψας",third:"ἔγραψε(ν)"},pl:{first:"ἐγράψαμεν",second:"ἐγράψατε",third:"ἔγραψαν"}},medio:{sing:{first:"ἐγραψάμην",second:"ἔγραψω",third:"ἔγραψατο"},pl:{first:"ἐγραψάμεθα",second:"ἔγραψασθε",third:"ἔγραψαντο"}}}}
+};
+const persons={first:"1ª persona",second:"2ª persona",third:"3ª persona"};
+const numbers={sing:"singular",pl:"plural"};
+let score=0,current=0,questions=[];
+const total=15;
+function init(){
+  score=0;current=0;questions=genQuestions(total);
+  document.getElementById("score").textContent=0;
+  document.getElementById("total").textContent=total;
+  document.getElementById("results").style.display="none";
+  document.getElementById("question-container").style.display="block";
+  showQuestion();
+}
+function genQuestions(n){
+  const qs=[];const vs=Object.keys(verbs);
+  const pers=["first","second","third"],nums=["sing","pl"],voices=["activo","medio"];
+  for(let i=0;i<n;i++){
+    let v=vs[Math.floor(Math.random()*vs.length)];
+    let persX=pers[Math.floor(Math.random()*pers.length)];
+    let num=nums[Math.floor(Math.random()*nums.length)];
+    let voice=voices[Math.floor(Math.random()*voices.length)];
+    let correct=verbs[v].aoristo[voice][num][persX];
+    qs.push({verb:v,meaning:verbs[v].meaning,voice,persX,num,correct});
+  }
+  return qs;
+}
+function showQuestion(){
+  const q=questions[current];
+  document.getElementById("prompt").innerHTML=
+   `Conjuga <b>${persons[q.persX]} ${numbers[q.num]}</b> de <span class="greek">${q.verb}</span> (${q.meaning}) en <b>aoristo ${q.voice}</b>`;
+  const opts=document.getElementById("options");
+  opts.innerHTML="";
+  const wrongs=[];
+  Object.values(verbs).forEach(v=>{
+    Object.values(v.aoristo[q.voice]).forEach(num=>{
+      Object.values(num).forEach(f=>{
+        if(f!==q.correct) wrongs.push(f);
+      });
+    });
+  });
+  const candidates=[q.correct,...shuffle(wrongs).slice(0,3)];
+  shuffle(candidates).forEach(opt=>{
+    let div=document.createElement("div");
+    div.className="option greek";
+    div.textContent=opt;
+    div.onclick=()=>select(opt,q.correct,div);
+    opts.appendChild(div);
+  });
+  document.getElementById("feedback").style.display="none";
+  document.getElementById("next").style.display="none";
+  document.getElementById("current").textContent=current+1;
+  document.getElementById("progress").style.width=((current)/total*100)+"%";
+}
+function select(sel,correct,el){
+  const options=document.querySelectorAll(".option");
+  options.forEach(o=>o.style.pointerEvents="none");
+  if(sel===correct){el.classList.add("correct");score++;document.getElementById("score").textContent=score;document.getElementById("feedback").textContent="¡Correcto! 🎉";document.getElementById("feedback").className="feedback correct";}
+  else{el.classList.add("incorrect");document.getElementById("feedback").textContent="Incorrecto. Correcto: "+correct;document.getElementById("feedback").className="feedback incorrect";}
+  document.getElementById("feedback").style.display="block";
+  document.getElementById("next").style.display="inline-block";
+}
+function nextQ(){
+  current++;
+  if(current>=total) finish();
+  else showQuestion();
+}
+function finish(){
+  document.getElementById("question-container").style.display="none";
+  document.getElementById("results").style.display="block";
+  document.getElementById("final-score").textContent=`${score}/${total}`;
+  let pct=score/total*100,msg="";
+  if(pct>=90)msg="¡Excelente! Dominas el aoristo.";
+  else if(pct>=70)msg="Buen trabajo, pero repasa algunas formas.";
+  else msg="Necesitas practicar más. ¡Ánimo!";
+  document.getElementById("message").textContent=msg;
+  document.getElementById("progress").style.width="100%";
+}
+function shuffle(a){return a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);}
+document.getElementById("next").onclick=nextQ;
+document.getElementById("restart").onclick=init;
+window.onload=init;
+</script>
+</body>
+</html>

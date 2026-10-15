@@ -1,4 +1,5 @@
 import React from 'react';
+import { assetUrl } from '../utils/assetUrl';
 import { useAuth } from '../context/AuthContext';
 import { useProgress } from '../context/ProgressContext';
 import { COURSE_CONFIG } from '../data/courseData';
@@ -66,7 +67,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({ isOpen, onCl
             <div className="space-y-1">
               <div className="flex justify-center mb-2">
                 <img
-                  src="/mas logos.jpeg"
+                  src={assetUrl('/logo.jpeg')}
                   alt="Ministerio Vivos para Servir"
                   className="w-16 h-16 rounded-full object-cover border-2 border-amber-500 shadow-sm"
                 />

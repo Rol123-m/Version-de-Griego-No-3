@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendizaje de Griego - Vocabulario Semana 22</title>
+    <link rel="stylesheet" href="vocabulario.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<h1>Flashcards de Griego a Español</h1>
+
+<div id="flashcard-section">
+    <div class="flashcard-container">
+        <div class="flashcard" onclick="flipCard()">
+            <div class="flashcard-front" id="front"><p id="greek-word"></p></div>
+            <div class="flashcard-back" id="back"><p id="spanish-word"></p></div>
+        </div>
+    </div>
+    <div class="navigation">
+        <button onclick="prevCard()" id="prev-btn" disabled><i class="fas fa-arrow-left"></i> Anterior</button>
+        <button onclick="nextCard()" id="next-btn">Siguiente <i class="fas fa-arrow-right"></i></button>
+    </div>
+</div>
+
+<button onclick="startQuiz()" class="hidden" id="start-quiz-btn"><i class="fas fa-play-circle"></i> COMENZAR EXAMEN</button>
+
+<div class="quiz hidden" id="quiz-section">
+    <p>Traduce la siguiente palabra del griego al español:</p>
+    <div id="quiz-question"></div>
+    <input type="text" id="quiz-answer" placeholder="Escribe tu respuesta aquí">
+    <div class="quiz-buttons">
+        <button onclick="checkQuizAnswer()" id="check-quiz-btn"><i class="fas fa-check-circle"></i> COMPROBAR</button>
+        <button onclick="nextQuizQuestion()" class="hidden" id="next-quiz-btn"><i class="fas fa-forward"></i> SIGUIENTE PREGUNTA</button>
+    </div>
+    <div id="quiz-result" class="result"></div>
+</div>
+
+<footer>
+    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Ministerio Vivos para Servir">
+    <p id="foot">© Copyright Sección Educativa del Ministerio: "Vivos para Servir"</p>
+</footer>
+
+<script>
+    const vocabulary = [
+        { greek: "δέχομαι", spanish: "recibir, aceptar" },
+        { greek: "δοκέω", spanish: "parecer, pensar" },
+        { greek: "ἐσθίω", spanish: "comer" },
+        { greek: "πέμπω", spanish: "enviar" },
+        { greek: "φέρω", spanish: "llevar, producir" },
+        { greek: "ὁ λέγων", spanish: "el que habla" },
+        { greek: "οἱ πενθοῦντες", spanish: "los que lloran" },
+        { greek: "ὁ πιστεύων", spanish: "el que cree" },
+        { greek: "τῶν διωκόντων", spanish: "de los que persiguen" },
+        { greek: "ὁ ἀκούσας", spanish: "el que oyó" }
+    ];
+
+    let currentCardIndex = 0, quizIndex = 0, quizScore = 0, canAnswer = true, quizAnswered = false;
+
+    function normalizeText(text) {
+        if (!text) return '';
+        return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/\s+/g, ' ').replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').replace(/[-,;]/g, ' ');
+    }
+
+    function updateCard() {
+        document.getElementById('greek-word').textContent = vocabulary[currentCardIndex].greek;
+        document.getElementById('spanish-word').textContent = vocabulary[currentCardIndex].spanish;
+        document.getElementById('prev-btn').disabled = currentCardIndex === 0;
+        document.getElementById('next-btn').disabled = currentCardIndex === vocabulary.length - 1;
+        if (currentCardIndex === vocabulary.length - 1) document.getElementById('start-quiz-btn').classList.remove('hidden');
+        else document.getElementById('start-quiz-btn').classList.add('hidden');
+    }
+
+    function flipCard() { document.querySelector('.flashcard').classList.toggle('flipped'); }
+    function prevCard() { if (currentCardIndex > 0) { currentCardIndex--; updateCard(); } }
+    function nextCard() { if (currentCardIndex < vocabulary.length - 1) { currentCardIndex++; updateCard(); } }
+
+    function startQuiz() {
+        document.getElementById('flashcard-section').classList.add('hidden');
+        document.getElementById('start-quiz-btn').classList.add('hidden');
+        document.getElementById('quiz-section').classList.remove('hidden');
+        quizIndex = 0; quizScore = 0; canAnswer = true; quizAnswered = false;
+        loadQuizQuestion();
+    }
+
+    function loadQuizQuestion() {
+        if (quizIndex < vocabulary.length) {
+            document.getElementById('quiz-question').textContent = vocabulary[quizIndex].greek;
+            document.getElementById('quiz-answer').value = '';
+            document.getElementById('quiz-result').textContent = '';
+            document.getElementById('quiz-result').className = 'result';
+            document.getElementById('next-quiz-btn').classList.add('hidden');
+            document.getElementById('check-quiz-btn').disabled = false;
+            document.getElementById('quiz-answer').disabled = false;
+            canAnswer = true; quizAnswered = false;
+            setTimeout(() => document.getElementById('quiz-answer').focus(), 100);
+        } else finishQuiz();
+    }
+
+    function nextQuizQuestion() {
+        if (quizIndex < vocabulary.length - 1) { quizIndex++; loadQuizQuestion(); }
+        else if (quizIndex === vocabulary.length - 1) { quizIndex++; finishQuiz(); }
+    }
+
+    function finishQuiz() {
+        document.getElementById('quiz-section').classList.add('hidden');
+        const percentage = Math.round((quizScore / vocabulary.length) * 100);
+        let message = `🎉 ¡EXAMEN TERMINADO!\n\nPuntuación: ${quizScore} de ${vocabulary.length}\nPorcentaje: ${percentage}%\n\n`;
+        if (percentage >= 90) message += "¡Excelente! 🌟";
+        else if (percentage >= 70) message += "¡Buen trabajo! 👍";
+        else if (percentage >= 50) message += "Puedes mejorar 💪";
+        else message += "Sigue practicando 📚";
+        alert(message);
+        document.getElementById('flashcard-section').classList.remove('hidden');
+        if (currentCardIndex === vocabulary.length - 1) document.getElementById('start-quiz-btn').classList.remove('hidden');
+    }
+
+    function checkQuizAnswer() {
+        if (!canAnswer || quizAnswered) return;
+        const userInput = document.getElementById('quiz-answer').value.trim();
+        const resultDiv = document.getElementById('quiz-result');
+        if (!userInput) { resultDiv.textContent = '❌ Por favor, escribe una respuesta'; resultDiv.className = 'result incorrect'; return; }
+        const normalizedUserInput = normalizeText(userInput);
+        if (normalizedUserInput.length < 2) { resultDiv.textContent = '❌ La respuesta es demasiado corta'; resultDiv.className = 'result incorrect'; return; }
+        const correctAnswers = vocabulary[quizIndex].spanish.split(/[,;]/).map(answer => normalizeText(answer.replace(/\([^)]*\)/g, '').replace(/[-,;]/g, ' ').trim())).filter(a => a.length > 0);
+        let isCorrect = correctAnswers.includes(normalizedUserInput);
+        if (!isCorrect) {
+            isCorrect = correctAnswers.some(correctAnswer => {
+                const cw = correctAnswer.split(' '), uw = normalizedUserInput.split(' ');
+                if (uw.length === 1 && cw.length > 1) return cw.some(w => w === uw[0] || (w.length > 3 && w.includes(uw[0]) && uw[0].length > 2));
+                return uw.every(uw => cw.some(cw => cw === uw || (cw.includes(uw) && uw.length > 2)));
+            });
+        }
+        quizAnswered = true; canAnswer = false;
+        if (isCorrect) { resultDiv.textContent = '✅ ¡CORRECTO!'; resultDiv.className = 'result correct'; quizScore++; }
+        else { resultDiv.textContent = `❌ Incorrecto.\n\nRespuesta correcta: ${vocabulary[quizIndex].spanish}`; resultDiv.className = 'result incorrect'; }
+        document.getElementById('check-quiz-btn').disabled = true;
+        document.getElementById('quiz-answer').disabled = true;
+        document.getElementById('next-quiz-btn').classList.remove('hidden');
+    }
+
+    window.onload = function() { updateCard(); };
+</script>
+</body>
+</html>

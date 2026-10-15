@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Clasifica Verbos en -μι | Semana 27</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Segoe UI', 'Poppins', Arial, sans-serif; background: linear-gradient(145deg, #0a1628, #1a2a4a, #0d1f3c); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px 15px 60px; color: white; }
+    .logo { width: 160px; max-width: 60%; margin: 10px auto 5px; filter: drop-shadow(0 4px 20px rgba(255, 215, 0, 0.2)); border-radius: 12px; }
+    h1 { text-align: center; font-size: clamp(1.3rem, 4.5vw, 2.2rem); margin-bottom: 8px; color: #FFD700; font-weight: 700; }
+    h1 span { background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .subtitle { text-align: center; font-size: clamp(0.8rem, 2vw, 1rem); color: rgba(255, 255, 255, 0.5); margin-bottom: 15px; letter-spacing: 2px; }
+    #progress { font-size: clamp(0.85rem, 2.2vw, 1.1rem); margin: 5px 0 15px; padding: 10px 25px; background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border-radius: 50px; border: 1px solid rgba(255, 215, 0, 0.15); display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    #progress .stat span { color: #FFD700; font-weight: 700; }
+    .mode-selector { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .mode-btn { padding: 10px 20px; border-radius: 50px; border: 2px solid rgba(255,215,0,0.3); background: rgba(255,255,255,0.05); color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; font-size: clamp(0.8rem, 2vw, 0.95rem); }
+    .mode-btn.active { background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; border-color: #FFD700; }
+    .mode-btn:hover { transform: translateY(-2px); }
+    .game-container { width: 100%; max-width: 900px; }
+    .question-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border-radius: 24px; padding: clamp(20px, 4vw, 40px); border: 1px solid rgba(255, 215, 0, 0.1); margin-bottom: 20px; text-align: center; }
+    .question-label { font-size: clamp(0.7rem, 1.5vw, 0.85rem); color: rgba(255, 215, 0, 0.5); text-transform: uppercase; letter-spacing: 3px; font-weight: 600; margin-bottom: 5px; }
+    .current-word { font-size: clamp(1.5rem, 4.5vw, 2.5rem); font-family: 'Times New Roman', 'New Athena Unicode', serif; color: #FFD700; font-weight: 700; margin: 15px 0; text-shadow: 0 2px 10px rgba(255,215,0,0.3); animation: popIn 0.4s ease; }
+    @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    .instruction { color: rgba(255,255,255,0.7); margin-bottom: 15px; font-size: clamp(0.9rem, 2vw, 1rem); }
+    .categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(clamp(120px, 22vw, 180px), 1fr)); gap: clamp(8px, 1.5vw, 14px); margin-top: 20px; }
+    .category-btn { padding: clamp(12px, 2vw, 18px) clamp(8px, 1.5vw, 16px); border: 3px solid rgba(255, 215, 0, 0.3); border-radius: 16px; background: rgba(255, 255, 255, 0.05); color: white; font-family: 'Poppins', sans-serif; font-size: clamp(0.75rem, 1.6vw, 0.95rem); font-weight: 700; cursor: pointer; transition: all 0.3s; min-height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+    .category-btn .emoji { font-size: 1.5em; }
+    .category-btn:hover:not(:disabled) { transform: translateY(-4px); border-color: #FFD700; background: rgba(255, 215, 0, 0.1); }
+    .category-btn.correct { border-color: #2ecc71; background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+    .category-btn.wrong { border-color: #e74c3c; background: rgba(231, 76, 60, 0.2); color: #e74c3c; animation: shake 0.5s ease; }
+    .category-btn:disabled { cursor: not-allowed; opacity: 0.5; }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-10px); } 40% { transform: translateX(10px); } 60% { transform: translateX(-6px); } 80% { transform: translateX(6px); } }
+    .feedback { margin-top: 20px; padding: clamp(12px, 2vw, 20px); border-radius: 14px; font-size: clamp(0.9rem, 2vw, 1.05rem); text-align: center; min-height: 50px; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
+    .feedback.show { opacity: 1; transform: translateY(0); }
+    .feedback.success { background: rgba(46, 204, 113, 0.15); border: 1px solid rgba(46, 204, 113, 0.3); color: #2ecc71; }
+    .feedback.error { background: rgba(231, 76, 60, 0.15); border: 1px solid rgba(231, 76, 60, 0.3); color: #e74c3c; }
+    .next-btn { margin-top: 15px; padding: clamp(14px, 2.5vw, 18px) clamp(30px, 5vw, 50px); border: none; border-radius: 50px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 700; cursor: pointer; display: none; align-items: center; gap: 10px; margin-left: auto; margin-right: auto; }
+    .next-btn.show { display: inline-flex; }
+    .final-message { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: linear-gradient(145deg, #0f1a2e, #1a2a4a); padding: clamp(30px, 5vw, 50px); border-radius: 30px; text-align: center; animation: zoomIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; border: 2px solid rgba(255, 215, 0, 0.3); z-index: 1000; max-width: 90vw; width: 450px; }
+    @keyframes zoomIn { 0% { transform: translate(-50%, -50%) scale(0) rotate(-3deg); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } }
+    .final-message img { width: clamp(120px, 25vw, 170px); margin-bottom: 15px; border-radius: 15px; }
+    .final-message h2 { color: #FFD700; font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 10px; }
+    .final-message .stats { font-size: clamp(1rem, 2vw, 1.2rem); opacity: 0.9; line-height: 1.8; }
+    .final-message .stats span { color: #FFD700; font-weight: 700; }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+    .overlay.active { opacity: 1; pointer-events: all; }
+    @media (max-width: 480px) {
+      .logo { width: 110px; }
+      h1 { font-size: 1.1rem; }
+      .current-word { font-size: 1.3rem; }
+      .category-btn { padding: 10px 6px; min-height: 60px; font-size: 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+  <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" class="logo" alt="Logo">
+  <h1>🎯 <span>Clasifica Verbos en -μι</span></h1>
+  <div class="subtitle">✧ Semana 27: Clase, Tiempo y Persona ✧</div>
+
+  <div id="progress">
+    <div class="stat">📖 <span id="current-q">1</span>/<span id="total-q">18</span></div>
+    <div class="stat">✅ <span id="correct-count">0</span></div>
+    <div class="stat">💪 Racha: <span id="streak">0</span>🔥</div>
+  </div>
+
+  <!-- SELECTOR DE MODOS -->
+  <div class="mode-selector">
+    <button class="mode-btn active" data-mode="clase">📚 Clase</button>
+    <button class="mode-btn" data-mode="tiempo">⏱️ Tiempo</button>
+    <button class="mode-btn" data-mode="persona">👥 Persona</button>
+  </div>
+
+  <div class="game-container">
+    <div class="question-card" id="questionCard">
+      <div class="question-label" id="questionLabel">CLASIFICA LA FORMA VERBAL</div>
+      <div class="current-word" id="currentWord"></div>
+      <div class="instruction" id="instruction">¿Qué clase de verbo -μι es?</div>
+      <div class="categories" id="categories"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="nextBtn"><span>Siguiente</span> <span>→</span></button>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <script>
+    // ============================================================
+    // DATOS
+    // ============================================================
+    const datos = [
+      // CLASE
+      {word: "δίδωμι", clase: "omicron", tiempo: "presente", persona: "1sg", desc: "Clase Omicron (raíz *δο)"},
+      {word: "τίθημι", clase: "epsilon", tiempo: "presente", persona: "1sg", desc: "Clase Épsilon (raíz *θε)"},
+      {word: "ἵστημι", clase: "alfa", tiempo: "presente", persona: "1sg", desc: "Clase Alfa (raíz *στα)"},
+      {word: "δείκνυμι", clase: "ipsilon", tiempo: "presente", persona: "1sg", desc: "Clase Ípsilon (raíz *δεικνυ)"},
+      {word: "ἀφίημι", clase: "epsilon", tiempo: "presente", persona: "1sg", desc: "Clase Épsilon (raíz *σε)"},
+      {word: "ἀνίστημι", clase: "alfa", tiempo: "presente", persona: "1sg", desc: "Clase Alfa (raíz *στα)"},
+      
+      // TIEMPO
+      {word: "δίδωμι", clase: "omicron", tiempo: "presente", persona: "1sg", desc: "Presente (reduplicación con iota)"},
+      {word: "δώσω", clase: "omicron", tiempo: "futuro", persona: "1sg", desc: "Futuro (raíz *δο + σ)"},
+      {word: "ἔδωκα", clase: "omicron", tiempo: "aoristo", persona: "1sg", desc: "Aoristo kappa (ἔδωκα)"},
+      {word: "δέδωκα", clase: "omicron", tiempo: "perfecto", persona: "1sg", desc: "Perfecto (reduplicación con épsilon)"},
+      {word: "ἐδίδουν", clase: "omicron", tiempo: "imperfecto", persona: "1sg", desc: "Imperfecto (reduplicación con iota + aumento)"},
+      {word: "ἔθηκα", clase: "epsilon", tiempo: "aoristo", persona: "1sg", desc: "Aoristo kappa de τίθημι"},
+      {word: "ἔστην", clase: "alfa", tiempo: "aoristo", persona: "1sg", desc: "Segundo aoristo de ἵστημι"},
+      {word: "ἀφῆκα", clase: "epsilon", tiempo: "aoristo", persona: "1sg", desc: "Aoristo kappa de ἀφίημι"},
+      
+      // PERSONA
+      {word: "δίδωμι", clase: "omicron", tiempo: "presente", persona: "1sg", desc: "1ª persona singular (-μι)"},
+      {word: "δίδως", clase: "omicron", tiempo: "presente", persona: "2sg", desc: "2ª persona singular (-ς)"},
+      {word: "δίδωσι", clase: "omicron", tiempo: "presente", persona: "3sg", desc: "3ª persona singular (-σι)"},
+      {word: "δίδομεν", clase: "omicron", tiempo: "presente", persona: "1pl", desc: "1ª persona plural (-μεν)"},
+      {word: "δίδοτε", clase: "omicron", tiempo: "presente", persona: "2pl", desc: "2ª persona plural (-τε)"},
+      {word: "διδόασι", clase: "omicron", tiempo: "presente", persona: "3pl", desc: "3ª persona plural (-ασι)"}
+    ];
+
+    // ============================================================
+    // ESTADO
+    // ============================================================
+    let currentMode = 'clase';
+    let currentIndex = 0;
+    let correctCount = 0;
+    let streak = 0;
+    let maxStreak = 0;
+    let isAnswered = false;
+    let filteredData = [];
+    let totalQuestions = 0;
+
+    // ============================================================
+    // UTILIDADES
+    // ============================================================
+    function shuffleArray(array) {
+      const a = [...array];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function getField(mode) {
+      if (mode === 'clase') return 'clase';
+      if (mode === 'tiempo') return 'tiempo';
+      return 'persona';
+    }
+
+    function getCategories(mode) {
+      if (mode === 'clase') {
+        return [
+          {value: 'omicron', emoji: '🟠', label: 'Omicron'},
+          {value: 'alfa', emoji: '🟡', label: 'Alfa'},
+          {value: 'epsilon', emoji: '🟢', label: 'Épsilon'},
+          {value: 'ipsilon', emoji: '🔵', label: 'Ípsilon'}
+        ];
+      } else if (mode === 'tiempo') {
+        return [
+          {value: 'presente', emoji: '🟢', label: 'Presente'},
+          {value: 'imperfecto', emoji: '🟡', label: 'Imperfecto'},
+          {value: 'futuro', emoji: '🔵', label: 'Futuro'},
+          {value: 'aoristo', emoji: '🔴', label: 'Aoristo'},
+          {value: 'perfecto', emoji: '🟣', label: 'Perfecto'}
+        ];
+      } else {
+        return [
+          {value: '1sg', emoji: '1️⃣', label: '1ª sg'},
+          {value: '2sg', emoji: '2️⃣', label: '2ª sg'},
+          {value: '3sg', emoji: '3️⃣', label: '3ª sg'},
+          {value: '1pl', emoji: '👤', label: '1ª pl'},
+          {value: '2pl', emoji: '👥', label: '2ª pl'},
+          {value: '3pl', emoji: '👨‍👩‍👧', label: '3ª pl'}
+        ];
+      }
+    }
+
+    function getQuestionLabel(mode) {
+      if (mode === 'clase') return 'CLASIFICA LA CLASE';
+      if (mode === 'tiempo') return 'CLASIFICA EL TIEMPO';
+      return 'CLASIFICA LA PERSONA';
+    }
+
+    function getInstruction(mode) {
+      if (mode === 'clase') return '¿Qué clase de verbo -μι es?';
+      if (mode === 'tiempo') return '¿Qué tiempo tiene?';
+      return '¿Qué persona y número tiene?';
+    }
+
+    // ============================================================
+    // CARGA
+    // ============================================================
+    function loadMode(mode) {
+      currentMode = mode;
+      filteredData = shuffleArray(datos);
+      totalQuestions = filteredData.length;
+      currentIndex = 0;
+      correctCount = 0;
+      streak = 0;
+      maxStreak = 0;
+      isAnswered = false;
+
+      document.getElementById('total-q').textContent = totalQuestions;
+      document.getElementById('correct-count').textContent = '0';
+      document.getElementById('streak').textContent = '0';
+      document.getElementById('questionLabel').textContent = getQuestionLabel(mode);
+      document.getElementById('instruction').textContent = getInstruction(mode);
+      document.getElementById('nextBtn').classList.remove('show');
+      document.getElementById('overlay').classList.remove('active');
+      document.querySelector('.final-message')?.remove();
+
+      loadQuestion(0);
+    }
+
+    function loadQuestion(index) {
+      const q = filteredData[index];
+      if (!q) return;
+      isAnswered = false;
+      document.getElementById('nextBtn').classList.remove('show');
+      const feedback = document.getElementById('feedback');
+      feedback.className = 'feedback';
+      feedback.textContent = '';
+      document.getElementById('current-q').textContent = index + 1;
+      document.getElementById('currentWord').textContent = q.word;
+
+      const field = getField(currentMode);
+      const correctValue = q[field];
+      const categories = getCategories(currentMode);
+
+      const categoriesContainer = document.getElementById('categories');
+      categoriesContainer.innerHTML = categories.map(cat => 
+        `<button class="category-btn" data-cat="${cat.value}">
+          <span class="emoji">${cat.emoji}</span>
+          <span>${cat.label}</span>
+        </button>`
+      ).join('');
+
+      categoriesContainer.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', () => handleAnswer(btn, correctValue, q));
+      });
+
+      document.getElementById('questionCard').style.animation = 'none';
+      setTimeout(() => { document.getElementById('questionCard').style.animation = 'popIn 0.4s ease'; }, 10);
+    }
+
+    // ============================================================
+    // RESPUESTA
+    // ============================================================
+    function handleAnswer(btn, correct, q) {
+      if (isAnswered) return;
+      isAnswered = true;
+      document.querySelectorAll('.category-btn').forEach(b => b.disabled = true);
+      const feedback = document.getElementById('feedback');
+      const selected = btn.dataset.cat;
+
+      if (selected === correct) {
+        btn.classList.add('correct');
+        correctCount++;
+        streak++;
+        if (streak > maxStreak) maxStreak = streak;
+        feedback.textContent = `✅ ¡Correcto! ${q.desc}` + (streak > 1 ? ` 🔥 Racha: ${streak}` : '');
+        feedback.className = 'feedback success show';
+      } else {
+        btn.classList.add('wrong');
+        streak = 0;
+        document.querySelectorAll('.category-btn').forEach(b => {
+          if (b.dataset.cat === correct) b.classList.add('correct');
+        });
+        feedback.textContent = `❌ Incorrecto. ${q.desc}`;
+        feedback.className = 'feedback error show';
+      }
+
+      document.getElementById('correct-count').textContent = correctCount;
+      document.getElementById('streak').textContent = streak;
+      document.getElementById('nextBtn').classList.add('show');
+    }
+
+    function nextQuestion() {
+      if (currentIndex < totalQuestions - 1) {
+        currentIndex++;
+        loadQuestion(currentIndex);
+      } else {
+        showFinalMessage();
+      }
+    }
+
+    // ============================================================
+    // FINAL
+    // ============================================================
+    function showFinalMessage() {
+      document.getElementById('overlay').classList.add('active');
+      const percentage = Math.round((correctCount / totalQuestions) * 100);
+      let emoji = '📚', message = 'Sigue practicando, ¡lo lograrás!';
+      if (percentage >= 90) { emoji = '🌟'; message = '¡Excelente clasificador de verbos -μι!'; }
+      else if (percentage >= 70) { emoji = '👍'; message = '¡Buen trabajo! Sigue así.'; }
+      else if (percentage >= 50) { emoji = '💪'; message = 'Vas por buen camino, ¡sigue practicando!'; }
+      const finalHTML = `
+        <div class="final-message">
+          <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo">
+          <h2>${emoji} ¡Juego Completado!</h2>
+          <div class="stats">
+            <p>📖 Preguntas: <span>${totalQuestions}</span></p>
+            <p>✅ Aciertos: <span>${correctCount}</span></p>
+            <p>🎯 Porcentaje: <span>${percentage}%</span></p>
+            <p>🔥 Mejor racha: <span>${maxStreak}</span></p>
+            <p style="margin-top: 10px;">${message}</p>
+          </div>
+          <button onclick="loadMode('${currentMode}')" style="margin-top: 20px; padding: 12px 35px; border: none; border-radius: 50px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-size: 1.1rem; font-weight: 700; cursor: pointer;">🔄 Jugar de nuevo</button>
+        </div>`;
+      const old = document.querySelector('.final-message');
+      if (old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', finalHTML);
+    }
+
+    // ============================================================
+    // EVENTOS
+    // ============================================================
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        loadMode(btn.dataset.mode);
+      });
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+    document.addEventListener('DOMContentLoaded', () => { loadMode('clase'); });
+  </script>
+</body>
+</html>

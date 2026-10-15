@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Caso Vocativo en Griego</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek {
+      font-family: "New Athena Unicode", "Galatia SIL", "Gentium Plus", "Times New Roman", serif;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio Vivos para servir" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>El Caso Vocativo en Griego</h1>
+      <div class="subtitle">El caso de llamada o dirección directa</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-bullhorn"></i> El Caso de Dirección</h2>
+      <div class="vocab-item">
+        <div class="vocab-item-header">
+          <h3>Definición</h3>
+          <span class="vocab-tag">Concepto clave</span>
+        </div>
+        <p>El vocativo es el "caso de llamada o dirección directa". Se usa cuando un sustantivo es directamente interpelado.</p>
+      </div>
+
+      <div class="example-box">
+        <h3>Ejemplo bíblico:</h3>
+        <p class="greek">Κύριε, κύριε (Mateo 7:21) → "¡Señor, Señor!"</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-list"></i> Formas del Vocativo</h2>
+      <div class="important-note">
+        <ul>
+          <li><strong>Plural:</strong> Igual al nominativo plural.<br>
+            <span class="greek">ἄνδρες Γαλιλαῖοι (Hechos 1:11)</span> → "Hombres de Galilea"</li>
+          
+          <li><strong>Singular 1ª declinación:</strong> Igual al nominativo.<br>
+            <span class="greek">ψυχή (Lucas 12:19)</span> → "¡Alma!"</li>
+          
+          <li><strong>Singular 2ª declinación:</strong> Terminación en -ε.<br>
+            <span class="greek">ἄνθρωπε (Lucas 5:20)</span> → "¡Hombre!"</li>
+          
+          <li><strong>Singular 3ª declinación:</strong> Generalmente la raíz desnuda, a veces con cambio vocálico.<br>
+            <span class="greek">Πάτερ (Mateo 6:9)</span> → "¡Padre!"</li>
+        </ul>
+      </div>
+
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Declinación</th>
+              <th>Ejemplo</th>
+              <th>Vocativo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1ª Declinación</td><td class="greek">ψυχή (alma)</td><td class="greek">ψυχή</td></tr>
+            <tr><td>2ª Declinación</td><td class="greek">ἄνθρωπος (hombre)</td><td class="greek">ἄνθρωπε</td></tr>
+            <tr><td>3ª Declinación</td><td class="greek">πατήρ (padre)</td><td class="greek">πάτερ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="vocab-item usage-card">
+        <div class="vocab-item-header">
+          <h3><i class="fas fa-search"></i> ¿Cómo reconocer el vocativo?</h3>
+          <span class="vocab-tag">Estrategia</span>
+        </div>
+        <p>El vocativo suele aparecer al principio de la oración o frase, y frecuentemente va seguido de una coma o signo de exclamación en los textos modernos.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Practica con el Caso Vocativo</h2>
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Cuál sería la forma vocativa singular de <span class="greek">δούλος</span> (esclavo)?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> <span class="greek">δούλος</span></label>
+          <label><input type="radio" name="q1" value="b"> <span class="greek">δούλε</span></label>
+          <label><input type="radio" name="q1" value="c"> <span class="greek">δούλων</span></label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿Cómo se forma el vocativo plural en griego?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Igual al acusativo plural</label>
+          <label><input type="radio" name="q2" value="b"> Igual al nominativo plural</label>
+          <label><input type="radio" name="q2" value="c"> Con terminación especial -σι</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+      <div class="quiz-question">
+        <p><strong>Pregunta 3:</strong> ¿Cuál es la función principal del caso vocativo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> Indicar posesión</label>
+          <label><input type="radio" name="q3" value="b"> Mostrar dirección o llamada directa</label>
+          <label><input type="radio" name="q3" value="c"> Señalar el objeto directo</label>
+        </div>
+        <div class="result" id="result3"></div>
+      </div>
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales">
+      </div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b', q2: 'b', q3: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + (question === 'q1' ? 'δούλε' : 'b');
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

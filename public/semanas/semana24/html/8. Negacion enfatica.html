@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Negación y Preguntas con Subjuntivo</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Negación y Preguntas con Subjuntivo</h1>
+      <div class="subtitle">οὐ μή + subjuntivo</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-ban"></i> Negación del Subjuntivo</h2>
+      <p><strong>Regla básica:</strong></p>
+      <ul>
+        <li><strong>οὐ</strong> niega el <strong>indicativo</strong></li>
+        <li><strong>μή</strong> niega el <strong>subjuntivo</strong> y otros modos</li>
+      </ul>
+
+      <h3 style="color: var(--primary); margin: 1.2rem 0 0.8rem;">Construcción Enfática: οὐ μή + Subjuntivo Aoristo</h3>
+      <p>Esta es una <strong>negación enfática del futuro</strong>. Los dos negativos no se cancelan; se refuerzan.</p>
+
+      <div class="important-note">
+        <p><strong>🎯 Significado:</strong> "<strong>de ninguna manera</strong>", "<strong>ciertamente no</strong>"</p>
+      </div>
+
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Texto griego</th>
+              <th>Traducción literal</th>
+              <th>Traducción enfática</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="greek-text"><strong>οὐ μὴ ἀπόλωνται</strong> (Jn 10:28)</td>
+              <td>no puedan perecer</td>
+              <td><strong>de ninguna manera perecerán</strong></td>
+            </tr>
+            <tr>
+              <td class="greek-text"><strong>οὐ μὴ γεύσωνται</strong> θανάτου (Mr 9:1)</td>
+              <td>no puedan probar la muerte</td>
+              <td><strong>ciertamente no probarán</strong> la muerte</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-question-circle"></i> Preguntas con Partículas de Negación</h2>
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Partícula</th>
+              <th>Respuesta Esperada</th>
+              <th>Ejemplo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Neutra</td>
+              <td>(sin partícula)</td>
+              <td>Incierta</td>
+              <td class="greek-text">σὺ εἶ ὁ βασιλεὺς τῶν Ἰουδαίων; (Mt 27:11)</td>
+            </tr>
+            <tr>
+              <td>Espera "SÍ"</td>
+              <td><strong>οὐ</strong></td>
+              <td>Afirmativa</td>
+              <td class="greek-text">Διδάσκαλε, <strong>οὐ</strong> μέλει σοι ὅτι ἀπολλύμεθα; (Mr 4:38)</td>
+            </tr>
+            <tr>
+              <td>Espera "NO"</td>
+              <td><strong>μή</strong></td>
+              <td>Negativa</td>
+              <td class="greek-text"><strong>μή</strong> πάντες ἀπόστολοι; (1 Co 12:29)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Negación y Preguntas</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué partícula se usa para negar el subjuntivo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> οὐ</label>
+          <label><input type="radio" name="q1" value="b"> μή</label>
+          <label><input type="radio" name="q1" value="c"> οὐδέ</label>
+          <label><input type="radio" name="q1" value="d"> μηδέ</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

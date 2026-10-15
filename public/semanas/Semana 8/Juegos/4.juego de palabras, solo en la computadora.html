@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprende Griego Koiné - Ministerio Vivos para Servir</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green-primary: #58CC02;
+            --green-secondary: #46A302;
+            --purple: #7B61FF;
+            --white: #FFFFFF;
+            --black: #2D2D2D;
+            --red: #FF5252;
+            --blue: #1CB0F6;
+        }
+
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background: linear-gradient(160deg, #ffffff 0%, #e6f4ff 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: var(--black);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--purple);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .streak {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background-color: var(--white);
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .streak-count {
+            font-weight: bold;
+            color: var(--green-primary);
+        }
+
+        /* Mascota */
+        .mascot-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .mascot {
+            width: 150px;
+            height: 150px;
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Barra de progreso */
+        .progress-container {
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green-primary) 0%, var(--blue) 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Tarjeta de ejercicio */
+        .exercise-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(88, 204, 2, 0.15);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .exercise-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--green-primary) 0%, var(--purple) 100%);
+        }
+
+        .instruction {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--black);
+            font-weight: 700;
+        }
+
+        .word-bubble {
+            background-color: var(--green-primary);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 0 var(--green-secondary);
+        }
+
+        /* Opciones de respuesta */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 16px;
+            padding: 15px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover {
+            border-color: var(--green-primary);
+            transform: translateY(-2px);
+        }
+
+        /* Botones */
+        .btn-primary {
+            background: var(--green-primary);
+            border: 3px solid var(--green-secondary);
+            border-radius: 16px;
+            padding: 15px 30px;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 4px 0 var(--green-secondary);
+            transition: all 0.1s ease;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
+        .btn-primary:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 var(--green-secondary);
+        }
+
+        /* Animaciones */
+        @keyframes correctAnswer {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .correct {
+            animation: correctAnswer 0.5s ease;
+            background: var(--green-primary);
+            color: white;
+            border-color: var(--green-secondary);
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(10px); }
+            50% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+            100% { transform: translateX(0); }
+        }
+
+        .incorrect {
+            animation: shake 0.4s ease;
+            background: var(--red);
+            color: white;
+            border-color: #d32f2f;
+        }
+
+        /* Confeti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: var(--green-primary);
+            opacity: 0.8;
+            animation: confetti-fall 3s linear forwards;
+            z-index: 1000;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        /* XP Popup */
+        .xp-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--green-primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.5rem;
+            z-index: 1001;
+            animation: popupFade 2s forwards;
+        }
+
+        @keyframes popupFade {
+            0% { opacity: 0; transform: translate(-50%, -40%); }
+            20% { opacity: 1; transform: translate(-50%, -50%); }
+            80% { opacity: 1; transform: translate(-50%, -50%); }
+            100% { opacity: 0; transform: translate(-50%, -60%); }
+        }
+
+        /* Pantalla de resultados */
+        .results-screen {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(88, 204, 2, 0.15);
+            text-align: center;
+            display: none;
+        }
+
+        .results-title {
+            color: var(--green-primary);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .results-stats {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .results-score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--purple);
+            margin: 20px 0;
+        }
+
+        .celebration {
+            font-size: 3rem;
+            margin: 20px 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .mascot {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Ministerio Vivos para Servir" class="logo">
+            <div class="user-info">
+                <div class="streak">
+                    <span>🔥</span>
+                    <span class="streak-count">3</span>
+                </div>
+                <div class="avatar">A</div>
+            </div>
+        </div>
+
+        <div class="mascot-container">
+            <svg class="mascot" viewBox="0 0 200 200">
+                <!-- Cabeza -->
+                <circle cx="100" cy="100" r="95" fill="#FFD700" stroke="#333" stroke-width="2"/>
+                
+                <!-- Ojos -->
+                <ellipse cx="80" cy="80" rx="15" ry="20" fill="#FFFFFF"/>
+                <ellipse cx="120" cy="80" rx="15" ry="20" fill="#FFFFFF"/>
+                <circle cx="80" cy="80" r="8" fill="#333"/>
+                <circle cx="120" cy="80" r="8" fill="#333"/>
+                
+                <!-- Boca -->
+                <path d="M60 130 Q100 160 140 130" stroke="#333" stroke-width="4" fill="none"/>
+                
+                <!-- Mejillas -->
+                <circle cx="60" cy="110" r="10" fill="#FF8A80" opacity="0.6"/>
+                <circle cx="140" cy="110" r="10" fill="#FF8A80" opacity="0.6"/>
+            </svg>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="exercise-card" id="quiz-container">
+            <p class="instruction">Selecciona la palabra en griego que corresponde a:</p>
+            <div class="word-bubble" id="question-word"></div>
+            
+            <div class="options-grid" id="options-container">
+                <!-- Las opciones se generan dinámicamente -->
+            </div>
+            
+            <button class="btn-primary" id="check-btn">Comprobar</button>
+            <button class="btn-primary hidden" id="next-btn">Siguiente</button>
+        </div>
+
+        <div class="results-screen" id="results-screen">
+            <div class="celebration">🎉</div>
+            <h2 class="results-title">¡Examen Completado!</h2>
+            <div class="results-stats">
+                <p>Has terminado todas las preguntas</p>
+                <div class="results-score" id="final-score"></div>
+                <p id="result-message"></p>
+            </div>
+            <button class="btn-primary" id="restart-btn">Volver a Intentar</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© Ministerio "Vivos para Servir" - Sección Educativa</p>
+    </footer>
+
+    <script>
+        class UserProgress {
+            constructor() {
+                this.xp = 250;
+                this.streak = 3;
+                this.level = 5;
+                this.progress = 0;
+                this.correctAnswers = 0;
+                this.totalQuestions = 0;
+            }
+
+            addXP(points) {
+                this.xp += points;
+                this.streak++;
+                this.progress += 10;
+                this.correctAnswers++;
+                this.updateProgressBar();
+                this.showXPPopup(points);
+                
+                if (this.progress >= 100) {
+                    this.levelUp();
+                }
+            }
+
+            levelUp() {
+                this.level++;
+                this.progress = 0;
+                alert(`¡Felicidades! Subiste al nivel ${this.level}`);
+            }
+
+            updateProgressBar() {
+                const progressFill = document.getElementById('progress-fill');
+                progressFill.style.width = `${this.progress}%`;
+            }
+
+            showXPPopup(points) {
+                const popup = document.createElement('div');
+                popup.className = 'xp-popup';
+                popup.textContent = `+${points} XP!`;
+                document.body.appendChild(popup);
+                
+                setTimeout(() => {
+                    popup.remove();
+                }, 2000);
+            }
+
+            reset() {
+                this.correctAnswers = 0;
+                this.totalQuestions = 0;
+                this.progress = 0;
+                this.updateProgressBar();
+            }
+        }
+
+        const vocabulary = [
+  { 
+    greek: "αἰών, -ῶνος, ὁ", 
+    spanish: "era, eternidad",
+    notes: "Las expresiones εἰς τὸν αἰῶνα y εἰς τοὺς αἰώνας τῶν αἰώνων significan 'para siempre'"
+  },
+  { 
+    greek: "διδάσκαλος, -ου, ὁ", 
+    spanish: "maestro" 
+  },
+  { 
+    greek: "εὐθύς", 
+    spanish: "inmediatamente",
+    notes: "Ocurre 51x como adverbio y 7x como adjetivo" 
+  },
+  { 
+    greek: "ἕως", 
+    spanish: "conj: hasta; prep (gen): hasta, tan lejos como" 
+  },
+  { 
+    greek: "μαθητής, -οῦ, ὁ", 
+    spanish: "discípulo",
+    notes: "Se declina como προφήτης" 
+  },
+  { 
+    greek: "μέν", 
+    spanish: "por un lado, ciertamente",
+    notes: "Postpositivo. A menudo se usa correlativamente con δέ ('por un lado... pero por otro')" 
+  },
+  { 
+    greek: "μηδείς, μηδεμία, μηδέν", 
+    spanish: "nadie/nada",
+    notes: "Se declina como οὐδείς" 
+  },
+  { 
+    greek: "μόνος, -η, -ον", 
+    spanish: "solo, único",
+    notes: "Frecuentemente funciona como adverbio en acusativo neutro (μόνον)" 
+  },
+  { 
+    greek: "ὅπως", 
+    spanish: "cómo, que, para que" 
+  },
+  { 
+    greek: "ὅσος, -η, -ον", 
+    spanish: "tan grande como, tantos como",
+    notes: "La parte inicial (ὁσ-) permanece, la segunda se declina como el pronombre relativo" 
+  },
+  { 
+    greek: "οὖν", 
+    spanish: "por tanto, entonces",
+    notes: "Postpositivo" 
+  },
+  { 
+    greek: "ὀφθαλμός, -οῦ, ὁ", 
+    spanish: "ojo, vista" 
+  },
+  { 
+    greek: "πάλιν", 
+    spanish: "de nuevo" 
+  },
+  { 
+    greek: "πούς, ποδός, ὁ", 
+    spanish: "pie",
+    notes: "En nominativo singular, el omicron se alarga a ου (*ποδ + ς → πούς). Dativo plural ποσί(ν)" 
+  },
+  { 
+    greek: "ὑπέρ", 
+    spanish: "gen: en favor de; acus: sobre" 
+  }
+];
+
+        const user = new UserProgress();
+        let currentQuestion = 0;
+        let selectedAnswer = null;
+        let quizQuestions = [];
+
+        function initializeQuiz() {
+            // Mezclar las preguntas para que no siempre estén en el mismo orden
+            quizQuestions = [...vocabulary].sort(() => 0.5 - Math.random());
+            user.totalQuestions = quizQuestions.length;
+            user.reset();
+            currentQuestion = 0;
+            loadQuestion();
+        }
+
+        function getRandomOptions(correctAnswer, count = 3) {
+            const options = vocabulary
+                .filter(item => item.greek !== correctAnswer.greek)
+                .sort(() => 0.5 - Math.random())
+                .slice(0, count)
+                .map(item => item.greek);
+            
+            options.push(correctAnswer.greek);
+            return options.sort(() => 0.5 - Math.random());
+        }
+
+        function loadQuestion() {
+            document.getElementById('quiz-container').style.display = 'block';
+            document.getElementById('results-screen').style.display = 'none';
+
+            const question = quizQuestions[currentQuestion];
+            document.getElementById('question-word').textContent = question.spanish;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            const options = getRandomOptions(question);
+            
+            options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.dataset.correct = option === question.greek;
+                btn.addEventListener('click', () => selectOption(btn));
+                optionsContainer.appendChild(btn);
+            });
+            
+            document.getElementById('check-btn').classList.remove('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+            selectedAnswer = null;
+        }
+
+        function selectOption(btn) {
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach(opt => opt.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedAnswer = btn;
+        }
+
+        function checkAnswer() {
+            if (!selectedAnswer) {
+                alert('Por favor selecciona una respuesta');
+                return;
+            }
+
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach(opt => {
+                opt.disabled = true;
+                if (opt.dataset.correct === 'true') {
+                    opt.classList.add('correct');
+                }
+            });
+            
+            if (selectedAnswer.dataset.correct === 'true') {
+                selectedAnswer.classList.add('correct');
+                user.addXP(10);
+                launchConfetti();
+            } else {
+                selectedAnswer.classList.add('incorrect');
+            }
+            
+            document.getElementById('check-btn').classList.add('hidden');
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function launchConfetti() {
+            for(let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = getRandomColor();
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+
+        function getRandomColor() {
+            const colors = ['#58CC02', '#FFD700', '#7B61FF', '#1CB0F6', '#FF5252'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < quizQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-container').style.display = 'none';
+            const resultsScreen = document.getElementById('results-screen');
+            resultsScreen.style.display = 'block';
+            
+            const percentage = Math.round((user.correctAnswers / user.totalQuestions) * 100);
+            document.getElementById('final-score').textContent = 
+                `${user.correctAnswers} / ${user.totalQuestions} (${percentage}%)`;
+            
+            const resultMessage = document.getElementById('result-message');
+            if (percentage >= 80) {
+                resultMessage.textContent = "¡Excelente trabajo! Dominas estas palabras griegas.";
+            } else if (percentage >= 60) {
+                resultMessage.textContent = "¡Buen trabajo! Sigue practicando para mejorar.";
+            } else {
+                resultMessage.textContent = "Sigue estudiando. ¡Puedes mejorar!";
+            }
+            
+            // Lanzar confeti de celebración
+            launchConfetti();
+        }
+
+        function restartQuiz() {
+            initializeQuiz();
+        }
+
+        // Event listeners
+        document.getElementById('check-btn').addEventListener('click', checkAnswer);
+        document.getElementById('next-btn').addEventListener('click', nextQuestion);
+        document.getElementById('restart-btn').addEventListener('click', restartQuiz);
+
+        // Inicializar el quiz
+        initializeQuiz();
+    </script>
+</body>
+</html>

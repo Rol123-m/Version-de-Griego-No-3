@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Tempus Aoristi - Empareja el Aoristo Segundo Griego</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            background: radial-gradient(circle at 10% 20%, #1a472a, #0d2a1a);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e8f5e9;
+        }
+
+        .game-header {
+            text-align: center;
+            padding: 20px 20px 10px;
+        }
+
+        .game-header h1 {
+            font-size: clamp(1.5rem, 6vw, 2.6rem);
+            background: linear-gradient(135deg, #c8e6c9, #81c784, #4caf50);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .sub {
+            color: #a5d6a7;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        /* Barra superior */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(26, 71, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px 24px;
+            margin: 20px auto;
+            max-width: 750px;
+            border: 1px solid #4caf50;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #1a4a2a;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+
+        .stat .value {
+            color: #81c784;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        /* Tablero de juego */
+        .game-board {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: rgba(26, 71, 42, 0.4);
+            border-radius: 48px;
+            padding: 25px;
+            backdrop-filter: blur(8px);
+        }
+
+        .match-counter {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .match-counter span {
+            background: #1a5a3a;
+            padding: 6px 20px;
+            border-radius: 30px;
+            display: inline-block;
+        }
+
+        /* Columnas lado a lado */
+        .columns-wrapper {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .column h3 {
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4caf50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #1a5a3a, #0e3a22);
+            border: 2px solid #4caf50;
+            border-radius: 20px;
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: clamp(0.85rem, 4vw, 1rem);
+        }
+
+        .card.greek {
+            font-family: 'Times New Roman', 'Palatino', serif;
+            font-size: 1.05rem;
+            background: linear-gradient(145deg, #2a6a4a, #1a5a3a);
+            border-left: 6px solid #ffd54f;
+        }
+
+        .card.spanish {
+            border-right: 6px solid #ffd54f;
+        }
+
+        .card.selected {
+            background: #ffd54f;
+            color: #0e3a22;
+            border-color: white;
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(255, 213, 79, 0.5);
+        }
+
+        .card.matched {
+            background: #2e7d32;
+            border-color: #81c784;
+            cursor: default;
+            opacity: 0.7;
+            text-decoration: line-through;
+            pointer-events: none;
+        }
+
+        .card.matched::after {
+            content: " ✓";
+            font-weight: bold;
+            color: #c8e6c9;
+        }
+
+        /* Botón siguiente nivel */
+        .next-level-btn {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: white;
+            cursor: pointer;
+            margin-top: 30px;
+            width: 100%;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .next-level-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .next-level-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        /* Modal victoria */
+        .victory-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.4s;
+        }
+
+        .victory-card {
+            background: linear-gradient(145deg, #1a5a3a, #0e3a22);
+            border-radius: 48px;
+            padding: 35px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 2px solid #ffd54f;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 640px) {
+            .columns-wrapper { flex-direction: column; }
+            .column { min-width: auto; }
+            .game-board { padding: 15px; }
+            .top-bar { flex-direction: column; border-radius: 28px; }
+            .stat { width: 100%; justify-content: center; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="game-header">
+        <h1><i class="fas fa-hourglass-half"></i> TEMPUS AORISTI <i class="fas fa-scroll"></i></h1>
+        <div class="sub">⋆ Asocia cada forma en aoristo segundo con su traducción correcta ⋆</div>
+    </div>
+
+    <div class="top-bar">
+        <div class="stat"><i class="fas fa-crown"></i><span>NIVEL</span><span class="value" id="levelNum">1</span><span>/3</span></div>
+        <div class="stat"><i class="fas fa-check-circle"></i><span>ACIERTOS</span><span class="value" id="matchedCount">0</span><span>/<span id="totalPairs">0</span></span></div>
+        <div class="stat"><i class="fas fa-star"></i><span>PUNTOS</span><span class="value" id="scoreValue">0</span></div>
+    </div>
+
+    <div class="game-board" id="gameBoard">
+        <div class="match-counter"><span><i class="fas fa-hand-pointer"></i> Haz clic en una palabra griega y luego en su traducción</span></div>
+        <div class="columns-wrapper" id="columnsWrapper"></div>
+        <button class="next-level-btn" id="nextBtn" disabled><i class="fas fa-arrow-right"></i> Siguiente Nivel <i class="fas fa-arrow-left"></i></button>
+    </div>
+
+    <script>
+        const levels = [
+            { name: "Nivel 1: Aoristo Segundo Activo", pairs: [
+                { greek: "ἔλαβον", spanish: "yo tomé / agarré" },
+                { greek: "ἔλαβες", spanish: "tú tomaste" },
+                { greek: "ἔλαβε(ν)", spanish: "él/ella tomó" },
+                { greek: "ἐλάβομεν", spanish: "nosotros tomamos" },
+                { greek: "ἐλάβετε", spanish: "vosotros tomasteis" }
+            ]},
+            { name: "Nivel 2: Aoristo Segundo Medio Deponente", pairs: [
+                { greek: "ἐγενόμην", spanish: "yo llegué a ser / me volví" },
+                { greek: "ἐγένου", spanish: "tú llegaste a ser" },
+                { greek: "ἐγένετο", spanish: "él/ella llegó a ser" },
+                { greek: "ἐγενόμεθα", spanish: "nosotros llegamos a ser" },
+                { greek: "ἐγένοντο", spanish: "ellos llegaron a ser" }
+            ]},
+            { name: "Nivel 3: Verbos Irregulares", pairs: [
+                { greek: "εἶπον", spanish: "yo dije" },
+                { greek: "ἦλθον", spanish: "yo vine / fui" },
+                { greek: "ἔγνων", spanish: "yo conocí / supe" },
+                { greek: "εὗρον", spanish: "yo encontré" },
+                { greek: "ἔβαλον", spanish: "yo arrojé / lancé" }
+            ]}
+        ];
+
+        let currentLevel = 0;
+        let currentPairs = [];
+        let matchedGreek = [];
+        let matchedSpanish = [];
+        let selectedCard = null;
+        let selectedType = null;
+        let selectedIndex = null;
+        let score = 0;
+
+        const gameBoard = document.getElementById('gameBoard');
+        const columnsWrapper = document.getElementById('columnsWrapper');
+        const nextBtn = document.getElementById('nextBtn');
+        const levelNumSpan = document.getElementById('levelNum');
+        const matchedCountSpan = document.getElementById('matchedCount');
+        const totalPairsSpan = document.getElementById('totalPairs');
+        const scoreSpan = document.getElementById('scoreValue');
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function loadLevel() {
+            const levelData = levels[currentLevel];
+            currentPairs = [...levelData.pairs];
+            matchedGreek = [];
+            matchedSpanish = [];
+            selectedCard = null;
+            selectedType = null;
+            selectedIndex = null;
+
+            const shuffledGreek = shuffleArray([...currentPairs]);
+            const shuffledSpanish = shuffleArray([...currentPairs]);
+
+            columnsWrapper.innerHTML = `
+                <div class="column"><h3><i class="fas fa-language"></i> 🇬🇷 GRIEGO (Aoristo)</h3><div id="greekCol"></div></div>
+                <div class="column"><h3><i class="fas fa-language"></i> 🇪🇸 ESPAÑOL</h3><div id="spanishCol"></div></div>
+            `;
+            const greekCol = document.getElementById('greekCol');
+            const spanishCol = document.getElementById('spanishCol');
+
+            shuffledGreek.forEach((pair, idx) => {
+                const originalIdx = currentPairs.findIndex(p => p.greek === pair.greek && p.spanish === pair.spanish);
+                const card = document.createElement('div');
+                card.className = 'card greek';
+                card.textContent = pair.greek;
+                card.setAttribute('data-type', 'greek');
+                card.setAttribute('data-index', originalIdx);
+                card.addEventListener('click', () => handleCardClick('greek', originalIdx, card));
+                greekCol.appendChild(card);
+            });
+
+            shuffledSpanish.forEach((pair, idx) => {
+                const originalIdx = currentPairs.findIndex(p => p.spanish === pair.spanish);
+                const card = document.createElement('div');
+                card.className = 'card spanish';
+                card.textContent = pair.spanish;
+                card.setAttribute('data-type', 'spanish');
+                card.setAttribute('data-index', originalIdx);
+                card.addEventListener('click', () => handleCardClick('spanish', originalIdx, card));
+                spanishCol.appendChild(card);
+            });
+
+            levelNumSpan.textContent = currentLevel + 1;
+            totalPairsSpan.textContent = currentPairs.length;
+            matchedCountSpan.textContent = '0';
+            nextBtn.disabled = true;
+        }
+
+        function updateStats() {
+            matchedCountSpan.textContent = matchedGreek.length;
+            scoreSpan.textContent = score;
+            if (matchedGreek.length === currentPairs.length) {
+                nextBtn.disabled = false;
+            }
+        }
+
+        function clearSelection() {
+            document.querySelectorAll('.card.selected').forEach(c => c.classList.remove('selected'));
+            selectedCard = null;
+            selectedType = null;
+            selectedIndex = null;
+        }
+
+        function handleCardClick(type, idx, element) {
+            if ((type === 'greek' && matchedGreek.includes(idx)) || (type === 'spanish' && matchedSpanish.includes(idx))) return;
+
+            if (selectedCard === null) {
+                clearSelection();
+                selectedCard = element;
+                selectedType = type;
+                selectedIndex = idx;
+                element.classList.add('selected');
+                return;
+            }
+
+            const firstType = selectedType;
+            const firstIdx = selectedIndex;
+            const firstElem = selectedCard;
+
+            if (firstType === type) {
+                clearSelection();
+                selectedCard = element;
+                selectedType = type;
+                selectedIndex = idx;
+                element.classList.add('selected');
+                return;
+            }
+
+            let greekIdx, spanishIdx, greekElem, spanishElem;
+            if (firstType === 'greek' && type === 'spanish') {
+                greekIdx = firstIdx; spanishIdx = idx;
+                greekElem = firstElem; spanishElem = element;
+            } else {
+                greekIdx = idx; spanishIdx = firstIdx;
+                greekElem = element; spanishElem = firstElem;
+            }
+
+            if (matchedGreek.includes(greekIdx) || matchedSpanish.includes(spanishIdx)) {
+                clearSelection();
+                return;
+            }
+
+            const expectedSpanish = currentPairs[greekIdx]?.spanish;
+            const selectedSpanish = currentPairs[spanishIdx]?.spanish;
+
+            if (expectedSpanish === selectedSpanish) {
+                matchedGreek.push(greekIdx);
+                matchedSpanish.push(spanishIdx);
+                greekElem.classList.add('matched');
+                spanishElem.classList.add('matched');
+                score += 10;
+                updateStats();
+                clearSelection();
+            } else {
+                score = Math.max(0, score - 3);
+                updateStats();
+                greekElem.classList.add('selected');
+                spanishElem.classList.add('selected');
+                setTimeout(() => {
+                    greekElem.classList.remove('selected');
+                    spanishElem.classList.remove('selected');
+                }, 600);
+                clearSelection();
+            }
+        }
+
+        function nextLevel() {
+            if (matchedGreek.length !== currentPairs.length) return;
+            if (currentLevel + 1 < levels.length) {
+                currentLevel++;
+                loadLevel();
+            } else {
+                showVictory();
+            }
+        }
+
+        function showVictory() {
+            const modal = document.createElement('div');
+            modal.className = 'victory-modal';
+            modal.innerHTML = `<div class="victory-card"><i class="fas fa-trophy" style="font-size: 3.5rem; color: #ffd54f;"></i><h2 style="margin: 15px 0;">¡Victoria!</h2><p style="font-size: 2rem; color: #81c784;">${score} pts</p><p>Has dominado el aoristo segundo griego.</p><button class="next-level-btn" id="restartGameBtn" style="margin-top: 20px; background: #ffd54f; color: #0e3a22;"><i class="fas fa-play"></i> Jugar de nuevo</button></div>`;
+            document.body.appendChild(modal);
+            document.getElementById('restartGameBtn').addEventListener('click', () => { modal.remove(); resetGame(); });
+        }
+
+        function resetGame() {
+            currentLevel = 0;
+            score = 0;
+            loadLevel();
+        }
+
+        nextBtn.addEventListener('click', nextLevel);
+        loadLevel();
+    </script>
+</body>
+</html>

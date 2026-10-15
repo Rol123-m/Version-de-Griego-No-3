@@ -1,4 +1,5 @@
 import React from 'react';
+import { assetUrl } from '../utils/assetUrl';
 import { useAuth } from '../context/AuthContext';
 import { useProgress } from '../context/ProgressContext';
 import { COURSE_CONFIG } from '../data/courseData';
@@ -36,7 +37,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <div className="relative">
               <img 
-                src="/mas logos.jpeg" 
+                src={assetUrl('/logo.jpeg')} 
                 alt="Ministerio Vivos para Servir" 
                 className="w-12 h-12 rounded-full object-cover border-2 border-amber-400/80 shadow-md transition-transform group-hover:scale-105"
                 onError={(e) => {

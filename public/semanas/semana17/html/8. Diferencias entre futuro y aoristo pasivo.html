@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diferencias entre Futuro y Aoristo Pasivo</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Diferencias entre Futuro y Aoristo Pasivo</h1>
+      <div class="subtitle">El Aoristo y Futuro Pasivo Indicativo</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-balance-scale"></i> Diferencias Clave</h2>
+      <ol>
+        <li><strong>Aumento:</strong> El futuro pasivo <strong>no</strong> lleva aumento (indica tiempo futuro, no pasado).</li>
+        <li><strong>Formativo del tiempo:</strong> Es <strong>θησ</strong> (futuro) vs. <strong>θη</strong> (aoristo).</li>
+        <li><strong>Desinencias:</strong> El futuro pasivo usa desinencias <strong>primarias de medio/pasivo</strong>, el aoristo pasivo usa <strong>secundarias activas</strong>.</li>
+        <li><strong>-θησαν:</strong> La forma de 3a persona plural <strong>-θησαν</strong> es siempre de <strong>aoristo pasivo</strong>. Es la única vez en el primer aoristo pasivo que aparece una sigma después de θη. En todos los demás casos, <strong>θησ</strong> indica futuro pasivo.</li>
+      </ol>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Diferencias entre Futuro y Aoristo Pasivo</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Cuál de estas es una diferencia clave entre futuro y aoristo pasivo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> El aoristo pasivo no lleva aumento</label>
+          <label><input type="radio" name="q1" value="b"> El futuro pasivo no lleva aumento</label>
+          <label><input type="radio" name="q1" value="c"> El futuro pasivo usa desinencias secundarias activas</label>
+          <label><input type="radio" name="q1" value="d"> El aoristo pasivo usa desinencias primarias de medio/pasivo</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿Qué indica la terminación -θησαν?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Futuro pasivo de 3a persona plural</label>
+          <label><input type="radio" name="q2" value="b"> Aoristo pasivo de 3a persona plural</label>
+          <label><input type="radio" name="q2" value="c"> Presente pasivo de 3a persona plural</label>
+          <label><input type="radio" name="q2" value="d"> Perfecto pasivo de 3a persona plural</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 3:</strong> ¿Qué tipo de desinencias usa el aoristo pasivo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> Primarias de medio/pasivo</label>
+          <label><input type="radio" name="q3" value="b"> Secundarias activas</label>
+          <label><input type="radio" name="q3" value="c"> Primarias activas</label>
+          <label><input type="radio" name="q3" value="d"> Secundarias de medio/pasivo</label>
+        </div>
+        <div class="result" id="result3"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b', q2: 'b', q3: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

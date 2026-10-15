@@ -12,6 +12,7 @@ import { CertificateModal } from './components/CertificateModal';
 import { UnlockModal } from './components/UnlockModal';
 import { TeacherAdminModal } from './components/TeacherAdminModal';
 import { Footer } from './components/Footer';
+import { PWAManager } from './pwa/PWAManager';
 
 const AppContent: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -131,6 +132,7 @@ export const App: React.FC = () => {
     <AuthProvider>
       <ProgressProvider>
         <AppContent />
+        <PWAManager />
       </ProgressProvider>
     </AuthProvider>
   );

@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Completa el Aoristo - Griego Koiné</title>
+    <style>
+        /* ===== RESET Y BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', Arial, sans-serif;
+            background: linear-gradient(145deg, #0f1a2e, #1a2a4a, #0d1f3c);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 15px 100px;
+            color: white;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ===== FONDO ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, rgba(255,215,0,0.2), transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,215,0,0.15), transparent),
+                radial-gradient(2px 2px at 50px 160px, rgba(255,215,0,0.1), transparent),
+                radial-gradient(2px 2px at 90px 40px, rgba(255,215,0,0.2), transparent);
+            background-size: 200px 200px;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ===== LOGO ===== */
+        .logo {
+            width: 160px;
+            max-width: 60%;
+            height: auto;
+            margin: 10px auto 5px;
+            filter: drop-shadow(0 4px 20px rgba(255, 215, 0, 0.2));
+            position: relative;
+            z-index: 1;
+            border-radius: 12px;
+        }
+
+        /* ===== TÍTULO ===== */
+        h1 {
+            text-align: center;
+            font-size: clamp(1.3rem, 4.5vw, 2.2rem);
+            margin-bottom: 8px;
+            color: #FFD700;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.2), 0 2px 4px rgba(0,0,0,0.5);
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 1px;
+        }
+        h1 span {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== PROGRESS ===== */
+        #progress {
+            font-size: clamp(0.85rem, 2.2vw, 1.1rem);
+            margin: 5px 0 15px;
+            padding: 10px 25px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        #progress .stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        #progress .stat span {
+            color: #FFD700;
+            font-weight: 700;
+        }
+        .stat-icon {
+            font-size: 1.1em;
+        }
+
+        /* ===== CONTENEDOR PRINCIPAL ===== */
+        .game-container {
+            width: 100%;
+            max-width: 850px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== TARJETA DE PREGUNTA ===== */
+        .question-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 40px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+            margin-bottom: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .question-label {
+            font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+            color: rgba(255, 215, 0, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .question-text {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-family: 'Times New Roman', 'New Athena Unicode', serif;
+            color: #fff;
+            font-weight: 700;
+            margin: 10px 0;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .question-text .blank {
+            display: inline-block;
+            min-width: clamp(80px, 20vw, 160px);
+            border-bottom: 4px solid #FFD700;
+            padding: 0 10px;
+            color: #FFD700;
+            font-weight: 700;
+            min-height: 50px;
+            text-align: center;
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s ease;
+        }
+        .question-text .blank.filled {
+            border-bottom-color: #2ecc71;
+            color: #2ecc71;
+        }
+        .question-text .blank.correct-answer {
+            border-bottom-color: #2ecc71;
+            color: #2ecc71;
+            background: rgba(46, 204, 113, 0.1);
+        }
+        .question-text .blank.wrong-answer {
+            border-bottom-color: #e74c3c;
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+            animation: shake 0.5s ease;
+        }
+
+        .question-hint {
+            font-size: clamp(0.8rem, 1.8vw, 1rem);
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* ===== OPCIONES (BOTONES) ===== */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(clamp(100px, 20vw, 180px), 1fr));
+            gap: clamp(10px, 2vw, 16px);
+            margin-top: 15px;
+        }
+
+        .option-btn {
+            padding: clamp(14px, 2.5vw, 20px) clamp(10px, 1.5vw, 20px);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
+            font-family: 'Times New Roman', 'New Athena Unicode', serif;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-align: center;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-break: break-word;
+        }
+
+        .option-btn:hover:not(.used):not(.disabled) {
+            transform: translateY(-3px) scale(1.03);
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.1);
+        }
+
+        .option-btn:active:not(.used):not(.disabled) {
+            transform: scale(0.95);
+        }
+
+        .option-btn.correct {
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(46, 204, 113, 0.2);
+        }
+
+        .option-btn.wrong {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            animation: shake 0.5s ease;
+        }
+
+        .option-btn.used {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: scale(0.95);
+            filter: grayscale(0.5);
+        }
+
+        .option-btn.disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback {
+            margin-top: 20px;
+            padding: clamp(12px, 2vw, 20px);
+            border-radius: 14px;
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            text-align: center;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .feedback.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .feedback.success {
+            background: rgba(46, 204, 113, 0.15);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            color: #2ecc71;
+        }
+        .feedback.error {
+            background: rgba(231, 76, 60, 0.15);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+        }
+        .feedback.info {
+            background: rgba(52, 152, 219, 0.15);
+            border: 1px solid rgba(52, 152, 219, 0.3);
+            color: #3498db;
+        }
+
+        /* ===== BOTÓN SIGUIENTE ===== */
+        .next-btn {
+            margin-top: 15px;
+            padding: clamp(14px, 2.5vw, 18px) clamp(30px, 5vw, 50px);
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1a1a2e;
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.3);
+        }
+        .next-btn:active {
+            transform: scale(0.95);
+        }
+        .next-btn.show {
+            display: inline-flex;
+        }
+
+        /* ===== ANIMACIONES ===== */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-12px) rotate(-2deg); }
+            40% { transform: translateX(12px) rotate(2deg); }
+            60% { transform: translateX(-8px); }
+            80% { transform: translateX(8px); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .question-card {
+            animation: popIn 0.4s ease;
+        }
+
+        /* ===== MENSAJE FINAL ===== */
+        .final-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(145deg, #0f1a2e, #1a2a4a);
+            padding: clamp(30px, 5vw, 50px);
+            border-radius: 30px;
+            text-align: center;
+            animation: zoomIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.1), 0 20px 60px rgba(0,0,0,0.8);
+            z-index: 1000;
+            max-width: 90vw;
+            width: 450px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        @keyframes zoomIn {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(-3deg); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .final-message img {
+            width: clamp(120px, 25vw, 170px);
+            margin-bottom: 15px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
+        .final-message h2 {
+            color: #FFD700;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            margin-bottom: 10px;
+        }
+        .final-message .stats {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+        .final-message .stats span {
+            color: #FFD700;
+            font-weight: 700;
+        }
+        .final-message .verse {
+            margin-top: 15px;
+            font-style: italic;
+            color: rgba(255, 215, 0, 0.7);
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            border-top: 1px solid rgba(255,215,0,0.15);
+            padding-top: 15px;
+        }
+
+        /* ===== OVERLAY ===== */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ===== CONTROLES DE MÚSICA ===== */
+        .music-controls {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 8px 15px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .music-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #1a1a2e;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.2);
+        }
+        .music-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+        }
+        .music-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px 10px 90px;
+            }
+            .question-card {
+                padding: 20px 15px;
+                border-radius: 18px;
+            }
+            .question-text {
+                font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+                min-height: 45px;
+            }
+            .question-text .blank {
+                min-width: 60px;
+                min-height: 38px;
+            }
+            .options-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .option-btn {
+                padding: 12px 8px;
+                font-size: clamp(0.85rem, 2.5vw, 1rem);
+                min-height: 45px;
+                border-radius: 10px;
+            }
+            #progress {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+                gap: 12px;
+            }
+            .music-controls {
+                bottom: 15px;
+                right: 15px;
+                padding: 6px 12px;
+                gap: 8px;
+            }
+            .music-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+            .final-message {
+                padding: 25px;
+                width: 92vw;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px 5px 80px;
+            }
+            .logo {
+                width: 120px;
+            }
+            h1 {
+                font-size: 1.1rem;
+            }
+            .subtitle {
+                font-size: 0.7rem;
+                margin-bottom: 10px;
+            }
+            .question-card {
+                padding: 15px 12px;
+                border-radius: 14px;
+            }
+            .question-text {
+                font-size: clamp(1.2rem, 4vw, 1.6rem);
+                min-height: 38px;
+            }
+            .question-text .blank {
+                min-width: 50px;
+                min-height: 32px;
+                border-bottom-width: 3px;
+            }
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .option-btn {
+                padding: 10px 6px;
+                font-size: clamp(0.75rem, 2.8vw, 0.85rem);
+                min-height: 38px;
+                border-radius: 8px;
+                border-width: 1.5px;
+            }
+            #progress {
+                padding: 6px 12px;
+                font-size: 0.7rem;
+                gap: 8px;
+                border-radius: 30px;
+            }
+            .feedback {
+                font-size: 0.85rem;
+                padding: 10px;
+                min-height: 40px;
+            }
+            .next-btn {
+                padding: 10px 20px;
+                font-size: 0.85rem;
+            }
+            .music-controls {
+                bottom: 10px;
+                right: 10px;
+                padding: 5px 10px;
+                gap: 6px;
+            }
+            .music-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+            }
+            .final-message {
+                padding: 20px;
+                width: 95vw;
+                border-radius: 20px;
+            }
+            .final-message h2 {
+                font-size: 1.3rem;
+            }
+            .final-message .stats {
+                font-size: 0.9rem;
+            }
+            .final-message img {
+                width: 100px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            .option-btn {
+                font-size: 0.7rem;
+                padding: 8px 4px;
+                min-height: 34px;
+            }
+            .question-text {
+                font-size: 1rem;
+            }
+            .question-text .blank {
+                min-width: 40px;
+                min-height: 28px;
+            }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== LOGO Y TÍTULO ===== -->
+    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" class="logo" alt="Logo Ministerio Vivos para Servir">
+    <h1>📜 <span>Completa el Aoristo</span></h1>
+    <div class="subtitle">✧ Primer Aoristo en Griego Koiné ✧</div>
+
+    <!-- ===== PROGRESS ===== -->
+    <div id="progress">
+        <div class="stat"><span class="stat-icon">📖</span> Pregunta <span id="current-q">1</span>/<span id="total-q">12</span></div>
+        <div class="stat"><span class="stat-icon">✅</span> Aciertos: <span id="correct-count">0</span></div>
+        <div class="stat"><span class="stat-icon">💪</span> Racha: <span id="streak">0</span>🔥</div>
+    </div>
+
+    <!-- ===== CONTENEDOR PRINCIPAL ===== -->
+    <div class="game-container" id="gameContainer">
+        <div class="question-card" id="questionCard">
+            <div class="question-label" id="questionLabel">COMPLETA EL AORISTO</div>
+            <div class="question-text" id="questionText"></div>
+            <div class="question-hint" id="questionHint"></div>
+            <div class="options-grid" id="optionsGrid"></div>
+            <div class="feedback" id="feedback"></div>
+            <button class="next-btn" id="nextBtn">
+                <span>Siguiente</span> <span>→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== OVERLAY ===== -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- ===== CONTROLES DE MÚSICA ===== -->
+    <div class="music-controls">
+        <button class="music-btn" id="playBtn" aria-label="Reproducir">▶</button>
+        <button class="music-btn" id="pauseBtn" aria-label="Pausar">⏸</button>
+    </div>
+
+    <!-- ===== AUDIO ===== -->
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="01. Dios Sabe Lo Que Hace.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio HTML5
+    </audio>
+
+    <script>
+        // ================================================================
+        // 1. DATOS DEL JUEGO - AORISTO
+        // ================================================================
+        const questions = [
+            // === VERBOS REGULARES ===
+            {
+                type: 'regular',
+                label: 'Aoristo Regular - λύω',
+                present: 'λύω',
+                aoristo: 'ἔλυσα',
+                blankIndex: 1,
+                hint: 'Verbo regular con formativo -σα-',
+                options: ['ἔλυσα', 'ἔλυον', 'λύσω', 'ἐλύθην']
+            },
+            {
+                type: 'regular',
+                label: 'Aoristo Regular - γράφω',
+                present: 'γράφω',
+                aoristo: 'ἔγραψα',
+                blankIndex: 1,
+                hint: 'Raíz en π → ψ + σα',
+                options: ['ἔγραψα', 'ἔγραφον', 'γράψω', 'ἐγράφην']
+            },
+            {
+                type: 'regular',
+                label: 'Aoristo Regular - πιστεύω',
+                present: 'πιστεύω',
+                aoristo: 'ἐπίστευσα',
+                blankIndex: 1,
+                hint: 'Verbo regular en -εύω',
+                options: ['ἐπίστευσα', 'ἐπίστευον', 'πιστεύσω', 'ἐπιστεύθην']
+            },
+
+            // === VERBOS CONTRACTOS ===
+            {
+                type: 'contracto',
+                label: 'Verbo Contracto - ἀγαπάω',
+                present: 'ἀγαπάω',
+                aoristo: 'ἠγάπησα',
+                blankIndex: 1,
+                hint: 'Vocal α se alarga a η antes de -σα-',
+                options: ['ἠγάπησα', 'ἠγάπων', 'ἀγαπήσω', 'ἠγαπήθην']
+            },
+            {
+                type: 'contracto',
+                label: 'Verbo Contracto - ποιέω',
+                present: 'ποιέω',
+                aoristo: 'ἐποίησα',
+                blankIndex: 1,
+                hint: 'Vocal ε se alarga a η antes de -σα-',
+                options: ['ἐποίησα', 'ἐποίουν', 'ποιήσω', 'ἐποιήθην']
+            },
+            {
+                type: 'contracto',
+                label: 'Verbo Contracto - πληρόω',
+                present: 'πληρόω',
+                aoristo: 'ἐπλήρωσα',
+                blankIndex: 1,
+                hint: 'Vocal ο se alarga a ω antes de -σα-',
+                options: ['ἐπλήρωσα', 'ἐπλήρουν', 'πληρώσω', 'ἐπληρώθην']
+            },
+
+            // === RAÍCES CON OCLUSIVAS ===
+            {
+                type: 'oclusiva',
+                label: 'Raíz en Gutural - ἄγω',
+                present: 'ἄγω',
+                aoristo: 'ἤγαγον',
+                blankIndex: 1,
+                hint: 'Segundo aoristo (irregular) - ¡no usa -σα-!',
+                options: ['ἤγαγον', 'ἤξα', 'ἄξω', 'ἤχθην']
+            },
+            {
+                type: 'oclusiva',
+                label: 'Raíz en Labial - βλέπω',
+                present: 'βλέπω',
+                aoristo: 'ἔβλεψα',
+                blankIndex: 1,
+                hint: 'π + σ → ψ',
+                options: ['ἔβλεψα', 'ἔβλεπον', 'βλέψω', 'ἐβλέφθην']
+            },
+            {
+                type: 'oclusiva',
+                label: 'Raíz en Dental - πείθω',
+                present: 'πείθω',
+                aoristo: 'ἔπεισα',
+                blankIndex: 1,
+                hint: 'θ + σ → σ (la dental desaparece)',
+                options: ['ἔπεισα', 'ἔπειθον', 'πείσω', 'ἐπείσθην']
+            },
+
+            // === AORISTOS LÍQUIDOS ===
+            {
+                type: 'liquido',
+                label: 'Aoristo Líquido - μένω',
+                present: 'μένω',
+                aoristo: 'ἔμεινα',
+                blankIndex: 1,
+                hint: 'Raíz en ν → -σα- se simplifica a -α-',
+                options: ['ἔμεινα', 'ἔμενον', 'μενῶ', 'ἐμείνθην']
+            },
+            {
+                type: 'liquido',
+                label: 'Aoristo Líquido - αἴρω',
+                present: 'αἴρω',
+                aoristo: 'ἦρα',
+                blankIndex: 1,
+                hint: 'Raíz en ρ → sin -σα-, solo -α-',
+                options: ['ἦρα', 'ἤρεον', 'ἀρῶ', 'ἤρθην']
+            },
+            {
+                type: 'liquido',
+                label: 'Aoristo Líquido - στέλλω',
+                present: 'στέλλω',
+                aoristo: 'ἔστειλα',
+                blankIndex: 1,
+                hint: 'Raíz en λ → -σα- se simplifica a -α-',
+                options: ['ἔστειλα', 'ἔστελλον', 'στελῶ', 'ἐστάλθην']
+            }
+        ];
+
+        // ================================================================
+        // 2. ESTADO DEL JUEGO
+        // ================================================================
+        let currentIndex = 0;
+        let correctCount = 0;
+        let streak = 0;
+        let maxStreak = 0;
+        let isAnswered = false;
+        let totalQuestions = questions.length;
+
+        // ================================================================
+        // 3. FUNCIONES PRINCIPALES
+        // ================================================================
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Mezclar preguntas al inicio
+        let shuffledQuestions = shuffleArray([...questions]);
+
+        function loadQuestion(index) {
+            const q = shuffledQuestions[index];
+            if (!q) return;
+
+            isAnswered = false;
+            document.getElementById('nextBtn').classList.remove('show');
+            const feedback = document.getElementById('feedback');
+            feedback.className = 'feedback';
+            feedback.textContent = '';
+
+            // Actualizar progress
+            document.getElementById('current-q').textContent = index + 1;
+            document.getElementById('total-q').textContent = totalQuestions;
+
+            // Label
+            document.getElementById('questionLabel').textContent = q.label;
+
+            // Construir texto con espacio en blanco
+            const parts = q.aoristo.split(' ');
+            let html = '';
+            let partIndex = 0;
+            for (let i = 0; i < parts.length; i++) {
+                if (i === q.blankIndex) {
+                    html += `<span class="blank" id="blankSlot">???</span>`;
+                } else {
+                    html += `<span>${parts[i]}</span>`;
+                }
+                if (i < parts.length - 1) html += ' ';
+            }
+            document.getElementById('questionText').innerHTML = html;
+
+            // Hint
+            document.getElementById('questionHint').textContent = '💡 ' + q.hint;
+
+            // Opciones (mezcladas)
+            const shuffledOptions = shuffleArray([...q.options]);
+            const grid = document.getElementById('optionsGrid');
+            grid.innerHTML = '';
+            shuffledOptions.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.dataset.value = opt;
+                btn.addEventListener('click', () => handleOptionClick(btn, q));
+                btn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    handleOptionClick(btn, q);
+                });
+                grid.appendChild(btn);
+            });
+
+            // Resetear estilos de opciones
+            document.querySelectorAll('.option-btn').forEach(b => {
+                b.classList.remove('correct', 'wrong', 'used', 'disabled');
+            });
+
+            // Animación
+            document.getElementById('questionCard').style.animation = 'none';
+            setTimeout(() => {
+                document.getElementById('questionCard').style.animation = 'popIn 0.4s ease';
+            }, 10);
+        }
+
+        function handleOptionClick(btn, q) {
+            if (isAnswered) return;
+            if (btn.classList.contains('used')) return;
+
+            const selected = btn.dataset.value;
+            const correct = q.aoristo;
+
+            // Deshabilitar todos los botones
+            document.querySelectorAll('.option-btn').forEach(b => {
+                b.classList.add('disabled');
+            });
+
+            const blank = document.getElementById('blankSlot');
+
+            if (selected === correct) {
+                // ✅ CORRECTO
+                btn.classList.add('correct');
+                blank.textContent = correct;
+                blank.className = 'blank correct-answer';
+                correctCount++;
+                streak++;
+                if (streak > maxStreak) maxStreak = streak;
+
+                const feedback = document.getElementById('feedback');
+                feedback.textContent = '✅ ¡Correcto! ' + (streak > 1 ? `¡${streak} aciertos consecutivos! 🔥` : '');
+                feedback.className = 'feedback success show';
+
+                // Marcar como usada
+                btn.classList.add('used');
+                isAnswered = true;
+
+            } else {
+                // ❌ INCORRECTO
+                btn.classList.add('wrong');
+                blank.textContent = selected;
+                blank.className = 'blank wrong-answer';
+                streak = 0;
+
+                // Mostrar la correcta
+                document.querySelectorAll('.option-btn').forEach(b => {
+                    if (b.dataset.value === correct) {
+                        b.classList.add('correct');
+                    }
+                });
+
+                const feedback = document.getElementById('feedback');
+                feedback.textContent = `❌ Incorrecto. La respuesta correcta es: "${correct}"`;
+                feedback.className = 'feedback error show';
+
+                btn.classList.add('used');
+                isAnswered = true;
+            }
+
+            // Actualizar estadísticas
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('streak').textContent = streak;
+
+            // Mostrar botón siguiente
+            document.getElementById('nextBtn').classList.add('show');
+        }
+
+        function nextQuestion() {
+            if (currentIndex < totalQuestions - 1) {
+                currentIndex++;
+                loadQuestion(currentIndex);
+            } else {
+                showFinalMessage();
+            }
+        }
+
+        // ================================================================
+        // 4. MENSAJE FINAL
+        // ================================================================
+
+        function showFinalMessage() {
+            const overlay = document.getElementById('overlay');
+            overlay.classList.add('active');
+
+            const percentage = Math.round((correctCount / totalQuestions) * 100);
+            let emoji = '📚';
+            let message = 'Sigue practicando, ¡lo lograrás!';
+            if (percentage >= 90) { emoji = '🌟'; message = '¡Excelente dominio del aoristo!'; }
+            else if (percentage >= 70) { emoji = '👍'; message = '¡Buen trabajo! Sigue así.'; }
+            else if (percentage >= 50) { emoji = '💪'; message = 'Vas por buen camino, ¡sigue practicando!'; }
+
+            const finalHTML = `
+                <div class="final-message">
+                    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo Ministerio">
+                    <h2>${emoji} ¡Nivel Completado!</h2>
+                    <div class="stats">
+                        <p>📖 Preguntas: <span>${totalQuestions}</span></p>
+                        <p>✅ Aciertos: <span>${correctCount}</span></p>
+                        <p>🎯 Porcentaje: <span>${percentage}%</span></p>
+                        <p>🔥 Mejor racha: <span>${maxStreak}</span></p>
+                        <p style="margin-top: 10px;">${message}</p>
+                    </div>
+                    <div class="verse">"La verdad os hará libres" — Juan 8:32</div>
+                    <button onclick="reiniciarJuego()" style="
+                        margin-top: 20px;
+                        padding: 12px 35px;
+                        border: none;
+                        border-radius: 50px;
+                        background: linear-gradient(135deg, #FFD700, #FFA500);
+                        color: #1a1a2e;
+                        font-size: 1.1rem;
+                        font-weight: 700;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+                    ">🔄 Jugar de nuevo</button>
+                </div>
+            `;
+
+            const old = document.querySelector('.final-message');
+            if (old) old.remove();
+            document.body.insertAdjacentHTML('beforeend', finalHTML);
+        }
+
+        function reiniciarJuego() {
+            document.querySelector('.final-message')?.remove();
+            document.getElementById('overlay').classList.remove('active');
+
+            // Reiniciar estado
+            shuffledQuestions = shuffleArray([...questions]);
+            currentIndex = 0;
+            correctCount = 0;
+            streak = 0;
+            maxStreak = 0;
+            isAnswered = false;
+
+            document.getElementById('correct-count').textContent = '0';
+            document.getElementById('streak').textContent = '0';
+            document.getElementById('nextBtn').classList.remove('show');
+
+            loadQuestion(0);
+        }
+
+        // ================================================================
+        // 5. CONTROLES DE MÚSICA
+        // ================================================================
+
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        let audioStarted = false;
+
+        function initAudio() {
+            if (!audioStarted) {
+                backgroundMusic.volume = 0.2;
+                backgroundMusic.play().catch(() => {});
+                audioStarted = true;
+            }
+        }
+
+        document.addEventListener('click', initAudio, { once: true });
+        document.addEventListener('touchstart', initAudio, { once: true });
+
+        playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            backgroundMusic.play().catch(() => {});
+        });
+
+        pauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            backgroundMusic.pause();
+        });
+
+        // ================================================================
+        // 6. EVENTOS
+        // ================================================================
+
+        document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+        document.getElementById('nextBtn').addEventListener('touchend', (e) => {
+            e.preventDefault();
+            nextQuestion();
+        });
+
+        // Tecla Enter para siguiente
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && document.getElementById('nextBtn').classList.contains('show')) {
+                nextQuestion();
+            }
+        });
+
+        // ================================================================
+        // 7. INICIO
+        // ================================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestion(0);
+        });
+    </script>
+</body>
+</html>

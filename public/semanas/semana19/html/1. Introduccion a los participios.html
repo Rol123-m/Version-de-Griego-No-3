@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introducción a los Participios</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Introducción a los Participios</h1>
+      <div class="subtitle">¿Por qué estudiar participios?</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-eye"></i> ¿Por qué estudiar participios?</h2>
+      <p>Los <strong>participios</strong> son omnipresentes en el griego del Nuevo Testamento. Son formas verbales que actúan simultáneamente como verbos y como adjetivos. Dominar los participios te permite captar relaciones temporales, causales, condicionales y descriptivas dentro del texto bíblico — cosas que en traducciones muchas veces desaparecen.</p>
+
+      <h3 style="color: var(--primary); margin: 1.2rem 0 0.8rem;">Objetivos de la sección</h3>
+      <ul>
+        <li>Comprender el carácter híbrido (verbo–adjetivo) del participio.</li>
+        <li>Reconocer los tres aspectos: presente, aoristo y perfecto.</li>
+        <li>Identificar su función adverbial o adjetival en un pasaje.</li>
+      </ul>
+
+      <div class="important-note">
+        <p><strong>Nota pedagógica:</strong> No memorices formas todavía. Primero aprende a <em>ver</em> la función: ¿modifica al verbo principal (circunstancia) o a un sustantivo (descripción)? Luego estudia las formas.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Mini-quiz: Introducción</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué característica define mejor al participio?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Es un verbo finito</label>
+          <label><input type="radio" name="q1" value="b"> Es un verbo-adjetivo (verbal + adjetival)</label>
+          <label><input type="radio" name="q1" value="c"> Es un sustantivo</label>
+          <label><input type="radio" name="q1" value="d"> Solo es adjetivo</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿Cuál de estos tiempos NO es participio?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Presente</label>
+          <label><input type="radio" name="q2" value="b"> Aoristo</label>
+          <label><input type="radio" name="q2" value="c"> Perfecto</label>
+          <label><input type="radio" name="q2" value="d"> Futuro (como participio)</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b', q2: 'd' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
