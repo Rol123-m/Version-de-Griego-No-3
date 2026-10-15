@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formación del Participio Aoristo</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Formación del Participio Aoristo</h1>
+      <div class="subtitle">Estructura y morfemas</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-cogs"></i> Estructura general</h2>
+      <p>El participio aoristo se forma a partir del <strong>tema del aoristo sin augmento (ἐ-)</strong>.</p>
+      <p>El <strong>augmento</strong> solo aparece en el modo indicativo para marcar pasado, pero el participio <strong>no lo necesita</strong>.</p>
+
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Voz</th>
+              <th>Formación</th>
+              <th>Ejemplo</th>
+              <th>Significado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Activa</strong></td>
+              <td>raíz + <strong>σα</strong> + <strong>ντ</strong> + terminaciones</td>
+              <td class="greek-text">λύσας</td>
+              <td>habiendo desatado</td>
+            </tr>
+            <tr>
+              <td><strong>Media</strong></td>
+              <td>raíz + <strong>σα</strong> + <strong>μενο/η</strong> + terminaciones</td>
+              <td class="greek-text">λυσάμενος</td>
+              <td>habiéndose desatado</td>
+            </tr>
+            <tr>
+              <td><strong>Pasiva</strong></td>
+              <td>raíz + <strong>θε</strong> + <strong>ντ</strong> + terminaciones</td>
+              <td class="greek-text">λυθείς</td>
+              <td>habiendo sido desatado</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-list"></i> Ejemplos prácticos</h2>
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Participio</th>
+              <th>Traducción literal</th>
+              <th>Traducción natural</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="greek-text">λύσας</td><td>habiendo desatado</td><td>después de desatar</td></tr>
+            <tr><td class="greek-text">λυσάμενος</td><td>habiéndose desatado</td><td>luego de desatarse</td></tr>
+            <tr><td class="greek-text">λυθείς</td><td>habiendo sido desatado</td><td>una vez desatado</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="important-note">
+        <p><strong>👉 Nota importante:</strong> El participio adverbial <strong>nunca tiene augmento (ἐ-)</strong>.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Formación</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué elemento NO aparece en el participio aoristo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Augmento (ἐ-)</label>
+          <label><input type="radio" name="q1" value="b"> Tema verbal</label>
+          <label><input type="radio" name="q1" value="c"> Terminaciones de caso</label>
+          <label><input type="radio" name="q1" value="d"> Morfema participial</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'a' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicios de Traducción</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Ejercicios de Traducción</h1>
+      <div class="subtitle">Práctica integradora</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-search"></i> Ejercicio 1: Identifica y traduce imperativos</h2>
+      <ol>
+        <li><strong>πορεύεσθε</strong> (Mateo 10:6)<br>
+            <strong>Análisis:</strong> Presente, activo, 2a persona plural<br>
+            <strong>Traducción:</strong> "Id / Vayan"</li>
+        <li><strong>γίνου</strong> (1 Timoteo 4:12 - de γίνομαι)<br>
+            <strong>Análisis:</strong> 2do aoristo, medio, 2a persona singular<br>
+            <strong>Traducción:</strong> "Sé / Llega a ser"</li>
+        <li><strong>μὴ κρίνετε</strong> (Mateo 7:1)<br>
+            <strong>Análisis:</strong> Presente, activo, 2a persona plural con μή<br>
+            <strong>Traducción:</strong> "No juzguen (dejen de juzgar)"</li>
+      </ol>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-language"></i> Ejercicio 2: Traduce al español</h2>
+      <ol>
+        <li><strong>ἀκολούθει μοι</strong>.<br>
+            <strong>Traducción:</strong> "¡Sígueme!"</li>
+        <li><strong>κύριε, δίδαξον ἡμᾶς προσεύχεσθαι</strong>.<br>
+            <strong>Traducción:</strong> "Señor, enséñanos a orar."</li>
+        <li><strong>ἐλθέτω ἡ βασιλεία σου</strong>.<br>
+            <strong>Traducción:</strong> "¡Venga tu reino!"</li>
+        <li><strong>μὴ φοβοῦ</strong>.<br>
+            <strong>Traducción:</strong> "No temas."</li>
+      </ol>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-table"></i> Ejercicio 3: Completa la tabla</h2>
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Verbo</th>
+              <th>Imperativo Pres. Activo 2sg</th>
+              <th>Imperativo Aor. Activo 2sg</th>
+              <th>Significado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="greek-text">λύω</td><td class="greek-text">λῦε</td><td class="greek-text">λῦσον</td><td>suelta</td></tr>
+            <tr><td class="greek-text">γράφω</td><td class="greek-text">γράφε</td><td class="greek-text">γράψον</td><td>escribe</td></tr>
+            <tr><td class="greek-text">ἀκούω</td><td class="greek-text">ἄκουε</td><td class="greek-text">ἄκουσον</td><td>oye</td></tr>
+            <tr><td class="greek-text">πιστεύω</td><td class="greek-text">πίστευε</td><td class="greek-text">πίστευσον</td><td>cree</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-lightbulb"></i> Reflexión Final</h2>
+      <div class="important-note">
+        <p>El modo imperativo nos permite entender cómo se ejerce la autoridad, se hacen peticiones y se establecen límites en el Nuevo Testamento. La distinción entre aspecto continuo e indefinido, así como entre segunda y tercera persona, enriquece nuestra comprensión de los mandamientos bíblicos y las exhortaciones apostólicas.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario Final</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué construcción prohíbe una acción continua?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> μή + presente imperativo</label>
+          <label><input type="radio" name="q1" value="b"> μή + aoristo imperativo</label>
+          <label><input type="radio" name="q1" value="c"> οὐ + futuro indicativo</label>
+          <label><input type="radio" name="q1" value="d"> οὐ μή + subjuntivo</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿Cómo se traduce un imperativo de 3a persona singular?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Con "tú" implícito</label>
+          <label><input type="radio" name="q2" value="b"> Con "que" o "debe"</label>
+          <label><input type="radio" name="q2" value="c"> Como participio</label>
+          <label><input type="radio" name="q2" value="d"> Como infinitivo</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'a', q2: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

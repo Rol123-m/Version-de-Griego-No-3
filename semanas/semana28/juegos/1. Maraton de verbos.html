@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Maratón de Verbos | Consolidación Final</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Segoe UI', 'Poppins', Arial, sans-serif; background: linear-gradient(145deg, #0a1628, #1a2a4a, #0d1f3c); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px 15px 60px; color: white; }
+    .logo { width: 160px; max-width: 60%; margin: 10px auto 5px; filter: drop-shadow(0 4px 20px rgba(255, 215, 0, 0.2)); border-radius: 12px; }
+    h1 { text-align: center; font-size: clamp(1.3rem, 4.5vw, 2.2rem); margin-bottom: 8px; color: #FFD700; font-weight: 700; }
+    h1 span { background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .subtitle { text-align: center; font-size: clamp(0.8rem, 2vw, 1rem); color: rgba(255, 255, 255, 0.5); margin-bottom: 15px; letter-spacing: 2px; }
+    #progress { font-size: clamp(0.85rem, 2.2vw, 1.1rem); margin: 5px 0 15px; padding: 10px 25px; background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border-radius: 50px; border: 1px solid rgba(255, 215, 0, 0.15); display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    #progress .stat span { color: #FFD700; font-weight: 700; }
+    .game-container { width: 100%; max-width: 850px; }
+    .question-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border-radius: 24px; padding: clamp(20px, 4vw, 40px); border: 1px solid rgba(255, 215, 0, 0.1); margin-bottom: 20px; text-align: center; }
+    .question-label { font-size: clamp(0.7rem, 1.5vw, 0.85rem); color: rgba(255, 215, 0, 0.5); text-transform: uppercase; letter-spacing: 3px; font-weight: 600; margin-bottom: 5px; }
+    .current-word { font-size: clamp(1.8rem, 5vw, 2.8rem); font-family: 'Times New Roman', 'New Athena Unicode', serif; color: #FFD700; font-weight: 700; margin: 15px 0; text-shadow: 0 2px 10px rgba(255,215,0,0.3); animation: popIn 0.4s ease; }
+    @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    .instruction { color: rgba(255,255,255,0.7); margin-bottom: 15px; font-size: clamp(0.9rem, 2vw, 1rem); }
+    .categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(clamp(120px, 22vw, 180px), 1fr)); gap: clamp(8px, 1.5vw, 14px); margin-top: 20px; }
+    .category-btn { padding: clamp(12px, 2vw, 18px) clamp(8px, 1.5vw, 16px); border: 3px solid rgba(255, 215, 0, 0.3); border-radius: 16px; background: rgba(255, 255, 255, 0.05); color: white; font-family: 'Poppins', sans-serif; font-size: clamp(0.75rem, 1.6vw, 0.95rem); font-weight: 700; cursor: pointer; transition: all 0.3s; min-height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+    .category-btn .emoji { font-size: 1.5em; }
+    .category-btn:hover:not(:disabled) { transform: translateY(-4px); border-color: #FFD700; background: rgba(255, 215, 0, 0.1); }
+    .category-btn.correct { border-color: #2ecc71; background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+    .category-btn.wrong { border-color: #e74c3c; background: rgba(231, 76, 60, 0.2); color: #e74c3c; animation: shake 0.5s ease; }
+    .category-btn:disabled { cursor: not-allowed; opacity: 0.5; }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-10px); } 40% { transform: translateX(10px); } 60% { transform: translateX(-6px); } 80% { transform: translateX(6px); } }
+    .feedback { margin-top: 20px; padding: clamp(12px, 2vw, 20px); border-radius: 14px; font-size: clamp(0.9rem, 2vw, 1.05rem); text-align: center; min-height: 50px; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
+    .feedback.show { opacity: 1; transform: translateY(0); }
+    .feedback.success { background: rgba(46, 204, 113, 0.15); border: 1px solid rgba(46, 204, 113, 0.3); color: #2ecc71; }
+    .feedback.error { background: rgba(231, 76, 60, 0.15); border: 1px solid rgba(231, 76, 60, 0.3); color: #e74c3c; }
+    .next-btn { margin-top: 15px; padding: clamp(14px, 2.5vw, 18px) clamp(30px, 5vw, 50px); border: none; border-radius: 50px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 700; cursor: pointer; display: none; align-items: center; gap: 10px; margin-left: auto; margin-right: auto; }
+    .next-btn.show { display: inline-flex; }
+    .final-message { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: linear-gradient(145deg, #0f1a2e, #1a2a4a); padding: clamp(30px, 5vw, 50px); border-radius: 30px; text-align: center; animation: zoomIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; border: 2px solid rgba(255, 215, 0, 0.3); z-index: 1000; max-width: 90vw; width: 450px; }
+    @keyframes zoomIn { 0% { transform: translate(-50%, -50%) scale(0) rotate(-3deg); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } }
+    .final-message img { width: clamp(120px, 25vw, 170px); margin-bottom: 15px; border-radius: 15px; }
+    .final-message h2 { color: #FFD700; font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 10px; }
+    .final-message .stats { font-size: clamp(1rem, 2vw, 1.2rem); opacity: 0.9; line-height: 1.8; }
+    .final-message .stats span { color: #FFD700; font-weight: 700; }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+    .overlay.active { opacity: 1; pointer-events: all; }
+    @media (max-width: 480px) {
+      .logo { width: 110px; }
+      h1 { font-size: 1.1rem; }
+      .current-word { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+  <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" class="logo" alt="Logo">
+  <h1>🏃 <span>Maratón de Verbos</span></h1>
+  <div class="subtitle">✧ Semana 28: Todos los tiempos verbales ✧</div>
+
+  <div id="progress">
+    <div class="stat">📖 <span id="current-q">1</span>/<span id="total-q">30</span></div>
+    <div class="stat">✅ <span id="correct-count">0</span></div>
+    <div class="stat">💪 Racha: <span id="streak">0</span>🔥</div>
+  </div>
+
+  <div class="game-container">
+    <div class="question-card" id="questionCard">
+      <div class="question-label">IDENTIFICA EL TIEMPO</div>
+      <div class="current-word" id="currentWord"></div>
+      <div class="instruction">¿Qué tiempo/aspecto tiene esta forma verbal?</div>
+      <div class="categories" id="categories"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="nextBtn"><span>Siguiente</span> <span>→</span></button>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <script>
+    const datos = [
+      {word: "λύω", tipo: "presente", desc: "Presente: desato"},
+      {word: "ἔλυον", tipo: "imperfecto", desc: "Imperfecto: desataba"},
+      {word: "λύσω", tipo: "futuro", desc: "Futuro: desataré"},
+      {word: "ἔλυσα", tipo: "aoristo", desc: "Aoristo: desaté"},
+      {word: "λέλυκα", tipo: "perfecto", desc: "Perfecto: he desatado"},
+      {word: "ἐλελύκειν", tipo: "pluscuamperfecto", desc: "Pluscuamperfecto: había desatado"},
+      {word: "ἐλυσάμην", tipo: "aoristo", desc: "Aoristo medio: me desaté"},
+      {word: "λέλυμαι", tipo: "perfecto", desc: "Perfecto MP: he sido desatado"},
+      {word: "λύομαι", tipo: "presente", desc: "Presente MP: soy desatado"},
+      {word: "ἐλυόμην", tipo: "imperfecto", desc: "Imperfecto MP: era desatado"},
+      {word: "λυθήσομαι", tipo: "futuro", desc: "Futuro pasivo: seré desatado"},
+      {word: "ἐλύθην", tipo: "aoristo", desc: "Aoristo pasivo: fui desatado"},
+      {word: "γέγραπται", tipo: "perfecto", desc: "Perfecto: está escrito"},
+      {word: "ἠγάπησεν", tipo: "aoristo", desc: "Aoristo: amó"},
+      {word: "ἠγάπηκα", tipo: "perfecto", desc: "Perfecto: he amado"},
+      {word: "πιστεύω", tipo: "presente", desc: "Presente: creo"},
+      {word: "ἐπίστευσα", tipo: "aoristo", desc: "Aoristo: creí"},
+      {word: "πεπίστευκα", tipo: "perfecto", desc: "Perfecto: he creído"},
+      {word: "ἀκούω", tipo: "presente", desc: "Presente: oigo"},
+      {word: "ἤκουσα", tipo: "aoristo", desc: "Aoristo: oí"},
+      {word: "ἀκήκοα", tipo: "perfecto", desc: "Perfecto: he oído"},
+      {word: "γράφω", tipo: "presente", desc: "Presente: escribo"},
+      {word: "ἔγραψα", tipo: "aoristo", desc: "Aoristo: escribí"},
+      {word: "γέγραφα", tipo: "perfecto", desc: "Perfecto: he escrito"},
+      {word: "λαμβάνω", tipo: "presente", desc: "Presente: tomo"},
+      {word: "ἔλαβον", tipo: "aoristo", desc: "Aoristo 2°: tomé"},
+      {word: "εἴληφα", tipo: "perfecto", desc: "Perfecto: he tomado"},
+      {word: "ἔρχομαι", tipo: "presente", desc: "Presente: vengo"},
+      {word: "ἦλθον", tipo: "aoristo", desc: "Aoristo 2°: vine"},
+      {word: "ἐλήλυθα", tipo: "perfecto", desc: "Perfecto: he venido"}
+    ];
+
+    let currentIndex = 0, correctCount = 0, streak = 0, maxStreak = 0, isAnswered = false, totalQuestions = datos.length;
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    let shuffledData = shuffleArray([...datos]);
+
+    function loadQuestion(index) {
+      const q = shuffledData[index];
+      if (!q) return;
+      isAnswered = false;
+      document.getElementById('nextBtn').classList.remove('show');
+      const feedback = document.getElementById('feedback');
+      feedback.className = 'feedback'; feedback.textContent = '';
+      document.getElementById('current-q').textContent = index + 1;
+      document.getElementById('currentWord').textContent = q.word;
+
+      document.getElementById('categories').innerHTML = `
+        <button class="category-btn" data-cat="presente"><span class="emoji">🟢</span><span>Presente</span></button>
+        <button class="category-btn" data-cat="imperfecto"><span class="emoji">🟡</span><span>Imperfecto</span></button>
+        <button class="category-btn" data-cat="futuro"><span class="emoji">🔵</span><span>Futuro</span></button>
+        <button class="category-btn" data-cat="aoristo"><span class="emoji">🔴</span><span>Aoristo</span></button>
+        <button class="category-btn" data-cat="perfecto"><span class="emoji">🟣</span><span>Perfecto</span></button>
+        <button class="category-btn" data-cat="pluscuamperfecto"><span class="emoji">⚫</span><span>Pluscuamperfecto</span></button>
+      `;
+
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.classList.remove('correct', 'wrong', 'disabled');
+        btn.disabled = false;
+        btn.addEventListener('click', () => handleAnswer(btn, q));
+      });
+
+      document.getElementById('questionCard').style.animation = 'none';
+      setTimeout(() => { document.getElementById('questionCard').style.animation = 'popIn 0.4s ease'; }, 10);
+    }
+
+    function handleAnswer(btn, q) {
+      if (isAnswered) return;
+      isAnswered = true;
+      document.querySelectorAll('.category-btn').forEach(b => b.disabled = true);
+      const feedback = document.getElementById('feedback');
+      const selected = btn.dataset.cat;
+      const correct = q.tipo;
+
+      if (selected === correct) {
+        btn.classList.add('correct');
+        correctCount++; streak++;
+        if (streak > maxStreak) maxStreak = streak;
+        feedback.textContent = `✅ ¡Correcto! ${q.desc}` + (streak > 1 ? ` 🔥 Racha: ${streak}` : '');
+        feedback.className = 'feedback success show';
+      } else {
+        btn.classList.add('wrong');
+        streak = 0;
+        document.querySelectorAll('.category-btn').forEach(b => {
+          if (b.dataset.cat === correct) b.classList.add('correct');
+        });
+        feedback.textContent = `❌ Incorrecto. ${q.desc}`;
+        feedback.className = 'feedback error show';
+      }
+
+      document.getElementById('correct-count').textContent = correctCount;
+      document.getElementById('streak').textContent = streak;
+      document.getElementById('nextBtn').classList.add('show');
+    }
+
+    function nextQuestion() {
+      if (currentIndex < totalQuestions - 1) { currentIndex++; loadQuestion(currentIndex); }
+      else { showFinalMessage(); }
+    }
+
+    function showFinalMessage() {
+      document.getElementById('overlay').classList.add('active');
+      const percentage = Math.round((correctCount / totalQuestions) * 100);
+      let emoji = '📚', message = 'Sigue practicando, ¡lo lograrás!';
+      if (percentage >= 90) { emoji = '🌟'; message = '¡Excelente maratonista de verbos!'; }
+      else if (percentage >= 70) { emoji = '👍'; message = '¡Buen trabajo! Sigue así.'; }
+      else if (percentage >= 50) { emoji = '💪'; message = 'Vas por buen camino, ¡sigue practicando!'; }
+      const finalHTML = `
+        <div class="final-message">
+          <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo">
+          <h2>${emoji} ¡Maratón Completado!</h2>
+          <div class="stats">
+            <p>📖 Preguntas: <span>${totalQuestions}</span></p>
+            <p>✅ Aciertos: <span>${correctCount}</span></p>
+            <p>🎯 Porcentaje: <span>${percentage}%</span></p>
+            <p>🔥 Mejor racha: <span>${maxStreak}</span></p>
+            <p style="margin-top: 10px;">${message}</p>
+          </div>
+          <button onclick="reiniciarJuego()" style="margin-top: 20px; padding: 12px 35px; border: none; border-radius: 50px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-size: 1.1rem; font-weight: 700; cursor: pointer;">🔄 Jugar de nuevo</button>
+        </div>`;
+      const old = document.querySelector('.final-message'); if (old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', finalHTML);
+    }
+
+    function reiniciarJuego() {
+      document.querySelector('.final-message')?.remove();
+      document.getElementById('overlay').classList.remove('active');
+      shuffledData = shuffleArray([...datos]);
+      currentIndex = 0; correctCount = 0; streak = 0; maxStreak = 0; isAnswered = false;
+      document.getElementById('correct-count').textContent = '0';
+      document.getElementById('streak').textContent = '0';
+      document.getElementById('nextBtn').classList.remove('show');
+      loadQuestion(0);
+    }
+
+    document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+    document.addEventListener('DOMContentLoaded', () => { loadQuestion(0); });
+  </script>
+</body>
+</html>

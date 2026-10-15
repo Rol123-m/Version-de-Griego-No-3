@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regla 2: Sin Vocal de Conexión (Athemáticos)</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Regla 2: Sin Vocal de Conexión</h1>
+      <div class="subtitle">Verbos atemáticos</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-cogs"></i> Sin Vocal Temática</h2>
+      <p>Los verbos en -μι <strong>normalmente no usan una vocal de conexión</strong> (es decir, "temática") en el presente indicativo. La terminación personal se añade <strong>directamente al tema</strong>.</p>
+
+      <div class="example-box">
+        <h3>Ejemplo comparativo</h3>
+        <p><strong>Verbo temático (λύω):</strong> <span class="greek-text">λυ + <strong>ο</strong> + μεν → λύομεν</span></p>
+        <p><strong>Verbo atemático (δίδωμι):</strong> <span class="greek-text">δι + δο + μεν → δίδομεν</span></p>
+      </div>
+
+      <div class="important-note" style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 153, 102, 0.1) 100%); border-left-color: #ffc107;">
+        <p><strong>🔍 Excepción importante:</strong></p>
+        <p><strong>Se usa una vocal de conexión en el imperfecto singular y el futuro.</strong></p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-language"></i> ¿Por qué "atemático"?</h2>
+      <p>La palabra "atemático" es un compuesto del griego:</p>
+      <ul>
+        <li><strong>α-</strong> (alfa privativa, como "in-" o "des-" en español)</li>
+        <li><strong>θεματικός</strong> (temático)</li>
+      </ul>
+      <p>Literalmente significa "<strong>sin tema</strong>" o "<strong>sin vocal temática</strong>".</p>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Mini-quiz: Regla 2</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Cómo se añaden las terminaciones en los verbos en -μι en presente indicativo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Con vocal temática ο/ε</label>
+          <label><input type="radio" name="q1" value="b"> Directamente al tema</label>
+          <label><input type="radio" name="q1" value="c"> Con sufijo -σι</label>
+          <label><input type="radio" name="q1" value="d"> Con aumento</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

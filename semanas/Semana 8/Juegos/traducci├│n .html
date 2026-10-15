@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio: Juan 17 - Frases Principales</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --background: #1a1f2b;
+            --text: #ecf0f1;
+            --card-bg: #2c3e50;
+            --correct: #27ae60;
+            --incorrect: #c0392b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui;
+            background-color: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .exercise-container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: enter 0.5s ease forwards;
+            margin: 1rem 0;
+        }
+
+        @keyframes enter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .exercise-container.active {
+            display: block;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .greek-phrase {
+            font-size: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            font-family: 'New Athena Unicode', 'Gentium Plus', serif;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .option {
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 1.1rem;
+        }
+
+        .option:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+
+        .option.selected {
+            border-color: var(--secondary);
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .option.correct {
+            background: rgba(39, 174, 96, 0.2);
+            border-color: var(--correct);
+        }
+
+        .option.incorrect {
+            background: rgba(192, 57, 43, 0.2);
+            border-color: var(--incorrect);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .progress {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--secondary);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background: #7f8c8d;
+            cursor: not-allowed;
+        }
+
+        .final-screen {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .final-screen h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .score {
+            font-size: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .greek-phrase {
+                font-size: 1.5rem;
+            }
+            
+            .option {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ejercicio 1 -->
+    <div class="exercise-container active" data-exercise="1">
+        <div class="header">
+            <h1>Juan 17 - Frases Principales</h1>
+            <div class="progress">Frase 1 de 10</div>
+        </div>
+        
+        <div class="greek-phrase">ταῦτα ἐλάλησεν Ἰησοῦς καὶ ἐπάρας τοὺς ὀφθαλμοὺς αὐτοῦ εἰς τὸν οὐρανὸν</div>
+        
+        <div class="options-grid">
+            <div class="option">Después de decir esto, Jesús miró al cielo pensativo</div>
+            <div class="option">Estas cosas habló Jesús, bajando la vista</div>
+            <div class="option" data-correct="true">Estas cosas habló Jesús, y alzando los ojos al cielo</div>
+            <div class="option">Jesús terminó su discurso y elevó su corazón</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Ejercicio 2 -->
+    <div class="exercise-container" data-exercise="2">
+        <div class="header">
+            <h1>Juan 17 - Frases Principales</h1>
+            <div class="progress">Frase 2 de 10</div>
+        </div>
+        
+        <div class="greek-phrase">αὕτη δέ ἐστιν ἡ αἰώνιος ζωὴ ἵνα γινώσκωσιν σὲ τὸν μόνον ἀληθινὸν θεὸν</div>
+        
+        <div class="options-grid">
+            <div class="option">Y esta es la vida perfecta: conocerte como el único Dios</div>
+            <div class="option" data-correct="true">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero</div>
+            <div class="option">La vida eterna consiste en reconocerte como verdadero Dios</div>
+            <div class="option">Esta es la vida sin fin: saber que tú eres el verdadero Dios</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="prevExercise()">Anterior</button>
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Ejercicio 3 -->
+    <div class="exercise-container" data-exercise="3">
+        <div class="header">
+            <h1>Juan 17 - Frases Principales</h1>
+            <div class="progress">Frase 3 de 10</div>
+        </div>
+        
+        <div class="greek-phrase">ἐγὼ ἐδόξασά σε ἐπὶ τῆς γῆς τὸ ἔργον τελειώσας ὃ δέδωκάς μοι ἵνα ποιήσω</div>
+        
+        <div class="options-grid">
+            <div class="option" data-correct="true">Yo te he glorificado en la tierra, habiendo acabado la obra que me diste que hiciese</div>
+            <div class="option">Yo te he honrado en el mundo, completando la tarea que me encomendaste</div>
+            <div class="option">He manifestado tu gloria, terminando el trabajo que me confiaste</div>
+            <div class="option">Te he dado gloria en la tierra, realizando plenamente mi misión</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="prevExercise()">Anterior</button>
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Ejercicio 4 -->
+    <div class="exercise-container" data-exercise="4">
+        <div class="header">
+            <h1>Juan 17 - Frases Principales</h1>
+            <div class="progress">Frase 4 de 10</div>
+        </div>
+        
+        <div class="greek-phrase">καὶ νῦν δόξασόν με σύ, πάτερ, παρὰ σεαυτῷ τῇ δόξῃ ᾗ εἶχον πρὸ τοῦ τὸν κόσμον εἶναι παρὰ σοί</div>
+        
+        <div class="options-grid">
+            <div class="option">Ahora glorifícame, Padre, con la misma gloria que compartía contigo</div>
+            <div class="option">Y ahora, Padre, dame la gloria que tuve antes de la creación</div>
+            <div class="option" data-correct="true">Ahora pues, Padre, glorifícame tú al lado tuyo, con aquella gloria que tuve contigo antes que el mundo fuese</div>
+            <div class="option">Padre, devuélveme ahora la gloria que poseía en tu presencia</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="prevExercise()">Anterior</button>
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Ejercicio 5 -->
+    <div class="exercise-container" data-exercise="5">
+        <div class="header">
+            <h1>Juan 17 - Frases Principales</h1>
+            <div class="progress">Frase 5 de 10</div>
+        </div>
+        
+        <div class="greek-phrase">ἐγὼ ἐφανέρωσά σου τὸ ὄνομα τοῖς ἀνθρώποις οὓς ἔδωκάς μοι ἐκ τοῦ κόσμου</div>
+        
+        <div class="options-grid">
+            <div class="option">Yo he revelado tu nombre a los que me diste de este mundo</div>
+            <div class="option" data-correct="true">He manifestado tu nombre a los hombres que del mundo me diste</div>
+            <div class="option">Yo he dado a conocer tu identidad a los que elegiste</div>
+            <div class="option">He mostrado quién eres a aquellos que me confiaste</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="prevExercise()">Anterior</button>
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Ejercicio 6 -->
+    <div class="exercise-container" data-exercise="6">
+        <div class="header">
+            <h1>Juan 17 - Frases Principales</h1>
+            <div class="progress">Frase 6 de 10</div>
+        </div>
+        
+        <div class="greek-phrase">οὐ περὶ τοῦ κόσμου ἐρωτῶ ἀλλὰ περὶ ὧν δέδωκάς μοι ὅτι σοί εἰσιν</div>
+        
+        <div class="options-grid">
+            <div class="option">No ruego por el mundo, sino por los que me has dado, porque son tuyos</div>
+            <div class="option" data-correct="true">No ruego por el mundo, sino por los que me diste; porque tuyos son</div>
+            <div class="option">No oro por todos, sino por aquellos que me confiaste</div>
+            <div class="option">Mi intercesión no es por el mundo, sino por tus elegidos</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="prevExercise()">Anterior</button>
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Ejercicio 7 -->
+    <div class="exercise-container" data-exercise="7">
+        <div class="header">
+            <h1>Juan 17 - Frases Principales</h1>
+            <div class="progress">Frase 7 de 10</div>
+        </div>
+        
+        <div class="greek-phrase">καὶ οὐκέτι εἰμὶ ἐν τῷ κόσμῳ, καὶ αὐτοὶ ἐν τῷ κόσμῳ εἰσίν, κἀγὼ πρὸς σὲ ἔρχομαι</div>
+        
+        <div class="options-grid">
+            <div class="option">Ya no estoy en el mundo, pero ellos permanecen, mientras yo vuelvo a ti</div>
+            <div class="option" data-correct="true">Ya no estoy en el mundo; mas éstos están en el mundo, y yo voy a ti</div>
+            <div class="option">Pronto dejaré este mundo, pero ellos se quedan, y yo regreso contigo</div>
+            <div class="option">Mi tiempo en el mundo termina, ellos continúan, y yo vuelvo a tu presencia</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="prevExercise()">Anterior</button>
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Ejercicio 8 -->
+    <div class="exercise-container" data-exercise="8">
+        <div class="header">
+            <h1>Juan 17 - Frases Principales</h1>
+            <div class="progress">Frase 8 de 10</div>
+        </div>
+        
+        <div class="greek-phrase">ἵνα ὦσιν ἓν καθὼς ἡμεῖς</div>
+        
+        <div class="options-grid">
+            <div class="option">Para que sean un solo pueblo como nosotros</div>
+            <div class="option">Que estén juntos como nosotros</div>
+            <div class="option" data-correct="true">Para que sean uno, así como nosotros</div>
+            <div class="option">Que alcancen la unidad perfecta como la nuestra</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="prevExercise()">Anterior</button>
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Ejercicio 9 -->
+    <div class="exercise-container" data-exercise="9">
+        <div class="header">
+            <h1>Juan 17 - Frases Principales</h1>
+            <div class="progress">Frase 9 de 10</div>
+        </div>
+        
+        <div class="greek-phrase">ἵνα ὁ κόσμος πιστεύῃ ὅτι σύ με ἀπέστειλας</div>
+        
+        <div class="options-grid">
+            <div class="option">Para que el mundo crea que soy tu enviado</div>
+            <div class="option" data-correct="true">Para que el mundo crea que tú me enviaste</div>
+            <div class="option">Así el mundo reconocerá mi misión divina</div>
+            <div class="option">De modo que el mundo sepa que vengo de ti</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="prevExercise()">Anterior</button>
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Ejercicio 10 -->
+    <div class="exercise-container" data-exercise="10">
+        <div class="header">
+            <h1>Juan 17 - Frases Principales</h1>
+            <div class="progress">Frase 10 de 10</div>
+        </div>
+        
+        <div class="greek-phrase">κάγῼ τὴν δόξαν ἣν δέδωκάς μοι δέδωκα αὐτοῖς ἵνα ὦσιν ἓν καθὼς ἡμεῖς ἕν</div>
+        
+        <div class="options-grid">
+            <div class="option">Yo les he dado la gloria que me diste para que sean unidos como nosotros</div>
+            <div class="option">La gloria que recibí de ti, se la he transmitido para su unidad</div>
+            <div class="option" data-correct="true">Yo les he dado la gloria que me diste, para que sean uno, así como nosotros somos uno</div>
+            <div class="option">Les he compartido tu gloria para que alcancen nuestra perfecta unidad</div>
+        </div>
+        
+        <div class="navigation">
+            <button onclick="prevExercise()">Anterior</button>
+            <button onclick="nextExercise()" disabled>Continuar</button>
+        </div>
+    </div>
+
+    <!-- Pantalla Final -->
+    <div class="exercise-container final-screen" id="final-screen">
+        <h2>¡Ejercicio Completo! 🎉</h2>
+        <p>Has completado las frases principales de Juan 17</p>
+        <div class="score" id="final-score"></div>
+        <button onclick="location.reload()">Reiniciar Ejercicio</button>
+    </div>
+
+    <script>
+        let currentExercise = 1;
+        let totalExercises = 10;
+        let score = 0;
+
+        function updateProgress() {
+            document.querySelectorAll('.progress').forEach(progress => {
+                progress.textContent = `Frase ${currentExercise} de ${totalExercises}`;
+            });
+        }
+
+        function checkAnswer(option) {
+            const exercise = option.closest('.exercise-container');
+            const options = exercise.querySelectorAll('.option');
+            const correct = option.dataset.correct === "true";
+            
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                if(opt.dataset.correct === "true") {
+                    opt.classList.add('correct');
+                }
+            });
+
+            option.classList.add(correct ? 'correct' : 'incorrect');
+            if(correct) score++;
+
+            exercise.querySelector('button[onclick="nextExercise()"]').disabled = false;
+        }
+
+        function nextExercise() {
+            document.querySelector(`[data-exercise="${currentExercise}"]`).classList.remove('active');
+            currentExercise++;
+            
+            if(currentExercise > totalExercises) {
+                document.getElementById('final-screen').classList.add('active');
+                document.getElementById('final-score').textContent = `Puntuación: ${score}/${totalExercises}`;
+            } else {
+                document.querySelector(`[data-exercise="${currentExercise}"]`).classList.add('active');
+                updateProgress();
+            }
+        }
+
+        function prevExercise() {
+            document.querySelector(`[data-exercise="${currentExercise}"]`).classList.remove('active');
+            currentExercise--;
+            document.querySelector(`[data-exercise="${currentExercise}"]`).classList.add('active');
+            updateProgress();
+        }
+
+        // Event Listeners
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                if(this.classList.contains('selected')) return;
+                
+                this.closest('.options-grid').querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                this.classList.add('selected');
+                checkAnswer(this);
+            });
+        });
+
+        // Inicializar primer ejercicio
+        updateProgress();
+    </script>
+</body>
+</html>

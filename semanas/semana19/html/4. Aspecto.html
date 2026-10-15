@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aspecto del Participio</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Aspecto: Presente, Aoristo, Perfecto</h1>
+      <div class="subtitle">La manera en que se concibe la acción</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-clock"></i> ¿Qué significa 'aspecto'?</h2>
+      <p>El aspecto describe la <strong>manera</strong> en que la acción se concibe: si es continua, puntual o completada con efecto presente. Los participios se centran en aspecto más que en tiempo cronológico.</p>
+
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead><tr><th>Aspecto</th><th>Participio</th><th>Significado</th></tr></thead>
+          <tbody>
+            <tr><td>Presente</td><td class="greek-text">λύων</td><td>Acción en curso / proceso («estando soltando»)</td></tr>
+            <tr><td>Aoristo</td><td class="greek-text">λύσας</td><td>Acción puntual («habiendo soltado»)</td></tr>
+            <tr><td>Perfecto</td><td class="greek-text">λελυκώς</td><td>Acción terminada con efecto presente («ya suelto»)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="important-note">
+        <p><strong>Pedagogía:</strong> al traducir, pregúntate si la frase enfatiza la continuidad, la simple culminación o el estado resultante. Eso te ayudará a elegir la mejor equivalencia en español.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Aspecto</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué participio expresa estado resultante?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Presente</label>
+          <label><input type="radio" name="q1" value="b"> Perfecto</label>
+          <label><input type="radio" name="q1" value="c"> Aoristo</label>
+          <label><input type="radio" name="q1" value="d"> Futuro</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

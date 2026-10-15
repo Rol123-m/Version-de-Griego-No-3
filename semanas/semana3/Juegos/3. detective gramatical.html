@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detective Gramatical - Griego Koiné</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    img {
+      width: 80px;
+      height: 70px;
+      margin-right: 15px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    .game-area {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .verse-display {
+      font-size: 1.4rem;
+      margin: 25px 0;
+      line-height: 1.8;
+      padding: 15px;
+      background-color: #f8f8f8;
+      border-radius: 5px;
+      border-left: 4px solid #4CAF50;
+    }
+    .greek-word {
+      font-style: italic;
+      font-weight: bold;
+      color: #2E7D32;
+    }
+    .article-options {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .article-option {
+      padding: 12px 20px;
+      background-color: #e8f5e9;
+      border: 2px solid #4CAF50;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.3s;
+    }
+    .article-option:hover {
+      background-color: #d0ebd2;
+      transform: translateY(-2px);
+    }
+    .case-options {
+      display: none;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .case-option {
+      padding: 10px 15px;
+      background-color: #fff3e0;
+      border: 2px solid #ff9800;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .case-option:hover {
+      background-color: #ffe0b2;
+    }
+    .feedback {
+      margin: 20px 0;
+      padding: 15px;
+      border-radius: 5px;
+      font-weight: bold;
+      display: none;
+    }
+    .correct {
+      background-color: #dff0d8;
+      color: #3c763d;
+      border-left: 4px solid #3c763d;
+    }
+    .incorrect {
+      background-color: #f2dede;
+      color: #a94442;
+      border-left: 4px solid #a94442;
+    }
+    .next-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 5px;
+      margin-top: 15px;
+      display: none;
+    }
+    .next-btn:hover {
+      background-color: #45a049;
+    }
+    .progress-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+    .progress-bar {
+      height: 20px;
+      background-color: #4CAF50;
+      border-radius: 5px;
+      width: 0%;
+      transition: width 0.5s;
+    }
+    .score-display {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+    .game-explanation {
+      background-color: #e3f2fd;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      border-left: 5px solid #2196F3;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      background-color: #ffffff;
+    }
+    #foot {
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+  
+</head>
+<body>
+  <header>
+    <img src="https://i.postimg.cc/QtgrGy8X/verde.png" alt="Logo del ministerio Vivos para servir">
+    <h1>El Detective Gramatical</h1>
+  </header>
+
+  <div class="container">
+    <div class="game-explanation">
+      <h2>Instrucciones:</h2>
+      <p>¡Conviértete en un detective gramatical! Analiza las oraciones griegas del Nuevo Testamento y:</p>
+      <ol>
+        <li>Identifica el artículo definido en la oración.</li>
+        <li>Selecciona su forma correcta (ὁ, ἡ, τό, etc.).</li>
+        <li>Determina su caso gramatical (nominativo, genitivo, dativo, acusativo).</li>
+      </ol>
+      <p>Gana puntos por cada respuesta correcta y descubre patrones en el uso del artículo definido.</p>
+    </div>
+
+    <div class="score-display">
+      Puntuación: <span id="score">0</span> / <span id="total">0</span>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progress"></div>
+    </div>
+
+    <div class="game-area">
+      <div class="verse-display" id="verse">
+        Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν, καὶ θεὸς ἦν ὁ λόγος.
+      </div>
+
+      <h3>1. Selecciona el artículo definido en la oración:</h3>
+      <div class="article-options" id="article-options">
+        <!-- Opciones se llenarán con JavaScript -->
+      </div>
+
+      <h3>2. ¿Qué caso gramatical tiene este artículo?</h3>
+      <div class="case-options" id="case-options">
+        <div class="case-option" data-case="nominativo">Nominativo</div>
+        <div class="case-option" data-case="genitivo">Genitivo</div>
+        <div class="case-option" data-case="dativo">Dativo</div>
+        <div class="case-option" data-case="acusativo">Acusativo</div>
+      </div>
+
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn">Siguiente Versículo</button>
+    </div>
+  </div>
+
+  <footer>
+    <p id="foot">@Copyright Sección educativa del ministerio: "Vivos para Servir"</p>
+  </footer>
+
+  <script>
+    // Datos del juego - versículos con información gramatical
+    const verses = [
+      {
+        text: "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν, καὶ θεὸς ἦν ὁ λόγος.",
+        articles: [
+          { word: "ὁ", case: "nominativo", position: 12 },
+          { word: "ὁ", case: "nominativo", position: 25 },
+          { word: "τὸν", case: "acusativo", position: 38 },
+          { word: "ὁ", case: "nominativo", position: 56 }
+        ]
+      },
+      {
+        text: "καὶ ἐγένετο ἄνθρωπος ἀπεσταλμένος παρὰ θεοῦ, ὄνομα αὐτῷ Ἰωάννης·",
+        articles: [] // Este versículo no tiene artículos
+      },
+      {
+        text: "οὗτος ἦν ἐν ἀρχῇ πρὸς τὸν θεόν.",
+        articles: [
+          { word: "τὸν", case: "acusativo", position: 22 }
+        ]
+      },
+      {
+        text: "ἡ γυνὴ εἶπεν· Οἶδα ὅτι Μεσσίας ἔρχεται, ὁ λεγόμενος χριστός·",
+        articles: [
+          { word: "ἡ", case: "nominativo", position: 0 },
+          { word: "ὁ", case: "nominativo", position: 42 }
+        ]
+      },
+      {
+        text: "ἐν τῷ κόσμῳ ἦν, καὶ ὁ κόσμος διʼ αὐτοῦ ἐγένετο, καὶ ὁ κόσμος αὐτὸν οὐκ ἔγνω.",
+        articles: [
+          { word: "τῷ", case: "dativo", position: 3 },
+          { word: "ὁ", case: "nominativo", position: 20 },
+          { word: "ὁ", case: "nominativo", position: 50 }
+        ]
+      }
+    ];
+
+    // Variables del juego
+    let currentVerseIndex = 0;
+    let score = 0;
+    let selectedArticle = null;
+    const totalQuestions = verses.reduce((acc, verse) => acc + verse.articles.length, 0);
+
+    // Elementos del DOM
+    const verseElement = document.getElementById('verse');
+    const articleOptionsElement = document.getElementById('article-options');
+    const caseOptionsElement = document.getElementById('case-options');
+    const feedbackElement = document.getElementById('feedback');
+    const nextButton = document.getElementById('next-btn');
+    const scoreElement = document.getElementById('score');
+    const totalElement = document.getElementById('total');
+    const progressBar = document.getElementById('progress');
+
+    // Inicializar juego
+    function initGame() {
+      totalElement.textContent = totalQuestions;
+      loadVerse(currentVerseIndex);
+    }
+
+    // Cargar versículo
+    function loadVerse(index) {
+      const verse = verses[index];
+      verseElement.innerHTML = highlightArticles(verse.text, verse.articles);
+      
+      // Limpiar opciones anteriores
+      articleOptionsElement.innerHTML = '';
+      caseOptionsElement.style.display = 'none';
+      feedbackElement.style.display = 'none';
+      nextButton.style.display = 'none';
+      selectedArticle = null;
+
+      // Mostrar opciones de artículos si existen
+      if (verse.articles.length > 0) {
+        verse.articles.forEach(article => {
+          const option = document.createElement('div');
+          option.className = 'article-option';
+          option.textContent = article.word;
+          option.dataset.word = article.word;
+          option.dataset.case = article.case;
+          option.addEventListener('click', selectArticle);
+          articleOptionsElement.appendChild(option);
+        });
+      } else {
+        // Si no hay artículos en este versículo
+        feedbackElement.textContent = "¡Buen ojo! Este versículo no contiene artículos definidos.";
+        feedbackElement.className = "feedback correct";
+        feedbackElement.style.display = 'block';
+        nextButton.style.display = 'inline-block';
+      }
+    }
+
+    // Resaltar artículos en el texto
+    function highlightArticles(text, articles) {
+      let result = text;
+      articles.forEach(article => {
+        result = result.replace(
+          new RegExp(article.word, 'g'), 
+          `<span class="greek-word">${article.word}</span>`
+        );
+      });
+      return result;
+    }
+
+    // Seleccionar artículo
+    function selectArticle(e) {
+      // Desmarcar todas las opciones
+      document.querySelectorAll('.article-option').forEach(option => {
+        option.style.backgroundColor = '#e8f5e9';
+      });
+      
+      // Marcar la seleccionada
+      e.target.style.backgroundColor = '#a5d6a7';
+      selectedArticle = {
+        word: e.target.dataset.word,
+        correctCase: e.target.dataset.case
+      };
+      
+      // Mostrar opciones de caso
+      caseOptionsElement.style.display = 'flex';
+    }
+
+    // Manejar clic en opciones de caso
+    caseOptionsElement.querySelectorAll('.case-option').forEach(option => {
+      option.addEventListener('click', function() {
+        if (!selectedArticle) return;
+        
+        const selectedCase = this.dataset.case;
+        const isCorrect = selectedCase === selectedArticle.correctCase;
+        
+        // Mostrar retroalimentación
+        feedbackElement.textContent = isCorrect 
+          ? `¡Correcto! "${selectedArticle.word}" está en caso ${selectedArticle.correctCase}.` 
+          : `Incorrecto. "${selectedArticle.word}" está en caso ${selectedArticle.correctCase}.`;
+        
+        feedbackElement.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+        feedbackElement.style.display = 'block';
+        nextButton.style.display = 'inline-block';
+        
+        // Actualizar puntuación
+        if (isCorrect) {
+          score++;
+          scoreElement.textContent = score;
+          progressBar.style.width = `${(score / totalQuestions) * 100}%`;
+        }
+      });
+    });
+
+    // Siguiente versículo
+    nextButton.addEventListener('click', function() {
+      currentVerseIndex++;
+      if (currentVerseIndex < verses.length) {
+        loadVerse(currentVerseIndex);
+      } else {
+        // Fin del juego
+        verseElement.innerHTML = '<h2>¡Investigación completada!</h2>' +
+          `<p>Has identificado correctamente ${score} de ${totalQuestions} artículos.</p>` +
+          '<p>¡Excelente trabajo, detective gramatical!</p>';
+        articleOptionsElement.innerHTML = '';
+        caseOptionsElement.style.display = 'none';
+        feedbackElement.style.display = 'none';
+        nextButton.style.display = 'none';
+      }
+    });
+
+    // Iniciar el juego
+    initGame();
+  </script>
+</body>
+</html>

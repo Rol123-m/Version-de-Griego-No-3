@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consolidación Final — Introducción</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Consolidación Final</h1>
+      <div class="subtitle">Repaso integrador de Griego II</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-graduation-cap"></i> ¡Felicitaciones por llegar hasta aquí!</h2>
+      <p>Has recorrido un camino intenso a través de las <strong>Semanas 15 a 27</strong>. Has aprendido a manejar el <strong>sistema verbal griego</strong> en toda su riqueza: tiempos, voces, modos y formas no personales.</p>
+
+      <p>Esta semana no aprenderemos nada nuevo. En su lugar, <strong>consolidaremos</strong> todo lo estudiado para que puedas leer el Nuevo Testamento con confianza y precisión.</p>
+
+      <div class="important-note">
+        <p><strong>🎯 Objetivos de esta semana:</strong></p>
+        <ul>
+          <li>Repasar los <strong>verbos</strong> en todos sus tiempos y voces</li>
+          <li>Consolidar los <strong>participios</strong> (presente, aoristo, perfecto)</li>
+          <li>Repasar los <strong>modos no indicativos</strong> (subjuntivo, imperativo, infinitivo)</li>
+          <li>Dominar las <strong>conjugaciones atemáticas</strong> (verbos en -μι)</li>
+          <li>Desarrollar <strong>estrategias de traducción</strong> para el NT</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-map-signs"></i> Contenido de esta semana</h2>
+      <ol>
+        <li><strong>Repaso de verbos</strong> — Sistema aspectual y tiempos</li>
+        <li><strong>Repaso de participios</strong> — Las tres funciones y aspectos</li>
+        <li><strong>Repaso de modos no indicativos</strong> — Subjuntivo, imperativo, infinitivo</li>
+        <li><strong>Repaso de conjugaciones atemáticas</strong> — Los verbos en -μι</li>
+        <li><strong>Cuadro general de tiempos</strong> — Síntesis visual</li>
+        <li><strong>Estrategias de traducción</strong> — Cómo abordar un texto del NT</li>
+        <li><strong>Examen final integrador</strong> — Evaluación completa</li>
+      </ol>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Mini-quiz: Introducción</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué haremos en esta semana?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Aprender nuevos tiempos verbales</label>
+          <label><input type="radio" name="q1" value="b"> Consolidar todo lo aprendido</label>
+          <label><input type="radio" name="q1" value="c"> Estudiar solo los verbos en -μι</label>
+          <label><input type="radio" name="q1" value="d"> Repasar solo los participios</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿Qué semanas cubre este repaso?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Semanas 1-14</label>
+          <label><input type="radio" name="q2" value="b"> Semanas 15-27</label>
+          <label><input type="radio" name="q2" value="c"> Semanas 1-27</label>
+          <label><input type="radio" name="q2" value="d"> Solo la semana 27</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b', q2: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

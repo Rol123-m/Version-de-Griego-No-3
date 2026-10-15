@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Semana 19 — Introducción al Griego Koiné | Curso Griego Koiné</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root{
+            --primary-color:#2c3e50;
+            --secondary-color:#3498db;
+            --accent-color:#e74c3c;
+            --light-color:#ecf0f1;
+            --dark-color:#2c3e50;
+            --transition-speed:0.4s;
+            --card-radius:10px;
+        }
+        *{box-sizing:border-box;margin:0;padding:0;font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;}
+        body{background:#f5f7fa;color:var(--dark-color);line-height:1.6;}
+        .container{max-width:1200px;margin:0 auto;padding:15px;}
+        header{background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));color:#fff;padding:1rem 0;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.1);margin-bottom:1.5rem;position:relative;border-bottom:6px solid rgba(255,255,255,.06)}
+        .header-content{display:flex;flex-direction:column;align-items:center;padding:0 15px}
+        .logo{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid white;box-shadow:0 4px 8px rgba(0,0,0,.2);margin-bottom:.7rem}
+        header h1{font-size:1.8rem;margin-bottom:.6rem}
+        .mobile-menu-btn{display:none;position:absolute;top:14px;right:14px;background:transparent;border:none;color:white;font-size:1.4rem;cursor:pointer}
+        nav{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;width:100%;transition:all .3s ease}
+        .nav-btn{background:rgba(255,255,255,.15);border:none;color:white;padding:8px 15px;border-radius:20px;cursor:pointer;transition:all .3s;font-weight:700;font-size:.95rem}
+        .nav-btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.25)}
+        .nav-btn.active{background:white;color:var(--primary-color)}
+        .content-section{background:white;border-radius:var(--card-radius);padding:1.5rem;box-shadow:0 4px 15px rgba(0,0,0,.08);margin-bottom:1.5rem;opacity:0;transform:translateY(20px);transition:opacity var(--transition-speed) ease,transform var(--transition-speed) ease;display:none}
+        .content-section.active{opacity:1;transform:translateY(0);display:block}
+        h2{color:var(--primary-color);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--secondary-color);font-size:1.5rem}
+        h3{color:var(--secondary-color);margin:1rem 0 .6rem;font-size:1.1rem}
+        p{margin-bottom:.9rem;font-size:1rem}
+        .sub-nav{display:flex;flex-wrap:wrap;gap:6px;margin:.8rem 0}
+        .sub-nav-btn{background:#e8f4fc;border:1px solid var(--secondary-color);color:var(--primary-color);padding:6px 10px;border-radius:15px;cursor:pointer;font-size:.85rem}
+        .sub-nav-btn.active{background:var(--secondary-color);color:#fff}
+        table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+        th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #ddd}
+        th{background:var(--primary-color);color:#fff}
+        tr:nth-child(even){background:#f9f9f9}
+        .quiz-container{background:#f8f9fa;border-radius:8px;padding:1.2rem;margin-top:1rem;border-left:4px solid var(--secondary-color)}
+        .question{margin-bottom:1rem}
+        .options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:.6rem}
+        .option{padding:8px;background:#fff;border:1px solid #ddd;border-radius:6px;cursor:pointer;transition:all .15s;font-size:.95rem}
+        .option:hover{background:#e8f4fc;border-color:var(--secondary-color)}
+        .option.selected{background:var(--secondary-color);color:#fff;border-color:var(--secondary-color)}
+        .option.correct{background:#2ecc71;color:#fff}
+        .option.incorrect{background:#e74c3c;color:#fff}
+        .check-btn,.next-btn{background:var(--secondary-color);color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;margin-top:8px}
+        .check-btn:hover,.next-btn:hover{background:#2980b9;transform:translateY(-2px)}
+        .result{margin-top:10px;font-weight:700;padding:8px;border-radius:6px;font-size:.95rem}
+        .result.correct{background:#d4edda;color:#155724}
+        .result.incorrect{background:#f8d7da;color:#721c24}
+        .vocabulary-section{background:linear-gradient(135deg,#f8f9fa,#e9ecef);padding:1.1rem;border-radius:8px;margin-top:1rem;text-align:center}
+        .app-link{display:inline-block;background:var(--accent-color);color:white;text-decoration:none;padding:10px 18px;border-radius:25px;font-weight:700;margin-top:.6rem}
+        .note{background:#e8f4fc;border-left:4px solid var(--secondary-color);padding:.8rem;margin:.8rem 0;border-radius:0 6px 6px 0}
+        .highlight{background:#fff8e1;padding:2px 6px;border-radius:3px;font-weight:700}
+        footer{text-align:center;padding:1.2rem 0;color:#7f8c8d;font-size:.85rem}
+        .greek-text{font-family:"New Athena Unicode", "Galatia SIL", "Gentium Plus", serif;font-size:1.2em}
+        /* responsive */
+        @media(max-width:768px){
+            .mobile-menu-btn{display:block}
+            nav{display:none;flex-direction:column}
+            nav.active{display:flex}
+            .nav-btn{width:100%;border-radius:6px}
+            .options{grid-template-columns:1fr}
+            table{display:block;overflow-x:auto}
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+        <img class="logo" src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo">
+        <h1>Semana 19 — Perfecto</h1>
+        <nav id="mainNav">
+            <button class="nav-btn active" data-target="intro">Introducción Teológica</button>
+            <button class="nav-btn" data-target="concepto">Concepto Perfecto</button>
+            <button class="nav-btn" data-target="formacion-activo">Formación Activo</button>
+            <button class="nav-btn" data-target="formacion-pasivo">Formación Medio/Pasivo</button>
+            <button class="nav-btn" data-target="reduplicacion">Reglas Reduplicación</button>
+            <button class="nav-btn" data-target="segundo-perfecto">Segundo Perfecto</button>
+            <button class="nav-btn" data-target="voz-media">Voz Media</button>
+            <button class="nav-btn" data-target="ejemplos">Ejemplos Bíblicos</button>
+            <button class="nav-btn" data-target="resumen">Resumen</button>
+            <button class="nav-btn" data-target="tabla-verbos">Tabla de Verbos</button>
+            <button class="nav-btn" data-target="vocabulario">Vocabulario</button>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- INTRODUCCIÓN TEOLÓGICA -->
+    <section id="intro" class="content-section active">
+        <h2>I. Introducción Teológica: El Grito de la Victoria Eterna – Τετέλεσται (Tetélestai)</h2>
+        <div class="sub-nav">
+            <button class="sub-nav-btn active" data-target="intro">Introducción</button>
+            <button class="sub-nav-btn" data-target="concepto">Concepto</button>
+        </div>
+
+        <p>Imaginen la escena: el cielo oscurecido, la tierra tiembla, el aire es pesado con dolor y expectación. En medio de ese momento cósmico, una voz clara y potente, cargada de significado, irrumpe desde la cruz. No es un gemido de derrota, sino un clamor de victoria consumada. Es la voz de Jesús, proclamando una sola palabra en griego que resonaría por toda la eternidad:</p>
+
+        <p class="greek-text highlight"><strong>Τετέλεσται (Tetélestai)</strong> — «¡Consumado es!» (Juan 19:30).</p>
+
+        <p>Esta palabra, Τετέλεσται, es mucho más que la traducción "consumado es". Es un tesoro teológico encapsulado en una forma gramatical precisa. Es el <strong>Perfecto Indicativo Activo</strong> del verbo <span class="greek-text">τελέω (teleó)</span>, que significa "llevar a cabo", "completar", "cumplir".</p>
+
+        <h3>¿Por qué es crucial que Jesús usara el tiempo perfecto y no otro?</h3>
+        <ul>
+            <li><strong>El Aoristo (ἐτελέσθη / etelésthē)</strong> hubiera significado: "La obra fue hecha" (en un punto concreto del pasado). Sería un hecho histórico, terminado.</li>
+            <li><strong>El Perfecto (Τετέλεσται / Tetélestai)</strong> significa: "La obra fue cumplida en el <em>pasado y, he aquí, sus resultados permanecen para siempre en un estado de cumplimiento</em>."</li>
+        </ul>
+
+        <p>La elección de Jesús no fue casual. Al usar el perfecto, declaró que:</p>
+        <ul>
+            <li><strong>Su misión redentora fue completada de manera definitiva y perfecta</strong> en el Gólgota.</li>
+            <li><strong>Sus efectos no se quedaron en el pasado, sino que permanecen vigentes, activos y disponibles hoy mismo.</strong> La salvación que obtuvo es eterna, permanente y accesible para todo aquel que cree.</li>
+        </ul>
+
+        <h3>Profundización teológica y conexión bíblica</h3>
+        <p>El apóstol Pablo, un maestro del griego koiné, explora las implicaciones de este "Tetélestai" en pasajes como Romanos 5. Él contrasta el acto único de desobediencia de Adán (un aoristo, un hecho pasado con consecuencias) con el acto único de obediencia de Cristo (un perfecto: un hecho pasado con consecuencias permanentes).</p>
+
+        <p>El sacrificio de Cristo no solo derrotó al pecado, sino que su victoria sigue siendo válida y aplicable para cada creyente en el presente.</p>
+
+        <p>Este hilo de la "obra consumada" se teje a lo largo de todo el ministerio de Jesús, siempre iluminado por este tiempo verbal tan significativo:</p>
+        <ul>
+            <li><strong>En su niñez:</strong> En Lucas 2:49, Jesús dice: <span class="greek-text">«ἐν τοῖς τοῦ πατρός μου δεῖ εἶναί με»</span> ("En los negocios de mi Padre me es necesario estar"). El verbo <span class="greek-text">δεῖ (dei, "es necesario")</span> apunta hacia la misión que debe ser cumplida (<span class="greek-text">τελέω</span>) en el futuro.</li>
+            <li><strong>En su muerte:</strong> En Juan 19:30, proclama: <span class="greek-text">«Τετέλεσται»</span> ("¡Consumado es!"). La misión se completa, y el perfecto sela su permanencia.</li>
+        </ul>
+
+        <p>Por lo tanto, el tiempo perfecto en griego koiné es mucho más que una categoría gramatical. Es un instrumento teológico. Es la forma en que el Espíritu Santo nos guía para entender que el evangelio no es solo una noticia antigua, sino una realidad <strong>presente y permanente</strong>.</p>
+
+        <p>Al estudiar griego koiné, ustedes no están solo memorizando declinaciones y conjugaciones. Están aprendiendo el idioma que Dios eligió para revelar la verdad de una salvación completada en el pasado pero cuyos efectos de gracia, perdón y <strong>vida eterna reverberan en el presente</strong> de manera tan real y tangible como el día en que se pronunció.</p>
+
+        <p class="greek-text highlight"><strong>Τετέλεσται.</strong> Esta palabra es la razón por la que vale la pena sumergirse en el griego. Porque cada verbo, cada caso, cada tiempo, nos acerca más a la riqueza insondable de lo que Cristo logró por nosotros. ¿Están listos para seguir explorando?</p>
+
+        <div class="quiz-container">
+            <h3>Mini-quiz: Introducción Teológica</h3>
+            <div class="question">
+                <p>1. ¿Qué significa Τετέλεσται (Tetélestai)?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Fue completado (acción pasada terminada)</div>
+                    <div class="option" data-correct="true">Ha sido completado (acción pasada con efectos presentes)</div>
+                    <div class="option" data-correct="false">Será completado (acción futura)</div>
+                    <div class="option" data-correct="false">Está siendo completado (acción en proceso)</div>
+                </div>
+            </div>
+            <div class="question">
+                <p>2. ¿Por qué es teológicamente significativo que Jesús usara el tiempo perfecto?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Porque muestra que su obra fue solo un evento histórico</div>
+                    <div class="option" data-correct="true">Porque muestra que su obra tiene efectos permanentes en el presente</div>
+                    <div class="option" data-correct="false">Porque era la forma más común de hablar en griego</div>
+                    <div class="option" data-correct="false">Porque el aoristo no existía en ese tiempo</div>
+                </div>
+            </div>
+            <button class="check-btn">Verificar Respuestas</button>
+            <div class="result"></div>
+        </div>
+    </section>
+
+    <!-- CONCEPTO DEL PERFECTO -->
+    <section id="concepto" class="content-section">
+        <h2>II. El Perfecto en Griego: Concepto y Valor Gramatical</h2>
+        <div class="sub-nav">
+            <button class="sub-nav-btn" data-target="intro">Introducción</button>
+            <button class="sub-nav-btn active" data-target="concepto">Concepto</button>
+            <button class="sub-nav-btn" data-target="formacion-activo">Formación Activo</button>
+        </div>
+
+        <h3>1. Definición: Una Acción con Eco Eterno</h3>
+        <p>El tiempo perfecto en griego koiné es único y poderoso. No se limita a narrar un hecho pasado, sino que conecta estratégicamente el pasado con el presente. Su valor fundamental es:</p>
+
+        <p class="highlight"><strong>Describir una acción completada (perfecta) en el pasado, cuyos resultados o estado consecuente permanecen vigentes en el presente del hablante.</strong></p>
+
+        <p>Pensemos en una campana. El aoristo es el momento en que se golpea la campana ("sonó"). El perfecto es el sonido que, tras ser generado, sigue resonando en el aire ("ha sonado y aún se escucha").</p>
+
+        <h3>Ejemplo práctico con λύω (desatar, soltar):</h3>
+        <ul>
+            <li><strong>Aoristo (ἔλυσα / élysa):</strong> "Ayer desaté el caballo." (Hecho histórico, puntual y concluido).</li>
+            <li><strong>Perfecto (λέλυκα / lélyka):</strong> "He desatado al caballo, por lo tanto está suelto." (La acción de desatar está terminada, pero el estado resultante—el caballo suelto—es la realidad actual).</li>
+        </ul>
+
+        <h3>2. Comparación con Español e Inglés: Un Matiz Inigualable</h3>
+        <p>Es útil buscar equivalentes, pero crucial entender que el perfecto griego tiene una fuerza que a menudo se pierde en las traducciones.</p>
+
+        <ul>
+            <li><strong>Español:</strong> Usamos el pretérito perfecto compuesto ("he hecho", "has comido"). Se acerca, pero su uso no es idéntico. Muchos dialectos del español prefieren el pretérito simple ("hice", "comiste") para acciones pasadas, perdiendo el matiz de permanencia. El griego insiste en ese matiz.</li>
+            <li><strong>Inglés:</strong> La construcción con "have/has" + participio ("I have written") es probablemente la analogía más cercana en un idioma moderno.</li>
+        </ul>
+
+        <div class="note">
+            <strong>Nota importante:</strong> Sin embargo, el perfecto griego enfatiza con mayor fuerza y consistencia que el resultado de la acción pasada es un estado presente y activo. No es solo "lo he hecho", sino "está hecho, y por tanto, las cosas son así ahora".
+        </div>
+
+        <h3>3. Ejemplo Bíblico Clave: La Palabra que Permanece</h3>
+        <p class="greek-text"><strong>Mateo 4:4: «Γέγραπται» (Gégraphtai)</strong> — "Escrito está".</p>
+
+        <p>Jesús, al ser tentado, no dice "<span class="greek-text">ἐγράφη</span>" (egráphē - aoristo, "fue escrito"). Él dice "<span class="greek-text">γέγραπται</span>" (perfecto, "ha sido escrito y por lo tanto permanece escrito, en vigor y con autoridad").</p>
+
+        <ul>
+            <li><strong>Acción pasada:</strong> La Escritura fue escrita por profetas siglos atrás.</li>
+            <li><strong>Estado presente:</strong> Su verdad, su mandato y su autoridad son absolutos hoy, en este momento de tentación. El perfecto capta esta verdad divina de manera brillante.</li>
+        </ul>
+
+        <div class="quiz-container">
+            <h3>Mini-quiz: Concepto del Perfecto</h3>
+            <div class="question">
+                <p>1. ¿Cuál es la característica principal del tiempo perfecto en griego?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Describe una acción futura</div>
+                    <div class="option" data-correct="false">Describe una acción en curso</div>
+                    <div class="option" data-correct="true">Describe una acción pasada con efectos presentes</div>
+                    <div class="option" data-correct="false">Describe una acción hipotética</div>
+                </div>
+            </div>
+            <div class="question">
+                <p>2. En Mateo 4:4, ¿por qué Jesús usa el perfecto γέγραπται en lugar del aoristo ἐγράφη?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Porque suena más formal</div>
+                    <div class="option" data-correct="true">Para enfatizar que la Escritura permanece vigente</div>
+                    <div class="option" data-correct="false">Porque era la forma más común</div>
+                    <div class="option" data-correct="false">Por error gramatical</div>
+                </div>
+            </div>
+            <button class="check-btn">Verificar Respuestas</button>
+            <div class="result"></div>
+        </div>
+    </section>
+
+    <!-- FORMACIÓN DEL PERFECTO ACTIVO -->
+    <section id="formacion-activo" class="content-section">
+        <h2>III. Formación del Perfecto Activo: La Fórmula de la Permanencia</h2>
+        <div class="sub-nav">
+            <button class="sub-nav-btn" data-target="concepto">Concepto</button>
+            <button class="sub-nav-btn active" data-target="formacion-activo">Formación Activo</button>
+            <button class="sub-nav-btn" data-target="formacion-pasivo">Formación Pasivo</button>
+        </div>
+
+        <h3>1. La Fórmula: Desglosando el Mecanismo</h3>
+        <p>La forma del perfecto se construye de manera muy característica. Podemos memorizar una fórmula sencilla:</p>
+
+        <p class="highlight"><strong>Reduplicación + Raíz del Verbo + Formativo del tiempo κα + Terminaciones Personales Primarias.</strong></p>
+
+        <p class="greek-text">\[ λε + λυ + κα + μεν = λελύκαμεν \]</p>
+        <p><em>(lelykamen - "nosotros hemos soltado")</em></p>
+
+        <p>Desglosemos cada parte usando <span class="greek-text">λύω (lýō)</span> como verbo modelo:</p>
+
+        <ol>
+            <li><strong>Reduplicación:</strong> Es la primera sílaba del verbo. Se repite al principio, pero casi siempre con una <strong>vocal epsilon (ε)</strong>. Es la "marca de fábrica" del perfecto.
+                <br><span class="greek-text">λύω → Reduplicación: λε-</span></li>
+            <li><strong>Lexema del Perfecto Activo:</strong> La base a la que se le añaden todas las desinencias.
+                <br><span class="greek-text">λύω → Raíz: λυ-</span></li>
+            <li><strong>Formativo del tiempo κα:</strong> Una letra de unión (o "aumento temporal") que se inserta entre la raíz y la terminación. Es clave para identificar el perfecto.</li>
+            <li><strong>Terminaciones Primarias:</strong> Son las terminaciones que indican la persona y el número. Son las mismas que usan los tiempos de presente.</li>
+        </ol>
+
+        <h3>2. Paradigma: Perfecto Activo Indicativo de λύω</h3>
+        <p>Aquí está la conjugación completa. Notará la repetitiva pero crucial <strong>reduplicación (λε-) y el formativo κ/κα.</strong></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Persona y Número</th>
+                    <th>Forma Griega</th>
+                    <th>Transliteración</th>
+                    <th>Traducción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1ª Singular</td>
+                    <td class="greek-text">Λέλυκα</td>
+                    <td>Lélyka</td>
+                    <td>Yo he soltado</td>
+                </tr>
+                <tr>
+                    <td>2ª Singular</td>
+                    <td class="greek-text">Λέλυκας</td>
+                    <td>Lélykas</td>
+                    <td>Tú has soltado</td>
+                </tr>
+                <tr>
+                    <td>3ª Singular</td>
+                    <td class="greek-text">Λέλυκε(ν)</td>
+                    <td>Lélyke(n)</td>
+                    <td>Él/Ella ha soltado</td>
+                </tr>
+                <tr>
+                    <td>1ª Plural</td>
+                    <td class="greek-text">λελύκαμεν</td>
+                    <td>lelýkamen</td>
+                    <td>Nosotros hemos soltado</td>
+                </tr>
+                <tr>
+                    <td>2ª Plural</td>
+                    <td class="greek-text">λελύκατε</td>
+                    <td>lelýkate</td>
+                    <td>Vosotros habéis soltado</td>
+                </tr>
+                <tr>
+                    <td>3ª Plural</td>
+                    <td class="greek-text">λελύκασι(ν)</td>
+                    <td>lelýkasi(n)</td>
+                    <td>Ellos han soltado</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="note">
+            <strong>Notas esenciales:</strong>
+            <ul>
+                <li>La -ν final en la 3ª persona singular (-ν) y plural (-σιν) es una <strong>nu móvil.</strong> Aparece principalmente ante pausa o antes de una palabra que comienza con vocal para facilitar la pronunciación.</li>
+                <li><strong>Acento:</strong> Observe cómo el acento agudo es persistente y se mantiene en la sílaba de la reduplicación (λέ-) en las formas singulares. Esto es una gran pista para reconocer el perfecto.</li>
+            </ul>
+        </div>
+
+        <div class="quiz-container">
+            <h3>Mini-quiz: Formación del Perfecto Activo</h3>
+            <div class="question">
+                <p>1. ¿Cuál es la fórmula básica para formar el perfecto activo?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Raíz + terminaciones primarias</div>
+                    <div class="option" data-correct="true">Reduplicación + raíz + κα + terminaciones primarias</div>
+                    <div class="option" data-correct="false">Reduplicación + raíz + terminaciones secundarias</div>
+                    <div class="option" data-correct="false">Raíz + σα + terminaciones primarias</div>
+                </div>
+            </div>
+            <div class="question">
+                <p>2. ¿Qué indica la reduplicación en el tiempo perfecto?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Que la acción es futura</div>
+                    <div class="option" data-correct="false">Que la acción es hipotética</div>
+                    <div class="option" data-correct="true">Que la acción está completada con efectos presentes</div>
+                    <div class="option" data-correct="false">Que la acción es reflexiva</div>
+                </div>
+            </div>
+            <button class="check-btn">Verificar Respuestas</button>
+            <div class="result"></div>
+        </div>
+    </section>
+
+    <!-- FORMACIÓN DEL PERFECTO MEDIO/PASIVO -->
+    <section id="formacion-pasivo" class="content-section">
+        <h2>IV. Formación del Perfecto Medio/Pasivo</h2>
+        <div class="sub-nav">
+            <button class="sub-nav-btn" data-target="formacion-activo">Formación Activo</button>
+            <button class="sub-nav-btn active" data-target="formacion-pasivo">Formación Pasivo</button>
+            <button class="sub-nav-btn" data-target="reduplicacion">Reduplicación</button>
+        </div>
+
+        <h3>1. Formación del Perfecto Medio/Pasivo: El Estado Resultante</h3>
+        <p><strong>La Fórmula: Simplicidad que Denota Estado</strong></p>
+
+        <p>A diferencia del perfecto activo, la forma medio/pasiva no lleva el formativo «κ». Su estructura es más directa:</p>
+
+        <p class="highlight"><strong>Reduplicación + Raíz del Verbo + Terminaciones Personales Primarias de Medio/Pasivo</strong></p>
+
+        <p class="greek-text">λε + λυ- (raíz) + μαι = λέλυμαι</p>
+
+        <p>Desglosemos cada parte, nuevamente con λύω:</p>
+
+        <ol>
+            <li><strong>Reduplicación:</strong> Funciona igual que en el activo. Se repite la consonante inicial con una epsilon (ε).
+                <br><span class="greek-text">λύω → Reduplicación: λε-</span></li>
+            <li><strong>Raíz del Verbo:</strong> La base fundamental del verbo.
+                <br><span class="greek-text">λύω → Raíz: λυ-</span></li>
+            <li><strong>Terminaciones:</strong> Aquí está la gran diferencia. Se usan las <strong>terminaciones primarias del sistema medio/pasivo</strong> (las mismas que, por ejemplo, el presente medio-pasivo). Estas terminaciones indican la voz y la persona.</li>
+        </ol>
+
+        <h3>2. Traducción y Valor</h3>
+        <p>La traducción natural al español es "He sido soltado". Sin embargo, el matiz griego es más profundo. No solo describe la acción pasada de ser desatado, sino que principalmente enfatiza el estado actual resultante: <strong>"Estoy en una condición de haber sido liberado", "me encuentro suelto".</strong></p>
+
+        <h3>3. Paradigma: Perfecto Medio/Pasivo Indicativo de λύω</h3>
+        <p>Note la ausencia del formativo «κ» y la presencia de las terminaciones familiares de la voz media.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Persona y Número</th>
+                    <th>Forma Griega</th>
+                    <th>Transliteración</th>
+                    <th>Traducción Fundamental</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1ª Singular</td>
+                    <td class="greek-text">Λέλυμαι</td>
+                    <td>Lélymai</td>
+                    <td>He sido soltado / Estoy suelto</td>
+                </tr>
+                <tr>
+                    <td>2ª Singular</td>
+                    <td class="greek-text">Λέλυσαι</td>
+                    <td>Lélysai</td>
+                    <td>Has sido soltado / Estás suelto</td>
+                </tr>
+                <tr>
+                    <td>3ª Singular</td>
+                    <td class="greek-text">Λέλυται</td>
+                    <td>Lélytai</td>
+                    <td>Ha sido soltado / Está suelto</td>
+                </tr>
+                <tr>
+                    <td>1ª Plural</td>
+                    <td class="greek-text">λελύμεθα</td>
+                    <td>lelýmetha</td>
+                    <td>Hemos sido soltados / Estamos sueltos</td>
+                </tr>
+                <tr>
+                    <td>2ª Plural</td>
+                    <td class="greek-text">λέλυσθε</td>
+                    <td>lélysthe</td>
+                    <td>Habéis sido soltados / Estáis sueltos</td>
+                </tr>
+                <tr>
+                    <td>3ª Plural</td>
+                    <td class="greek-text">λέλυνται</td>
+                    <td>lélyntai</td>
+                    <td>Han sido soltados / Están sueltos</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="note">
+            <strong>Nota crucial:</strong> En el perfecto medio/pasivo <strong>no existe el formativo «κ» ni una vocal temática de enlace</strong>. La raíz se une directamente a las terminaciones. La reduplicación es la principal señal de que es un tiempo perfecto.
+        </div>
+
+        <div class="quiz-container">
+            <h3>Mini-quiz: Formación del Perfecto Medio/Pasivo</h3>
+            <div class="question">
+                <p>1. ¿Cuál es la principal diferencia entre la formación del perfecto activo y medio/pasivo?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">El perfecto medio/pasivo usa terminaciones diferentes</div>
+                    <div class="option" data-correct="true">El perfecto medio/pasivo no lleva el formativo «κ»</div>
+                    <div class="option" data-correct="false">El perfecto medio/pasivo no tiene reduplicación</div>
+                    <div class="option" data-correct="false">El perfecto medio/pasivo usa terminaciones secundarias</div>
+                </div>
+            </div>
+            <div class="question">
+                <p>2. ¿Qué matiz añade el perfecto medio/pasivo frente a una forma pasiva simple?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Indica que la acción ocurrirá en el futuro</div>
+                    <div class="option" data-correct="false">Indica que la acción está en progreso</div>
+                    <div class="option" data-correct="true">Indica que la acción pasada tiene un estado resultante presente</div>
+                    <div class="option" data-correct="false">Indica que la acción es reflexiva</div>
+                </div>
+            </div>
+            <button class="check-btn">Verificar Respuestas</button>
+            <div class="result"></div>
+        </div>
+    </section>
+
+    <!-- REGLAS DE REDUPLICACIÓN -->
+    <section id="reduplicacion" class="content-section">
+        <h2>V. Reglas de Reduplicación: La Firma del Perfecto</h2>
+        <div class="sub-nav">
+            <button class="sub-nav-btn" data-target="formacion-pasivo">Formación Pasivo</button>
+            <button class="sub-nav-btn active" data-target="reduplicacion">Reduplicación</button>
+            <button class="sub-nav-btn" data-target="segundo-perfecto">Segundo Perfecto</button>
+        </div>
+
+        <h3>1. Reduplicación: La Marca de Fábrica</h3>
+        <p>La reduplicación es el mecanismo más distintivo del tiempo perfecto. Consiste en repetir la consonante inicial del verbo y añadir la vocal <span class="greek-text">ε (épsilon)</span>. Es como una "firma" que certifica que la acción está completa y sus efectos permanecen.</p>
+
+        <h3>2. Reglas Generales y Excepciones</h3>
+        <p>La mayoría de los verbos siguen la regla básica, pero hay casos especiales que debemos conocer:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipo de Verbo</th>
+                    <th>Ejemplo (Presente)</th>
+                    <th>Reduplicación (Perfecto)</th>
+                    <th>Forma de Perfecto</th>
+                    <th>Explicación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Verbos que comienzan con consonante simple</td>
+                    <td class="greek-text">λύω (soltar)</td>
+                    <td class="greek-text">λε-</td>
+                    <td class="greek-text">λέλυκα</td>
+                    <td>Regla general: C + ε</td>
+                </tr>
+                <tr>
+                    <td>Verbos que comienzan con vocal</td>
+                    <td class="greek-text">ἀγαπάω (amar)</td>
+                    <td class="greek-text">ἠγαπ-</td>
+                    <td class="greek-text">ἠγάπηκα</td>
+                    <td>La vocal inicial se alarga: α → η, ε → η, ο → ω</td>
+                </tr>
+                <tr>
+                    <td>Verbos que comienzan con consonante aspirada (θ, φ, χ)</td>
+                    <td class="greek-text">θάπτω (enterrar)</td>
+                    <td class="greek-text">τεθαφ-</td>
+                    <td class="greek-text">τέθαφα</td>
+                    <td>La aspiración (h) se pierde en la reduplicación: θ → τ, φ → π, χ → κ</td>
+                </tr>
+                <tr>
+                    <td>Verbos que comienzan con dos consonantes (oclusiva + líquida/s)</td>
+                    <td class="greek-text">γράφω (escribir)</td>
+                    <td class="greek-text">γεγραφ-</td>
+                    <td class="greek-text">γέγραφα</td>
+                    <td>Se reduplica solo la primera consonante, no el grupo</td>
+                </tr>
+                <tr>
+                    <td>Verbos que comienzan con ζ, ξ, ψ</td>
+                    <td class="greek-text">ζάω (vivir)</td>
+                    <td class="greek-text">—</td>
+                    <td class="greek-text">(no tiene perfecto activo)</td>
+                    <td>Estas consonantes no se reduplican. Muchos de estos verbos forman el perfecto de manera irregular.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>3. Ejemplos Bíblicos de Reduplicación</h3>
+        <ul>
+            <li><span class="greek-text">γράφω (gráphō, "escribir") → γέγραπται (gégraphtai, "está escrito")</span> - Mateo 4:4</li>
+            <li><span class="greek-text">ἀποστέλλω (apostéllō, "enviar") → ἀπέσταλκα (apéstalka, "he enviado")</span> - Juan 17:18</li>
+            <li><span class="greek-text">ἀγαπάω (agapáō, "amar") → ἠγάπηκα (egápeka, "he amado")</span> - Juan 15:9</li>
+        </ul>
+
+        <div class="note">
+            <strong>Consejo de aprendizaje:</strong> La mejor manera de dominar las reglas de reduplicación es practicar con verbos comunes del Nuevo Testamento. Con el tiempo, reconocerá los patrones casi de forma intuitiva.
+        </div>
+
+        <div class="quiz-container">
+            <h3>Mini-quiz: Reglas de Reduplicación</h3>
+            <div class="question">
+                <p>1. ¿Cómo se reduplica un verbo que comienza con vocal?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">No se reduplica</div>
+                    <div class="option" data-correct="false">Se repite la vocal con epsilon</div>
+                    <div class="option" data-correct="true">La vocal se alarga (α→η, ε→η, ο→ω)</div>
+                    <div class="option" data-correct="false">Se añade una epsilon al principio</div>
+                </div>
+            </div>
+            <div class="question">
+                <p>2. ¿Qué ocurre con la aspiración en verbos que comienzan con θ, φ, χ?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Se mantiene la aspiración</div>
+                    <div class="option" data-correct="true">Se pierde la aspiración en la reduplicación</div>
+                    <div class="option" data-correct="false">Se convierte en sigma</div>
+                    <div class="option" data-correct="false">Se duplica la aspiración</div>
+                </div>
+            </div>
+            <button class="check-btn">Verificar Respuestas</button>
+            <div class="result"></div>
+        </div>
+    </section>
+
+    <!-- SEGUNDO PERFECTO Y SEGUNDO PERFECTO MEDIO/PASIVO -->
+    <section id="segundo-perfecto" class="content-section">
+        <h2>VI. Segundo Perfecto y Segundo Perfecto Medio/Pasivo</h2>
+        <div class="sub-nav">
+            <button class="sub-nav-btn" data-target="reduplicacion">Reduplicación</button>
+            <button class="sub-nav-btn active" data-target="segundo-perfecto">Segundo Perfecto</button>
+            <button class="sub-nav-btn" data-target="voz-media">Voz Media</button>
+        </div>
+
+        <h3>1. ¿Qué es un "Segundo Perfecto"?</h3>
+        <p>Algunos verbos muy comunes en griego forman su perfecto de manera irregular. A estas formas se les llama <strong>segundo perfecto</strong> (o perfecto fuerte). Su característica principal es que <strong>no usan el formativo «κ»</strong> característico del perfecto regular (primer perfecto).</p>
+
+        <p>Estos verbos son tan frecuentes que es esencial memorizar sus formas. Afortunadamente, son un grupo limitado.</p>
+
+        <h3>2. Paradigma de Segundo Perfecto: El Verbo λείπω (dejar)</h3>
+        <p>El verbo λείπω (dejar, abandonar) es un ejemplo clásico de segundo perfecto. Note la ausencia total del formativo «κ».</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Persona y Número</th>
+                    <th>Forma Griega</th>
+                    <th>Transliteración</th>
+                    <th>Traducción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1ª Singular</td>
+                    <td class="greek-text">λέλοιπα</td>
+                    <td>Léloipa</td>
+                    <td>Yo he dejado</td>
+                </tr>
+                <tr>
+                    <td>2ª Singular</td>
+                    <td class="greek-text">λέλοιπας</td>
+                    <td>Léloipas</td>
+                    <td>Tú has dejado</td>
+                </tr>
+                <tr>
+                    <td>3ª Singular</td>
+                    <td class="greek-text">λέλοιπε(ν)</td>
+                    <td>Léloipe(n)</td>
+                    <td>Él ha dejado</td>
+                </tr>
+                <tr>
+                    <td>1ª Plural</td>
+                    <td class="greek-text">λελοίπαμεν</td>
+                    <td>leloípamen</td>
+                    <td>Nosotros hemos dejado</td>
+                </tr>
+                <tr>
+                    <td>2ª Plural</td>
+                    <td class="greek-text">λελοίπατε</td>
+                    <td>leloípate</td>
+                    <td>Vosotros habéis dejado</td>
+                </tr>
+                <tr>
+                    <td>3ª Plural</td>
+                    <td class="greek-text">λελοίπασι(ν)</td>
+                    <td>leloípasi(n)</td>
+                    <td>Ellos han dejado</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>3. Segundo Perfecto Medio/Pasivo</h3>
+        <p>De igual manera, existe el <strong>segundo perfecto medio/pasivo</strong>. Sigue la misma lógica: son formas irregulares sin el formativo «κ» que deben memorizarse.</p>
+
+        <p>Un verbo crucial con segundo perfecto medio/pasivo es <span class="greek-text">γίνομαι (llegar a ser, suceder)</span>:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Persona y Número</th>
+                    <th>Forma Griega</th>
+                    <th>Transliteración</th>
+                    <th>Traducción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1ª Singular</td>
+                    <td class="greek-text">γέγονα</td>
+                    <td>Gégona</td>
+                    <td>He llegado a ser / Soy</td>
+                </tr>
+                <tr>
+                    <td>3ª Singular</td>
+                    <td class="greek-text">γέγονε(ν)</td>
+                    <td>Gégone(n)</td>
+                    <td>Ha llegado a ser / Es</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>4. Lista de Verbos Comunes con Segundo Perfecto</h3>
+        <p>Estos son algunos de los verbos más importantes que forman el segundo perfecto. Es muy útil memorizarlos:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Verbo (Presente)</th>
+                    <th>Significado</th>
+                    <th>2º Perfecto Activo</th>
+                    <th>2º Perfecto Medio/Pasivo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="greek-text">βάλλω</td>
+                    <td>lanzar</td>
+                    <td class="greek-text">βέβληκα</td>
+                    <td class="greek-text">βέβλημαι</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">γίνομαι</td>
+                    <td>llegar a ser</td>
+                    <td class="greek-text">γέγονα</td>
+                    <td class="greek-text">—</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">ἔρχομαι</td>
+                    <td>venir, ir</td>
+                    <td class="greek-text">—</td>
+                    <td class="greek-text">ἐλήλυθα*</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">λείπω</td>
+                    <td>dejar</td>
+                    <td class="greek-text">λέλοιπα</td>
+                    <td class="greek-text">—</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">ὁράω</td>
+                    <td>ver</td>
+                    <td class="greek-text">ἑώρακα</td>
+                    <td class="greek-text">—</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">πίπτω</td>
+                    <td>caer</td>
+                    <td class="greek-text">πέπτωκα</td>
+                    <td class="greek-text">—</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="note">*Nota: La forma <span class="greek-text">ἐλήλυθα</span> es tan irregular que se considera un verbo aparte. Es el perfecto de <span class="greek-text">ἔρχομαι</span> pero funciona como una forma activa con significado medio.</p>
+
+        <div class="quiz-container">
+            <h3>Mini-quiz: Segundo Perfecto</h3>
+            <div class="question">
+                <p>1. ¿Qué caracteriza a un segundo perfecto?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Usa el formativo «κ»</div>
+                    <div class="option" data-correct="true">No usa el formativo «κ»</div>
+                    <div class="option" data-correct="false">Tiene una reduplicación diferente</div>
+                    <div class="option" data-correct="false">Solo existe en voz media</div>
+                </div>
+            </div>
+            <div class="question">
+                <p>2. ¿Cuál es la forma de segundo perfecto de γίνομαι?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">γεγένημαι</div>
+                    <div class="option" data-correct="true">γέγονα</div>
+                    <div class="option" data-correct="false">γενήσομαι</div>
+                    <div class="option" data-correct="false">γεγονήκα</div>
+                </div>
+            </div>
+            <button class="check-btn">Verificar Respuestas</button>
+            <div class="result"></div>
+        </div>
+    </section>
+
+    <!-- VOZ MEDIA DEL PERFECTO -->
+    <section id="voz-media" class="content-section">
+        <h2>VII. La Voz Media del Perfecto: Acción con Interés Personal</h2>
+        <div class="sub-nav">
+            <button class="sub-nav-btn" data-target="segundo-perfecto">Segundo Perfecto</button>
+            <button class="sub-nav-btn active" data-target="voz-media">Voz Media</button>
+            <button class="sub-nav-btn" data-target="ejemplos">Ejemplos Bíblicos</button>
+        </div>
+
+        <h3>1. El Matiz de la Voz Media en el Perfecto</h3>
+        <p>Recordemos que la voz media (o voz media-pasiva) en griego generalmente indica que el sujeto realiza una acción en la que tiene un interés personal o que recae sobre sí mismo. En el tiempo perfecto, este matiz se combina con la idea de un estado resultante.</p>
+
+        <p>La traducción al español puede variar mucho según el verbo, pero la idea central es: <strong>"El sujeto se encuentra en un estado que resultó de una acción que realizó para sí mismo (o que le afecta personalmente)."</strong></p>
+
+        <h3>2. Ejemplos de Perfecto Medio con Valor Reflexivo/Medio</h3>
+
+        <ul>
+            <li><span class="greek-text">πορεύομαι (poreúomai) - "ir, marchar"</span>
+                <br><strong>Perfecto Medio:</strong> <span class="greek-text">πεπόρευμαι (pepóreumai)</span>
+                <br><strong>Traducción:</strong> "Me he ido" (y por tanto, estoy lejos) o "He emprendido mi camino" (y estoy en camino).</li>
+
+            <li><span class="greek-text">ἀποκρίνομαι (apokrínomai) - "responder"</span>
+                <br><strong>Perfecto Medio:</strong> <span class="greek-text">ἀπεκρίθην (apekríthēn)*</span>
+                <br><strong>Traducción:</strong> "He respondido" (y mi respuesta queda dada, está ahí). En Juan 1:21: "<span class="greek-text">καὶ ὡμολόγησεν ὅτι Ἐγὼ οὐκ εἰμὶ ὁ Χριστός... καὶ ἠρνήσατο· Καὶ ὡμολόγησεν ὅτι Οὐκ εἰμὶ ἐγὼ ὁ προφήτης; Ἀπεκρίθη οὖν αὐτοῖς· Ἐγὼ φωνὴ βοῶντος ἐν τῇ ἐρήμῳ"</span> ("Y confesó: 'Yo no soy el Cristo'... y negó: 'Y confesó: ¿No soy yo el profeta?' <strong>Respondió</strong>, pues, a ellos: 'Yo soy la voz del que clama en el desierto'").</li>
+        </ul>
+
+        <p class="note">*Nota: Técnicamente, <span class="greek-text">ἀπεκρίθην</span> es un aoristo pasivo, pero funciona con un significado medio. Es un verbo deponente, lo que significa que su forma media/pasiva tiene un significado activo.</p>
+
+        <h3>3. Diferencia entre Perfecto Pasivo y Perfecto Medio</h3>
+        <p>La forma es idéntica, por lo que el contexto y el significado natural del verbo son esenciales para distinguirlos.</p>
+
+        <ul>
+            <li><strong>Perfecto con valor pasivo:</strong> El sujeto recibe la acción.
+                <br>Ej: <span class="greek-text">λέλυμαι</span> - "He sido liberado" (y por lo tanto, estoy libre).</li>
+            <li><strong>Perfecto con valor medio:</strong> El sujeto realiza la acción con interés en sí mismo.
+                <br>Ej: <span class="greek-text">πέποιθα</span> (de πείθω) - "He confiado (en mí mismo/mis recursos)" y por lo tanto, "Tengo confianza".</li>
+        </ul>
+
+        <h3>4. Ejemplo Bíblico: La Confianza que Permanece (2 Corintios 1:9)</h3>
+        <p>Un ejemplo magistral del perfecto medio es el verbo <span class="greek-text">πέποιθα (pépoitha)</span>, el perfecto de <span class="greek-text">πείθω (peíthō, "persuadir, confiar")</span>.</p>
+
+        <p class="greek-text">«ἀλλὰ αὐτοὶ ἐν ἑαυτοῖς τὸ ἀπόκριμα τοῦ θανάτου ἐσχήκαμεν, ἵνα μὴ πεποιθότες ὦμεν ἐφ' ἑαυτοῖς ἀλλ' ἐπὶ τῷ θεῷ τῷ ἐγείροντι τοὺς νεκρούς»</p>
+
+        <p><strong>Traducción:</strong> "Pero nosotros mismos tuvimos en nosotros mismos la sentencia de muerte, para que no pusiéramos nuestra confianza en nosotros mismos, sino en Dios que resucita a los muertos."</p>
+
+        <p>La forma <span class="greek-text">πεποιθότες</span> es el participio perfecto medio/pasivo. Capta perfectamente la idea: "habiendo depositado nuestra confianza (acción completada en el pasado) y manteniendo esa confianza (estado resultante en el presente) en nosotros mismos". Pablo argumenta que ese estado de autosuficiencia fue quebrantado para que su confianza (su estado de "haber-confianza") estuviera solo en Dios.</p>
+
+        <div class="quiz-container">
+            <h3>Mini-quiz: Voz Media del Perfecto</h3>
+            <div class="question">
+                <p>1. ¿Qué indica la voz media en el tiempo perfecto?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Que la acción fue recibida por el sujeto</div>
+                    <div class="option" data-correct="true">Que la acción fue realizada por el sujeto con interés personal</div>
+                    <div class="option" data-correct="false">Que la acción es futura</div>
+                    <div class="option" data-correct="false">Que la acción es hipotética</div>
+                </div>
+            </div>
+            <div class="question">
+                <p>2. ¿Cómo se distingue entre perfecto pasivo y perfecto medio si la forma es idéntica?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Por la terminación</div>
+                    <div class="option" data-correct="false">Por la presencia del formativo «κ»</div>
+                    <div class="option" data-correct="true">Por el contexto y el significado del verbo</div>
+                    <div class="option" data-correct="false">Por la reduplicación</div>
+                </div>
+            </div>
+            <button class="check-btn">Verificar Respuestas</button>
+            <div class="result"></div>
+        </div>
+    </section>
+
+    <!-- EJEMPLOS BÍBLICOS -->
+    <section id="ejemplos" class="content-section">
+        <h2>VIII. Ejemplos Bíblicos del Uso del Perfecto</h2>
+        <div class="sub-nav">
+            <button class="sub-nav-btn" data-target="voz-media">Voz Media</button>
+            <button class="sub-nav-btn active" data-target="ejemplos">Ejemplos Bíblicos</button>
+            <button class="sub-nav-btn" data-target="resumen">Resumen</button>
+        </div>
+
+        <h3>1. Ejemplos en el Nuevo Testamento</h3>
+        <p>El tiempo perfecto es abundantemente usado en el Nuevo Testamento, especialmente en los escritos de Juan y Pablo. Aquí hay algunos ejemplos clave para analizar:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Referencia</th>
+                    <th>Texto Griego</th>
+                    <th>Transliteración</th>
+                    <th>Traducción</th>
+                    <th>Explicación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Juan 19:30</td>
+                    <td class="greek-text">Τετέλεσται</td>
+                    <td>Tetélestai</td>
+                    <td>Consumado es</td>
+                    <td>Perfecto de τελέω. La obra de redención fue completada en la cruz y sus efectos permanecen.</td>
+                </tr>
+                <tr>
+                    <td>Mateo 4:4</td>
+                    <td class="greek-text">Γέγραπται</td>
+                    <td>Gégraphtai</td>
+                    <td>Escrito está</td>
+                    <td>Perfecto de γράφω. La Escritura fue escrita y permanece con autoridad.</td>
+                </tr>
+                <tr>
+                    <td>Juan 1:18</td>
+                    <td class="greek-text">ἑώρακεν</td>
+                    <td>Heōraken</td>
+                    <td>Ha visto</td>
+                    <td>Perfecto de ὁράω. El Unigénito vio al Padre y ese conocimiento permanece.</td>
+                </tr>
+                <tr>
+                    <td>2 Corintios 12:9</td>
+                    <td class="greek-text">εἴρηκέν</td>
+                    <td>Eirēken</td>
+                    <td>Ha dicho</td>
+                    <td>Perfecto de λέγω. Dios dijo su palabra y sigue diciéndola (está vigente).</td>
+                </tr>
+                <tr>
+                    <td>1 Juan 4:14</td>
+                    <td class="greek-text">τεθεάμεθα</td>
+                    <td>Tetheámetha</td>
+                    <td>Hemos contemplado</td>
+                    <td>Perfecto de θεάομαι. Los apóstoles vieron a Jesús y ese testimonio permanece.</td>
+                </tr>
+                <tr>
+                    <td>Romanos 5:2</td>
+                    <td class="greek-text">ἐσχήκαμεν</td>
+                    <td>Eschḗkamen</td>
+                    <td>Hemos obtenido</td>
+                    <td>Perfecto de ἔχω. Hemos obtenido acceso por la fe y seguimos teniéndolo.</td>
+                </tr>
+                <tr>
+                    <td>Juan 17:22</td>
+                    <td class="greek-text">δέδωκα</td>
+                    <td>Dédōka</td>
+                    <td>He dado</td>
+                    <td>Perfecto de δίδωμι. Jesús dio la gloria a los discípulos y ellos la siguen teniendo.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>2. Análisis de Juan 1:18: ἑώρακεν (ha visto)</h3>
+        <p class="greek-text">«Θεὸν οὐδεὶς ἑώρακεν πώποτε· μονογενὴς θεὸς ὁ ὢν εἰς τὸν κόλπον τοῦ πατρὸς ἐκεῖνος ἐξηγήσατο.»</p>
+
+        <p><strong>Traducción:</strong> "A Dios nadie le ha visto jamás; el unigénito Dios, que está en el seno del Padre, él le ha dado a conocer."</p>
+
+        <p>El verbo <span class="greek-text">ἑώρακεν</span> es tercera persona singular del perfecto de <span class="greek-text">ὁράω</span> (ver). El uso del perfecto aquí es profundo:</p>
+        <ul>
+            <li><strong>Acción pasada:</strong> En algún momento, el Unigénito (Jesús) vio al Padre.</li>
+            <li><strong>Estado presente:</strong> Como resultado de haberlo visto, tiene un conocimiento íntimo, permanente y actual del Padre. No es un recuerdo lejano, sino una realidad viva y constante. Este conocimiento permanente es lo que le capacita para "explicar" (<span class="greek-text">ἐξηγήσατο</span>) al Padre de manera autoritativa.</li>
+        </ul>
+
+        <p>Si Juan hubiera usado el aoristo (<span class="greek-text">εἶδεν</span>), solo estaría afirmando el hecho histórico de que Jesús vio al Padre. El perfecto va mucho más allá, afirmando la cualidad actual de Jesús como el que conoce al Padre de manera perfecta y permanente.</p>
+
+        <h3>3. Análisis de Romanos 5:2: ἐσχήκαμεν (hemos obtenido)</h3>
+        <p class="greek-text">«δι' οὗ καὶ τὴν προσαγωγὴν ἐσχήκαμεν τῇ πίστει εἰς τὴν χάριν ταύτην ἐν ᾗ ἑστήκαμεν, καὶ καυχώμεθα ἐπ' ἐλπίδι τῆς δόξης τοῦ θεοῦ.»</p>
+
+        <p><strong>Traducción:</strong> "por medio de quien también hemos obtenido entrada por la fe a esta gracia en la cual estamos firmes, y nos gloriamos en la esperanza de la gloria de Dios."</p>
+
+        <p>El verbo <span class="greek-text">ἐσχήκαμεν</span> es primera persona plural del perfecto de <span class="greek-text">ἔχω</span> (tener). Pablo usa el perfecto para describir el acceso a la gracia:</p>
+        <ul>
+            <li><strong>Acción pasada:</strong> En el momento de la justificación por la fe, obtuvimos acceso a la gracia.</li>
+            <li><strong>Estado presente:</strong> Ese acceso no fue un evento momentáneo. Es una realidad permanente. "Tenemos acceso" de manera continua a esta esfera de la gracia. No es algo que tuvimos y luego perdimos, sino algo que obtuvimos y de lo que seguimos disfrutando.</li>
+        </ul>
+
+        <p>El perfecto asegura al creyente que su posición en la gracia es segura y estable ("en la cual estamos firmes" - <span class="greek-text">ἑστήκαμεν</span>, otro perfecto que significa "hemos sido plantados y permanecemos firmes").</p>
+
+        <div class="quiz-container">
+            <h3>Mini-quiz: Ejemplos Bíblicos</h3>
+            <div class="question">
+                <p>1. En Juan 1:18, ¿por qué es significativo que se use el perfecto ἑώρακen?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Porque indica que Jesús vio al Padre una vez</div>
+                    <div class="option" data-correct="true">Porque indica que Jesús vio al Padre y mantiene ese conocimiento</div>
+                    <div class="option" data-correct="false">Porque era la única forma gramatical posible</div>
+                    <div class="option" data-correct="false">Porque el aoristo no existía para ese verbo</div>
+                </div>
+            </div>
+            <div class="question">
+                <p>2. En Romanos 5:2, ¿qué asegura el uso del perfecto ἐσχήκαmen?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Que el acceso a la gracia fue un evento pasado</div>
+                    <div class="option" data-correct="true">Que el acceso a la gracia es una realidad permanente</div>
+                    <div class="option" data-correct="false">Que el acceso a la gracia es futuro</div>
+                    <div class="option" data-correct="false">Que el acceso a la gracia es incierto</div>
+                </div>
+            </div>
+            <button class="check-btn">Verificar Respuestas</button>
+            <div class="result"></div>
+        </div>
+    </section>
+
+    <!-- RESUMEN -->
+    <section id="resumen" class="content-section">
+        <h2>IX. Resumen del Tiempo Perfecto</h2>
+        <div class="sub-nav">
+            <button class="sub-nav-btn" data-target="ejemplos">Ejemplos Bíblicos</button>
+            <button class="sub-nav-btn active" data-target="resumen">Resumen</button>
+            <button class="sub-nav-btn" data-target="tabla-verbos">Tabla de Verbos</button>
+        </div>
+
+        <h3>1. Concepto Fundamental</h3>
+        <p>El tiempo perfecto en griego koiné describe una acción completada en el pasado cuyos resultados o estado consecuente permanecen vigentes en el presente. Es la conexión gramatical entre un hecho histórico y su relevancia actual.</p>
+
+        <h3>2. Formación</h3>
+        <ul>
+            <li><strong>Perfecto Activo:</strong> Reduplicación + Raíz + Formativo «κ/κα» + Terminaciones primarias activas.
+                <br>Ej: λέλυκα (he soltado)</li>
+            <li><strong>Perfecto Medio/Pasivo:</strong> Reduplicación + Raíz + Terminaciones primarias medio/pasivas.
+                <br>Ej: λέλυμαι (he sido soltado / estoy suelto)</li>
+        </ul>
+
+        <h3>3. Reduplicación (La "marca" del Perfecto)</h3>
+        <ul>
+            <li>Consonante inicial + ε (λε-)</li>
+            <li>Verbos que comienzan con vocal: alargamiento (α→η, ε→η, ο→ω)</li>
+            <li>Verbos con aspiración inicial (φ, θ, χ): pierden la aspiración en la reduplicación (φ→π, θ→τ, χ→κ)</li>
+            <li>Verbos con dos consonantes iniciales: solo se reduplica la primera</li>
+        </ul>
+
+        <h3>4. Segundo Perfecto (Perfecto Fuerte/Irregular)</h3>
+        <p>Verbos comunes que forman el perfecto sin el formativo «κ». Deben memorizarse.
+            <br>Ej: λείπω → λέλοιπα (he dejado), γίνομαι → γέγονα (he llegado a ser)</p>
+
+        <h3>5. Valor Teológico y Exegético</h3>
+        <p>El perfecto es un tiempo teológicamente cargado en el NT. Enfatiza la permanencia y vigencia actual de las acciones salvíficas de Dios realizadas en Cristo:</p>
+        <ul>
+            <li><span class="greek-text">Τετέλεσται</span> (Juan 19:30): La obra de la redención está completa y sus efectos son eternos.</li>
+            <li><span class="greek-text">Γέγραπται</span> (Mateo 4:4): La Escritura, escrita en el pasado, mantiene su autoridad en el presente.</li>
+            <li><span class="greek-text">ἑώρακεν</span> (Juan 1:18): Jesús vio al Padre y mantiene ese conocimiento íntimo.</li>
+        </ul>
+
+        <h3>6. Consejos para la Traducción y Análisis</h3>
+        <ul>
+            <li>Al encontrar un verbo en perfecto, no se conforme con traducirlo como un pasado simple ("hice").</li>
+            <li>Pregúntese: <strong>"¿Qué estado o resultado presente implica esta acción pasada?"</strong></li>
+            <li>Busque el verbo en un léxico para confirmar si es un segundo perfecto.</li>
+            <li>Compare el uso del perfecto con el aoristo en contextos similares para apreciar el contraste.</li>
+        </ul>
+
+        <p class="highlight">El tiempo perfecto es quizás la mayor joya gramatical del griego koiné para el estudio del Nuevo Testamento, ya que encapsula de manera única la verdad de que el evangelio es una noticia antigua con un poder permanentemente nuevo.</p>
+
+        <div class="quiz-container">
+            <h3>Quiz de Repaso Final</h3>
+            <div class="question">
+                <p>1. ¿Cuál es el valor principal del tiempo perfecto?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Acción futura</div>
+                    <div class="option" data-correct="false">Acción en curso</div>
+                    <div class="option" data-correct="true">Acción pasada con efectos presentes</div>
+                    <div class="option" data-correct="false">Acción hipotética</div>
+                </div>
+            </div>
+            <div class="question">
+                <p>2. ¿Qué elemento es característico del perfecto activo pero no del medio/pasivo?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Reduplicación</div>
+                    <div class="option" data-correct="true">Formativo «κ»</div>
+                    <div class="option" data-correct="false">Terminaciones primarias</div>
+                    <div class="option" data-correct="false">Acento persistente</div>
+                </div>
+            </div>
+            <div class="question">
+                <p>3. ¿Cómo se reduplica un verbo que comienza con θ (theta)?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">θε-</div>
+                    <div class="option" data-correct="true">τε-</div>
+                    <div class="option" data-correct="false">θη-</div>
+                    <div class="option" data-correct="false">No se reduplica</div>
+                </div>
+            </div>
+            <div class="question">
+                <p>4. ¿Qué significa τετέλεσται (tetélestai) en Juan 19:30?</p>
+                <div class="options">
+                    <div class="option" data-correct="false">Está terminando</div>
+                    <div class="option" data-correct="false">Terminó</div>
+                    <div class="option" data-correct="true">Ha sido consumado (y permanece consumado)</div>
+                    <div class="option" data-correct="false">Será consumado</div>
+                </div>
+            </div>
+            <button class="check-btn">Verificar Respuestas</button>
+            <div class="result"></div>
+        </div>
+    </section>
+
+    <!-- TABLA DE VERBOS -->
+    <section id="tabla-verbos" class="content-section">
+        <h2>X. Tabla de Verbos en Tiempo Perfecto</h2>
+        <div class="sub-nav">
+            <button class="sub-nav-btn" data-target="resumen">Resumen</button>
+            <button class="sub-nav-btn active" data-target="tabla-verbos">Tabla de Verbos</button>
+            <button class="sub-nav-btn" data-target="vocabulario">Vocabulario</button>
+        </div>
+
+        <h3>Tabla de Verbos Comunes en Perfecto</h3>
+        <p>Esta tabla recoge algunos de los verbos más frecuentes en el Nuevo Testamento con sus formas de perfecto. Es una herramienta de referencia invaluable.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Verbo (Presente)</th>
+                    <th>Significado</th>
+                    <th>Perfecto Activo</th>
+                    <th>Significado</th>
+                    <th>Perfecto Medio/Pasivo</th>
+                    <th>Significado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="greek-text">ἀγαπάω</td>
+                    <td>amar</td>
+                    <td class="greek-text">ἠγάπηκα</td>
+                    <td>he amado</td>
+                    <td class="greek-text">ἠγάπημαι</td>
+                    <td>he sido amado / soy amado</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">ἀκούω</td>
+                    <td>oír</td>
+                    <td class="greek-text">ἀκήκοα</td>
+                    <td>he oído</td>
+                    <td class="greek-text">—</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">βάλλω</td>
+                    <td>lanzar</td>
+                    <td class="greek-text">βέβληκα</td>
+                    <td>he lanzado</td>
+                    <td class="greek-text">βέβλημαι</td>
+                    <td>he sido lanzado / estoy postrado</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">γίνομαι</td>
+                    <td>llegar a ser</td>
+                    <td class="greek-text">γέγονα</td>
+                    <td>he llegado a ser</td>
+                    <td class="greek-text">—</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">γινώσκω</td>
+                    <td>conocer</td>
+                    <td class="greek-text">ἔγνωκα</td>
+                    <td>he conocido</td>
+                    <td class="greek-text">ἔγνωσμαι</td>
+                    <td>he sido conocido</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">γράφω</td>
+                    <td>escribir</td>
+                    <td class="greek-text">γέγραφα</td>
+                    <td>he escrito</td>
+                    <td class="greek-text">γέγραμμαι</td>
+                    <td>he sido escrito / estoy escrito</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">ἔρχομαι</td>
+                    <td>venir</td>
+                    <td class="greek-text">—</td>
+                    <td>—</td>
+                    <td class="greek-text">ἐλήλυθα</td>
+                    <td>he venido</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">ζάω</td>
+                    <td>vivir</td>
+                    <td class="greek-text">—</td>
+                    <td>—</td>
+                    <td class="greek-text">—</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">θεωρέω</td>
+                    <td>contemplar</td>
+                    <td class="greek-text">—</td>
+                    <td>—</td>
+                    <td class="greek-text">τεθέαμαι</td>
+                    <td>he contemplado</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">λαμβάνω</td>
+                    <td>tomar</td>
+                    <td class="greek-text">εἴληφα</td>
+                    <td>he tomado</td>
+                    <td class="greek-text">εἴλημμαι</td>
+                    <td>he sido tomado</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">λέγω</td>
+                    <td>decir</td>
+                    <td class="greek-text">εἴρηκα</td>
+                    <td>he dicho</td>
+                    <td class="greek-text">—</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">λύω</td>
+                    <td>soltar</td>
+                    <td class="greek-text">λέλυκα</td>
+                    <td>he soltado</td>
+                    <td class="greek-text">λέλυμαι</td>
+                    <td>he sido soltado</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">ὁράω</td>
+                    <td>ver</td>
+                    <td class="greek-text">ἑώρακα</td>
+                    <td>he visto</td>
+                    <td class="greek-text">—</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">πίπτω</td>
+                    <td>caer</td>
+                    <td class="greek-text">πέπτωκα</td>
+                    <td>he caído</td>
+                    <td class="greek-text">—</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">πιστεύω</td>
+                    <td>creer</td>
+                    <td class="greek-text">πεπίστευκα</td>
+                    <td>he creído</td>
+                    <td class="greek-text">πεπίστευμαι</td>
+                    <td>he sido creído / se ha confiado en mí</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">σώζω</td>
+                    <td>salvar</td>
+                    <td class="greek-text">σέσωκα</td>
+                    <td>he salvado</td>
+                    <td class="greek-text">σέσῳσμαι</td>
+                    <td>he sido salvado</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">τελέω</td>
+                    <td>completar</td>
+                    <td class="greek-text">τετέλεκα</td>
+                    <td>he completado</td>
+                    <td class="greek-text">τετέλεσμαι</td>
+                    <td>he sido completado</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">φεύγω</td>
+                    <td>huir</td>
+                    <td class="greek-text">πέφευγα</td>
+                    <td>he huido</td>
+                    <td class="greek-text">—</td>
+                    <td>—</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="note">
+            <strong>Nota:</strong> Esta no es una lista exhaustiva, pero incluye verbos esenciales para la lectura del Nuevo Testamento. Se recomienda crear tarjetas de memorización con estos verbos y sus formas de perfecto.
+        </div>
+    </section>
+
+    <!-- VOCABULARIO -->
+    <section id="vocabulario" class="content-section">
+        <h2>XI. Vocabulario de la Semana 19</h2>
+        <div class="sub-nav">
+            <button class="sub-nav-btn" data-target="tabla-verbos">Tabla de Verbos</button>
+            <button class="sub-nav-btn active" data-target="vocabulario">Vocabulario</button>
+        </div>
+
+        <h3>Vocabulario Esencial para el Perfecto</h3>
+        <p>Esta semana nos enfocamos en verbos, pero aquí hay algunas palabras clave relacionadas con el tema:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Palabra Griega</th>
+                    <th>Transliteración</th>
+                    <th>Significado</th>
+                    <th>Referencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="greek-text">τελέω</td>
+                    <td>teleó</td>
+                    <td>completar, llevar a cabo, cumplir</td>
+                    <td>Juan 19:30</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">γράφω</td>
+                    <td>gráphō</td>
+                    <td>escribir</td>
+                    <td>Mateo 4:4</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">ὁράω</td>
+                    <td>horáō</td>
+                    <td>ver</td>
+                    <td>Juan 1:18</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">λείπω</td>
+                    <td>leípō</td>
+                    <td>dejar, abandonar</td>
+                    <td>2 Timoteo 4:13</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">γίνομαι</td>
+                    <td>gínomai</td>
+                    <td>llegar a ser, suceder</td>
+                    <td>Juan 1:14</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">πίπτω</td>
+                    <td>píptō</td>
+                    <td>caer</td>
+                    <td>Mateo 13:4</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">ἔρχομαι</td>
+                    <td>érchomai</td>
+                    <td>venir, ir</td>
+                    <td>Mateo 3:11</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">λύω</td>
+                    <td>lýō</td>
+                    <td>soltar, desatar</td>
+                    <td>Mateo 16:19</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">ἀγαπάω</td>
+                    <td>agapáō</td>
+                    <td>amar</td>
+                    <td>Juan 3:16</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">πιστεύω</td>
+                    <td>pisteúō</td>
+                    <td>creer, confiar</td>
+                    <td>Juan 3:16</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="vocabulary-section">
+            <h3>¡Practica el Vocabulario!</h3>
+            <p>Utiliza nuestra aplicación de flashcards para memorizar estas palabras esenciales.</p>
+            <a href="https://rol123-m.github.io/Aplicacion-de-vocabulario-de-Griego-Koin-/" class="app-link">Abrir App de Vocabulario</a>
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    <p>© 2023 Curso de Griego Koiné. Todos los derechos reservados.</p>
+    <p>Semana 19 - Introducción al Tiempo Perfecto</p>
+</footer>
+
+<script>
+    // Navegación principal
+    const navButtons = document.querySelectorAll('.nav-btn');
+    const contentSections = document.querySelectorAll('.content-section');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mainNav = document.getElementById('mainNav');
+
+    navButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const target = button.getAttribute('data-target');
+            
+            // Actualizar botones de navegación principal
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Mostrar sección correspondiente
+            contentSections.forEach(section => {
+                section.classList.remove('active');
+                if (section.id === target) {
+                    section.classList.add('active');
+                }
+            });
+
+            // Cerrar menú móvil después de hacer clic
+            if (window.innerWidth <= 768) {
+                mainNav.classList.remove('active');
+            }
+        });
+    });
+
+    // Navegación secundaria (sub-nav)
+    const subNavButtons = document.querySelectorAll('.sub-nav-btn');
+    
+    subNavButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const target = button.getAttribute('data-target');
+            
+            // Actualizar botones de sub-navegación
+            const parentSubNav = button.closest('.sub-nav');
+            parentSubNav.querySelectorAll('.sub-nav-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Mostrar sección correspondiente
+            contentSections.forEach(section => {
+                section.classList.remove('active');
+                if (section.id === target) {
+                    section.classList.add('active');
+                }
+            });
+
+            // Actualizar navegación principal también
+            navButtons.forEach(navBtn => {
+                if (navBtn.getAttribute('data-target') === target) {
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    navBtn.classList.add('active');
+                }
+            });
+        });
+    });
+
+    // Menú móvil
+    mobileMenuBtn.addEventListener('click', () => {
+        mainNav.classList.toggle('active');
+    });
+
+    // Funcionalidad de los quizzes
+    const checkButtons = document.querySelectorAll('.check-btn');
+    
+    checkButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const quizContainer = button.closest('.quiz-container');
+            const options = quizContainer.querySelectorAll('.option');
+            const resultDiv = quizContainer.querySelector('.result');
+            
+            let allAnswered = true;
+            let correctAnswers = 0;
+            let totalQuestions = 0;
+            
+            quizContainer.querySelectorAll('.question').forEach(question => {
+                totalQuestions++;
+                const selectedOption = question.querySelector('.option.selected');
+                
+                if (!selectedOption) {
+                    allAnswered = false;
+                    return;
+                }
+                
+                if (selectedOption.getAttribute('data-correct') === 'true') {
+                    correctAnswers++;
+                    selectedOption.classList.add('correct');
+                } else {
+                    selectedOption.classList.add('incorrect');
+                    // Mostrar la opción correcta
+                    question.querySelectorAll('.option').forEach(opt => {
+                        if (opt.getAttribute('data-correct') === 'true') {
+                            opt.classList.add('correct');
+                        }
+                    });
+                }
+            });
+            
+            if (!allAnswered) {
+                resultDiv.textContent = 'Por favor, responde todas las preguntas.';
+                resultDiv.className = 'result incorrect';
+                return;
+            }
+            
+            const percentage = (correctAnswers / totalQuestions) * 100;
+            resultDiv.textContent = `Obtuviste ${correctAnswers} de ${totalQuestions} correctas (${percentage.toFixed(0)}%).`;
+            
+            if (percentage >= 80) {
+                resultDiv.className = 'result correct';
+            } else {
+                resultDiv.className = 'result incorrect';
+            }
+        });
+    });
+    
+    // Selección de opciones en los quizzes
+    document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', () => {
+            const question = option.closest('.question');
+            question.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            option.classList.add('selected');
+        });
+    });
+
+    // Animación de aparición de elementos al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+        const sections = document.querySelectorAll('.content-section');
+        sections.forEach((section, index) => {
+            section.style.transitionDelay = `${index * 0.1}s`;
+        });
+    });
+</script>
+</body>
+</html>

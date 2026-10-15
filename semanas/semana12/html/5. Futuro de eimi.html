@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Futuro de εἰμί</title>
+  <link rel="stylesheet" href="semana.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>.incorrect { color: #C0392B; } .correct { color: #27AE60; } .result { margin-top: 10px; font-weight: bold; }</style>
+</head>
+<body>
+  <header class="week-header"><div class="header-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo" class="logo-main"></div><div class="header-title"><h1>Futuro de εἰμί</h1><div class="subtitle">Ser/Estar en tiempo futuro</div></div></header>
+  <div class="week-container">
+    <div class="content-card"><h2><i class="fas fa-genderless"></i> Futuro de εἰμί (ser/estar)</h2><div class="important-note"><p>El futuro de <span class="greek-text">εἰμί</span> es de voz media deponente. Su raíz es <span class="greek-text">ἐσ-</span>. Memoriza este paradigma:</p></div></div>
+    <div class="content-card"><h2><i class="fas fa-table"></i> Paradigma del Futuro de εἰμί</h2><div class="vocab-table-container"><table class="vocab-table"><thead><tr><th>Forma</th><th>Traducción</th><th>Futuro medio (comparativo)</th></tr></thead><tbody><tr><td>1 sg ἔσομαι</td><td>Yo seré/estaré</td><td>πορεύσομαι (iré)</td></tr><tr><td>2 sg ἔσῃ</td><td>Tú serás/estarás</td><td>πορεύσῃ (irás)</td></tr><tr><td>3 sg ἔσται</td><td>Él/Ella será</td><td>πορεύσεται (irá)</td></tr><tr><td>1 pl ἐσόμεθα</td><td>Nosotros seremos</td><td>πορευσόμεθα (iremos)</td></tr><tr><td>2 pl ἔσεσθε</td><td>Vosotros seréis</td><td>πορεύσεσθε (iréis)</td></tr><tr><td>3 pl ἔσονται</td><td>Ellos serán</td><td>πορεύσονται (irán)</td></tr></tbody></table></div><div class="note-box"><p>Nota: La forma ἔσται es contracta de ἔσεται</p></div></div>
+    <div class="content-card"><h2><i class="fas fa-clipboard-list"></i> Resumen del Futuro en Griego Koiné</h2><div class="important-note"><ol><li>El futuro indica una acción posterior. Usa generalmente aspecto indefinido.</li><li>Usa el formante temporal sigma (σ). El activo lleva terminaciones activas primarias; el medio, pasivas primarias.</li><li>Los verbos contractos alargan su vocal ante un formante temporal (α/ε → η; ο → ω).</li><li>El Cuadrado de Oclusivas: labiales (π,β,φ) + σ → ψ; velares (κ,γ,χ) + σ → ξ; dentales (τ,δ,θ) + σ → σ.</li><li>Muchos verbos usan la misma raíz en presente y futuro.</li><li>Un verbo deponente en un tiempo no necesariamente lo es en otro.</li><li><strong>Memoriza el futuro de εἰμί</strong> (<span class="greek-text">ἔσομαι, ἔσῃ, ἔσται</span>, etc.).</li></ol></div></div>
+    <div class="content-card quiz"><h2><i class="fas fa-pen-alt"></i> Practica con el Futuro de εἰμί</h2>
+      <div class="quiz-question"><p><strong>Pregunta 1:</strong> ¿Cuál es la raíz del futuro de εἰμί?</p><div class="quiz-options"><label><input type="radio" name="q1" value="a"> εἰ-</label><label><input type="radio" name="q1" value="b"> ἐσ-</label><label><input type="radio" name="q1" value="c"> ἐμ-</label></div><div class="result" id="result1"></div></div>
+      <div class="quiz-question"><p><strong>Pregunta 2:</strong> ¿Cómo se dice "ellos serán" en griego?</p><div class="quiz-options"><label><input type="radio" name="q2" value="a"> ἔσομαι</label><label><input type="radio" name="q2" value="b"> ἔσονται</label><label><input type="radio" name="q2" value="c"> ἔσται</label></div><div class="result" id="result2"></div></div>
+      <div class="quiz-question"><p><strong>Pregunta 3:</strong> ¿Qué tipo de voz tiene el futuro de εἰμί?</p><div class="quiz-options"><label><input type="radio" name="q3" value="a"> Activa</label><label><input type="radio" name="q3" value="b"> Media deponente</label><label><input type="radio" name="q3" value="c"> Pasiva</label></div><div class="result" id="result3"></div></div>
+      <button class="week-button success" onclick="checkAnswers()"><i class="fas fa-check-circle"></i> Comprobar Respuestas</button>
+    </div>
+  </div>
+  <footer class="week-footer"><div class="footer-content"><div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt=""></div><div class="footer-info"><p>Sección educativa del ministerio</p><p class="copyright">"Vivos para Servir"</p><p>© Copyright 2026</p></div></div></footer>
+  <script>function checkAnswers(){const answers={q1:'b',q2:'b',q3:'b'};for(const q in answers){const o=document.querySelector(`input[name="${q}"]:checked`),r=document.getElementById(`result${q.slice(1)}`);if(o){if(o.value===answers[q]){r.textContent="¡Correcto!";r.className="result correct";}else{r.textContent="Incorrecto. La respuesta correcta es: "+answers[q];r.className="result incorrect";}}else{r.textContent="Por favor, selecciona una respuesta.";r.className="result";}}}</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "title": "Sustantivos y Casos",
+  "description": "Contenido de la semana 2: Primera y segunda declinación",
+  "topic": "Primera y segunda declinación",
+  "sections": [
+    {
+      "id": "leccion2_1",
+      "title": "Lección: Sustantivos y Casos",
+      "icon": "fas fa-chalkboard-teacher",
+      "type": "lesson",
+      "content": "<h4>Sustantivos y Casos</h4><p>Esta es la lección principal de la semana 2.</p><p><strong>Tema:</strong> Primera y segunda declinación</p>",
+      "resources": []
+    },
+    {
+      "id": "juego2",
+      "title": "Juego Interactivo",
+      "icon": "fas fa-gamepad",
+      "type": "game",
+      "gameUrl": "juego.html",
+      "description": "Juego educativo relacionado con el tema"
+    },
+    {
+      "id": "examen2",
+      "title": "Examen Semanal 2",
+      "icon": "fas fa-clipboard-check",
+      "type": "exam",
+      "examUrl": "https://docs.google.com/forms",
+      "description": "Evaluación de los conocimientos adquiridos"
+    }
+  ]
+}

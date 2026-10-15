@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen Semana 5 - Pronombres y Tercera Declinación en Griego Koiné</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    img {
+      width: 170px;
+      height: 140px;
+      margin-right: 20px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      color: #4CAF50;
+      margin-top: 0;
+    }
+    .quiz-question {
+      margin-bottom: 20px;
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .quiz-options label {
+      display: block;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      cursor: pointer;
+    }
+    .quiz-options label:hover {
+      background-color: #f1f1f1;
+    }
+    .quiz-options input[type="radio"] {
+      margin-right: 10px;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 4px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .correct {
+      background-color: #dff0d8;
+      color: #3c763d;
+    }
+    .incorrect {
+      background-color: #f2dede;
+      color: #a94442;
+    }
+    .score {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e8f5e9;
+      border-left: 5px solid #4CAF50;
+      text-align: center;
+      font-size: 1.2rem;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    footer {
+      display: flex;
+      width: 100%;
+      margin-top: 80px;
+      background-color: #ffffff;
+      padding: 50px;
+      padding-bottom: 20px;
+      justify-content: center;
+      align-items: center;
+    }
+    #foot {
+      text-align: center;
+      margin-left: 20px;
+      font-size: 16px;
+    }
+    .greek {
+      font-family: "New Athena Unicode", "Galatia SIL", "Gentium Plus", serif;
+      font-size: 1.2em;
+    }
+    .note {
+      background-color: #fffde7;
+      padding: 15px;
+      border-left: 5px solid #ffc107;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://i.postimg.cc/QtgrGy8X/verde.png" alt="Logo del ministerio Vivos para servir">
+    <h1>Examen Semana 5 - Pronombres y Tercera Declinación en Griego Koiné</h1>
+  </header>
+
+  <div class="container">
+    <h2>Examen sobre Pronombres y Tercera Declinación</h2>
+    <p>Responde las siguientes preguntas seleccionando la opción correcta. Al finalizar, haz clic en "Comprobar Respuestas" para ver tu nota.</p>
+
+    <!-- Pregunta 1 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 1:</strong> ¿Qué forma pronominal se usa para el complemento indirecto en plural ('a nosotros')?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q1" value="a"> ἡμῶν</label>
+        <label><input type="radio" name="q1" value="b"> ἡμᾶς</label>
+        <label><input type="radio" name="q1" value="c"> ἡμῖν</label>
+      </div>
+      <div class="result" id="result1"></div>
+    </div>
+
+    <!-- Pregunta 2 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 2:</strong> ¿Qué letra reaparece en el nominativo singular de 'ὕδωρ' debido a su stem original?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q2" value="a"> Delta (δ)</label>
+        <label><input type="radio" name="q2" value="b"> Rho (ρ)</label>
+        <label><input type="radio" name="q2" value="c"> Tau (τ)</label>
+      </div>
+      <div class="result" id="result2"></div>
+    </div>
+
+    <!-- Pregunta 3 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 3:</strong> ¿Qué sustantivo sigue el mismo patrón que 'πατήρ' (padre)?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q3" value="a"> ὕδωρ (agua)</label>
+        <label><input type="radio" name="q3" value="b"> ἔργον (obra)</label>
+        <label><input type="radio" name="q3" value="c"> μήτηρ (madre)</label>
+      </div>
+      <div class="result" id="result3"></div>
+    </div>
+
+    <!-- Pregunta 4 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 4:</strong> ¿Qué determina el caso de un pronombre personal?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q4" value="a"> Su función en la oración</label>
+        <label><input type="radio" name="q4" value="b"> Su terminación léxica</label>
+        <label><input type="radio" name="q4" value="c"> Su género</label>
+      </div>
+      <div class="result" id="result4"></div>
+    </div>
+
+    <!-- Pregunta 5 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 5:</strong> ¿Cuándo se usan las formas enfáticas (ej. ἐμοῦ, σοί)?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q5" value="a"> Siempre en plural</label>
+        <label><input type="radio" name="q5" value="b"> Solo en nominativo</label>
+        <label><input type="radio" name="q5" value="c"> Para contrastar o después de preposiciones</label>
+      </div>
+      <div class="result" id="result5"></div>
+    </div>
+
+    <!-- Pregunta 6 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 6:</strong> ¿Cuál es la forma léxica (diccionario) de los pronombres personales?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q6" value="a"> El genitivo singular</label>
+        <label><input type="radio" name="q6" value="b"> El acusativo plural</label>
+        <label><input type="radio" name="q6" value="c"> El nominativo singular</label>
+      </div>
+      <div class="result" id="result6"></div>
+    </div>
+
+    <!-- Pregunta 7 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 7:</strong> ¿Qué letras dentales desaparecen antes de una sigma en la tercera declinación?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q7" value="a"> λ, μ, ν</label>
+        <label><input type="radio" name="q7" value="b"> τ, δ, θ</label>
+        <label><input type="radio" name="q7" value="c"> π, κ, φ</label>
+      </div>
+      <div class="result" id="result7"></div>
+    </div>
+
+    <!-- Pregunta 8 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 8:</strong> ¿Qué palabra no sigue el patrón de stems en tau/delta?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q8" value="a"> φῶς (luz)</label>
+        <label><input type="radio" name="q8" value="b"> σάρξ (carne)</label>
+        <label><input type="radio" name="q8" value="c"> πίστις (fe)</label>
+      </div>
+      <div class="result" id="result8"></div>
+    </div>
+
+    <!-- Pregunta 9 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 9:</strong> ¿Cuál es el acusativo singular de 'ἐλπίς' (esperanza)?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q9" value="a"> ἐλπίδος</label>
+        <label><input type="radio" name="q9" value="b"> ἐλπίδες</label>
+        <label><input type="radio" name="q9" value="c"> ἐλπίδα</label>
+      </div>
+      <div class="result" id="result9"></div>
+    </div>
+
+    <!-- Pregunta 10 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 10:</strong> ¿Cuál es el genitivo singular de 'χάρις' (gracia)?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q10" value="a"> χάριτες</label>
+        <label><input type="radio" name="q10" value="b"> χάριτα</label>
+        <label><input type="radio" name="q10" value="c"> χάριτος</label>
+      </div>
+      <div class="result" id="result10"></div>
+    </div>
+
+    <!-- Pregunta 11 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 11:</strong> ¿Cómo se traduce correctamente 'κύριός μου εἶπεν'?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q11" value="a"> 'El Señor me dijo'</label>
+        <label><input type="radio" name="q11" value="b"> 'Dijo el Señor'</label>
+        <label><input type="radio" name="q11" value="c"> 'Mi Señor dijo…'</label>
+      </div>
+      <div class="result" id="result11"></div>
+    </div>
+
+    <!-- Pregunta 12 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 12:</strong> ¿Cómo se forma el dativo plural de 'πατήρ'?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q12" value="a"> πατέρες + σι(ν)</label>
+        <label><input type="radio" name="q12" value="b"> πατράσι(ν) (pérdida de vocal stem + alpha)</label>
+        <label><input type="radio" name="q12" value="c"> πατρός + ασι(ν)</label>
+      </div>
+      <div class="result" id="result12"></div>
+    </div>
+
+    <!-- Pregunta 13 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 13:</strong> ¿Qué persona(s) de los pronombres no tienen género gramatical?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q13" value="a"> Solo 1ª persona</label>
+        <label><input type="radio" name="q13" value="b"> 1ª y 2ª persona</label>
+        <label><input type="radio" name="q13" value="c"> Solo 2ª persona</label>
+      </div>
+      <div class="result" id="result13"></div>
+    </div>
+
+    <!-- Pregunta 14 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 14:</strong> ¿Cuál es la forma en nominativo singular del pronombre 'yo' en griego?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q14" value="a"> ἡμεῖς</label>
+        <label><input type="radio" name="q14" value="b"> σύ</label>
+        <label><input type="radio" name="q14" value="c"> ἐγώ</label>
+      </div>
+      <div class="result" id="result14"></div>
+    </div>
+
+    <!-- Pregunta 15 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 15:</strong> ¿Qué género tienen los sustantivos con stem en iota consonántica (ej. πίστις)?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q15" value="a"> Femenino</label>
+        <label><input type="radio" name="q15" value="b"> Neutro</label>
+        <label><input type="radio" name="q15" value="c"> Masculino</label>
+      </div>
+      <div class="result" id="result15"></div>
+    </div>
+
+    <!-- Pregunta 16 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 16:</strong> ¿Qué es lo más importante que debo aprender? (bonus)</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q16" value="a"> Los paradigmas.</label>
+        <label><input type="radio" name="q16" value="b"> Todas las tablas.</label>
+        <label><input type="radio" name="q16" value="c"> El Nuevo Testamento de memoria.</label>
+      </div>
+      <div class="result" id="result16"></div>
+    </div>
+
+    <!-- Pregunta 17 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 17:</strong> ¿Cuál es el nominativo plural de 'ὕδωρ'?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q17" value="a"> ὑδάτων</label>
+        <label><input type="radio" name="q17" value="b"> ὕδατα</label>
+        <label><input type="radio" name="q17" value="c"> ὕδασι</label>
+      </div>
+      <div class="result" id="result17"></div>
+    </div>
+
+    <!-- Pregunta 18 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 18:</strong> ¿Qué tipo de oclusivas son κ, γ, χ?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q18" value="a"> Velares</label>
+        <label><input type="radio" name="q18" value="b"> Dentales</label>
+        <label><input type="radio" name="q18" value="c"> Labiales</label>
+      </div>
+      <div class="result" id="result18"></div>
+    </div>
+
+    <!-- Pregunta 19 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 19:</strong> ¿Qué caso usa la terminación -σι(ν) en la tercera declinación?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q19" value="a"> Dativo plural</label>
+        <label><input type="radio" name="q19" value="b"> Nominativo plural</label>
+        <label><input type="radio" name="q19" value="c"> Genitivo singular</label>
+      </div>
+      <div class="result" id="result19"></div>
+    </div>
+
+    <!-- Pregunta 20 -->
+    <div class="quiz-question">
+      <p><strong>Pregunta 20:</strong> ¿Qué función gramatical cumple un pronombre en griego?</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="q20" value="a"> Modifica a un adjetivo</label>
+        <label><input type="radio" name="q20" value="b"> Reemplaza a un verbo</label>
+        <label><input type="radio" name="q20" value="c"> Reemplaza a un sustantivo</label>
+      </div>
+      <div class="result" id="result20"></div>
+    </div>
+
+    <button onclick="checkAnswers()">Comprobar Respuestas</button>
+    <div class="score" id="score"></div>
+  </div>
+
+  <footer>
+    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="">
+    <p id="foot"> @Copyright Sección educativa del ministerio: "Vivos para Servir"</p>
+  </footer>
+
+  <script>
+    const answers = {
+      q1: 'c', q2: 'c', q3: 'c', q4: 'a', q5: 'c',
+      q6: 'c', q7: 'b', q8: 'a', q9: 'c', q10: 'c',
+      q11: 'c', q12: 'b', q13: 'b', q14: 'c', q15: 'a',
+      q16: 'a', q17: 'b', q18: 'a', q19: 'a', q20: 'c'
+    };
+
+    let reportData = [];
+    const totalQuestions = Object.keys(answers).length;
+
+    function getAnswerText(question, value) {
+        if (!value) return 'Sin respuesta';
+        const selector = `input[name="${question}"][value="${value}"]`;
+        const input = document.querySelector(selector);
+        return input ? input.parentElement.textContent.trim() : 'Respuesta no válida';
+    }
+
+    function generateReport(score) {
+        const percentage = (score / totalQuestions) * 100;
+        const date = new Date().toLocaleString();
+        
+        let report = `REPORTE DE EXAMEN - Pronombres y Tercera Declinación\n`;
+        report += `Fecha: ${date}\n`;
+        report += `----------------------------------------\n\n`;
+        
+        reportData.forEach((item, index) => {
+            report += `Pregunta ${index + 1}:\n`;
+            report += `• Enunciado: ${item.questionText}\n`;
+            report += `• Tu respuesta: ${item.studentAnswer}\n`;
+            report += `• Respuesta correcta: ${item.correctAnswer}\n`;
+            report += `• Estado: ${item.isCorrect ? '✅ Correcto' : '❌ Incorrecto'}\n\n`;
+        });
+
+        report += `----------------------------------------\n`;
+        report += `Puntuación final: ${score}/${totalQuestions}\n`;
+        report += `Porcentaje: ${percentage.toFixed(1)}%\n`;
+        report += `Resultado: ${percentage >= 70 ? 'APROBADO' : 'REPROBADO'}\n`;
+        report += `\nMinisterio "Vivos para Servir" - Sección Educativa`;
+
+        return report;
+    }
+
+    function downloadReport() {
+        const score = reportData.filter(item => item.isCorrect).length;
+        const blob = new Blob([generateReport(score)], 
+            { type: 'text/plain;charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `reporte-examen-pronombres-tercera-declinacion-${new Date().toISOString().slice(0,10)}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    }
+
+    function checkAnswers() {
+        reportData = [];
+        let score = 0;
+        
+        for (const [question, correctAnswer] of Object.entries(answers)) {
+            const questionElement = document.querySelector(`[name="${question}"]`).closest('.quiz-question');
+            const questionText = questionElement.querySelector('p').textContent.replace(/Pregunta \d+:/, '').trim();
+            
+            const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+            const studentAnswer = selectedOption ? selectedOption.value : null;
+            const isCorrect = studentAnswer === correctAnswer;
+            
+            if (isCorrect) score++;
+            
+            reportData.push({
+                questionText: questionText,
+                studentAnswer: getAnswerText(question, studentAnswer),
+                correctAnswer: getAnswerText(question, correctAnswer),
+                isCorrect: isCorrect
+            });
+
+            const resultElement = document.getElementById(`result${question.slice(1)}`);
+            if (selectedOption) {
+                resultElement.textContent = isCorrect ? "¡Correcto!" : "Incorrecto";
+                resultElement.className = `result ${isCorrect ? 'correct' : 'incorrect'}`;
+            } else {
+                resultElement.textContent = "No respondió";
+                resultElement.className = "result";
+            }
+        }
+
+        const percentage = (score / totalQuestions) * 100;
+        const scoreElement = document.getElementById('score');
+        scoreElement.innerHTML = `
+            <p>Tu nota: ${score} / ${totalQuestions}</p>
+            <p>${percentage >= 70 ? '¡Felicidades! Has aprobado el examen.' : 'Necesitas mejorar. Sigue estudiando.'}</p>
+            <button onclick="downloadReport()" id="download-btn">Descargar Reporte</button>
+        `;
+        scoreElement.className = "score";
+    }
+  </script>
+</body>
+</html>

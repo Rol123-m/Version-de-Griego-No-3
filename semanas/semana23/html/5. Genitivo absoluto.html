@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Genitivo Absoluto</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>El Genitivo Absoluto</h1>
+      <div class="subtitle">Construcción independiente</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-book"></i> Definición</h2>
+      <p>Es una construcción gramatical "absoluta" (independiente) formada por:</p>
+      <ul>
+        <li>Un sustantivo o pronombre en <strong>genitivo</strong></li>
+        <li>Un <strong>participio</strong> (de cualquier tiempo) también en <strong>genitivo</strong></li>
+        <li>Esta construcción <strong>NO tiene conexión gramatical</strong> con el resto de la oración</li>
+      </ul>
+
+      <h3 style="color: var(--primary); margin: 1.2rem 0 0.8rem;">Función</h3>
+      <p>Proporciona información contextual (generalmente temporal o causal) sobre la oración principal, pero con un <strong>sujeto diferente</strong> al de la oración principal.</p>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-book-bible"></i> Ejemplos Bíblicos</h2>
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Texto griego</th>
+              <th>Traducción</th>
+              <th>Análisis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="greek-text"><strong>αὐτοῦ λαλοῦντος</strong> παραγίνεται Ἰούδας (Mr 14:43)</td>
+              <td><strong>Mientras él hablaba</strong>, llega Judas</td>
+              <td>Genitivo absoluto (Presente)</td>
+            </tr>
+            <tr>
+              <td class="greek-text"><strong>τοῦ δαιμονίου ἐξελθόντος</strong> ἐλάλησεν ὁ κωφός (Lc 11:14)</td>
+              <td><strong>Después de que el demonio salió</strong>, el mudo habló</td>
+              <td>Genitivo absoluto (Aoristo)</td>
+            </tr>
+            <tr>
+              <td class="greek-text"><strong>ὀψίας δὲ γενομένης</strong> προσῆλθον αὐτῷ οἱ μαθηταί (Mt 14:15)</td>
+              <td><strong>Al anochecer</strong>, los discípulos se le acercaron</td>
+              <td>Genitivo absoluto (Aoristo)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="important-note">
+        <p><strong>💡 Consejo de traducción:</strong></p>
+        <p>No traduzcas palabra por palabra. Identifica la idea (usualmente temporal) y exprésala naturalmente en español: "<strong>Cuando...</strong>", "<strong>Mientras...</strong>", "<strong>Después de que...</strong>".</p>
+      </div>
+
+      <div class="important-note" style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.08) 0%, rgba(52, 152, 219, 0.03) 100%); border-left-color: #3498db;">
+        <p><strong>🔍 Características:</strong></p>
+        <ul>
+          <li>El participio es casi siempre <strong>anarthro</strong> (sin artículo)</li>
+          <li>Es común en material narrativo</li>
+          <li>Suele colocarse al <strong>principio</strong> de la oración o cláusula</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Genitivo Absoluto</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿En qué caso deben estar el sustantivo y participio en un genitivo absoluto?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Nominativo</label>
+          <label><input type="radio" name="q1" value="b"> Acusativo</label>
+          <label><input type="radio" name="q1" value="c"> Genitivo</label>
+          <label><input type="radio" name="q1" value="d"> Dativo</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'c' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

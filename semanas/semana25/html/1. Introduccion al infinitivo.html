@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introducción al Infinitivo Griego</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Introducción al Infinitivo Griego</h1>
+      <div class="subtitle">τὸ ἀπαρέμφατον · El sustantivo verbal</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-eye"></i> ¿Qué es el Infinitivo?</h2>
+      <p>El infinitivo es un <strong>sustantivo verbal</strong>, de manera similar a como el participio es un <strong>adjetivo verbal</strong>.</p>
+
+      <div class="example-box">
+        <p><strong>📝 Ejemplos en español:</strong></p>
+        <ul>
+          <li>"<strong>Estudiar</strong> es mi más alta aspiración." (El infinitivo <em>estudiar</em> es el <strong>sujeto</strong> de la oración).</li>
+          <li>"Empecé <strong>a sudar</strong> cuando me di cuenta de que los finales estaban a tres semanas." (El infinitivo <em>sudar</em> es el <strong>objeto directo</strong> del verbo).</li>
+        </ul>
+      </div>
+
+      <h3 style="color: var(--primary); margin: 1.2rem 0 0.8rem;">Características del Infinitivo Griego</h3>
+      <ul>
+        <li>Es un <strong>sustantivo verbal</strong>.</li>
+        <li>Siempre es <strong>indeclinable</strong> (no cambia su forma), pero se considera <strong>singular neutro</strong>.</li>
+        <li>Cuando va precedido de un artículo definido, este siempre es <strong>neutro singular</strong> y su caso lo determina la función del infinitivo.</li>
+        <li>Puede tener un <strong>objeto directo</strong> y <strong>modificadores adverbiales</strong>.</li>
+      </ul>
+
+      <div class="important-note">
+        <p><strong>🔍 Ejemplos con artículo:</strong></p>
+        <ul>
+          <li><span class="greek-text">τὸ βάλλειν</span> (nominativo) - "el [hecho de] arrojar" (sujeto)</li>
+          <li><span class="greek-text">τῷ βάλλειν</span> (dativo) - "para/por el [hecho de] arrojar" (objeto de preposición)</li>
+        </ul>
+      </div>
+
+      <p><strong>¡El infinitivo no tiene persona ni número!</strong></p>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Mini-quiz: Introducción</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué es el infinitivo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Un adjetivo verbal</label>
+          <label><input type="radio" name="q1" value="b"> Un sustantivo verbal</label>
+          <label><input type="radio" name="q1" value="c"> Un adverbio verbal</label>
+          <label><input type="radio" name="q1" value="d"> Una preposición verbal</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿El infinitivo griego es declinable?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Sí</label>
+          <label><input type="radio" name="q2" value="b"> No, es indeclinable</label>
+          <label><input type="radio" name="q2" value="c"> Solo en algunos casos</label>
+          <label><input type="radio" name="q2" value="d"> Depende del verbo</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b', q2: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

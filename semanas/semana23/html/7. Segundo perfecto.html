@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Segundo Perfecto (Verbos Irregulares)</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Segundo Perfecto (Verbos Irregulares)</h1>
+      <div class="subtitle">Formativo temporal α en lugar de κα</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-exclamation-triangle"></i> Verbos con Segundo Perfecto</h2>
+      <p>Unos pocos verbos forman su perfecto de manera irregular ("segundo perfecto"). Sus participios siguen las mismas reglas, pero con un <strong>formativo temporal α</strong> en lugar de <strong>κα</strong>.</p>
+
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Verbo (Presente)</th>
+              <th>Significado</th>
+              <th>Participio 2° Perfecto</th>
+              <th>Referencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="greek-text">ἀκούω</td><td>oír</td><td class="greek-text">ἀκηκοώς</td><td>Juan 18:21</td></tr>
+            <tr><td class="greek-text">ἀνοίγω</td><td>abrir</td><td class="greek-text">ἀνεῳγώς</td><td>Juan 1:51</td></tr>
+            <tr><td class="greek-text">γίνομαι</td><td>llegar a ser</td><td class="greek-text">γεγονώς</td><td>(14 ocurrencias)</td></tr>
+            <tr><td class="greek-text">ἔρχομαι</td><td>venir</td><td class="greek-text">ἐληλυθώς</td><td>(4 ocurrencias)</td></tr>
+            <tr><td class="greek-text">λαμβάνω</td><td>tomar, recibir</td><td class="greek-text">εἰληφώς</td><td>Mateo 25:24</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="important-note" style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 153, 102, 0.1) 100%); border-left-color: #ffc107;">
+        <p><strong>⚠️ Nota especial:</strong></p>
+        <p><strong>εἰδώς</strong> (sabiendo) es el participio perfecto de <strong>οἶδα</strong> (saber), ¡pero con significado de presente! Aparece 51 veces en el NT.</p>
+      </div>
+
+      <div class="important-note" style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.08) 0%, rgba(52, 152, 219, 0.03) 100%); border-left-color: #3498db;">
+        <p><strong>💡 Clave de recordación:</strong></p>
+        <p>Aprende las raíces irregulares: ἀκηκο-, ἀνεῳγ-, γεγον-, ἐληλυθ-, εἰληφ-</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Segundo Perfecto</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué verbo tiene el participio perfecto εἰδώς con significado presente?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> ἔρχομαι</label>
+          <label><input type="radio" name="q1" value="b"> γίνομαι</label>
+          <label><input type="radio" name="q1" value="c"> οἶδα</label>
+          <label><input type="radio" name="q1" value="d"> ἀκούω</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'c' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

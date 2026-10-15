@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendizaje Griego Koiné - Ministerio Vivos para Servir</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a237e, #0d47a1);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: white;
+        }
+
+        .logo {
+            width: 200px;
+            margin: 20px 0;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 2.2em;
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .levels-container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 25px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .level-info {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .level-info span {
+            color: #FFD700;
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transition: all 0.3s;
+        }
+
+        .dot.completed {
+            background: #27ae60;
+            box-shadow: 0 0 10px #27ae60;
+        }
+
+        .dot.active {
+            background: #FFD700;
+            box-shadow: 0 0 15px #FFD700;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        .game-level {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            padding: 30px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            min-height: 400px;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex: 1;
+            max-width: 350px;
+        }
+
+        .column-title {
+            text-align: center;
+            color: #FFD700;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .word {
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            background: rgba(0,0,0,0.4);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            font-size: 1.1em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .word:hover {
+            border-color: #FFD700;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.6);
+        }
+
+        .word.selected {
+            border-color: #3498db;
+            background: rgba(52, 152, 219, 0.3);
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
+            animation: glow 1s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(52, 152, 219, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(52, 152, 219, 0.8); }
+        }
+
+        .word.correct {
+            background: linear-gradient(135deg, #27ae60, #2ecc71) !important;
+            border-color: #27ae60 !important;
+            cursor: default;
+            pointer-events: none;
+            animation: correctPop 0.5s ease;
+        }
+
+        @keyframes correctPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .word.incorrect {
+            background: #c0392b !important;
+            border-color: #e74c3c !important;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-10px); }
+            80% { transform: translateX(10px); }
+        }
+
+        .final-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(26,35,126,0.98), rgba(13,71,161,0.98));
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 1000;
+            animation: zoomIn 0.5s ease-out;
+            border: 3px solid #FFD700;
+            box-shadow: 0 0 50px rgba(255,215,0,0.5);
+            max-width: 90%;
+        }
+
+        @keyframes zoomIn {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: 2px solid #FFD700;
+            border-radius: 50px;
+            background: rgba(255,215,0,0.1);
+            color: #FFD700;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: rgba(255,215,0,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255,215,0,0.3);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+            color: #FFD700;
+        }
+
+        .counter {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .counter span {
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .game-level {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            
+            .column {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" class="logo" alt="Logo Ministerio">
+    <h1>Desafío del Griego Bíblico</h1>
+    <p class="subtitle">Empareja las palabras griegas con su significado</p>
+
+    <div class="levels-container">
+        <div class="level-header">
+            <div class="level-info">
+                Nivel: <span id="current-level">1</span> / 4
+            </div>
+            <div class="progress-dots">
+                <span class="dot active" data-level="1"></span>
+                <span class="dot" data-level="2"></span>
+                <span class="dot" data-level="3"></span>
+                <span class="dot" data-level="4"></span>
+            </div>
+            <div class="counter">
+                Emparejadas: <span id="match-counter">0</span> / 5
+            </div>
+        </div>
+        
+        <div class="game-level" id="game-container">
+            <div class="column" id="greek-column">
+                <div class="column-title">🇬🇷 Griego</div>
+            </div>
+            <div class="column" id="meaning-column">
+                <div class="column-title">🇪🇸 Español</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de vocabulario
+        const vocabulary = {
+            level1: [
+                {griego: "ὡς", significado: "Vengo, voy"},
+                {griego: "δύναμαι", significado: "Soy fuerte, soy capaz"},
+                {griego: "συνάγω", significado: "Junto, recojo, invito"},
+                {griego: "πορεύομαι", significado: "Voy, vivo, prosigo"},
+                {griego: "νύξ, νυκτός, ἡ", significado: "Noche"}
+            ],
+            level2: [
+                {griego: "ἔρχομαι", significado: "Soltar, desatar, destruir"},
+                {griego: "νόμος, -ου, ὁ", significado: "Ley, principio"},
+                {griego: "ἀποκρίνομαι", significado: "Respondo"},
+                {griego: "τηρέω", significado: "Guardo, observo, cumplo"},
+                {griego: "ποιέω", significado: "Hago"}
+            ],
+            level3: [
+                {griego: "πληρόω", significado: "Lleno, completo"},
+                {griego: "πλείων, πλεῖον", significado: "Grande, más"},
+                {griego: "ὅταν", significado: "Cuando, cuando sea"},
+                {griego: "οἶδα", significado: "Conozco, sé, entiendo"},
+                {griego: "λαλέω", significado: "Hablo, digo"}
+            ],
+            level4: [
+                {griego: "καλέω", significado: "Llamo, nombro, invito"},
+                {griego: "ζητέω", significado: "Busco, deseo, obtener"},
+                {griego: "δαιμόνιον, -ου, τό", significado: "Demonio"},
+                {griego: "ἀγαπάω", significado: "Amo"},
+                {griego: "κἀγώ", significado: "Y yo, pero yo"}
+            ]
+        };
+
+        let currentLevel = 1;
+        let selectedWord = null;
+        let matchesCount = 0;
+
+        function initGame() {
+            loadLevel(currentLevel);
+            updateProgress();
+        }
+
+        function loadLevel(level) {
+            const greekColumn = document.getElementById('greek-column');
+            const meaningColumn = document.getElementById('meaning-column');
+            
+            // Limpiar columnas (mantener títulos)
+            greekColumn.querySelectorAll('.word').forEach(el => el.remove());
+            meaningColumn.querySelectorAll('.word').forEach(el => el.remove());
+            
+            const data = vocabulary[`level${level}`];
+            
+            // Mezclar elementos
+            const shuffledGreek = shuffleArray([...data]);
+            const shuffledMeanings = shuffleArray([...data].map(item => item.significado));
+            
+            // Crear palabras griegas
+            shuffledGreek.forEach(item => {
+                const wordDiv = document.createElement('div');
+                wordDiv.className = 'word';
+                wordDiv.textContent = item.griego;
+                wordDiv.dataset.greek = item.griego;
+                wordDiv.addEventListener('click', () => selectWord(wordDiv, 'greek'));
+                greekColumn.appendChild(wordDiv);
+            });
+            
+            // Crear significados
+            shuffledMeanings.forEach(meaning => {
+                const wordDiv = document.createElement('div');
+                wordDiv.className = 'word';
+                wordDiv.textContent = meaning;
+                wordDiv.dataset.meaning = meaning;
+                wordDiv.addEventListener('click', () => selectWord(wordDiv, 'meaning'));
+                meaningColumn.appendChild(wordDiv);
+            });
+            
+            // Resetear estado
+            selectedWord = null;
+            matchesCount = 0;
+            updateMatchCounter();
+            document.getElementById('current-level').textContent = level;
+        }
+
+        function selectWord(element, type) {
+            // Si la palabra ya está emparejada, ignorar
+            if (element.classList.contains('correct')) return;
+            
+            // Si ya hay una palabra seleccionada del mismo tipo, cambiar selección
+            if (selectedWord && selectedWord.type === type) {
+                selectedWord.element.classList.remove('selected');
+            }
+            
+            // Si hay una palabra seleccionada del otro tipo, verificar match
+            if (selectedWord && selectedWord.type !== type) {
+                const greekElement = type === 'greek' ? element : selectedWord.element;
+                const meaningElement = type === 'meaning' ? element : selectedWord.element;
+                
+                checkMatch(greekElement, meaningElement);
+                selectedWord.element.classList.remove('selected');
+                selectedWord = null;
+                return;
+            }
+            
+            // Seleccionar nueva palabra
+            element.classList.add('selected');
+            selectedWord = {
+                element: element,
+                type: type
+            };
+        }
+
+        function checkMatch(greekElement, meaningElement) {
+            const greekWord = greekElement.dataset.greek;
+            const meaning = meaningElement.dataset.meaning;
+            
+            // Buscar si existe el par correcto
+            const correctMatch = vocabulary[`level${currentLevel}`].some(item =>
+                item.griego === greekWord && item.significado === meaning
+            );
+            
+            if (correctMatch) {
+                // Marcamos como correcto
+                greekElement.classList.add('correct');
+                meaningElement.classList.add('correct');
+                greekElement.classList.remove('selected');
+                meaningElement.classList.remove('selected');
+                
+                matchesCount++;
+                updateMatchCounter();
+                
+                // Efecto de sonido de éxito (opcional)
+                playSuccessSound();
+                
+                // Verificar si completó el nivel
+                if (matchesCount === 5) {
+                    setTimeout(() => levelComplete(), 800);
+                }
+            } else {
+                // Marcamos como incorrecto
+                greekElement.classList.add('incorrect');
+                meaningElement.classList.add('incorrect');
+                
+                // Quitamos después de la animación
+                setTimeout(() => {
+                    greekElement.classList.remove('incorrect');
+                    meaningElement.classList.remove('incorrect');
+                }, 600);
+            }
+        }
+
+        function playSuccessSound() {
+            // Crear un sonido simple con Web Audio API
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                oscillator.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+                oscillator.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+                
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                
+                oscillator.start(audioCtx.currentTime);
+                oscillator.stop(audioCtx.currentTime + 0.4);
+            } catch(e) {
+                // Silenciosamente ignorar si no se puede reproducir sonido
+            }
+        }
+
+        function updateMatchCounter() {
+            document.getElementById('match-counter').textContent = matchesCount;
+        }
+
+        function updateProgress() {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach(dot => {
+                const level = parseInt(dot.dataset.level);
+                dot.classList.remove('active', 'completed');
+                if (level < currentLevel) dot.classList.add('completed');
+                if (level === currentLevel) dot.classList.add('active');
+            });
+        }
+
+        function levelComplete() {
+            if (currentLevel === 4) {
+                showFinalMessage();
+            } else {
+                currentLevel++;
+                updateProgress();
+                document.getElementById('current-level').textContent = currentLevel;
+                
+                // Breve delay y cargar siguiente nivel
+                setTimeout(() => {
+                    loadLevel(currentLevel);
+                    // Scroll suave hacia arriba
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 1000);
+            }
+        }
+
+        function showFinalMessage() {
+            const messageHTML = `
+                <div class="final-message" id="final-message">
+                    <button class="close-btn" onclick="closeFinalMessage()">×</button>
+                    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" style="width: 150px; margin-bottom: 20px;">
+                    <h2 style="color: #FFD700; margin-bottom: 15px; font-size: 2em;">¡Felicitaciones!</h2>
+                    <p style="font-size: 1.3em; margin-bottom: 10px;">Has completado todos los niveles</p>
+                    <p style="font-size: 1.1em; margin-bottom: 20px;">Dominaste 20 palabras del Griego Koiné</p>
+                    <div style="border-top: 1px solid rgba(255,215,0,0.3); padding-top: 20px; margin-top: 20px;">
+                        <p style="font-style: italic; color: rgba(255,255,255,0.9);">
+                            "Lámpara es a mis pies tu palabra,<br>y lumbrera a mi camino"
+                        </p>
+                        <p style="color: #FFD700; margin-top: 10px;">Salmo 119:105</p>
+                    </div>
+                    <button class="btn" onclick="restartGame()">🔄 Jugar de Nuevo</button>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', messageHTML);
+        }
+
+        function closeFinalMessage() {
+            const message = document.getElementById('final-message');
+            if (message) message.remove();
+        }
+
+        function restartGame() {
+            closeFinalMessage();
+            currentLevel = 1;
+            matchesCount = 0;
+            updateProgress();
+            loadLevel(currentLevel);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Inicializar juego
+        initGame();
+    </script>
+</body>
+</html>

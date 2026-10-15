@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio de Traducción Interactivo - Juan 1:1-5 | Vivos para Servir</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+            --accent: #3498db;
+            --highlight: #fff9c4;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .logo {
+            max-width: 200px;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: var(--primary);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+        
+        .exercise-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .verse-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .verse {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .verse-number {
+            background-color: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .greek-text {
+            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            line-height: 1.8;
+            text-align: justify;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .greek-word {
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+        
+        .greek-word:hover {
+            background-color: var(--highlight);
+        }
+        
+        .greek-word.active {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .translation-area {
+            width: 100%;
+            min-height: 80px;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        .translation-area:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+        
+        button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .check-btn {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .check-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .reset-btn {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        .reset-btn:hover {
+            background-color: #bdc3c7;
+        }
+        
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .word-tooltip {
+            position: fixed;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            max-width: 300px;
+            display: none;
+        }
+        
+        .word-tooltip h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        
+        .word-info {
+            margin-bottom: 0.5rem;
+        }
+        
+        .word-info strong {
+            color: var(--secondary);
+        }
+        
+        .possible-translations {
+            font-style: italic;
+            color: #7f8c8d;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .translation-options {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .translation-option {
+            background-color: var(--light);
+            padding: 0.3rem 0.6rem;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+        
+        .translation-option:hover {
+            background-color: #bdc3c7;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .greek-text {
+                font-size: 1.2rem;
+            }
+            
+            .word-tooltip {
+                max-width: 250px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+   
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Vivos para Servir" class="logo">
+            <h1>Ejercicio de Traducción Interactivo</h1>
+            <p class="subtitle">Juan 1:1-5 - Griego Koiné</p>
+        </header>
+        
+        <div class="exercise-container">
+            <div class="verse-container">
+                <div class="verse">
+                    <div class="verse-number">1</div>
+                    <div class="greek-text" id="verse1">
+                        <span class="greek-word" data-word="Ἐν" data-grammar="preposición (dativo)" data-meaning="en, dentro de">Ἐν</span> 
+                        <span class="greek-word" data-word="ἀρχῇ" data-grammar="sustantivo femenino, dativo singular" data-meaning="principio, comienzo">ἀρχῇ</span> 
+                        <span class="greek-word" data-word="ἦν" data-grammar="verbo: εἰμί, imperfecto, 3a persona singular" data-meaning="era, estaba">ἦν</span> 
+                        <span class="greek-word" data-word="ὁ" data-grammar="artículo definido, nominativo masculino singular" data-meaning="el">ὁ</span> 
+                        <span class="greek-word" data-word="λόγος" data-grammar="sustantivo masculino, nominativo singular" data-meaning="palabra, verbo, mensaje">λόγος</span>, 
+                        <span class="greek-word" data-word="καὶ" data-grammar="conjunción copulativa" data-meaning="y">καὶ</span> 
+                        <span class="greek-word" data-word="ὁ" data-grammar="artículo definido, nominativo masculino singular" data-meaning="el">ὁ</span> 
+                        <span class="greek-word" data-word="λόγος" data-grammar="sustantivo masculino, nominativo singular" data-meaning="palabra, verbo, mensaje">λόγος</span> 
+                        <span class="greek-word" data-word="ἦν" data-grammar="verbo: εἰμί, imperfecto, 3a persona singular" data-meaning="era, estaba">ἦν</span> 
+                        <span class="greek-word" data-word="πρὸς" data-grammar="preposición (acusativo)" data-meaning="hacia, con">πρὸς</span> 
+                        <span class="greek-word" data-word="τὸν" data-grammar="artículo definido, acusativo masculino singular" data-meaning="el">τὸν</span> 
+                        <span class="greek-word" data-word="θεόν" data-grammar="sustantivo masculino, acusativo singular" data-meaning="Dios">θεόν</span>, 
+                        <span class="greek-word" data-word="καὶ" data-grammar="conjunción copulativa" data-meaning="y">καὶ</span> 
+                        <span class="greek-word" data-word="θεὸς" data-grammar="sustantivo masculino, nominativo singular" data-meaning="Dios">θεὸς</span> 
+                        <span class="greek-word" data-word="ἦν" data-grammar="verbo: εἰμί, imperfecto, 3a persona singular" data-meaning="era, estaba">ἦν</span> 
+                        <span class="greek-word" data-word="ὁ" data-grammar="artículo definido, nominativo masculino singular" data-meaning="el">ὁ</span> 
+                        <span class="greek-word" data-word="λόγος" data-grammar="sustantivo masculino, nominativo singular" data-meaning="palabra, verbo, mensaje">λόγος</span>.
+                    </div>
+                    <textarea class="translation-area" placeholder="Escribe tu traducción aquí..."></textarea>
+                </div>
+                
+                <div class="verse">
+                    <div class="verse-number">2</div>
+                    <div class="greek-text" id="verse2">
+                        <span class="greek-word" data-word="οὗτος" data-grammar="pronombre demostrativo, nominativo masculino singular" data-meaning="este, éste">οὗτος</span> 
+                        <span class="greek-word" data-word="ἦν" data-grammar="verbo: εἰμί, imperfecto, 3a persona singular" data-meaning="era, estaba">ἦν</span> 
+                        <span class="greek-word" data-word="ἐν" data-grammar="preposición (dativo)" data-meaning="en, dentro de">ἐν</span> 
+                        <span class="greek-word" data-word="ἀρχῇ" data-grammar="sustantivo femenino, dativo singular" data-meaning="principio, comienzo">ἀρχῇ</span> 
+                        <span class="greek-word" data-word="πρὸς" data-grammar="preposición (acusativo)" data-meaning="hacia, con">πρὸς</span> 
+                        <span class="greek-word" data-word="τὸν" data-grammar="artículo definido, acusativo masculino singular" data-meaning="el">τὸν</span> 
+                        <span class="greek-word" data-word="θεόν" data-grammar="sustantivo masculino, acusativo singular" data-meaning="Dios">θεόν</span>.
+                    </div>
+                    <textarea class="translation-area" placeholder="Escribe tu traducción aquí..."></textarea>
+                </div>
+                
+                <div class="verse">
+                    <div class="verse-number">3</div>
+                    <div class="greek-text" id="verse3">
+                        <span class="greek-word" data-word="πάντα" data-grammar="adjetivo/pronombre, acusativo neutro plural" data-meaning="todas las cosas, todo">πάντα</span> 
+                        <span class="greek-word" data-word="δι'" data-grammar="preposición (genitivo)" data-meaning="por medio de, a través de">δι'</span> 
+                        <span class="greek-word" data-word="αὐτοῦ" data-grammar="pronombre personal, genitivo masculino singular" data-meaning="de él">αὐτοῦ</span> 
+                        <span class="greek-word" data-word="ἐγένετο" data-grammar="verbo: γίνομαι, aoristo, 3a persona singular" data-meaning="llegó a ser, fue hecho">ἐγένετο</span>, 
+                        <span class="greek-word" data-word="καὶ" data-grammar="conjunción copulativa" data-meaning="y">καὶ</span> 
+                        <span class="greek-word" data-word="χωρὶς" data-grammar="preposición (genitivo)" data-meaning="separado de, sin">χωρὶς</span> 
+                        <span class="greek-word" data-word="αὐτοῦ" data-grammar="pronombre personal, genitivo masculino singular" data-meaning="de él">αὐτοῦ</span> 
+                        <span class="greek-word" data-word="ἐγένετο" data-grammar="verbo: γίνομαι, aoristo, 3a persona singular" data-meaning="llegó a ser, fue hecho">ἐγένετο</span> 
+                        <span class="greek-word" data-word="οὐδὲ" data-grammar="adverbio de negación + conjunción" data-meaning="ni siquiera">οὐδὲ</span> 
+                        <span class="greek-word" data-word="ἕν" data-grammar="adjetivo numeral, acusativo neutro singular" data-meaning="uno">ἕν</span> 
+                        <span class="greek-word" data-word="ὃ" data-grammar="pronombre relativo, acusativo neutro singular" data-meaning="que, lo que">ὃ</span> 
+                        <span class="greek-word" data-word="γέγονεν" data-grammar="verbo: γίνομαι, perfecto, 3a persona singular" data-meaning="ha llegado a ser, ha sido hecho">γέγονεν</span>.
+                    </div>
+                    <textarea class="translation-area" placeholder="Escribe tu traducción aquí..."></textarea>
+                </div>
+                
+                <div class="verse">
+                    <div class="verse-number">4</div>
+                    <div class="greek-text" id="verse4">
+                        <span class="greek-word" data-word="ἐν" data-grammar="preposición (dativo)" data-meaning="en, dentro de">ἐν</span> 
+                        <span class="greek-word" data-word="αὐτῷ" data-grammar="pronombre personal, dativo masculino singular" data-meaning="en él">αὐτῷ</span> 
+                        <span class="greek-word" data-word="ζωὴ" data-grammar="sustantivo femenino, nominativo singular" data-meaning="vida">ζωὴ</span> 
+                        <span class="greek-word" data-word="ἦν" data-grammar="verbo: εἰμί, imperfecto, 3a persona singular" data-meaning="era, estaba">ἦν</span>, 
+                        <span class="greek-word" data-word="καὶ" data-grammar="conjunción copulativa" data-meaning="y">καὶ</span> 
+                        <span class="greek-word" data-word="ἡ" data-grammar="artículo definido, nominativo femenino singular" data-meaning="la">ἡ</span> 
+                        <span class="greek-word" data-word="ζωὴ" data-grammar="sustantivo femenino, nominativo singular" data-meaning="vida">ζωὴ</span> 
+                        <span class="greek-word" data-word="ἦν" data-grammar="verbo: εἰμί, imperfecto, 3a persona singular" data-meaning="era, estaba">ἦν</span> 
+                        <span class="greek-word" data-word="τὸ" data-grammar="artículo definido, nominativo neutro singular" data-meaning="el">τὸ</span> 
+                        <span class="greek-word" data-word="φῶς" data-grammar="sustantivo neutro, nominativo singular" data-meaning="luz">φῶς</span> 
+                        <span class="greek-word" data-word="τῶν" data-grammar="artículo definido, genitivo masculino plural" data-meaning="de los">τῶν</span> 
+                        <span class="greek-word" data-word="ἀνθρώπων" data-grammar="sustantivo masculino, genitivo plural" data-meaning="hombres, seres humanos">ἀνθρώπων</span>·
+                    </div>
+                    <textarea class="translation-area" placeholder="Escribe tu traducción aquí..."></textarea>
+                </div>
+                
+                <div class="verse">
+                    <div class="verse-number">5</div>
+                    <div class="greek-text" id="verse5">
+                        <span class="greek-word" data-word="καὶ" data-grammar="conjunción copulativa" data-meaning="y">καὶ</span> 
+                        <span class="greek-word" data-word="τὸ" data-grammar="artículo definido, nominativo neutro singular" data-meaning="el">τὸ</span> 
+                        <span class="greek-word" data-word="φῶς" data-grammar="sustantivo neutro, nominativo singular" data-meaning="luz">φῶς</span> 
+                        <span class="greek-word" data-word="ἐν" data-grammar="preposición (dativo)" data-meaning="en, dentro de">ἐν</span> 
+                        <span class="greek-word" data-word="τῇ" data-grammar="artículo definido, dativo femenino singular" data-meaning="la">τῇ</span> 
+                        <span class="greek-word" data-word="σκοτίᾳ" data-grammar="sustantivo femenino, dativo singular" data-meaning="oscuridad">σκοτίᾳ</span> 
+                        <span class="greek-word" data-word="φαίνει" data-grammar="verbo: φαίνω, presente, 3a persona singular" data-meaning="brilla, resplandece">φαίνει</span>, 
+                        <span class="greek-word" data-word="καὶ" data-grammar="conjunción copulativa" data-meaning="y">καὶ</span> 
+                        <span class="greek-word" data-word="ἡ" data-grammar="artículo definido, nominativo femenino singular" data-meaning="la">ἡ</span> 
+                        <span class="greek-word" data-word="σκοτία" data-grammar="sustantivo femenino, nominativo singular" data-meaning="oscuridad">σκοτία</span> 
+                        <span class="greek-word" data-word="αὐτὸ" data-grammar="pronombre personal, acusativo neutro singular" data-meaning="lo, ello">αὐτὸ</span> 
+                        <span class="greek-word" data-word="οὐ" data-grammar="adverbio de negación" data-meaning="no">οὐ</span> 
+                        <span class="greek-word" data-word="κατέλαβεν" data-grammar="verbo: καταλαμβάνω, aoristo, 3a persona singular" data-meaning="comprendió, venció, apresó">κατέλαβεν</span>.
+                    </div>
+                    <textarea class="translation-area" placeholder="Escribe tu traducción aquí..."></textarea>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="reset-btn" id="resetBtn">Reiniciar</button>
+                <button class="check-btn" id="checkBtn">Verificar</button>
+            </div>
+            
+            <div class="result" id="result"></div>
+        </div>
+        
+        <footer>
+            <p>Ministerio "Vivos para Servir" &copy; <span id="year"></span> - Ejercicios de Griego Koiné</p>
+        </footer>
+    </div>
+
+    <div class="word-tooltip" id="wordTooltip">
+        <h3 id="tooltipWord"></h3>
+        <div class="word-info"><strong>Gramática:</strong> <span id="tooltipGrammar"></span></div>
+        <div class="word-info"><strong>Significado:</strong> <span id="tooltipMeaning"></span></div>
+        <div class="possible-translations" id="tooltipTranslations"></div>
+        <div class="translation-options" id="translationOptions"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            // Reference elements
+            const checkBtn = document.getElementById('checkBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const translationAreas = document.querySelectorAll('.translation-area');
+            const resultDiv = document.getElementById('result');
+            const wordTooltip = document.getElementById('wordTooltip');
+            const tooltipWord = document.getElementById('tooltipWord');
+            const tooltipGrammar = document.getElementById('tooltipGrammar');
+            const tooltipMeaning = document.getElementById('tooltipMeaning');
+            const tooltipTranslations = document.getElementById('tooltipTranslations');
+            const translationOptions = document.getElementById('translationOptions');
+            
+            // Possible translations for each word (with variations)
+            const wordTranslations = {
+                "Ἐν": ["En", "Dentro de", "En medio de"],
+                "ἀρχῇ": ["principio", "comienzo", "origen"],
+                "ἦν": ["era", "estaba", "existía"],
+                "ὁ": ["el"],
+                "λόγος": ["Verbo", "Palabra", "Mensaje", "Discurso"],
+                "καὶ": ["y", "también"],
+                "πρὸς": ["con", "hacia", "junto a"],
+                "τὸν": ["el"],
+                "θεόν": ["Dios"],
+                "θεὸς": ["Dios"],
+                "οὗτος": ["Este", "Él"],
+                "ἐν": ["en", "dentro de"],
+                "πάντα": ["todas las cosas", "todo"],
+                "δι'": ["por medio de", "a través de"],
+                "αὐτοῦ": ["de él", "por él"],
+                "ἐγένετο": ["fue hecho", "llegó a ser", "vino a existir"],
+                "χωρὶς": ["sin", "separado de"],
+                "οὐδὲ": ["ni siquiera", "y no"],
+                "ἕν": ["uno", "una cosa"],
+                "ὃ": ["que", "lo que"],
+                "γέγονεν": ["ha sido hecho", "ha llegado a ser"],
+                "αὐτῷ": ["en él"],
+                "ζωὴ": ["vida"],
+                "ἡ": ["la"],
+                "τὸ": ["el", "la"],
+                "φῶς": ["luz"],
+                "τῶν": ["de los"],
+                "ἀνθρώπων": ["hombres", "seres humanos"],
+                "τῇ": ["la"],
+                "σκοτίᾳ": ["oscuridad", "tinieblas"],
+                "φαίνει": ["brilla", "resplandece"],
+                "σκοτία": ["oscuridad", "tinieblas"],
+                "αὐτὸ": ["lo", "ello"],
+                "οὐ": ["no"],
+                "κατέλαβεν": ["comprendió", "venció", "apresó", "prevaleció contra"]
+            };
+            
+            // Sample correct translations (can be multiple)
+            const correctTranslationOptions = [
+                [
+                    "En el principio era el Verbo, y el Verbo era con Dios, y el Verbo era Dios.",
+                    "En el principio existía la Palabra, y la Palabra estaba con Dios, y la Palabra era Dios.",
+                    "En el comienzo era el Verbo, y el Verbo estaba ante Dios, y el Verbo era divino."
+                ],
+                [
+                    "Este era en el principio con Dios.",
+                    "Él estaba en el principio con Dios.",
+                    "Este existía desde el principio junto a Dios."
+                ],
+                [
+                    "Todas las cosas por él fueron hechas, y sin él nada de lo que ha sido hecho, fue hecho.",
+                    "Todo llegó a existir por medio de él, y sin él no existiría nada de lo que existe.",
+                    "Por él fueron creadas todas las cosas; nada de lo creado fue creado sin él."
+                ],
+                [
+                    "En él estaba la vida, y la vida era la luz de los hombres.",
+                    "En él existía la vida, y esa vida era la luz de la humanidad.",
+                    "La vida estaba en él, y esa vida era la luz que ilumina a todo ser humano."
+                ],
+                [
+                    "La luz en las tinieblas resplandece, y las tinieblas no prevalecieron contra ella.",
+                    "La luz brilla en la oscuridad, y la oscuridad no la ha vencido.",
+                    "La luz resplandece en medio de las tinieblas, y éstas no lograron extinguirla."
+                ]
+            ];
+            
+            // Track active word
+            let activeWord = null;
+            
+            // Add click event to all Greek words
+            document.querySelectorAll('.greek-word').forEach(word => {
+                word.addEventListener('click', function(e) {
+                    // Remove active class from previous word
+                    if (activeWord) {
+                        activeWord.classList.remove('active');
+                    }
+                    
+                    // Set new active word
+                    activeWord = this;
+                    activeWord.classList.add('active');
+                    
+                    // Get word data
+                    const wordText = this.getAttribute('data-word');
+                    const grammar = this.getAttribute('data-grammar');
+                    const meaning = this.getAttribute('data-meaning');
+                    const translations = wordTranslations[wordText] || [meaning];
+                    
+                    // Update tooltip content
+                    tooltipWord.textContent = wordText;
+                    tooltipGrammar.textContent = grammar;
+                    tooltipMeaning.textContent = meaning;
+                    
+                    // Show possible translations
+                    tooltipTranslations.innerHTML = translations.length > 1 ? 
+                        `<strong>Traducciones posibles:</strong> ${translations.join(', ')}` : '';
+                    
+                    // Show translation options
+                    translationOptions.innerHTML = '';
+                    translations.forEach(trans => {
+                        const option = document.createElement('div');
+                        option.className = 'translation-option';
+                        option.textContent = trans;
+                        option.addEventListener('click', function() {
+                            // Get current translation area (textarea)
+                            const verseContainer = this.closest('.verse');
+                            const textarea = verseContainer.querySelector('.translation-area');
+                            
+                            // Insert translation at cursor position
+                            insertAtCursor(textarea, trans + ' ');
+                            
+                            // Hide tooltip
+                            wordTooltip.style.display = 'none';
+                            activeWord.classList.remove('active');
+                            activeWord = null;
+                        });
+                        translationOptions.appendChild(option);
+                    });
+                    
+                    // Position and show tooltip
+                    positionTooltip(e);
+                    wordTooltip.style.display = 'block';
+                });
+            });
+            
+            // Position tooltip near clicked word
+            function positionTooltip(e) {
+                const x = e.clientX;
+                const y = e.clientY;
+                const tooltipWidth = wordTooltip.offsetWidth;
+                const tooltipHeight = wordTooltip.offsetHeight;
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                
+                // Adjust position if near edge of window
+                let left = x + 15;
+                let top = y + 15;
+                
+                if (x + tooltipWidth + 30 > windowWidth) {
+                    left = x - tooltipWidth - 5;
+                }
+                
+                if (y + tooltipHeight + 30 > windowHeight) {
+                    top = y - tooltipHeight - 5;
+                }
+                
+                wordTooltip.style.left = left + 'px';
+                wordTooltip.style.top = top + 'px';
+            }
+            
+            // Insert text at cursor position
+            function insertAtCursor(textarea, text) {
+                const startPos = textarea.selectionStart;
+                const endPos = textarea.selectionEnd;
+                const currentText = textarea.value;
+                
+                textarea.value = currentText.substring(0, startPos) + text + currentText.substring(endPos);
+                
+                // Set cursor position after inserted text
+                textarea.selectionStart = textarea.selectionEnd = startPos + text.length;
+                
+                // Focus the textarea
+                textarea.focus();
+            }
+            
+            // Hide tooltip when clicking elsewhere
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.greek-word') && !e.target.closest('.word-tooltip')) {
+                    wordTooltip.style.display = 'none';
+                    if (activeWord) {
+                        activeWord.classList.remove('active');
+                        activeWord = null;
+                    }
+                }
+            });
+            
+            // Check translations
+            checkBtn.addEventListener('click', function() {
+                let allCorrect = true;
+                let resultsHTML = '';
+                
+                translationAreas.forEach((area, index) => {
+                    const userTranslation = area.value.trim().toLowerCase();
+                    const correctOptions = correctTranslationOptions[index].map(opt => opt.toLowerCase());
+                    
+                    // Check if user translation matches any of the correct options
+                    const isCorrect = correctOptions.some(opt => 
+                        userTranslation.includes(opt) || 
+                        similarText(userTranslation, opt) > 0.7
+                    );
+                    
+                    if (isCorrect) {
+                        resultsHTML += `<p><strong>Versículo ${index + 1}:</strong> Correcto! ✅</p>`;
+                    } else {
+                        allCorrect = false;
+                        resultsHTML += `
+                            <p><strong>Versículo ${index + 1}:</strong> 
+                            <span style="color: var(--secondary)">Revisión sugerida</span> ❌<br>
+                            <em>Posibles traducciones:</em><br>
+                            ${correctTranslationOptions[index].map(opt => `• "${opt}"`).join('<br>')}</p>
+                        `;
+                    }
+                });
+                
+                // Show results
+                resultDiv.innerHTML = resultsHTML;
+                resultDiv.style.display = 'block';
+                resultDiv.className = allCorrect ? 'result success' : 'result error';
+                
+                // Scroll to results
+                resultDiv.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Reset all fields
+            resetBtn.addEventListener('click', function() {
+                translationAreas.forEach(area => {
+                    area.value = '';
+                });
+                resultDiv.style.display = 'none';
+                wordTooltip.style.display = 'none';
+                if (activeWord) {
+                    activeWord.classList.remove('active');
+                    activeWord = null;
+                }
+            });
+            
+            // Simple text similarity comparison (0 to 1)
+            function similarText(str1, str2) {
+                const set1 = new Set(str1.split(/\s+/));
+                const set2 = new Set(str2.split(/\s+/));
+                const intersection = new Set([...set1].filter(x => set2.has(x)));
+                const union = new Set([...set1, ...set2]);
+                return intersection.size / union.size;
+            }
+        });
+    </script>
+</body>
+</html>

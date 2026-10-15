@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concepto del Perfecto</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Concepto del Perfecto</h1>
+      <div class="subtitle">Una Acción con Eco Eterno</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-lightbulb"></i> Definición: Una Acción con Eco Eterno</h2>
+      <p>El tiempo perfecto en griego koiné es único y poderoso. No se limita a narrar un hecho pasado, sino que conecta estratégicamente el pasado con el presente. Su valor fundamental es:</p>
+
+      <div class="important-note" style="text-align: center;">
+        <p><strong>Describir una acción completada (perfecta) en el pasado, cuyos resultados o estado consecuente permanecen vigentes en el presente del hablante.</strong></p>
+      </div>
+
+      <p>Pensemos en una campana. El aoristo es el momento en que se golpea la campana ("sonó"). El perfecto es el sonido que, tras ser generado, sigue resonando en el aire ("ha sonado y aún se escucha").</p>
+
+      <h3 style="color: var(--primary); margin: 1.2rem 0 0.8rem;">Ejemplo práctico con λύω (desatar, soltar):</h3>
+      <ul>
+        <li><strong>Aoristo (ἔλυσα / élysa):</strong> "Ayer desaté el caballo." (Hecho histórico, puntual y concluido).</li>
+        <li><strong>Perfecto (λέλυκα / lélyka):</strong> "He desatado al caballo, por lo tanto está suelto." (La acción de desatar está terminada, pero el estado resultante—el caballo suelto—es la realidad actual).</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-language"></i> Comparación con Español e Inglés: Un Matiz Inigualable</h2>
+      <p>Es útil buscar equivalentes, pero crucial entender que el perfecto griego tiene una fuerza que a menudo se pierde en las traducciones.</p>
+
+      <ul>
+        <li><strong>Español:</strong> Usamos el pretérito perfecto compuesto ("he hecho", "has comido"). Se acerca, pero su uso no es idéntico. Muchos dialectos del español prefieren el pretérito simple ("hice", "comiste") para acciones pasadas, perdiendo el matiz de permanencia. El griego insiste en ese matiz.</li>
+        <li><strong>Inglés:</strong> La construcción con "have/has" + participio ("I have written") es probablemente la analogía más cercana en un idioma moderno.</li>
+      </ul>
+
+      <div class="important-note">
+        <p><strong>Nota importante:</strong> Sin embargo, el perfecto griego enfatiza con mayor fuerza y consistencia que el resultado de la acción pasada es un estado presente y activo. No es solo "lo he hecho", sino "está hecho, y por tanto, las cosas son así ahora".</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-book-bible"></i> Ejemplo Bíblico Clave: La Palabra que Permanece</h2>
+      <div class="biblical-box" style="background: linear-gradient(135deg, rgba(233, 30, 99, 0.05) 0%, rgba(233, 30, 99, 0.02) 100%); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #e91e63; margin: 1.5rem 0;">
+        <p class="greek-text"><strong>Mateo 4:4: «Γέγραπται» (Gégraphtai)</strong> — "Escrito está".</p>
+      </div>
+
+      <p>Jesús, al ser tentado, no dice "<span class="greek-text">ἐγράφη</span>" (egráphē - aoristo, "fue escrito"). Él dice "<span class="greek-text">γέγραπται</span>" (perfecto, "ha sido escrito y por lo tanto permanece escrito, en vigor y con autoridad").</p>
+
+      <ul>
+        <li><strong>Acción pasada:</strong> La Escritura fue escrita por profetas siglos atrás.</li>
+        <li><strong>Estado presente:</strong> Su verdad, su mandato y su autoridad son absolutos hoy, en este momento de tentación. El perfecto capta esta verdad divina de manera brillante.</li>
+      </ul>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Mini-quiz: Concepto del Perfecto</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Cuál es la característica principal del tiempo perfecto en griego?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Describe una acción futura</label>
+          <label><input type="radio" name="q1" value="b"> Describe una acción en curso</label>
+          <label><input type="radio" name="q1" value="c"> Describe una acción pasada con efectos presentes</label>
+          <label><input type="radio" name="q1" value="d"> Describe una acción hipotética</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> En Mateo 4:4, ¿por qué Jesús usa el perfecto γέγραπται en lugar del aoristo ἐγράφη?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Porque suena más formal</label>
+          <label><input type="radio" name="q2" value="b"> Para enfatizar que la Escritura permanece vigente</label>
+          <label><input type="radio" name="q2" value="c"> Porque era la forma más común</label>
+          <label><input type="radio" name="q2" value="d"> Por error gramatical</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'c', q2: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

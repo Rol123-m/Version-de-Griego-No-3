@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de Presente Activo Indicativo - Griego Koiné</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c0;
+            --secondary: #00cec9;
+            --accent: #fd79a8;
+            --background: #f8f9fa;
+            --text: #2d3436;
+            --card-bg: #ffffff;
+            --correct: #00b894;
+            --incorrect: #d63031;
+            --highlight: #ffeaa7;
+            --shadow: 0 10px 20px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            line-height: 1.6;
+            background-attachment: fixed;
+        }
+
+        .background-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            width: 100%;
+            animation: fadeIn 0.8s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 0.5rem;
+            font-size: 2.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-weight: 400;
+            font-size: 1.1rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .main-container {
+            max-width: 900px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 0.8rem 1.8rem;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .mode-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .mode-btn.active {
+            background: white;
+            color: var(--primary);
+            border-color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .game-container {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transition: var(--transition);
+            animation: slideUp 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(0, 206, 201, 0.1));
+            padding: 1.2rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text);
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .progress-container {
+            margin-bottom: 2rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .progress-bar {
+            height: 14px;
+            background-color: #dfe6e9;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .question-container {
+            margin-bottom: 2rem;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .question-meta {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .badge.person {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .badge.number {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+        }
+
+        .badge.verb {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+
+        .prompt {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.05), rgba(253, 121, 168, 0.05));
+            border-radius: 16px;
+            border-left: 5px solid var(--primary);
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .prompt strong {
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .option {
+            padding: 1.8rem 1.5rem;
+            background-color: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Noto Serif', serif;
+        }
+
+        .option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.05), rgba(0, 206, 201, 0.05));
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background-color: rgba(108, 92, 231, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            background: linear-gradient(135deg, rgba(0, 184, 148, 0.15), rgba(0, 184, 148, 0.05));
+            border-color: var(--correct);
+            animation: correctPulse 0.6s;
+        }
+
+        .option.incorrect {
+            background: linear-gradient(135deg, rgba(214, 48, 49, 0.1), rgba(214, 48, 49, 0.02));
+            border-color: var(--incorrect);
+            animation: shake 0.5s;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .option-text {
+            font-size: 1.6rem;
+            color: var(--text);
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feedback {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: none;
+            animation: slideDown 0.4s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feedback.correct {
+            background: linear-gradient(135deg, rgba(0, 184, 148, 0.1), rgba(0, 184, 148, 0.02));
+            color: var(--correct);
+            display: block;
+            border-left: 5px solid var(--correct);
+        }
+
+        .feedback.incorrect {
+            background: linear-gradient(135deg, rgba(214, 48, 49, 0.1), rgba(214, 48, 49, 0.02));
+            color: var(--incorrect);
+            display: block;
+            border-left: 5px solid var(--incorrect);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.3);
+            display: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-skip {
+            background: rgba(255,255,255,0.8);
+            color: var(--text);
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-skip:hover {
+            background: white;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .results-screen {
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+            padding: 2rem;
+        }
+
+        .results-header {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: bounce 0.6s ease-out;
+        }
+
+        @keyframes bounce {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .results-title {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        .results-subtitle {
+            color: var(--text);
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .final-score {
+            font-size: 4.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 2rem 0;
+            animation: countUp 1s ease-out;
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .performance-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .perf-stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.05), rgba(0, 206, 201, 0.05));
+            border-radius: 16px;
+        }
+
+        .perf-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .perf-stat-label {
+            font-size: 0.9rem;
+            color: var(--text);
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .result-message {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.05), rgba(253, 121, 168, 0.05));
+            border-radius: 16px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .performance-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-particles" id="particles"></div>
+
+    <header>
+        <h1>🏛️ Griego Koiné</h1>
+        <p class="subtitle">Práctica Interactiva de Presente Activo Indicativo</p>
+    </header>
+
+    <div class="main-container">
+        <div class="mode-selector">
+            <button class="mode-btn active" data-mode="practice">📝 Práctica</button>
+            <button class="mode-btn" data-mode="speed">⚡ Velocidad</button>
+            <button class="mode-btn" data-mode="challenge">🏆 Desafío</button>
+        </div>
+
+        <div class="game-container">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value" id="score">0</div>
+                    <div class="stat-label">Puntuación</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="streak">0</div>
+                    <div class="stat-label">🔥 Racha</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="accuracy">100%</div>
+                    <div class="stat-label">Precisión</div>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-header">
+                    <span>Progreso</span>
+                    <span><span id="current-q">1</span>/<span id="total-qs">20</span></span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress"></div>
+                </div>
+            </div>
+
+            <div id="question-container">
+                <div class="question-meta">
+                    <span class="badge person" id="person-badge">1ª persona</span>
+                    <span class="badge number" id="number-badge">singular</span>
+                    <span class="badge verb" id="verb-badge">λύω</span>
+                </div>
+                <div class="prompt" id="prompt">
+                    Conjuga: <strong>yo desato</strong>
+                </div>
+                
+                <div class="options-grid" id="options-grid"></div>
+                
+                <div class="feedback" id="feedback"></div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-skip" id="skip-btn">Saltar →</button>
+                    <button class="btn btn-primary" id="next-btn">Siguiente →</button>
+                </div>
+            </div>
+
+            <div class="results-screen" id="results-screen" style="display: none;">
+                <div class="results-header" id="results-emoji">🎉</div>
+                <h2 class="results-title">¡Práctica Completada!</h2>
+                <p class="results-subtitle">Has finalizado el ejercicio de presente activo indicativo</p>
+                <div class="final-score" id="final-score">18/20</div>
+                
+                <div class="performance-stats">
+                    <div class="perf-stat">
+                        <div class="perf-stat-value" id="final-accuracy">90%</div>
+                        <div class="perf-stat-label">Precisión</div>
+                    </div>
+                    <div class="perf-stat">
+                        <div class="perf-stat-value" id="best-streak">5</div>
+                        <div class="perf-stat-label">🔥 Mejor Racha</div>
+                    </div>
+                    <div class="perf-stat">
+                        <div class="perf-stat-value" id="total-correct">18</div>
+                        <div class="perf-stat-label">Correctas</div>
+                    </div>
+                </div>
+                
+                <p class="result-message" id="result-message">
+                    ¡Excelente trabajo! Dominas el presente activo indicativo.
+                </p>
+                <button class="btn btn-primary" id="restart-btn" style="display: block;">
+                    🔄 Practicar de Nuevo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Verbos comunes en griego koiné y sus traducciones
+        const verbs = {
+            "λύω": {
+                meaning: "desatar, soltar",
+                present: {
+                    active: {
+                        indicative: {
+                            singular: { first: "λύω", second: "λύεις", third: "λύει" },
+                            plural: { first: "λύομεν", second: "λύετε", third: "λύουσιν" }
+                        }
+                    }
+                }
+            },
+            "γράφω": {
+                meaning: "escribir",
+                present: {
+                    active: {
+                        indicative: {
+                            singular: { first: "γράφω", second: "γράφεις", third: "γράφει" },
+                            plural: { first: "γράφομεν", second: "γράφετε", third: "γράφουσιν" }
+                        }
+                    }
+                }
+            },
+            "λέγω": {
+                meaning: "decir, hablar",
+                present: {
+                    active: {
+                        indicative: {
+                            singular: { first: "λέγω", second: "λέγεις", third: "λέγει" },
+                            plural: { first: "λέγομεν", second: "λέγετε", third: "λέγουσιν" }
+                        }
+                    }
+                }
+            },
+            "ἔχω": {
+                meaning: "tener",
+                present: {
+                    active: {
+                        indicative: {
+                            singular: { first: "ἔχω", second: "ἔχεις", third: "ἔχει" },
+                            plural: { first: "ἔχομεν", second: "ἔχετε", third: "ἔχουσιν" }
+                        }
+                    }
+                }
+            },
+            "βλέπω": {
+                meaning: "ver",
+                present: {
+                    active: {
+                        indicative: {
+                            singular: { first: "βλέπω", second: "βλέπεις", third: "βλέπει" },
+                            plural: { first: "βλέπομεν", second: "βλέπετε", third: "βλέπουσιν" }
+                        }
+                    }
+                }
+            },
+            "πιστεύω": {
+                meaning: "creer",
+                present: {
+                    active: {
+                        indicative: {
+                            singular: { first: "πιστεύω", second: "πιστεύεις", third: "πιστεύει" },
+                            plural: { first: "πιστεύομεν", second: "πιστεύετε", third: "πιστεύουσιν" }
+                        }
+                    }
+                }
+            },
+            "ἀκούω": {
+                meaning: "escuchar, oír",
+                present: {
+                    active: {
+                        indicative: {
+                            singular: { first: "ἀκούω", second: "ἀκούεις", third: "ἀκούει" },
+                            plural: { first: "ἀκούομεν", second: "ἀκούετε", third: "ἀκούουσιν" }
+                        }
+                    }
+                }
+            },
+            "λαμβάνω": {
+                meaning: "recibir, tomar",
+                present: {
+                    active: {
+                        indicative: {
+                            singular: { first: "λαμβάνω", second: "λαμβάνεις", third: "λαμβάνει" },
+                            plural: { first: "λαμβάνομεν", second: "λαμβάνετε", third: "λαμβάνουσιν" }
+                        }
+                    }
+                }
+            }
+        };
+
+        const personTranslations = {
+            first: { singular: "yo", plural: "nosotros" },
+            second: { singular: "tú", plural: "vosotros" },
+            third: { singular: "él/ella", plural: "ellos/ellas" }
+        };
+
+        const personNames = {
+            first: "1ª persona",
+            second: "2ª persona",
+            third: "3ª persona"
+        };
+
+        const numberNames = {
+            singular: "singular",
+            plural: "plural"
+        };
+
+        // Variables del juego
+        let currentQuestion = 0;
+        let score = 0;
+        let streak = 0;
+        let bestStreak = 0;
+        let correctAnswers = 0;
+        let questions = [];
+        let gameMode = 'practice'; // 'practice', 'speed', 'challenge'
+        let timeLeft = 10;
+        let timerInterval;
+        const totalQuestions = 20;
+
+        // Elementos del DOM
+        const questionContainer = document.getElementById('question-container');
+        const resultsScreen = document.getElementById('results-screen');
+        const promptElement = document.getElementById('prompt');
+        const personBadge = document.getElementById('person-badge');
+        const numberBadge = document.getElementById('number-badge');
+        const verbBadge = document.getElementById('verb-badge');
+        const optionsGrid = document.getElementById('options-grid');
+        const feedbackElement = document.getElementById('feedback');
+        const nextButton = document.getElementById('next-btn');
+        const skipButton = document.getElementById('skip-btn');
+        const scoreElement = document.getElementById('score');
+        const streakElement = document.getElementById('streak');
+        const accuracyElement = document.getElementById('accuracy');
+        const progressFill = document.getElementById('progress');
+        const currentQElement = document.getElementById('current-q');
+        const totalQsElement = document.getElementById('total-qs');
+        const finalScoreElement = document.getElementById('final-score');
+        const finalAccuracyElement = document.getElementById('final-accuracy');
+        const bestStreakElement = document.getElementById('best-streak');
+        const totalCorrectElement = document.getElementById('total-correct');
+        const resultMessageElement = document.getElementById('result-message');
+        const resultsEmoji = document.getElementById('results-emoji');
+        const modeButtons = document.querySelectorAll('.mode-btn');
+
+        // Crear partículas de fondo
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = Math.random() * 10 + 5 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Inicializar el juego
+        function initGame() {
+            currentQuestion = 0;
+            score = 0;
+            streak = 0;
+            bestStreak = 0;
+            correctAnswers = 0;
+            updateStats();
+            
+            totalQsElement.textContent = totalQuestions;
+            progressFill.style.width = '0%';
+            
+            questions = generateQuestions(totalQuestions);
+            questionContainer.style.display = 'block';
+            resultsScreen.style.display = 'none';
+            skipButton.style.display = gameMode !== 'speed' ? 'inline-block' : 'none';
+            
+            showQuestion();
+        }
+
+        // Generar preguntas aleatorias
+        function generateQuestions(count) {
+            const generatedQuestions = [];
+            const verbList = Object.keys(verbs);
+            const persons = ['first', 'second', 'third'];
+            const numbers = ['singular', 'plural'];
+            
+            for (let i = 0; i < count; i++) {
+                const randomVerb = verbList[Math.floor(Math.random() * verbList.length)];
+                const person = persons[Math.floor(Math.random() * persons.length)];
+                const number = numbers[Math.floor(Math.random() * numbers.length)];
+                
+                const correctForm = verbs[randomVerb].present.active.indicative[number][person];
+                
+                const question = {
+                    verb: randomVerb,
+                    verbMeaning: verbs[randomVerb].meaning,
+                    person,
+                    number,
+                    correctAnswer: correctForm,
+                    prompt: `Conjuga: <strong>${personTranslations[person][number]} ${verbs[randomVerb].meaning}</strong>`
+                };
+                
+                generatedQuestions.push(question);
+            }
+            
+            return generatedQuestions;
+        }
+
+        // Mostrar la pregunta actual
+        function showQuestion() {
+            if (currentQuestion >= totalQuestions) {
+                showResults();
+                return;
+            }
+            
+            const question = questions[currentQuestion];
+            
+            promptElement.innerHTML = question.prompt;
+            personBadge.textContent = personNames[question.person];
+            numberBadge.textContent = question.number;
+            verbBadge.textContent = question.verb;
+            
+            currentQElement.textContent = currentQuestion + 1;
+            
+            generateOptions(question);
+            
+            feedbackElement.style.display = 'none';
+            feedbackElement.className = 'feedback';
+            nextButton.style.display = 'none';
+            
+            // Modo velocidad
+            if (gameMode === 'speed') {
+                timeLeft = 10;
+                updateTimer();
+                startTimer();
+            }
+        }
+
+        // Generar opciones de respuesta
+        function generateOptions(question) {
+            optionsGrid.innerHTML = '';
+            const correctAnswer = question.correctAnswer;
+            let incorrectOptions = [];
+            
+            Object.keys(verbs).forEach(verb => {
+                ['first', 'second', 'third'].forEach(person => {
+                    ['singular', 'plural'].forEach(number => {
+                        const option = verbs[verb].present.active.indicative[number][person];
+                        if (option !== correctAnswer && !incorrectOptions.includes(option)) {
+                            incorrectOptions.push(option);
+                        }
+                    });
+                });
+            });
+            
+            incorrectOptions = shuffleArray(incorrectOptions).slice(0, 3);
+            const allOptions = shuffleArray([...incorrectOptions, correctAnswer]);
+            
+            allOptions.forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.innerHTML = `<span class="option-text">${option}</span>`;
+                optionElement.addEventListener('click', () => selectAnswer(option, correctAnswer));
+                optionsGrid.appendChild(optionElement);
+            });
+        }
+
+        // Seleccionar respuesta
+        function selectAnswer(selectedOption, correctAnswer) {
+            clearInterval(timerInterval);
+            
+            const allOptions = document.querySelectorAll('.option');
+            allOptions.forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (option.querySelector('.option-text').textContent === correctAnswer) {
+                    option.classList.add('correct');
+                }
+            });
+            
+            const selectedElement = Array.from(allOptions).find(
+                opt => opt.querySelector('.option-text').textContent === selectedOption
+            );
+            selectedElement.classList.add('selected');
+            
+            const isCorrect = selectedOption === correctAnswer;
+            
+            if (isCorrect) {
+                score += calculateScore();
+                correctAnswers++;
+                streak++;
+                if (streak > bestStreak) bestStreak = streak;
+                selectedElement.classList.add('correct');
+                feedbackElement.innerHTML = '✅ ¡Correcto! +' + calculateScore() + ' puntos';
+                feedbackElement.className = 'feedback correct';
+            } else {
+                streak = 0;
+                selectedElement.classList.add('incorrect');
+                feedbackElement.innerHTML = `❌ Incorrecto. La respuesta correcta es: <strong>${correctAnswer}</strong>`;
+                feedbackElement.className = 'feedback incorrect';
+            }
+            
+            updateStats();
+            feedbackElement.style.display = 'block';
+            nextButton.style.display = 'block';
+        }
+
+        // Calcular puntuación según el modo
+        function calculateScore() {
+            if (gameMode === 'challenge') return 2;
+            if (gameMode === 'speed') return timeLeft > 5 ? 2 : 1;
+            return 1;
+        }
+
+        // Temporizador para modo velocidad
+        function startTimer() {
+            const timerDisplay = document.createElement('div');
+            timerDisplay.id = 'timer';
+            timerDisplay.style.cssText = `
+                text-align: center;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--primary);
+                margin-bottom: 1rem;
+            `;
+            
+            const existingTimer = document.getElementById('timer');
+            if (existingTimer) existingTimer.remove();
+            
+            questionContainer.insertBefore(timerDisplay, optionsGrid);
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimer();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    autoFail();
+                }
+            }, 1000);
+        }
+
+        function updateTimer() {
+            const timerDisplay = document.getElementById('timer');
+            if (timerDisplay) {
+                timerDisplay.textContent = `⏱️ ${timeLeft}s`;
+                timerDisplay.style.color = timeLeft <= 3 ? 'var(--incorrect)' : 'var(--primary)';
+            }
+        }
+
+        function autoFail() {
+            const question = questions[currentQuestion];
+            const allOptions = document.querySelectorAll('.option');
+            
+            allOptions.forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (option.querySelector('.option-text').textContent === question.correctAnswer) {
+                    option.classList.add('correct');
+                }
+            });
+            
+            streak = 0;
+            feedbackElement.innerHTML = '⏰ ¡Tiempo agotado! La respuesta correcta era: <strong>' + question.correctAnswer + '</strong>';
+            feedbackElement.className = 'feedback incorrect';
+            feedbackElement.style.display = 'block';
+            nextButton.style.display = 'block';
+            
+            updateStats();
+        }
+
+        // Actualizar estadísticas
+        function updateStats() {
+            scoreElement.textContent = score;
+            streakElement.textContent = streak;
+            const totalAnswered = currentQuestion + (feedbackElement.style.display === 'block' ? 1 : 0);
+            const accuracy = totalAnswered > 0 ? Math.round((correctAnswers / totalAnswered) * 100) : 100;
+            accuracyElement.textContent = accuracy + '%';
+        }
+
+        // Siguiente pregunta
+        function nextQuestion() {
+            clearInterval(timerInterval);
+            currentQuestion++;
+            
+            const timerDisplay = document.getElementById('timer');
+            if (timerDisplay) timerDisplay.remove();
+            
+            progressFill.style.width = `${(currentQuestion / totalQuestions) * 100}%`;
+            
+            if (currentQuestion >= totalQuestions) {
+                showResults();
+            } else {
+                showQuestion();
+            }
+        }
+
+        // Saltar pregunta
+        function skipQuestion() {
+            clearInterval(timerInterval);
+            const question = questions[currentQuestion];
+            const allOptions = document.querySelectorAll('.option');
+            
+            allOptions.forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (option.querySelector('.option-text').textContent === question.correctAnswer) {
+                    option.classList.add('correct');
+                }
+            });
+            
+            feedbackElement.innerHTML = 'Saltado. La respuesta correcta era: <strong>' + question.correctAnswer + '</strong>';
+            feedbackElement.className = 'feedback incorrect';
+            feedbackElement.style.display = 'block';
+            nextButton.style.display = 'block';
+        }
+
+        // Mostrar resultados finales
+        function showResults() {
+            questionContainer.style.display = 'none';
+            resultsScreen.style.display = 'block';
+            
+            const percentage = (correctAnswers / totalQuestions) * 100;
+            
+            finalScoreElement.textContent = `${score} pts`;
+            finalAccuracyElement.textContent = Math.round(percentage) + '%';
+            bestStreakElement.textContent = bestStreak;
+            totalCorrectElement.textContent = `${correctAnswers}/${totalQuestions}`;
+            
+            let emoji, message;
+            if (percentage >= 90) {
+                emoji = '🏆';
+                message = "¡Excelente trabajo! Dominas completamente el presente activo indicativo en griego koiné. Eres un verdadero experto.";
+            } else if (percentage >= 70) {
+                emoji = '🌟';
+                message = "¡Muy buen trabajo! Tienes un sólido conocimiento del presente activo indicativo. Sigue practicando para perfeccionar.";
+            } else if (percentage >= 50) {
+                emoji = '📚';
+                message = "Buen esfuerzo. Necesitas un poco más de práctica con las conjugaciones del presente activo indicativo.";
+            } else {
+                emoji = '💪';
+                message = "No te desanimes. El griego koiné requiere práctica constante. Revisa las conjugaciones y vuelve a intentarlo.";
+            }
+            
+            resultsEmoji.textContent = emoji;
+            resultMessageElement.textContent = message;
+        }
+
+        // Cambiar modo de juego
+        function changeMode(mode) {
+            gameMode = mode;
+            modeButtons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+            initGame();
+        }
+
+        // Función para mezclar array (Fisher-Yates)
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Event listeners
+        nextButton.addEventListener('click', nextQuestion);
+        skipButton.addEventListener('click', skipQuestion);
+        document.getElementById('restart-btn').addEventListener('click', () => initGame());
+        
+        modeButtons.forEach(btn => {
+            btn.addEventListener('click', () => changeMode(btn.dataset.mode));
+        });
+
+        // Iniciar el juego al cargar la página
+        window.addEventListener('load', () => {
+            createParticles();
+            initGame();
+        });
+    </script>
+</body>
+</html>

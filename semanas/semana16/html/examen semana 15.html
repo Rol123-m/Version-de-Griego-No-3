@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen - Primer Aoristo en Griego Koiné</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; padding: 10px; border-radius: 8px; }
+    .result.correct { background: #d4edda; color: #155724; }
+    .result.incorrect { background: #f8d7da; color: #721c24; }
+    .score { margin-top: 20px; padding: 20px; background: #e8f5e9; border-left: 5px solid #4CAF50; text-align: center; font-size: 1.2rem; border-radius: 8px; }
+    .greek { font-family: "New Athena Unicode", "Galatia SIL", "Gentium Plus", serif; font-size: 1.2em; }
+    .section-divider { border-top: 2px dashed #4CAF50; margin: 30px 0; padding-top: 20px; }
+    .quiz-question {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+      border: 2px solid transparent;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .quiz-question:hover {
+      border-color: var(--primary-light, #6B8CBC);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+    .quiz-question p {
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--dark, #2C3E50);
+      font-size: 1.05rem;
+    }
+    .quiz-options {
+      display: grid;
+      gap: 12px;
+    }
+    .quiz-options label {
+      display: flex;
+      align-items: center;
+      padding: 14px 18px;
+      background: #f8f9fa;
+      border: 2px solid #ECF0F1;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      font-size: 0.95rem;
+    }
+    .quiz-options label:hover {
+      transform: translateX(5px);
+      border-color: var(--primary, #4A6FA5);
+      background: white;
+    }
+    .quiz-options input[type="radio"] {
+      margin-right: 15px;
+      width: 20px;
+      height: 20px;
+      accent-color: #4A6FA5;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    #download-btn {
+      background: var(--gradient-secondary, linear-gradient(135deg, #8B5FBF 0%, #C779D0 100%));
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 15px;
+      transition: all 0.3s ease;
+    }
+    #download-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(139, 95, 191, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/QtgrGy8X/verde.png" alt="Logo del ministerio Vivos para servir" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Examen - Primer Aoristo en Griego Koiné</h1>
+      <div class="subtitle">Evaluación de conocimientos</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-pencil-alt"></i> Examen sobre el Primer Aoristo</h2>
+      <p>Responde las siguientes preguntas seleccionando la opción correcta. Al finalizar, haz clic en "Comprobar Respuestas" para ver tu nota.</p>
+
+      <!-- Pregunta 1 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> El aoristo en griego koiné expresa principalmente:</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Una acción repetida en el pasado</label>
+          <label><input type="radio" name="q1" value="b"> Una acción indefinida, completa, generalmente en el pasado</label>
+          <label><input type="radio" name="q1" value="c"> Una acción continua en el presente</label>
+          <label><input type="radio" name="q1" value="d"> Una acción que nunca ocurrió</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <!-- Pregunta 2 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> El error más común en la interpretación del aoristo es decir que siempre significa:</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Acción indefinida</label>
+          <label><input type="radio" name="q2" value="b"> Acción presente</label>
+          <label><input type="radio" name="q2" value="c"> Acción "una vez para siempre"</label>
+          <label><input type="radio" name="q2" value="d"> Acción repetida</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <!-- Pregunta 3 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 3:</strong> ¿Cuál es el formativo de tiempo del primer aoristo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> -ον</label>
+          <label><input type="radio" name="q3" value="b"> -σα</label>
+          <label><input type="radio" name="q3" value="c"> -οντο</label>
+          <label><input type="radio" name="q3" value="d"> -θη</label>
+        </div>
+        <div class="result" id="result3"></div>
+      </div>
+
+      <!-- Pregunta 4 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 4:</strong> La mayoría de los verbos griegos forman su primer aoristo a partir de:</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="a"> Una raíz totalmente distinta a la del presente</label>
+          <label><input type="radio" name="q4" value="b"> La misma raíz que en presente + el formativo -σα</label>
+          <label><input type="radio" name="q4" value="c"> Una raíz irregular</label>
+          <label><input type="radio" name="q4" value="d"> Una forma reducida de futuro</label>
+        </div>
+        <div class="result" id="result4"></div>
+      </div>
+
+      <!-- Pregunta 5 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 5:</strong> ¿Cómo se traduce normalmente un verbo en primer aoristo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="a"> Con presente continuo</label>
+          <label><input type="radio" name="q5" value="b"> Con futuro perfecto</label>
+          <label><input type="radio" name="q5" value="c"> Con pasado simple</label>
+          <label><input type="radio" name="q5" value="d"> Con presente simple</label>
+        </div>
+        <div class="result" id="result5"></div>
+      </div>
+
+      <!-- Pregunta 6 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 6:</strong> El verbo λύω en aoristo activo, 1ª persona singular, se escribe:</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q6" value="a"> λύσω</label>
+          <label><input type="radio" name="q6" value="b"> ἔλυσα</label>
+          <label><input type="radio" name="q6" value="c"> ἐλύομεν</label>
+          <label><input type="radio" name="q6" value="d"> λύσετε</label>
+        </div>
+        <div class="result" id="result6"></div>
+      </div>
+
+      <!-- Pregunta 7 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 7:</strong> ¿Qué ocurre con los verbos contractos en el primer aoristo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q7" value="a"> Se reducen al radical sin cambio</label>
+          <label><input type="radio" name="q7" value="b"> Pierden su vocal final</label>
+          <label><input type="radio" name="q7" value="c"> Alargan su vocal antes del formativo -σα</label>
+          <label><input type="radio" name="q7" value="d"> No se conjugan en aoristo</label>
+        </div>
+        <div class="result" id="result7"></div>
+      </div>
+
+      <!-- Pregunta 8 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 8:</strong> ¿Qué cambio fonético ocurre en verbos con raíz terminada en π, β o φ al unirse al formativo -σα?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q8" value="a"> Desaparecen</label>
+          <label><input type="radio" name="q8" value="b"> Forman ξ</label>
+          <label><input type="radio" name="q8" value="c"> Forman ψ</label>
+          <label><input type="radio" name="q8" value="d"> Permanecen igual</label>
+        </div>
+        <div class="result" id="result8"></div>
+      </div>
+
+      <!-- Pregunta 9 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 9:</strong> El aoristo líquido se distingue porque:</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q9" value="a"> Usa el formativo -σα como todos los demás</label>
+          <label><input type="radio" name="q9" value="b"> Usa solamente -α como formativo</label>
+          <label><input type="radio" name="q9" value="c"> Nunca tiene aumento</label>
+          <label><input type="radio" name="q9" value="d"> No existe en el Nuevo Testamento</label>
+        </div>
+        <div class="result" id="result9"></div>
+      </div>
+
+      <!-- Pregunta 10 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 10:</strong> El aoristo medio se forma igual que el activo, excepto que:</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q10" value="a"> Usa terminaciones medias/pasivas</label>
+          <label><input type="radio" name="q10" value="b"> Cambia el aumento</label>
+          <label><input type="radio" name="q10" value="c"> Se traduce siempre en voz pasiva</label>
+          <label><input type="radio" name="q10" value="d"> Usa otra raíz distinta</label>
+        </div>
+        <div class="result" id="result10"></div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- Pregunta 11 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 11:</strong> Traduce al español: <span class="greek">ἔγραψα</span></p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q11" value="a"> Escribió</label>
+          <label><input type="radio" name="q11" value="b"> Cantaste</label>
+          <label><input type="radio" name="q11" value="c"> Escribí</label>
+          <label><input type="radio" name="q11" value="d"> Comí</label>
+        </div>
+        <div class="result" id="result11"></div>
+      </div>
+
+      <!-- Pregunta 12 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 12:</strong> Traduce al español: <span class="greek">ἔμεινα</span></p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q12" value="a"> Permanecí</label>
+          <label><input type="radio" name="q12" value="b"> Reprendí</label>
+          <label><input type="radio" name="q12" value="c"> Mentiste</label>
+          <label><input type="radio" name="q12" value="d"> Dormiste</label>
+        </div>
+        <div class="result" id="result12"></div>
+      </div>
+
+      <!-- Pregunta 13 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 13:</strong> Traduce al español: <span class="greek">ἐδοξάσατε</span></p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q13" value="a"> Estudiaste</label>
+          <label><input type="radio" name="q13" value="b"> Glorificaron (ustedes)</label>
+          <label><input type="radio" name="q13" value="c"> Glorificaron (Ellos)</label>
+          <label><input type="radio" name="q13" value="d"> Fueron Glorificados</label>
+        </div>
+        <div class="result" id="result13"></div>
+      </div>
+
+      <!-- Pregunta 14 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 14:</strong> Conjuga el verbo <span class="greek">ἀγαπάω</span> en 1ª persona singular, aoristo activo.</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q14" value="a"> ἠγάπησατε</label>
+          <label><input type="radio" name="q14" value="b"> ἠγάπησα</label>
+          <label><input type="radio" name="q14" value="c"> ἠγάπησαμεν</label>
+          <label><input type="radio" name="q14" value="d"> ἠγάπησας</label>
+        </div>
+        <div class="result" id="result14"></div>
+      </div>
+
+      <!-- Pregunta 15 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 15:</strong> Traduce el verbo <span class="greek">κηρύσσω</span>.</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q15" value="a"> Predico</label>
+          <label><input type="radio" name="q15" value="b"> Canto</label>
+          <label><input type="radio" name="q15" value="c"> Coordino</label>
+          <label><input type="radio" name="q15" value="d"> Adoro</label>
+        </div>
+        <div class="result" id="result15"></div>
+      </div>
+
+      <!-- Pregunta 16 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 16:</strong> El aoristo significa siempre una acción "una vez para siempre".</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q16" value="a"> Verdadero</label>
+          <label><input type="radio" name="q16" value="b"> Falso</label>
+        </div>
+        <div class="result" id="result16"></div>
+      </div>
+
+      <!-- Pregunta 17 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 17:</strong> El aoristo se traduce normalmente como pasado simple en español.</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q17" value="a"> Verdadero</label>
+          <label><input type="radio" name="q17" value="b"> Falso</label>
+        </div>
+        <div class="result" id="result17"></div>
+      </div>
+
+      <!-- Pregunta 18 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 18:</strong> El aoristo medio muchas veces es deponente.</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q18" value="a"> Verdadero</label>
+          <label><input type="radio" name="q18" value="b"> Falso</label>
+        </div>
+        <div class="result" id="result18"></div>
+      </div>
+
+      <!-- Pregunta 19 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 19:</strong> Un verbo terminado en dental (τ, δ, θ) mantiene la dental en el aoristo.</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q19" value="a"> Verdadero</label>
+          <label><input type="radio" name="q19" value="b"> Falso</label>
+        </div>
+        <div class="result" id="result19"></div>
+      </div>
+
+      <!-- Pregunta 20 -->
+      <div class="quiz-question">
+        <p><strong>Pregunta 20:</strong> El verbo <span class="greek">δοξάζω</span> en aoristo es <span class="greek">ἐδόξασα</span>.</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q20" value="a"> Verdadero</label>
+          <label><input type="radio" name="q20" value="b"> Falso</label>
+        </div>
+        <div class="result" id="result20"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+      <div class="score" id="score"></div>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const answers = {
+      q1: 'b', q2: 'c', q3: 'b', q4: 'b', q5: 'c',
+      q6: 'b', q7: 'c', q8: 'c', q9: 'b', q10: 'a',
+      q11: 'c', q12: 'a', q13: 'b', q14: 'b', q15: 'a',
+      q16: 'b', q17: 'a', q18: 'a', q19: 'b', q20: 'a'
+    };
+
+    let reportData = [];
+    const totalQuestions = Object.keys(answers).length;
+
+    function getAnswerText(question, value) {
+      if (!value) return 'Sin respuesta';
+      const selector = `input[name="${question}"][value="${value}"]`;
+      const input = document.querySelector(selector);
+      return input ? input.parentElement.textContent.trim() : 'Respuesta no válida';
+    }
+
+    function generateReport(score) {
+      const percentage = (score / totalQuestions) * 100;
+      const date = new Date().toLocaleString();
+      
+      let report = `REPORTE DE EXAMEN - Primer Aoristo en Griego Koiné\n`;
+      report += `Fecha: ${date}\n`;
+      report += `----------------------------------------\n\n`;
+      
+      reportData.forEach((item, index) => {
+        report += `Pregunta ${index + 1}:\n`;
+        report += `• Enunciado: ${item.questionText}\n`;
+        report += `• Tu respuesta: ${item.studentAnswer}\n`;
+        report += `• Respuesta correcta: ${item.correctAnswer}\n`;
+        report += `• Estado: ${item.isCorrect ? '✅ Correcto' : '❌ Incorrecto'}\n\n`;
+      });
+
+      report += `----------------------------------------\n`;
+      report += `Puntuación final: ${score}/${totalQuestions}\n`;
+      report += `Porcentaje: ${percentage.toFixed(1)}%\n`;
+      report += `Resultado: ${percentage >= 70 ? 'APROBADO' : 'REPROBADO'}\n`;
+      report += `\nMinisterio "Vivos para Servir" - Sección Educativa`;
+
+      return report;
+    }
+
+    function downloadReport() {
+      const score = reportData.filter(item => item.isCorrect).length;
+      const blob = new Blob([generateReport(score)], 
+        { type: 'text/plain;charset=utf-8' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `reporte-examen-primer-aoristo-${new Date().toISOString().slice(0,10)}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }
+
+    function checkAnswers() {
+      reportData = [];
+      let score = 0;
+      
+      for (const [question, correctAnswer] of Object.entries(answers)) {
+        const questionElement = document.querySelector(`[name="${question}"]`).closest('.quiz-question');
+        const questionText = questionElement.querySelector('p').textContent.replace(/Pregunta \d+:/, '').trim();
+        
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const studentAnswer = selectedOption ? selectedOption.value : null;
+        const isCorrect = studentAnswer === correctAnswer;
+        
+        if (isCorrect) score++;
+        
+        reportData.push({
+          questionText: questionText,
+          studentAnswer: getAnswerText(question, studentAnswer),
+          correctAnswer: getAnswerText(question, correctAnswer),
+          isCorrect: isCorrect
+        });
+
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          resultElement.textContent = isCorrect ? "¡Correcto!" : "Incorrecto";
+          resultElement.className = `result ${isCorrect ? 'correct' : 'incorrect'}`;
+        } else {
+          resultElement.textContent = "No respondió";
+          resultElement.className = "result";
+        }
+      }
+
+      const percentage = (score / totalQuestions) * 100;
+      const scoreElement = document.getElementById('score');
+      scoreElement.innerHTML = `
+        <p>Tu nota: ${score} / ${totalQuestions}</p>
+        <p>${percentage >= 70 ? '¡Felicidades! Has aprobado el examen.' : 'Necesitas mejorar. Sigue estudiando.'}</p>
+        <button id="download-btn" onclick="downloadReport()">
+          <i class="fas fa-download"></i> Descargar Reporte
+        </button>
+      `;
+    }
+  </script>
+</body>
+</html>

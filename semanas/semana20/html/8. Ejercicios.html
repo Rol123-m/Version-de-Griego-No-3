@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicios del Participio Presente</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Ejercicios del Participio Presente</h1>
+      <div class="subtitle">Práctica progresiva</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-language"></i> 1. Traducción simple</h2>
+      <p>Traduce la siguiente oración:</p>
+      <div class="example-box">
+        <p class="greek-text">ὁ ἄνθρωπος ἀπέθανε διδάσκων τὴν κοινήν.</p>
+        <p><strong>Respuesta:</strong> El hombre murió <strong>enseñando</strong> el koiné.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-search"></i> 2. Identifica caso, número, género y voz</h2>
+      <p>Analiza los siguientes participios:</p>
+      <ul>
+        <li><span class="greek-text">λυομένῳ</span> → Dativo, singular, masculino/neutro, voz media/pasiva</li>
+        <li><span class="greek-text">διδάσκοντες</span> → Nominativo, plural, masculino, voz activa</li>
+        <li><span class="greek-text">θεωροῦσα</span> → Nominativo, singular, femenino, voz activa</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-book-bible"></i> 3. Traducción contextual</h2>
+      <p>Traduce la siguiente oración bíblica:</p>
+      <div class="example-box">
+        <p class="greek-text">καὶ παραγὼν εἶδεν Λευὶν τὸν τοῦ Ἀλφαίου (Mc 2:14)</p>
+        <p><strong>Respuesta:</strong> Y <strong>pasando</strong>, vio a Leví, el hijo de Alfeo.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Evaluación Final</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué uso adverbial tiene el participio en "παραγὼν εἶδεν" (Mc 2:14)?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Temporal</label>
+          <label><input type="radio" name="q1" value="b"> Causal</label>
+          <label><input type="radio" name="q1" value="c"> Concesivo</label>
+          <label><input type="radio" name="q1" value="d"> Condicional</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 2:</strong> ¿Qué significa "διδάσκοντες" en la frase "οἱ μαθηταὶ ἦσαν διδάσκοντες"?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> enseñados</label>
+          <label><input type="radio" name="q2" value="b"> enseñando</label>
+          <label><input type="radio" name="q2" value="c"> enseñarán</label>
+          <label><input type="radio" name="q2" value="d"> enseñaron</label>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'a', q2: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

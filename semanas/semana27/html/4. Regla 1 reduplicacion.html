@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regla 1: Reduplicación con Iota</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Regla 1: Reduplicación con Iota</h1>
+      <div class="subtitle">La marca distintiva del presente</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-redo"></i> La Reduplicación en -μι</h2>
+      <p>Los verbos en -μι <strong>reduplican su letra radical inicial para formar el presente</strong>, y <strong>separan la consonante reduplicada con una iota</strong>.</p>
+
+      <div class="example-box">
+        <h3>Ejemplo con δίδωμι</h3>
+        <p>Raíz: <strong>*δο</strong></p>
+        <p>Paso 1: Reduplicación → <strong>διδο</strong></p>
+        <p>Paso 2: Alargamiento en singular → <strong>διδω</strong></p>
+        <p>Paso 3: Añadir terminación -μι → <strong>δίδωμι</strong></p>
+      </div>
+
+      <p><strong>Proceso completo:</strong> <span class="greek-text">δο → διδο → διδω → δίδωμι</span></p>
+
+      <div class="important-note">
+        <p><strong>⚠️ Es esencial que siempre memoricemos la raíz de un verbo en -μι junto con su forma léxica.</strong></p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-search"></i> ¿Dónde aparece esta reduplicación?</h2>
+      <ul>
+        <li><strong>Solo en presente e imperfecto</strong> verás la reduplicación con iota.</li>
+        <li>En otros tiempos, necesitarás identificar la <strong>raíz simple</strong>.</li>
+      </ul>
+
+      <h3 style="color: var(--primary); margin: 1.2rem 0 0.8rem;">Ejemplo práctico: Analiza δώσω</h3>
+      <p>Si trabajas desde el tema del presente (διδο-), no podrás analizarlo. Pero si reconoces que la raíz verbal es <strong>*δο</strong>, entonces:</p>
+      <div class="example-box">
+        <p><span class="greek-text">δο → δω + σ + ω → δώσω</span></p>
+        <p>Esto claramente es <strong>primera persona del singular del futuro</strong> y es regular (con vocal radical alargada).</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-exchange-alt"></i> ¿Cómo diferenciar Presente del Perfecto?</h2>
+      <p>Ambos reduplican, pero hay una diferencia clave:</p>
+
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Tiempo</th>
+              <th>Reduplicación</th>
+              <th>Ejemplo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Presente</strong></td>
+              <td>Consonante + <strong>ι</strong> + Consonante</td>
+              <td class="greek-text">δο → <strong>δι</strong>δο → δίδωμι</td>
+            </tr>
+            <tr>
+              <td><strong>Perfecto</strong></td>
+              <td>Consonante + <strong>ε</strong> + Consonante</td>
+              <td class="greek-text">δο → <strong>δε</strong>δο → δέδωκα</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Mini-quiz: Regla 1</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Con qué vocal separan la reduplicación los verbos en -μι en el presente?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> ε (epsilon)</label>
+          <label><input type="radio" name="q1" value="b"> ι (iota)</label>
+          <label><input type="radio" name="q1" value="c"> ο (omicron)</label>
+          <label><input type="radio" name="q1" value="d"> α (alfa)</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

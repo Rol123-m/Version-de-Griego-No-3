@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Super Juego Integrador | Consolidación Final</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Segoe UI', 'Poppins', Arial, sans-serif; background: linear-gradient(145deg, #0a1628, #1a2a4a, #0d1f3c); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px 15px 60px; color: white; }
+    .logo { width: 160px; max-width: 60%; margin: 10px auto 5px; filter: drop-shadow(0 4px 20px rgba(255, 215, 0, 0.2)); border-radius: 12px; }
+    h1 { text-align: center; font-size: clamp(1.3rem, 4.5vw, 2.2rem); margin-bottom: 8px; color: #FFD700; font-weight: 700; }
+    h1 span { background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .subtitle { text-align: center; font-size: clamp(0.8rem, 2vw, 1rem); color: rgba(255, 255, 255, 0.5); margin-bottom: 15px; letter-spacing: 2px; }
+    #progress { font-size: clamp(0.85rem, 2.2vw, 1.1rem); margin: 5px 0 15px; padding: 10px 25px; background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border-radius: 50px; border: 1px solid rgba(255, 215, 0, 0.15); display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    #progress .stat span { color: #FFD700; font-weight: 700; }
+    .mode-selector { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .mode-btn { padding: 10px 18px; border-radius: 50px; border: 2px solid rgba(255,215,0,0.3); background: rgba(255,255,255,0.05); color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; font-size: clamp(0.75rem, 1.8vw, 0.9rem); }
+    .mode-btn.active { background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; border-color: #FFD700; }
+    .mode-btn:hover { transform: translateY(-2px); }
+    .game-container { width: 100%; max-width: 900px; }
+    .question-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border-radius: 24px; padding: clamp(20px, 4vw, 40px); border: 1px solid rgba(255, 215, 0, 0.1); margin-bottom: 20px; text-align: center; }
+    .question-label { font-size: clamp(0.7rem, 1.5vw, 0.85rem); color: rgba(255, 215, 0, 0.5); text-transform: uppercase; letter-spacing: 3px; font-weight: 600; margin-bottom: 5px; }
+    .current-word { font-size: clamp(1.5rem, 4.5vw, 2.5rem); font-family: 'Times New Roman', 'New Athena Unicode', serif; color: #FFD700; font-weight: 700; margin: 15px 0; text-shadow: 0 2px 10px rgba(255,215,0,0.3); animation: popIn 0.4s ease; }
+    @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    .instruction { color: rgba(255,255,255,0.7); margin-bottom: 15px; font-size: clamp(0.9rem, 2vw, 1rem); }
+    .categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(clamp(100px, 18vw, 150px), 1fr)); gap: clamp(8px, 1.5vw, 12px); margin-top: 20px; }
+    .category-btn { padding: clamp(10px, 1.8vw, 16px) clamp(8px, 1.5vw, 14px); border: 3px solid rgba(255, 215, 0, 0.3); border-radius: 14px; background: rgba(255, 255, 255, 0.05); color: white; font-family: 'Poppins', sans-serif; font-size: clamp(0.7rem, 1.4vw, 0.85rem); font-weight: 700; cursor: pointer; transition: all 0.3s; min-height: 65px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
+    .category-btn .emoji { font-size: 1.3em; }
+    .category-btn:hover:not(:disabled) { transform: translateY(-4px); border-color: #FFD700; background: rgba(255, 215, 0, 0.1); }
+    .category-btn.correct { border-color: #2ecc71; background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+    .category-btn.wrong { border-color: #e74c3c; background: rgba(231, 76, 60, 0.2); color: #e74c3c; animation: shake 0.5s ease; }
+    .category-btn:disabled { cursor: not-allowed; opacity: 0.5; }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-10px); } 40% { transform: translateX(10px); } 60% { transform: translateX(-6px); } 80% { transform: translateX(6px); } }
+    .feedback { margin-top: 20px; padding: clamp(12px, 2vw, 20px); border-radius: 14px; font-size: clamp(0.9rem, 2vw, 1.05rem); text-align: center; min-height: 50px; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
+    .feedback.show { opacity: 1; transform: translateY(0); }
+    .feedback.success { background: rgba(46, 204, 113, 0.15); border: 1px solid rgba(46, 204, 113, 0.3); color: #2ecc71; }
+    .feedback.error { background: rgba(231, 76, 60, 0.15); border: 1px solid rgba(231, 76, 60, 0.3); color: #e74c3c; }
+    .next-btn { margin-top: 15px; padding: clamp(14px, 2.5vw, 18px) clamp(30px, 5vw, 50px); border: none; border-radius: 50px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 700; cursor: pointer; display: none; align-items: center; gap: 10px; margin-left: auto; margin-right: auto; }
+    .next-btn.show { display: inline-flex; }
+    .final-message { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: linear-gradient(145deg, #0f1a2e, #1a2a4a); padding: clamp(30px, 5vw, 50px); border-radius: 30px; text-align: center; animation: zoomIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; border: 2px solid rgba(255, 215, 0, 0.3); z-index: 1000; max-width: 90vw; width: 450px; }
+    @keyframes zoomIn { 0% { transform: translate(-50%, -50%) scale(0) rotate(-3deg); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } }
+    .final-message img { width: clamp(120px, 25vw, 170px); margin-bottom: 15px; border-radius: 15px; }
+    .final-message h2 { color: #FFD700; font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 10px; }
+    .final-message .stats { font-size: clamp(1rem, 2vw, 1.2rem); opacity: 0.9; line-height: 1.8; }
+    .final-message .stats span { color: #FFD700; font-weight: 700; }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+    .overlay.active { opacity: 1; pointer-events: all; }
+    @media (max-width: 480px) {
+      .logo { width: 110px; }
+      h1 { font-size: 1.1rem; }
+      .current-word { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" class="logo" alt="Logo">
+  <h1>🏆 <span>Super Juego Integrador</span></h1>
+  <div class="subtitle">✧ Semana 28: TODO el griego II en un solo juego ✧</div>
+
+  <div id="progress">
+    <div class="stat">📖 <span id="current-q">1</span>/<span id="total-q">40</span></div>
+    <div class="stat">✅ <span id="correct-count">0</span></div>
+    <div class="stat">💪 Racha: <span id="streak">0</span>🔥</div>
+  </div>
+
+  <div class="mode-selector">
+    <button class="mode-btn active" data-mode="todo">🎲 Todo Mezclado</button>
+    <button class="mode-btn" data-mode="verbos">📘 Verbos</button>
+    <button class="mode-btn" data-mode="participios">🔷 Participios</button>
+    <button class="mode-btn" data-mode="modos">🎯 Modos</button>
+    <button class="mode-btn" data-mode="mi">⚔️ Verbos -μι</button>
+  </div>
+
+  <div class="game-container">
+    <div class="question-card" id="questionCard">
+      <div class="question-label" id="questionLabel">IDENTIFICA LA CATEGORÍA</div>
+      <div class="current-word" id="currentWord"></div>
+      <div class="instruction" id="instruction">¿Qué es esta forma?</div>
+      <div class="categories" id="categories"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="nextBtn"><span>Siguiente</span> <span>→</span></button>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <script>
+    const datos = [
+      // VERBOS
+      {word: "λύω", cat: "presente", grupo: "verbos", desc: "Presente: desato"},
+      {word: "ἔλυσα", cat: "aoristo", grupo: "verbos", desc: "Aoristo: desaté"},
+      {word: "λέλυκα", cat: "perfecto", grupo: "verbos", desc: "Perfecto: he desatado"},
+      {word: "λύσω", cat: "futuro", grupo: "verbos", desc: "Futuro: desataré"},
+      {word: "ἐλυσάμην", cat: "aoristo", grupo: "verbos", desc: "Aoristo medio: me desaté"},
+      {word: "ἔγραψα", cat: "aoristo", grupo: "verbos", desc: "Aoristo: escribí"},
+      {word: "γέγραπται", cat: "perfecto", grupo: "verbos", desc: "Perfecto: está escrito"},
+      {word: "ἠγάπησεν", cat: "aoristo", grupo: "verbos", desc: "Aoristo: amó"},
+      
+      // PARTICIPIOS
+      {word: "λύων", cat: "participio", grupo: "participios", desc: "Participio presente: desatando"},
+      {word: "λύσας", cat: "participio", grupo: "participios", desc: "Participio aoristo: habiendo desatado"},
+      {word: "λελυκώς", cat: "participio", grupo: "participios", desc: "Participio perfecto: habiendo desatado"},
+      {word: "ὁ πιστεύων", cat: "participio", grupo: "participios", desc: "Participio sustantivado: el que cree"},
+      {word: "πορευθέντες", cat: "participio", grupo: "participios", desc: "Participio aoristo: habiendo ido"},
+      {word: "αὐτοῦ λαλοῦντος", cat: "participio", grupo: "participios", desc: "Genitivo absoluto: mientras él hablaba"},
+      
+      // MODOS
+      {word: "λύωμεν", cat: "subjuntivo", grupo: "modos", desc: "Subjuntivo hortatorio: desatemos"},
+      {word: "λῦε", cat: "imperativo", grupo: "modos", desc: "Imperativo: ¡suelta!"},
+      {word: "λύειν", cat: "infinitivo", grupo: "modos", desc: "Infinitivo: soltar"},
+      {word: "ἵνα πιστεύσητε", cat: "subjuntivo", grupo: "modos", desc: "Subjuntivo con ἵνα: para que crean"},
+      {word: "δίδαξον", cat: "imperativo", grupo: "modos", desc: "Imperativo: ¡enseña!"},
+      {word: "τὸ ζῆν", cat: "infinitivo", grupo: "modos", desc: "Infinitivo sustantivado: el vivir"},
+      {word: "οὐ μὴ ἀπόλωνται", cat: "subjuntivo", grupo: "modos", desc: "Negación enfática: de ninguna manera"},
+      
+      // VERBOS -μι
+      {word: "δίδωμι", cat: "omicron", grupo: "mi", desc: "Clase Omicron: doy"},
+      {word: "τίθημι", cat: "epsilon", grupo: "mi", desc: "Clase Épsilon: pongo"},
+      {word: "ἵστημι", cat: "alfa", grupo: "mi", desc: "Clase Alfa: estoy de pie"},
+      {word: "δείκνυμι", cat: "ipsilon", grupo: "mi", desc: "Clase Ípsilon: muestro"},
+      {word: "ἔδωκα", cat: "omicron", grupo: "mi", desc: "Aoristo kappa: di"},
+      {word: "ἀφῆκα", cat: "epsilon", grupo: "mi", desc: "Aoristo kappa: dejé"},
+      {word: "ἀνέστη", cat: "alfa", grupo: "mi", desc: "Aoristo de ἀνίστημι: resucitó"}
+    ];
+
+    let currentMode = 'todo';
+    let currentIndex = 0, correctCount = 0, streak = 0, maxStreak = 0, isAnswered = false;
+    let filteredData = [], totalQuestions = 0;
+
+    function shuffleArray(array) {
+      const a = [...array];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function getCategoriesForMode(mode) {
+      if (mode === 'todo') {
+        return [
+          {value: 'presente', emoji: '🟢', label: 'Presente'},
+          {value: 'aoristo', emoji: '🔴', label: 'Aoristo'},
+          {value: 'perfecto', emoji: '🟣', label: 'Perfecto'},
+          {value: 'futuro', emoji: '🔵', label: 'Futuro'},
+          {value: 'participio', emoji: '🔷', label: 'Participio'},
+          {value: 'subjuntivo', emoji: '❓', label: 'Subjuntivo'},
+          {value: 'imperativo', emoji: '📢', label: 'Imperativo'},
+          {value: 'infinitivo', emoji: '♾️', label: 'Infinitivo'},
+          {value: 'omicron', emoji: '🟠', label: 'Omicron'},
+          {value: 'epsilon', emoji: '🟡', label: 'Épsilon'},
+          {value: 'alfa', emoji: '🟤', label: 'Alfa'},
+          {value: 'ipsilon', emoji: '⚪', label: 'Ípsilon'}
+        ];
+      } else if (mode === 'verbos') {
+        return [
+          {value: 'presente', emoji: '🟢', label: 'Presente'},
+          {value: 'aoristo', emoji: '🔴', label: 'Aoristo'},
+          {value: 'perfecto', emoji: '🟣', label: 'Perfecto'},
+          {value: 'futuro', emoji: '🔵', label: 'Futuro'}
+        ];
+      } else if (mode === 'participios') {
+        return [
+          {value: 'participio', emoji: '🔷', label: 'Participio'}
+        ];
+      } else if (mode === 'modos') {
+        return [
+          {value: 'subjuntivo', emoji: '❓', label: 'Subjuntivo'},
+          {value: 'imperativo', emoji: '📢', label: 'Imperativo'},
+          {value: 'infinitivo', emoji: '♾️', label: 'Infinitivo'}
+        ];
+      } else {
+        return [
+          {value: 'omicron', emoji: '🟠', label: 'Omicron'},
+          {value: 'epsilon', emoji: '🟡', label: 'Épsilon'},
+          {value: 'alfa', emoji: '🟤', label: 'Alfa'},
+          {value: 'ipsilon', emoji: '⚪', label: 'Ípsilon'}
+        ];
+      }
+    }
+
+    function getQuestionLabel(mode) {
+      if (mode === 'todo') return 'IDENTIFICA LA CATEGORÍA';
+      if (mode === 'verbos') return 'IDENTIFICA EL TIEMPO';
+      if (mode === 'participios') return 'IDENTIFICA EL PARTICIPIO';
+      if (mode === 'modos') return 'IDENTIFICA EL MODO';
+      return 'IDENTIFICA LA CLASE';
+    }
+
+    function getInstruction(mode) {
+      if (mode === 'todo') return '¿Qué es esta forma?';
+      if (mode === 'verbos') return '¿Qué tiempo tiene?';
+      if (mode === 'participios') return '¿Qué tipo de participio es?';
+      if (mode === 'modos') return '¿Qué modo verbal es?';
+      return '¿A qué clase de verbo -μι pertenece?';
+    }
+
+    function loadMode(mode) {
+      currentMode = mode;
+      let data = mode === 'todo' ? datos : datos.filter(d => d.grupo === mode);
+      filteredData = shuffleArray(data);
+      totalQuestions = filteredData.length;
+      currentIndex = 0; correctCount = 0; streak = 0; maxStreak = 0; isAnswered = false;
+      document.getElementById('total-q').textContent = totalQuestions;
+      document.getElementById('correct-count').textContent = '0';
+      document.getElementById('streak').textContent = '0';
+      document.getElementById('questionLabel').textContent = getQuestionLabel(mode);
+      document.getElementById('instruction').textContent = getInstruction(mode);
+      document.getElementById('nextBtn').classList.remove('show');
+      document.getElementById('overlay').classList.remove('active');
+      document.querySelector('.final-message')?.remove();
+      loadQuestion(0);
+    }
+
+    function loadQuestion(index) {
+      const q = filteredData[index];
+      if (!q) return;
+      isAnswered = false;
+      document.getElementById('nextBtn').classList.remove('show');
+      const feedback = document.getElementById('feedback');
+      feedback.className = 'feedback'; feedback.textContent = '';
+      document.getElementById('current-q').textContent = index + 1;
+      document.getElementById('currentWord').textContent = q.word;
+
+      const categories = getCategoriesForMode(currentMode);
+      const container = document.getElementById('categories');
+      container.innerHTML = categories.map(cat => 
+        `<button class="category-btn" data-cat="${cat.value}">
+          <span class="emoji">${cat.emoji}</span>
+          <span>${cat.label}</span>
+        </button>`
+      ).join('');
+
+      container.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', () => handleAnswer(btn, q));
+      });
+
+      document.getElementById('questionCard').style.animation = 'none';
+      setTimeout(() => { document.getElementById('questionCard').style.animation = 'popIn 0.4s ease'; }, 10);
+    }
+
+    function handleAnswer(btn, q) {
+      if (isAnswered) return;
+      isAnswered = true;
+      document.querySelectorAll('.category-btn').forEach(b => b.disabled = true);
+      const feedback = document.getElementById('feedback');
+      const selected = btn.dataset.cat;
+      const correct = q.cat;
+
+      if (selected === correct) {
+        btn.classList.add('correct');
+        correctCount++; streak++;
+        if (streak > maxStreak) maxStreak = streak;
+        feedback.textContent = `✅ ¡Correcto! ${q.desc}` + (streak > 1 ? ` 🔥 Racha: ${streak}` : '');
+        feedback.className = 'feedback success show';
+      } else {
+        btn.classList.add('wrong');
+        streak = 0;
+        document.querySelectorAll('.category-btn').forEach(b => {
+          if (b.dataset.cat === correct) b.classList.add('correct');
+        });
+        feedback.textContent = `❌ Incorrecto. ${q.desc}`;
+        feedback.className = 'feedback error show';
+      }
+
+      document.getElementById('correct-count').textContent = correctCount;
+      document.getElementById('streak').textContent = streak;
+      document.getElementById('nextBtn').classList.add('show');
+    }
+
+    function nextQuestion() {
+      if (currentIndex < totalQuestions - 1) { currentIndex++; loadQuestion(currentIndex); }
+      else { showFinalMessage(); }
+    }
+
+    function showFinalMessage() {
+      document.getElementById('overlay').classList.add('active');
+      const percentage = Math.round((correctCount / totalQuestions) * 100);
+      let emoji = '📚', message = 'Sigue practicando, ¡lo lograrás!';
+      if (percentage >= 90) { emoji = '🏆'; message = '¡Eres un campeón del griego koiné!'; }
+      else if (percentage >= 70) { emoji = '🌟'; message = '¡Excelente trabajo! Sigue así.'; }
+      else if (percentage >= 50) { emoji = '💪'; message = 'Vas por buen camino, ¡sigue practicando!'; }
+      const finalHTML = `
+        <div class="final-message">
+          <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo">
+          <h2>${emoji} ¡Super Juego Completado!</h2>
+          <div class="stats">
+            <p>📖 Preguntas: <span>${totalQuestions}</span></p>
+            <p>✅ Aciertos: <span>${correctCount}</span></p>
+            <p>🎯 Porcentaje: <span>${percentage}%</span></p>
+            <p>🔥 Mejor racha: <span>${maxStreak}</span></p>
+            <p style="margin-top: 10px;">${message}</p>
+          </div>
+          <button onclick="loadMode('${currentMode}')" style="margin-top: 20px; padding: 12px 35px; border: none; border-radius: 50px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-size: 1.1rem; font-weight: 700; cursor: pointer;">🔄 Jugar de nuevo</button>
+        </div>`;
+      const old = document.querySelector('.final-message'); if (old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', finalHTML);
+    }
+
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        loadMode(btn.dataset.mode);
+      });
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+    document.addEventListener('DOMContentLoaded', () => { loadMode('todo'); });
+  </script>
+</body>
+</html>

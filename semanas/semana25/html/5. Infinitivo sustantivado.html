@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinitivo Sustantivado</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Infinitivo Sustantivado</h1>
+      <div class="subtitle">El infinitivo articular</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-book"></i> Definición</h2>
+      <p>Porque el infinitivo es un sustantivo verbal, puede realizar cualquier función que un sustantivo pueda (sujeto, objeto directo, etc.). Cuando se usa como sustantivo, usualmente, pero no siempre, va precedido por el <strong>artículo definido</strong>. Esto se llama <strong>infinitivo articular</strong>.</p>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-book-bible"></i> Ejemplos Bíblicos</h2>
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Texto griego</th>
+              <th>Traducción</th>
+              <th>Función sintáctica</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="greek-text">ἐμοὶ <strong>τὸ ζῆν</strong> Χριστὸς καὶ <strong>τὸ ἀποθανεῖν</strong> κέρδος (Fil 1:21)</td>
+              <td>Para mí, <strong>el vivir</strong> es Cristo, y <strong>el morir</strong> es ganancia</td>
+              <td><strong>Sujeto</strong> de la oración</td>
+            </tr>
+            <tr>
+              <td class="greek-text"><strong>τὸ ἀγαπᾶν</strong> τὸν πλησίον ὡς ἑαυτὸν (Mr 12:33)</td>
+              <td><strong>Amar al prójimo</strong> como a uno mismo</td>
+              <td><strong>Sujeto</strong> u <strong>objeto</strong></td>
+            </tr>
+            <tr>
+              <td class="greek-text">πρὸς <strong>τὸ θεαθῆναι</strong> αὐτοῖς (Mt 6:1)</td>
+              <td>para <strong>ser vistos</strong> por ellos</td>
+              <td><strong>Objeto de preposición</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="important-note">
+        <p><strong>💡 Regla de traducción:</strong></p>
+        <p>Tradúcelo usando "<strong>el</strong>" + sustantivo/verbo o "<strong>al</strong>" + infinitivo en español.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-user"></i> El "Sujeto" del Infinitivo</h2>
+      <p>Debido a que un infinitivo no es una forma verbal finita, técnicamente <strong>no puede tener un sujeto</strong>. Sin embargo, a menudo hay un sustantivo (o pronombre) en <strong>acusativo</strong> que actúa <strong>como si fuera el sujeto</strong> del infinitivo.</p>
+
+      <div class="biblical-box" style="background: linear-gradient(135deg, rgba(233, 30, 99, 0.05) 0%, rgba(233, 30, 99, 0.02) 100%); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #e91e63; margin: 1.5rem 0;">
+        <p><strong>📖 Ejemplo:</strong></p>
+        <p class="greek-text">οὐκ ἤφιεν <strong>λαλεῖν τὰ δαιμόνια</strong> (Mr 1:34)</p>
+        <p>"No les permitía <strong>hablar a los demonios</strong>."</p>
+        <p>(Literalmente: "No permitía <strong>a los demonios</strong> hablar"). <em>Τὰ δαιμόνια</em> está en acusativo y es el "sujeto" de <em>λαλεῖν</em>.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Infinitivo Sustantivado</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué caso suele tener el "sujeto" de un infinitivo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Nominativo</label>
+          <label><input type="radio" name="q1" value="b"> Acusativo</label>
+          <label><input type="radio" name="q1" value="c"> Genitivo</label>
+          <label><input type="radio" name="q1" value="d"> Dativo</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

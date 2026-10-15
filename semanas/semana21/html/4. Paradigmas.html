@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paradigmas del Primer Aoristo</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Paradigmas del Primer Aoristo</h1>
+      <div class="subtitle">Activo, Medio y Pasivo</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-table"></i> A. Participio Aoristo Activo (λύσας)</h2>
+      <p>De <span class="greek-text">λύω</span> (desatar)</p>
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Caso</th>
+              <th>Masculino sg.</th>
+              <th>Femenino sg.</th>
+              <th>Neutro sg.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Nom.</td><td class="greek-text">λύσας</td><td class="greek-text">λύσασα</td><td class="greek-text">λῦσαν</td></tr>
+            <tr><td>Gen.</td><td class="greek-text">λύσαντος</td><td class="greek-text">λυσάσης</td><td class="greek-text">λύσαντος</td></tr>
+            <tr><td>Dat.</td><td class="greek-text">λύσαντι</td><td class="greek-text">λυσάσῃ</td><td class="greek-text">λύσαντι</td></tr>
+            <tr><td>Acus.</td><td class="greek-text">λύσαντα</td><td class="greek-text">λύσασαν</td><td class="greek-text">λῦσαν</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="important-note">
+        <p><strong>🔹 Terminaciones clave:</strong> σας, σασα, σαν → recuerda "<strong>ΣΑΣ</strong>" como palabra de memoria.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-table"></i> B. Participio Aoristo Medio (λυσάμενος)</h2>
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Caso</th>
+              <th>Masculino sg.</th>
+              <th>Femenino sg.</th>
+              <th>Neutro sg.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Nom.</td><td class="greek-text">λυσάμενος</td><td class="greek-text">λυσαμένη</td><td class="greek-text">λυσάμενον</td></tr>
+            <tr><td>Gen.</td><td class="greek-text">λυσαμένου</td><td class="greek-text">λυσαμένης</td><td class="greek-text">λυσαμένου</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="important-note">
+        <p><strong>💡 Truco:</strong> el participio medio siempre usa <strong>μενο/η</strong>, como si el verbo "se reflejara sobre sí mismo".</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-table"></i> C. Participio Aoristo Pasivo (λυθείς)</h2>
+      <div class="vocab-table-container">
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>Caso</th>
+              <th>Masculino sg.</th>
+              <th>Femenino sg.</th>
+              <th>Neutro sg.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Nom.</td><td class="greek-text">λυθείς</td><td class="greek-text">λυθεῖσα</td><td class="greek-text">λυθέν</td></tr>
+            <tr><td>Gen.</td><td class="greek-text">λυθέντος</td><td class="greek-text">λυθείσης</td><td class="greek-text">λυθέντος</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="important-note">
+        <p><strong>🔹 Nota:</strong> La forma pasiva se reconoce fácilmente por el <strong>θει-</strong>.</p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Paradigmas</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Qué terminación clave ayuda a recordar el participio aoristo activo?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> μενος</label>
+          <label><input type="radio" name="q1" value="b"> ΣΑΣ</label>
+          <label><input type="radio" name="q1" value="c"> θεις</label>
+          <label><input type="radio" name="q1" value="d"> ουσα</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'b' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

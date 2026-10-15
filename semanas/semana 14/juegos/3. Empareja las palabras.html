@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Griego Koiné - Ministerio Vivos para Servir</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Poppins', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a237e, #0d47a1);
+            min-height: 100vh;
+            padding: 16px;
+            padding-bottom: 80px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 10px 0 20px;
+        }
+
+        .logo {
+            width: 140px;
+            max-width: 40%;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+        }
+
+        h1 {
+            font-size: clamp(1.4rem, 5vw, 1.8rem);
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin: 10px 0;
+        }
+
+        /* Barra de progreso */
+        .progress-container {
+            background: rgba(0,0,0,0.4);
+            border-radius: 30px;
+            padding: 12px 20px;
+            margin: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .level-badge {
+            background: #FFD700;
+            color: #1a237e;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .progress-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+        }
+
+        .progress-stats span {
+            background: rgba(0,0,0,0.5);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* Contenedor del juego */
+        .game-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .game-board {
+            background: rgba(255,255,255,0.08);
+            border-radius: 28px;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+            min-height: 400px;
+        }
+
+        /* Tarjetas en columnas lado a lado (estilo Duolingo) */
+        .columns-container {
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 160px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Tarjetas estilo Duolingo */
+        .card {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            color: #1a237e;
+            padding: 16px 12px;
+            border-radius: 20px;
+            text-align: center;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 4vw, 1.1rem);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border: 2px solid transparent;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
+        /* Texto griego */
+        .card.greek-card {
+            font-family: 'Times New Roman', 'Palatino', 'Georgia', serif;
+            font-size: clamp(1rem, 5vw, 1.3rem);
+            letter-spacing: 1px;
+            background: linear-gradient(145deg, #fff8e7, #fff0d4);
+            border-left: 5px solid #FFD700;
+        }
+
+        .card.meaning-card {
+            background: linear-gradient(145deg, #e8eaf6, #c5cae9);
+            border-right: 5px solid #FFD700;
+        }
+
+        /* Estados de las tarjetas */
+        .card.selected {
+            background: #FFD700;
+            color: #1a237e;
+            transform: scale(1.02);
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 3px rgba(255,215,0,0.5);
+        }
+
+        .card.correct {
+            background: #27ae60 !important;
+            color: white !important;
+            border-color: #2ecc71 !important;
+            cursor: default;
+            opacity: 0.8;
+            text-decoration: line-through;
+            filter: grayscale(0.1);
+        }
+
+        .card.incorrect {
+            background: #e74c3c !important;
+            color: white !important;
+            border-color: #c0392b !important;
+            animation: shake 0.4s ease-in-out;
+        }
+
+        .card.disabled {
+            cursor: default;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        /* Mensaje de feedback */
+        .feedback-message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 16px;
+            text-align: center;
+            font-size: 0.9rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback-success {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border-left: 4px solid #2ecc71;
+        }
+
+        .feedback-error {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ff8a7a;
+            border-left: 4px solid #e74c3c;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Botones */
+        .next-btn {
+            background: linear-gradient(135deg, #FFD700, #ff8c00);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #1a237e;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .next-btn:active {
+            transform: scale(0.97);
+        }
+
+        .next-btn:disabled {
+            opacity: 0.5;
+            transform: none;
+            cursor: not-allowed;
+        }
+
+        /* Modal final */
+        .final-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: zoomIn 0.4s ease;
+            padding: 20px;
+        }
+
+        .final-card {
+            background: linear-gradient(145deg, #1a237e, #0d1b4e);
+            border-radius: 48px;
+            padding: 32px 24px;
+            text-align: center;
+            max-width: 380px;
+            width: 100%;
+            border: 2px solid #FFD700;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .final-card img {
+            width: 120px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+        }
+
+        .final-card h2 {
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Controles de música */
+        .music-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            padding: 8px 15px;
+            border-radius: 50px;
+            z-index: 100;
+        }
+
+        .music-btn {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: #FFD700;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1a237e;
+            transition: transform 0.1s;
+        }
+
+        .music-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Responsive móvil */
+        @media (max-width: 550px) {
+            body {
+                padding: 12px;
+                padding-bottom: 70px;
+            }
+            
+            .columns-container {
+                flex-direction: row;
+                gap: 12px;
+            }
+            
+            .column {
+                min-width: 140px;
+                flex: 1;
+            }
+            
+            .card {
+                padding: 14px 10px;
+                font-size: 0.85rem;
+            }
+            
+            .card.greek-card {
+                font-size: 0.95rem;
+            }
+            
+            .game-board {
+                padding: 15px;
+            }
+            
+            .progress-container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .column {
+                min-width: 120px;
+            }
+            
+            .card {
+                padding: 12px 8px;
+                font-size: 0.75rem;
+            }
+            
+            .card.greek-card {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Para tablets */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .columns-container {
+                gap: 24px;
+            }
+            
+            .column {
+                min-width: 220px;
+            }
+            
+            .card {
+                padding: 18px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-wrapper">
+        <div class="header">
+            <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" class="logo" alt="Logo Ministerio">
+            <h1>🏛️ Desafío del Griego Bíblico 🏛️</h1>
+        </div>
+
+        <div class="progress-container">
+            <div class="level-badge" id="levelDisplay">Nivel 1 / 4</div>
+            <div class="progress-stats">
+                <span>✅ <span id="pairsMatched">0</span> / <span id="totalPairs">5</span></span>
+                <span>⭐ Puntos: <span id="scoreValue">0</span></span>
+            </div>
+        </div>
+
+        <div class="game-board">
+            <div class="columns-container" id="columnsContainer">
+                <!-- Columna izquierda (Griego) -->
+                <div class="column" id="greekColumn"></div>
+                <!-- Columna derecha (Significados) -->
+                <div class="column" id="meaningColumn"></div>
+            </div>
+            <div id="feedbackMsg" class="feedback-message"></div>
+            <button class="next-btn" id="nextLevelBtn" disabled>
+                <span>▶</span> Siguiente Nivel <span>◀</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="music-controls">
+        <button class="music-btn" id="playBtn">▶</button>
+        <button class="music-btn" id="pauseBtn">⏸</button>
+    </div>
+
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="01. Dios Sabe Lo Que Hace.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // ==================== VOCABULARIO ====================
+        const vocabulary = {
+    level1: [
+    {griego: "Ἰουδαῖος", significado: "Judío"},
+    {griego: "Ἰσραήλ",   significado: "Israel"},
+    {griego: "καρπός",   significado: "Fruto, cosecha; resultado"},
+    {griego: "μείζων",   significado: "Mayor (comparativo de μέγας)"},
+    {griego: "ὅλος",     significado: "Entero, completo; totalmente"}
+   ],
+
+   level2: [
+    {griego:  "ἔρχομαι",      significado: "soltar, desatar, destruir"},
+    {griego: "νόμος, -ου, ὁ", significado: "ley, principio"},
+    {griego: "ἀποκρίνομαι",   significado: "Respondo. "},
+    {griego: "τηρέω",         significado: "guardo, observo, cumplo"},
+    {griego: "ποιέω",         significado: "Hago"}
+   ],
+
+   level3: [
+    {griego: "προσκυνέω", significado: "Adorar"},
+    {griego: "βαπτίζω",   significado: "Bautizar, sumergir"},
+    {griego: "γινώσκω",   significado: "Conocer, darse cuenta"},
+    {griego: "γλῶσσα",    significado: "Lengua, idioma"},
+    {griego: "ἐγείρω",    significado: "Levantar, despertar"}
+   ],
+
+   level4: [
+   {griego: "ἐκβάλλω", significado: "Expulsar, echar fuera"},
+   {griego: "ἐκεῖ",    significado: "Allí, en ese lugar"},
+   {griego: "κρίνω",   significado: "Juzgar, decidir"},
+   {griego: "λαός",    significado: "Pueblo, multitud"},
+   {griego: "μένω",    significado: "Permanecer, vivir"}
+
+   ]
+};
+
+        // ==================== VARIABLES GLOBALES ====================
+        let currentLevel = 1;
+        let currentPairs = [];
+        let matchedGreekIndices = [];
+        let matchedMeaningIndices = [];
+        let selectedCard = null;
+        let selectedType = null;
+        let selectedIndex = null;
+        let score = 0;
+        let totalLevels = 4;
+
+        // Elementos DOM
+        const greekColumn = document.getElementById('greekColumn');
+        const meaningColumn = document.getElementById('meaningColumn');
+        const levelDisplay = document.getElementById('levelDisplay');
+        const pairsMatchedSpan = document.getElementById('pairsMatched');
+        const totalPairsSpan = document.getElementById('totalPairs');
+        const scoreSpan = document.getElementById('scoreValue');
+        const nextBtn = document.getElementById('nextLevelBtn');
+        const feedbackDiv = document.getElementById('feedbackMsg');
+
+        // ==================== FUNCIONES AUXILIARES ====================
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function showFeedback(message, isSuccess) {
+            feedbackDiv.textContent = message;
+            feedbackDiv.className = `feedback-message ${isSuccess ? 'feedback-success' : 'feedback-error'}`;
+            setTimeout(() => {
+                if (feedbackDiv.textContent === message) {
+                    feedbackDiv.className = 'feedback-message';
+                    feedbackDiv.textContent = '';
+                }
+            }, 1500);
+        }
+
+        function updateStats() {
+            const matchedCount = matchedGreekIndices.length;
+            pairsMatchedSpan.textContent = matchedCount;
+            scoreSpan.textContent = score;
+            
+            // Habilitar botón si se completó el nivel
+            if (matchedCount === currentPairs.length) {
+                if (currentLevel === totalLevels) {
+                    nextBtn.textContent = '🏆 Ver Logros Finales 🏆';
+                } else {
+                    nextBtn.textContent = `✨ Siguiente Nivel (${currentLevel + 1}/${totalLevels}) ✨`;
+                }
+                nextBtn.disabled = false;
+            } else {
+                nextBtn.disabled = true;
+            }
+        }
+
+        // Limpiar selección visual
+        function clearSelection() {
+            document.querySelectorAll('.card.selected').forEach(card => {
+                card.classList.remove('selected');
+            });
+            selectedCard = null;
+            selectedType = null;
+            selectedIndex = null;
+        }
+
+        // Verificar si un par ya fue emparejado
+        function isGreekMatched(index) {
+            return matchedGreekIndices.includes(index);
+        }
+
+        function isMeaningMatched(index) {
+            return matchedMeaningIndices.includes(index);
+        }
+
+        // Manejar el click en una tarjeta
+        function handleCardClick(type, index, element) {
+            // Si la carta ya está emparejada, ignorar
+            if ((type === 'greek' && isGreekMatched(index)) || 
+                (type === 'meaning' && isMeaningMatched(index))) {
+                showFeedback("⚠️ Esta palabra ya fue emparejada", false);
+                return;
+            }
+
+            // Si no hay nada seleccionado
+            if (selectedCard === null) {
+                // Seleccionar esta carta
+                clearSelection();
+                selectedCard = element;
+                selectedType = type;
+                selectedIndex = index;
+                element.classList.add('selected');
+                return;
+            }
+
+            // Ya hay una carta seleccionada → intentar emparejar
+            const firstType = selectedType;
+            const firstIndex = selectedIndex;
+            const firstElement = selectedCard;
+
+            // Validar que sea un griego y un significado (no mismo tipo)
+            if (firstType === type) {
+                // Mismo tipo: cancelar selección anterior y seleccionar la nueva
+                clearSelection();
+                selectedCard = element;
+                selectedType = type;
+                selectedIndex = index;
+                element.classList.add('selected');
+                showFeedback("👉 Selecciona una palabra del otro lado", false);
+                return;
+            }
+
+            // Determinar cuál es griego y cuál es significado
+            let greekIdx, meaningIdx, greekElement, meaningElement;
+            if (firstType === 'greek' && type === 'meaning') {
+                greekIdx = firstIndex;
+                meaningIdx = index;
+                greekElement = firstElement;
+                meaningElement = element;
+            } else if (firstType === 'meaning' && type === 'greek') {
+                greekIdx = index;
+                meaningIdx = firstIndex;
+                greekElement = element;
+                meaningElement = firstElement;
+            } else {
+                clearSelection();
+                return;
+            }
+
+            // Verificar que ninguna de las dos esté ya emparejada
+            if (isGreekMatched(greekIdx) || isMeaningMatched(meaningIdx)) {
+                showFeedback("❌ Una de estas palabras ya fue emparejada", false);
+                clearSelection();
+                return;
+            }
+
+            // Verificar si el par es correcto
+            const pair = currentPairs[greekIdx];
+            const expectedMeaning = pair.significado;
+            const selectedMeaning = currentPairs[meaningIdx]?.significado;
+
+            if (expectedMeaning === selectedMeaning) {
+                // ¡Correcto!
+                matchedGreekIndices.push(greekIdx);
+                matchedMeaningIndices.push(meaningIdx);
+                
+                // Marcar visualmente
+                greekElement.classList.add('correct');
+                meaningElement.classList.add('correct');
+                greekElement.classList.remove('selected');
+                meaningElement.classList.remove('selected');
+                
+                // Sumar puntos (10 por par correcto)
+                score += 10;
+                showFeedback(`✓ ¡Correcto! ${pair.griego} = ${pair.significado} +10 pts`, true);
+                
+                clearSelection();
+                updateStats();
+            } else {
+                // Incorrecto
+                greekElement.classList.add('incorrect');
+                meaningElement.classList.add('incorrect');
+                showFeedback(`✗ Incorrecto. "${greekElement.textContent}" no es "${selectedMeaning}"`, false);
+                
+                // Penalización: -3 puntos
+                score = Math.max(0, score - 3);
+                updateStats();
+                
+                setTimeout(() => {
+                    greekElement.classList.remove('incorrect');
+                    meaningElement.classList.remove('incorrect');
+                }, 600);
+                clearSelection();
+            }
+        }
+
+        // Renderizar el nivel actual
+        function renderLevel() {
+            // Obtener datos del nivel
+            const levelData = vocabulary[`level${currentLevel}`];
+            if (!levelData) return;
+            
+            currentPairs = [...levelData];
+            matchedGreekIndices = [];
+            matchedMeaningIndices = [];
+            clearSelection();
+            
+            // Mezclar las columnas independientemente
+            const shuffledGreek = shuffleArray([...currentPairs]);
+            const shuffledMeanings = shuffleArray([...currentPairs].map(p => ({ significado: p.significado, originalIndex: currentPairs.indexOf(p) })));
+            
+            // Limpiar contenedores
+            greekColumn.innerHTML = '';
+            meaningColumn.innerHTML = '';
+            
+            // Crear tarjetas de griego
+            shuffledGreek.forEach((item, idx) => {
+                const originalIndex = currentPairs.findIndex(p => p.griego === item.griego && p.significado === item.significado);
+                const card = document.createElement('div');
+                card.className = 'card greek-card';
+                card.textContent = item.griego;
+                card.setAttribute('data-type', 'greek');
+                card.setAttribute('data-index', originalIndex);
+                card.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    handleCardClick('greek', originalIndex, card);
+                });
+                greekColumn.appendChild(card);
+            });
+            
+            // Crear tarjetas de significados
+            shuffledMeanings.forEach((item, idx) => {
+                const originalIndex = currentPairs.findIndex(p => p.significado === item.significado);
+                const card = document.createElement('div');
+                card.className = 'card meaning-card';
+                card.textContent = item.significado;
+                card.setAttribute('data-type', 'meaning');
+                card.setAttribute('data-index', originalIndex);
+                card.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    handleCardClick('meaning', originalIndex, card);
+                });
+                meaningColumn.appendChild(card);
+            });
+            
+            // Actualizar UI
+            levelDisplay.textContent = `Nivel ${currentLevel} / ${totalLevels}`;
+            totalPairsSpan.textContent = currentPairs.length;
+            pairsMatchedSpan.textContent = '0';
+            nextBtn.disabled = true;
+            feedbackDiv.textContent = '';
+            feedbackDiv.className = 'feedback-message';
+        }
+
+        // Siguiente nivel
+        function nextLevel() {
+            if (matchedGreekIndices.length !== currentPairs.length) {
+                showFeedback("Completa todas las palabras para continuar", false);
+                return;
+            }
+            
+            if (currentLevel < totalLevels) {
+                currentLevel++;
+                renderLevel();
+            } else if (currentLevel === totalLevels) {
+                showFinalMessage();
+            }
+        }
+
+        // Mensaje final
+        function showFinalMessage() {
+            const existingModal = document.querySelector('.final-modal');
+            if (existingModal) existingModal.remove();
+            
+            const modal = document.createElement('div');
+            modal.className = 'final-modal';
+            modal.innerHTML = `
+                <div class="final-card">
+                    <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo">
+                    <h2>🎉 ¡Niveles Completados! 🎉</h2>
+                    <p style="font-size: 1.5rem; color: #FFD700; margin: 15px 0;">⭐ ${score} puntos ⭐</p>
+                    <p style="margin: 10px 0;">Has dominado ${totalLevels * 5} palabras del Griego Koiné</p>
+                    <p style="margin-top: 20px; font-style: italic;">"Tu palabra es una lámpara a mis pies"</p>
+                    <p>Salmo 119:105</p>
+                    <button class="next-btn" id="restartBtn" style="margin-top: 25px; background: #FFD700;">🔄 Jugar de nuevo</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            document.getElementById('restartBtn').addEventListener('click', () => {
+                modal.remove();
+                resetGame();
+            });
+        }
+        
+        function resetGame() {
+            currentLevel = 1;
+            score = 0;
+            renderLevel();
+        }
+
+        // ==================== CONTROLES DE MÚSICA ====================
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        
+        function initAudio() {
+            if (backgroundMusic.paused) {
+                backgroundMusic.volume = 0.25;
+                backgroundMusic.play().catch(e => console.log('Audio requiere interacción:', e));
+            }
+        }
+        
+        document.body.addEventListener('click', initAudio, { once: true });
+        
+        playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            backgroundMusic.play().catch(e => console.log(e));
+        });
+        
+        pauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            backgroundMusic.pause();
+        });
+        
+        backgroundMusic.volume = 0.25;
+        
+        // ==================== INICIALIZAR JUEGO ====================
+        renderLevel();
+        nextBtn.addEventListener('click', nextLevel);
+    </script>
+</body>
+</html>

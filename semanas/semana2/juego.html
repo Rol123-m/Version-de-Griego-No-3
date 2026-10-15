@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head><title>Juego Semana 2</title></head>
+<body>
+    <h1>Juego Educativo - Sustantivos y Casos</h1>
+    <p>Este es un juego interactivo para la semana 2.</p>
+    <button onclick="completarJuego()">Completar Juego</button>
+    <script>
+        function completarJuego() {
+            if (window.parent) {
+                window.parent.postMessage('gameCompleted', '*');
+                alert('¡Juego completado!');
+            }
+        }
+    </script>
+</body>
+</html>

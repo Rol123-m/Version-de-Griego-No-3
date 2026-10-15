@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formación del Participio Presente</title>
+  <link rel="stylesheet" href="semana.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .incorrect { color: #C0392B; }
+    .correct { color: #27AE60; }
+    .result { margin-top: 10px; font-weight: bold; }
+    .greek-text { font-family: 'Times New Roman', 'New Athena Unicode', serif; font-size: 1.15em; color: var(--primary-dark, #2A4A7A); }
+  </style>
+</head>
+<body>
+  <header class="week-header">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logo del ministerio" class="logo-main">
+    </div>
+    <div class="header-title">
+      <h1>Formación del Participio Presente</h1>
+      <div class="subtitle">Estructura y morfemas</div>
+    </div>
+  </header>
+
+  <div class="week-container">
+    <div class="content-card">
+      <h2><i class="fas fa-cogs"></i> 3.1 Estructura general</h2>
+      <p>El participio presente se forma con la siguiente estructura:</p>
+      <div class="important-note" style="text-align: center;">
+        <p><strong>Tema verbal del presente + vocal de enlace + morfema participial + desinencia de caso</strong></p>
+      </div>
+      <p>Ejemplo con <span class="greek-text">λύω</span> (<em>desatar</em>):</p>
+      <ul>
+        <li><span class="greek-text">λύ + ο + ντ + ες → λύοντες</span> (<em>desatando</em>).</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2><i class="fas fa-puzzle-piece"></i> 3.2 Morfemas básicos del participio</h2>
+      <ul>
+        <li><strong>Activo:</strong>
+          <ul>
+            <li>masc./neutro: <strong>ντ</strong> (ej. <span class="greek-text">λύοντες</span>).</li>
+            <li>femenino: <strong>ουσα</strong> (ej. <span class="greek-text">λυοῦσα</span>).</li>
+          </ul>
+        </li>
+        <li><strong>Medio/Pasivo:</strong>
+          <ul>
+            <li>masc./fem./neutro: <strong>μενος / μενη / μενον</strong> (ej. <span class="greek-text">λυόμενος, λυομένη, λυόμενον</span>).</li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="important-note">
+        <p><strong>👉 Estos morfemas son como "marcas" que delatan que estamos frente a un participio. Memorizar estos patrones es clave para reconocerlos en el NT.</strong></p>
+      </div>
+    </div>
+
+    <div class="content-card quiz">
+      <h2><i class="fas fa-pen-alt"></i> Cuestionario: Formación</h2>
+
+      <div class="quiz-question">
+        <p><strong>Pregunta 1:</strong> ¿Cuál es el morfema participial para el masculino/neutro en voz activa?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> ντ</label>
+          <label><input type="radio" name="q1" value="b"> ουσα</label>
+          <label><input type="radio" name="q1" value="c"> μενος</label>
+          <label><input type="radio" name="q1" value="d"> μενη</label>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+
+      <button class="week-button success" onclick="checkAnswers()">
+        <i class="fas fa-check-circle"></i> Comprobar Respuestas
+      </button>
+    </div>
+  </div>
+
+  <footer class="week-footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="https://i.postimg.cc/wMJ2bCgV/mas-logos.jpg" alt="Logos adicionales"></div>
+      <div class="footer-info">
+        <p>Sección educativa del ministerio</p>
+        <p class="copyright">"Vivos para Servir"</p>
+        <p>© Copyright 2026 - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = { q1: 'a' };
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

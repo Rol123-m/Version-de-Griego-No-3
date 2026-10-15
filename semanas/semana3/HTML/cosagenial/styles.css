@@ -1,0 +1,152 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+#logo-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+#logo-container img {
+    width: 80px; /* Adjusted for smaller screens */
+    height: auto;
+}
+
+#animation-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 90%; /* Adjusted for smaller screens */
+}
+
+.slide {
+    opacity: 0;
+    font-size: 1.5rem; /* Reduced font size for better fit */
+    line-height: 2rem;
+    margin-bottom: 15px;
+}
+
+.highlight {
+    color: #ffcc00;
+    font-weight: bold;
+}
+
+.word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+table {
+    margin: 10px auto;
+    border-collapse: collapse;
+    width: 95%; /* Adjusted for smaller screens */
+    color: #ffffff;
+    font-size: 1rem; /* Reduced font size */
+}
+
+table th, table td {
+    border: 1px solid #ffffff;
+    padding: 10px;
+    text-align: center;
+}
+
+table th {
+    background-color: #333333;
+    color: #ffcc00;
+}
+
+table td {
+    background-color: #222222;
+}
+
+#reload-button {
+    display: none;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 16px; /* Adjusted padding for smaller buttons */
+    font-size: 1rem; /* Reduced font size */
+    background-color: #ffcc00;
+    color: #121212;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#reload-button:hover {
+    background-color: #ffaa00;
+}
+
+#pause-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 8px 16px; /* Adjusted padding for smaller buttons */
+    font-size: 1rem; /* Reduced font size */
+    background-color: #ffcc00;
+    color: #121212;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#pause-button:hover {
+    background-color: #ffaa00;
+}
+
+h2 {
+    color: #5d7;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #logo-container img {
+        width: 60px; /* Smaller logo for mobile */
+    }
+
+    #animation-container {
+        width: 95%; /* Full width for mobile */
+    }
+
+    .slide {
+        font-size: 1.2rem; /* Smaller font size for mobile */
+        line-height: 1.8rem;
+    }
+
+    table {
+        font-size: 0.9rem; /* Smaller font size for mobile */
+    }
+
+    #reload-button, #pause-button {
+        font-size: 0.9rem; /* Smaller buttons for mobile */
+        padding: 6px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .slide {
+        font-size: 1rem; /* Further reduce font size for very small screens */
+        line-height: 1.5rem;
+    }
+
+    table {
+        font-size: 0.8rem; /* Further reduce font size */
+    }
+
+    #reload-button, #pause-button {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+}
